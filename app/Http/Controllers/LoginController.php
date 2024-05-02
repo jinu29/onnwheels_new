@@ -37,6 +37,7 @@ class LoginController extends Controller
 
     public function login($login_url)
     {
+
         $language = BusinessSetting::where('key', 'system_language')->first();
         if($language){
             foreach (json_decode($language->value, true) as $key => $data) {
