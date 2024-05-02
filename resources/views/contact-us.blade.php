@@ -1,10 +1,88 @@
 @extends('layouts.landing.app')
 
-@section('title', translate('messages.contact_us'))
+<!-- @section('title', translate('messages.contact_us')) -->
+@section('css')
+<style>
+    .contact-container h4 {
+        font-size: 40px;
+        font-weight: 600;
+        color: #003360;
+        margin-bottom:30px;
+    }
+
+    .contact-container p {
+        font-size: 16px;
+        font-weight: 500;
+        color: #003360;
+        width: 33rem;
+        line-height: 22px;
+    }
+
+    .form-group label {
+        font-size: 13px;
+        font-weight: 600;
+        color:black;
+        margin-bottom:.5rem;
+    }
+
+    .form-control {
+        font-size: 13px;
+        font-weight: 500;
+    }
+
+    .contact-image {
+        width: 100%;
+    }
+
+    .contact-image img {
+        width: 100%;
+    }
+
+    .submit {
+        padding: 8px 15px;
+        background-color: #003360;
+        color: white;
+        font-size: 12px;
+        font-weight: 500;
+        border: none;
+        outline: none;
+        align-self: center;
+        border-radius: 8px;
+        margin: 0 auto;
+    }
+  
+    .submit:hover {
+        background-color: #f29425;
+        color: white;
+    }
+
+    .col-12 {
+        margin-bottom: 1rem;
+    }
+
+    @media(max-width:991px) {
+
+        .contact-image {
+            display:none;
+        }
+    }
+
+    @media (max-width:767px) {
+        .contact-container p {
+            width: 100%;
+            font-size:14px;
+            font-weight: 400;
+        }
+
+        .form {
+            flex-direction:column-reverse;
+        }
+    }
+</style>
 
 @section('content')
     <!-- ==== Contact Section ==== -->
-    <section class="about-section py-5 position-relative">
+    <!-- <section class="about-section py-5 position-relative">
         <div class=" container contact-container">
             <div class="section-header">
                 @php($contact_us_title = \App\Models\DataSetting::where(['key' => 'contact_us_title'])->first())
@@ -184,7 +262,6 @@
                 </div>
             </div>
         </div>
-        <!-- Left Shape -->
         <svg class="left--shape" width="172" height="555" viewBox="0 0 172 555" fill="none"
             xmlns="http://www.w3.org/2000/svg">
             <g opacity="0.19">
@@ -527,6 +604,56 @@
             </defs>
         </svg>
 
-    </section>
+    </section> -->
     <!-- ==== Contact Section ==== -->
+
+<!-- Title -->
+    <div class="container text-center d-flex flex-column align-items-center contact-container" style="margin-top: 2rem;">
+        <h4>Contact Us</h4>
+        <p>Come pedal with us! Calling all enthusiasts, commuters, and adventurers to embark on an exhilarating ride. Rent a bike and let the adventure begin!</p>
+    </div>
+
+<!-- Form -->
+    <div class="container" style="margin-bottom:3rem;">
+        <div class="row d-flex align-items-center form" style="margin-top: 2rem;">
+
+            <div class="col-lg-6 col-md-12 col-12 mt-3">
+                <form class="row">
+                    <div class="form-group col-lg-12 col-md-12 col-12">
+                        <label for="exampleInputName">Name</label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Your Name">
+                    </div>
+                    <div class="form-group col-lg-12 col-md-12 col-12">
+                        <label for="exampleInputName">Email</label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Your mail">
+                    </div>
+                    <div class="form-group col-lg-12 col-md-12 col-12">
+                        <label for="exampleInputNumber">Age</label>
+                        <input type="number" class="form-control" id="exampleInputPassword1" placeholder="Enter your age">
+                    </div>
+                    <div class="form-group col-lg-12 col-md-12 col-12">  
+                        <label for="exampleInputNumber">Phone Number</label>
+                        <input type="number" class="form-control" id="exampleInputPassword1" placeholder="Enter your number">
+                    </div>
+                    <div class="form-group col-12">
+                        <label for="exampleInputNumber">Pick Up Date</label>
+                        <input type="date" class="form-control" id="exampleInputPassword1">
+                    </div>
+                    <div class="form-group col-12">
+                        <label for="exampleInputNumber">Return Date</label>
+                        <input type="date" class="form-control" id="exampleInputPassword1">
+                    </div>
+                    <button type="submit" class="submit">Submit</button>
+                </form>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-12 contact-image p-0">
+                <picture>
+                    <source media="(max-width:991px)" srcset="/public/assets/landing/image/contact-tab.jpg">
+                    <source media="(max-width:767px)" srcset="/public/assets/landing/image/contact-mob.jpg">
+                    <img src="/public/assets/landing/image/contact-des.jpg" alt="">
+                </picture>
+            </div>
+        </div>
+    </div>
 @endsection

@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap");
 
 :root {
     --base-1: #00e77b;
@@ -38,8 +37,6 @@
     --white-clr: #ffffff;
     --border-clr: #e5e5e5;
     --border-light: #e5e5e5;
-    --heading-fonts: "Lato", sans-serif;
-    --body-fonts: "Lato", sans-serif;
 }
 
 *[stroke="#039D55"] {
