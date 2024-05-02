@@ -80,7 +80,7 @@
                     <div class="col-sm-6 col-lg-3">
                         <div class="__dashboard-card-2">
                             <img src="{{asset('/public/assets/admin/img/dashboard/stats/stores.svg')}}" alt="dashboard/stats">
-                            <h6 class="name">{{ translate('messages.stores') }}</h6>
+                            <h6 class="name">{{ translate('messages.Vendors') }}</h6>
                             <h3 class="count">{{ $data['total_stores'] }}</h3>
                                     <div class="subtxt">{{ $data['new_stores'] }} {{ translate('newly added') }}</div>
                         </div>

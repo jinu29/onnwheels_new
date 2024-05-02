@@ -58,32 +58,7 @@
                 </li>
                 @endif
 
-                @if (\App\CentralLogics\Helpers::module_permission_check('module'))
-                <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/business-settings/module') ? 'active' : '' }}">
-                    <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" id="tourb-3" href="javascript:" title="{{ translate('messages.system_module_setup') }}">
-                        <i class="tio-globe nav-icon"></i>
-                        <span class="text-truncate">{{ translate('messages.module_setup') }}</span>
-                    </a>
-                    <ul class="js-navbar-vertical-aside-submenu nav nav-sub" style="display:{{ Request::is('admin/business-settings/module*') ? 'block' : 'none' }}">
-                        <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/business-settings/module/store') ? 'active' : '' }}">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link" href="{{ route('admin.business-settings.module.create') }}" title="{{ translate('messages.add_Business_Module') }}">
-                                <span class="tio-circle nav-indicator-icon"></span>
-                                <span class="text-truncate">
-                                    {{ translate('messages.add_Business_Module') }}
-                                </span>
-                            </a>
-                        </li>
-                        <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/business-settings/module*') ? 'active' : '' }}">
-                            <a class="js-navbar-vertical-aside-menu-link nav-link" href="{{ route('admin.business-settings.module.index') }}" title="{{ translate('messages.modules') }}">
-                                <span class="tio-circle nav-indicator-icon"></span>
-                                <span class="text-truncate">
-                                    {{ translate('messages.modules') }}
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                @endif
+                
                 @if (\App\CentralLogics\Helpers::module_permission_check('settings'))
                 <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/business-settings/business-setup*') || Request::is('admin/business-settings/language*') ? 'active' : '' }}">
                     <a class="nav-link " href="{{ route('admin.business-settings.business-setup') }}" title="{{ translate('messages.business_setup') }}">
@@ -219,13 +194,6 @@
                         @endif
                     </ul>
                 </li>
-                <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/business-settings/react*') ? 'active' : '' }}">
-                    <a class="nav-link " href="{{ route('admin.business-settings.react-setup') }}"
-                        title="{{ translate('messages.react_site') }}">
-                        <span class="tio-rear-window-defrost nav-icon"></span>
-                        <span class="text-truncate">{{ translate('messages.react_site') }}</span>
-                    </a>
-                </li>
                 <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/business-settings/email-setup*') ? 'active' : '' }}">
                     <a class="nav-link " href="{{ route('admin.business-settings.email-setup',['admin','forgot-password']) }}" title="{{ translate('messages.email_template') }}">
                         <span class="tio-email nav-icon"></span>
@@ -249,17 +217,7 @@
                 </li>
                 @endif
 
-                <!-- Dashboards -->
-                <li class="navbar-vertical-aside-has-menu {{Request::is('admin/business-settings/system-addon')?'show active':''}}">
-                    <a class="js-navbar-vertical-aside-menu-link nav-link"
-                       href="{{route('admin.business-settings.system-addon.index')}}" title="{{translate('system_addons')}}">
-                        <i class="tio-add-circle-outlined nav-icon"></i>
-                        <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
-                        {{translate('system_addons')}}
-                    </span>
-                    </a>
-                </li>
-                <!-- End Dashboards -->
+             
 
 
                 @if(count(config('addon_admin_routes'))>0)

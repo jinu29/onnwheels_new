@@ -3845,4 +3845,8 @@
   'ReCAPTCHA Failed' => 'ReCAPTCHA Failed',
   '500_warning_message' => '500 warning message',
   'reload_page' => 'Reload page',
+  'favicon.ico' => 'Favicon.ico',
+  'onnwheels' => 'Onnwheels',
+  'rental' => 'Rental',
+  'Vendors' => 'Vendors',
 );

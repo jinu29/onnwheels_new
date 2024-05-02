@@ -2,10 +2,10 @@
 
 return [
     'module_type'=>[
-        'grocery', 'food', 'pharmacy', 'ecommerce','parcel'
+        'rental', 'food', 'pharmacy', 'ecommerce','parcel'
     ],
 
-    'grocery'=>[
+    'rental'=>[
         'order_status'=>['accepted'=>false],
         'order_place_to_schedule_interval'=>true,
         'add_on'=>false,
