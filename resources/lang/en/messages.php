@@ -3849,4 +3849,10 @@
   'onnwheels' => 'Onnwheels',
   'rental' => 'Rental',
   'Vendors' => 'Vendors',
+  'fast2sms' => 'Fast2sms',
+  'The selected gateway is invalid.' => 'The selected gateway is invalid.',
+  'faield_to_send_sms' => 'Faield to send sms',
+  'customer_verification_toggle' => 'Customer verification toggle',
+  'If_enabled,_delivery_men_have_to_provide_collected_cash_by_themselves.' => 'If enabled  delivery men have to provide collected cash by themselves.',
+  'If_disabled,_delivery_men_do_not_have_to_provide_collected_cash_by_themselves.' => 'If disabled  delivery men do not have to provide collected cash by themselves.',
 );

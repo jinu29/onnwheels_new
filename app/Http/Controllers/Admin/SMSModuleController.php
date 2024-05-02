@@ -24,7 +24,7 @@ class SMSModuleController extends Controller
                 }
             }
         }
-        $data_values=  Setting::where('settings_type','sms_config')->whereIn('key_name', ['twilio','nexmo','2factor','msg91'])->get() ?? [];
+        $data_values=  Setting::where('settings_type','sms_config')->whereIn('key_name', ['twilio','nexmo','2factor','msg91', 'fast2sms'])->get() ?? [];
         return view('admin-views.business-settings.sms-index',compact('data_values','published_status','payment_url'));
     }
 
@@ -61,6 +61,11 @@ class SMSModuleController extends Controller
                 'status' => $request['status'],
                 'template_id' => $request['template_id'],
                 'auth_key' => $request['auth_key'],
+            ];
+        } elseif ($module == 'fast2sms') {
+            $additional_data = [
+                'status' => $request['status'],
+                'api_key' => $request['api_key'],
             ];
         }
 
