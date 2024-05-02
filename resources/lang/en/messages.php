@@ -3849,4 +3849,8 @@
   'onnwheels' => 'Onnwheels',
   'rental' => 'Rental',
   'Vendors' => 'Vendors',
+  'Cancellation Policy' => 'Cancellation Policy',
+  'Rental Bike' => 'Rental Bike',
+  'Safety' => 'Safety',
+  'Login' => 'Login',
 );
