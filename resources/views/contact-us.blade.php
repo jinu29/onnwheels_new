@@ -1,7 +1,7 @@
 @extends('layouts.landing.app')
 
-<!-- @section('title', translate('messages.contact_us')) -->
-@section('css')
+@section('title', translate('messages.contact_us'))
+<!-- @section('css')
 <style>
     .contact-container h4 {
         font-size: 40px;
@@ -78,11 +78,11 @@
             flex-direction:column-reverse;
         }
     }
-</style>
+</style> -->
 
 @section('content')
     <!-- ==== Contact Section ==== -->
-    <!-- <section class="about-section py-5 position-relative">
+    <section class="about-section py-5 position-relative">
         <div class=" container contact-container">
             <div class="section-header">
                 @php($contact_us_title = \App\Models\DataSetting::where(['key' => 'contact_us_title'])->first())
@@ -102,13 +102,14 @@
             <div class="row gy-5 mt-0">
                 <div class="col-lg-6">
                     <div class="row g-4">
+                        
                         <div class="col-sm-6">
                             <div class="contact-item">
-                                <div class="d-flex align-items-center justify-content-between">
+                                <div class="d-flex flex-column align-items-center">
                                     <div class="icon">
                                         <svg width="60" height="60" viewBox="0 0 60 60" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
-                                            <rect width="60" height="60" rx="20" fill="url(#paint0_linear_28_2312)" />
+                                            <rect width="60" height="60" rx="20" fill="#003360" />
                                             <path
                                                 d="M33 20.5116C33.0495 20.3306 33.1682 20.1763 33.3304 20.0821C33.4926 19.9878 33.6854 19.9611 33.8672 20.0077C35.5751 20.4668 37.1323 21.3666 38.3828 22.6171C39.6333 23.8676 40.5331 25.4248 40.9922 27.1327C41.0169 27.2227 41.0234 27.3168 41.0114 27.4094C40.9993 27.502 40.969 27.5912 40.922 27.672C40.8751 27.7527 40.8126 27.8232 40.7381 27.8796C40.6637 27.9359 40.5787 27.9768 40.4883 27.9999L40.3125 28.0233C40.1568 28.0231 40.0056 27.9712 39.8826 27.8757C39.7596 27.7803 39.6717 27.6467 39.6328 27.496C39.2354 26.0282 38.4605 24.69 37.3852 23.6147C36.3099 22.5394 34.9717 21.7645 33.5039 21.3671C33.3255 21.3175 33.1732 21.2007 33.0792 21.0411C32.9852 20.8815 32.9568 20.6917 33 20.5116ZM32.5313 24.9882C33.3637 25.2161 34.1224 25.6569 34.7327 26.2672C35.343 26.8775 35.7838 27.6362 36.0117 28.4686C36.0506 28.6194 36.1385 28.753 36.2615 28.8484C36.3845 28.9438 36.5357 28.9957 36.6914 28.996L36.8672 28.9726C37.0465 28.9205 37.1989 28.8013 37.2928 28.6399C37.3866 28.4784 37.4146 28.287 37.3711 28.1054C37.0816 27.0329 36.5158 26.0551 35.7303 25.2696C34.9448 24.4841 33.967 23.9183 32.8945 23.6288C32.7129 23.5852 32.5215 23.6133 32.36 23.7071C32.1986 23.801 32.0794 23.9534 32.0273 24.1327C31.981 24.313 32.0081 24.5042 32.1025 24.6646C32.197 24.8249 32.3511 24.9413 32.5313 24.9882ZM41.9063 36.4843C41.7098 38.0119 40.964 39.4158 39.8081 40.4337C38.6521 41.4516 37.1652 42.0139 35.625 42.0155C26.4492 42.0155 18.9844 34.5507 18.9844 25.3749C18.986 23.8347 19.5483 22.3478 20.5662 21.1918C21.5841 20.0359 22.988 19.2901 24.5156 19.0936C24.8671 19.0525 25.2225 19.1261 25.5288 19.3035C25.835 19.4809 26.0757 19.7526 26.2148 20.078L28.5703 25.5741C28.6772 25.8228 28.7213 26.0939 28.6988 26.3636C28.6763 26.6334 28.5879 26.8934 28.4414 27.121L26.4844 30.0976C26.465 30.1311 26.4539 30.1688 26.4519 30.2075C26.4498 30.2462 26.4569 30.2848 26.4727 30.3202C27.3728 32.1658 28.8668 33.6556 30.7148 34.5507C30.7507 34.5668 30.7902 34.5731 30.8293 34.569C30.8684 34.5649 30.9058 34.5505 30.9375 34.5272L33.8789 32.5702C34.1042 32.4188 34.364 32.3266 34.6344 32.302C34.9047 32.2775 35.1769 32.3213 35.4258 32.4296L40.9219 34.7851C41.2473 34.9242 41.519 35.1649 41.6964 35.4711C41.8738 35.7774 41.9474 36.1328 41.9063 36.4843ZM40.5117 36.3085C40.5157 36.2596 40.5043 36.2107 40.4791 36.1687C40.4539 36.1266 40.4161 36.0936 40.3711 36.0741L34.875 33.7186C34.8387 33.7047 34.7996 33.6995 34.7609 33.7036C34.7221 33.7077 34.685 33.7209 34.6523 33.7421L31.7227 35.6991C31.4855 35.8549 31.2124 35.9475 30.9293 35.968C30.6462 35.9885 30.3627 35.9363 30.1055 35.8163C27.9739 34.7786 26.2499 33.0587 25.207 30.9296C25.0852 30.6755 25.031 30.3942 25.0494 30.113C25.0679 29.8318 25.1585 29.5601 25.3125 29.3241L27.2578 26.3476C27.281 26.3158 27.2954 26.2785 27.2996 26.2394C27.3037 26.2003 27.2974 26.1608 27.2813 26.1249L24.9258 20.6288C24.9078 20.5876 24.8784 20.5524 24.841 20.5275C24.8036 20.5026 24.7598 20.4889 24.7148 20.4882H24.6914C23.5045 20.6442 22.4145 21.2255 21.6236 22.1241C20.8327 23.0228 20.3946 24.1778 20.3906 25.3749C20.3937 29.4144 21.9998 33.2875 24.8561 36.1438C27.7124 39.0001 31.5855 40.6062 35.625 40.6093C36.8221 40.6053 37.9771 40.1672 38.8758 39.3763C39.7744 38.5854 40.3557 37.4954 40.5117 36.3085Z"
                                                 fill="white" />
@@ -121,22 +122,25 @@
                                             </defs>
                                         </svg>
                                     </div>
-                                    <h5 class="subtitle">{{translate("messages.Call_Us")}} </h5>
+                                    <div class="contact-details mt-3">
+                                        <h5 class="subtitle mb-0">{{translate("messages.Call_Us")}} </h5>
+                                        <ul class="p-0 mt-0">
+                                            <li>
+                                                <a href="tel:{{ \App\CentralLogics\Helpers::get_settings('phone') }}">{{ \App\CentralLogics\Helpers::get_settings('phone') }}</a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <ul>
-                                    <li>
-                                        <a href="tel:{{ \App\CentralLogics\Helpers::get_settings('phone') }}">{{ \App\CentralLogics\Helpers::get_settings('phone') }}</a>
-                                    </li>
-                                </ul>
                             </div>
                         </div>
+
                         <div class="col-sm-6">
                             <div class="contact-item">
-                                <div class="d-flex align-items-center justify-content-between">
+                                <div class="d-flex flex-column align-items-center">
                                     <div class="icon">
                                         <svg width="60" height="60" viewBox="0 0 60 60" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
-                                            <rect width="60" height="60" rx="20" fill="url(#paint0_linear_247_418)" />
+                                            <rect width="60" height="60" rx="20" fill="#003360" />
                                             <path
                                                 d="M18.75 22.5L28.75 28.75L38.75 22.5V26.25H41.25V20C41.25 18.625 40.125 17.5 38.75 17.5H18.75C17.375 17.5 16.2625 18.625 16.2625 20L16.25 35C16.25 36.375 17.375 37.5 18.75 37.5H31.25V35H18.75V22.5ZM38.75 20L28.75 26.25L18.75 20H38.75Z"
                                                 fill="white" />
@@ -152,22 +156,25 @@
                                             </defs>
                                         </svg>
                                     </div>
-                                    <h5 class="subtitle">{{translate("messages.Email")}}</h5>
+                                    <div class="contact-details mt-3">
+                                        <h5 class="subtitle mb-0">{{translate("messages.Email")}}</h5>
+                                        <ul class="p-0 mt-0">
+                                            <li>
+                                                <a href="Malto:{{ \App\CentralLogics\Helpers::get_settings('email_address') }}">{{ \App\CentralLogics\Helpers::get_settings('email_address') }}</a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <ul>
-                                    <li>
-                                        <a href="Malto:{{ \App\CentralLogics\Helpers::get_settings('email_address') }}">{{ \App\CentralLogics\Helpers::get_settings('email_address') }}</a>
-                                    </li>
-                                </ul>
                             </div>
                         </div>
+
                         <div class="col-sm-6">
                             <div class="contact-item">
-                                <div class="d-flex align-items-center justify-content-between">
+                                <div class="d-flex flex-column align-items-center">
                                     <div class="icon">
                                         <svg width="60" height="60" viewBox="0 0 60 60" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
-                                            <rect width="60" height="60" rx="20" fill="url(#paint0_linear_28_2295)" />
+                                            <rect width="60" height="60" rx="20" fill="#003360" />
                                             <path
                                                 d="M30 31.25C32.0711 31.25 33.75 29.5711 33.75 27.5C33.75 25.4289 32.0711 23.75 30 23.75C27.9289 23.75 26.25 25.4289 26.25 27.5C26.25 29.5711 27.9289 31.25 30 31.25Z"
                                                 stroke="white" stroke-width="2" stroke-linecap="round"
@@ -185,22 +192,23 @@
                                             </defs>
                                         </svg>
                                     </div>
-                                    <h5 class="subtitle">{{translate("messages.Address")}}</h5>
+                                    <div class="contact-details mt-3">
+                                        <h5 class="subtitle mb-0">{{translate("messages.Address")}}</h5>
+                                        <ul class="p-0 mt-0">
+                                            <li>{{ \App\CentralLogics\Helpers::get_settings('address') }}</li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <ul>
-                                    <li>
-                                        {{ \App\CentralLogics\Helpers::get_settings('address') }}
-                                    </li>
-                                </ul>
                             </div>
                         </div>
+
                         <div class="col-sm-6">
                             <div class="contact-item">
-                                <div class="d-flex align-items-center justify-content-between">
+                                <div class="d-flex flex-column align-items-center">
                                     <div class="icon">
                                         <svg width="60" height="60" viewBox="0 0 60 60" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
-                                            <rect width="60" height="60" rx="20" fill="url(#paint0_linear_28_2325)" />
+                                            <rect width="60" height="60" rx="20" fill="#003360" />
                                             <g clip-path="url(#clip0_28_2325)">
                                                 <path
                                                     d="M30.9656 16.9106C30.6443 16.8869 30.3222 16.875 30 16.875V15C30.3685 15.0002 30.7369 15.0139 31.1044 15.0412L30.9656 16.9106ZM34.7231 17.7544C34.1221 17.5224 33.5048 17.3351 32.8763 17.1937L33.2869 15.3637C34.005 15.525 34.7119 15.7387 35.3981 16.005L34.7231 17.7544ZM37.2919 19.0856C37.0238 18.9068 36.7492 18.738 36.4687 18.5794L37.3931 16.9481C38.0342 17.3114 38.6477 17.7212 39.2288 18.1744L38.0756 19.6537C37.8214 19.4554 37.56 19.2666 37.2919 19.0875V19.0856ZM40.7306 22.4419C40.3597 21.915 39.9505 21.4161 39.5062 20.9494L40.8637 19.6556C41.37 20.19 41.8388 20.7619 42.2644 21.3619L40.7306 22.4419ZM42.1256 24.9769C42.0026 24.6796 41.8687 24.3869 41.7244 24.0994L43.3988 23.2556C43.7299 23.9139 44.0119 24.5958 44.2425 25.2956L42.4613 25.8825C42.3605 25.5766 42.2485 25.2745 42.1256 24.9769ZM43.1194 29.6775C43.1042 29.0331 43.0415 28.3908 42.9319 27.7556L44.7787 27.4369C44.9044 28.1606 44.9775 28.8956 44.9963 29.6306L43.1213 29.6775H43.1194ZM42.8738 32.5612C42.9356 32.2425 42.9862 31.9256 43.0256 31.605L44.8875 31.8356C44.7974 32.5672 44.6533 33.291 44.4563 34.0012L42.6488 33.5006C42.735 33.1912 42.81 32.8781 42.8738 32.5612ZM41.0887 37.0219C41.4337 36.4781 41.7375 35.9081 42 35.3194L43.7137 36.0787C43.4138 36.7537 43.0669 37.4025 42.6731 38.025L41.0887 37.0219ZM39.2812 39.2812C39.51 39.0525 39.7294 38.8162 39.9375 38.5725L41.3587 39.7969C41.1181 40.0759 40.8673 40.3461 40.6069 40.6069L39.2812 39.2812Z"
@@ -224,16 +232,15 @@
                                             </defs>
                                         </svg>
                                     </div>
-                                    <h5 class="subtitle">{{translate("messages.Time")}}</h5>
+                                    <div class="contact-details mt-3">
+                                        <h5 class="subtitle mb-0">{{translate("messages.Time")}}</h5>
+                                        <ul class="p-0 mt-0">
+                                            <li>
+                                                {{date("g:i A", strtotime(\App\CentralLogics\Helpers::get_settings('opening_time') ))}}- {{date("g:i A", strtotime(\App\CentralLogics\Helpers::get_settings('closing_time') ))}}
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <ul>
-                                    <li>
-                                        {{ucfirst(\App\CentralLogics\Helpers::get_settings('opening_day'))}}- {{ucfirst(\App\CentralLogics\Helpers::get_settings('closing_day'))}}
-                                    </li>
-                                    <li>
-                                        {{date("g:i A", strtotime(\App\CentralLogics\Helpers::get_settings('opening_time') ))}}- {{date("g:i A", strtotime(\App\CentralLogics\Helpers::get_settings('closing_time') ))}}
-                                    </li>
-                                </ul>
                             </div>
                         </div>
                     </div>
@@ -604,17 +611,17 @@
             </defs>
         </svg>
 
-    </section> -->
+    </section>
     <!-- ==== Contact Section ==== -->
 
 <!-- Title -->
-    <div class="container text-center d-flex flex-column align-items-center contact-container" style="margin-top: 2rem;">
+    <!-- <div class="container text-center d-flex flex-column align-items-center contact-container" style="margin-top: 2rem;">
         <h4>Contact Us</h4>
         <p>Come pedal with us! Calling all enthusiasts, commuters, and adventurers to embark on an exhilarating ride. Rent a bike and let the adventure begin!</p>
-    </div>
+    </div> -->
 
 <!-- Form -->
-    <div class="container" style="margin-bottom:3rem;">
+    <!-- <div class="container" style="margin-bottom:3rem;">
         <div class="row d-flex align-items-center form" style="margin-top: 2rem;">
 
             <div class="col-lg-6 col-md-12 col-12 mt-3">
@@ -655,5 +662,5 @@
                 </picture>
             </div>
         </div>
-    </div>
+    </div> -->
 @endsection

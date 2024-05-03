@@ -35,7 +35,6 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 
-
     <style>
 
         body {
@@ -87,6 +86,13 @@
             border: none;
         }
 
+        footer li {
+            list-style: disc;
+        }
+
+        .social-icons img {
+            margin-right: 10px;
+        }
 
     </style>
 
@@ -110,18 +116,9 @@
                     @php($fav = \App\Models\BusinessSetting::where(['key' => 'icon'])->first()->value ?? '')
                     @php($logo = \App\Models\BusinessSetting::where(['key' => 'logo'])->first()->value ?? '')
                     <a href="{{route('home')}}" class="logo">
-                        <img class="onerror-image"  data-onerror-image="{{ asset('public/assets/admin/img/160x160/img2.jpg') }}"
-
-                    src="{{ \App\CentralLogics\Helpers::onerror_image_helper(
-                        $fav,
-                        asset('storage/app/public/business/').'/'. $fav,
-                        asset('public/assets/admin/img/160x160/img2.jpg'),
-                        'business/'
-                    ) }}"
-
-                    alt="image">
+                        <img class="logo"  data-onerror-image="{{ asset('public/assets/admin/img/160x160/img2.jpg') }}" src="/public/assets/landing/image/logo.webp" alt="image">
                     </a>
-                    <ul class="menu">
+                    <ul class="menu mb-0">
                         <li>
                             <a href="{{route('home')}}" class="{{ Request::is('/') ? 'active' : '' }}"><span>{{ translate('messages.home') }}</span></a>
                         </li>
@@ -157,7 +154,7 @@
                         <span></span>
                     </div>
                     @php( $local = session()->has('landing_local')?session('landing_local'):null)
-                    @php($lang = \App\Models\BusinessSetting::where('key', 'system_language')->first())
+                    <!-- @php($lang = \App\Models\BusinessSetting::where('key', 'system_language')->first())
                     @if ($lang)
                         <div class="dropdown--btn-hover position-relative">
                             <a class="dropdown--btn border-0 px-3 header--btn text-capitalize d-flex" href="javascript:void(0)">
@@ -187,7 +184,7 @@
                             @endforeach
                             </ul>
                         </div>
-                    @endif
+                    @endif -->
                     @if (isset($toggle_dm_registration) || isset($toggle_store_registration))
                     <div class="dropdown--btn-hover position-relative">
                         <a class="dropdown--btn header--btn text-capitalize d-flex align-items-center" href="javascript:void(0)">
@@ -228,7 +225,7 @@
     @yield('content')
     <!-- ======= Footer Section ======= -->
 
-        <!-- <footer class="footer">
+        <footer class="footer" style="margin-top:2rem;">
             <div class="container p-4">
                 <div class="row">
                     <div class="col-sm-6 col-md-4">
@@ -289,9 +286,9 @@
                             <p class="line"></p>
                         </div>
                         <div class="social-icons">
-                            <img src="./Images/devicon_facebook.png" alt="" class="mr-2">
-                            <img src="./Images/skill-icons_linkedin.png" alt="" class="mr-2">
-                            <img src="./Images/skill-icons_instagram.png" alt="">
+                            <img src="/public/assets/landing/image/devicon_facebook.png" alt="" class="mr-2">
+                            <img src="/public/assets/landing/image/skill-icons_linkedin.png" alt="" class="mr-2">
+                            <img src="/public/assets/landing/image/skill-icons_instagram.png" alt="">
                         </div>
                     </div>
 
@@ -303,15 +300,15 @@
                         <div class="android d-flex flex-column align-items-start">
                             <h5 class="mb-3" style="font-size: 14px; font-weight: 500;">Download Playstore and IOS App</h5>
                             <div>
-                                <img src="./Images/play.png" alt="" class="mr-2">
-                                <img src="./Images/app.png" alt="">
+                                <img src="/public/assets/landing/image/play.png" alt="" class="mr-2">
+                                <img src="/public/assets/landing/image/app.png" alt="">
                             </div>
                         </div>
                     </div>
 
                 </div>
             </div>
-        </footer> -->
+        </footer>
 
     <!-- ======= Footer Section ======= -->
     <script src="{{ asset('public/assets/landing/js/jquery-3.6.0.min.js') }}"></script>

@@ -1,5 +1,4 @@
 @extends('layouts.landing.app')
-
 @section('title',translate('messages.about_us'))
 @section('css')
 <style>
@@ -14,7 +13,7 @@
 
     .banner {
         width: 100%;
-        background-image: url(assets/img/banner-homepage.png);
+        background-image: url(/public/assets/landing/image/banner-homepage.png);
         background-size: cover;
         background-repeat: no-repeat;
         display: flex;
@@ -35,15 +34,27 @@
     .banner-details h1 {
         font-size: 60px;
         font-weight: 800;
-        line-height: 28px;
+        line-height: 65px;
         letter-spacing: 3px;
+        color: white;
     }
 
-    .banner-details h3 {
-        font-size: 45px;
-        font-weight: 800;
+    /* ----------------------- */
+    .about-container {
+        text-align: center;
     }
 
+    .about-container p {
+        font-size: 15px;
+        font-weight: 500;
+        color: #666;
+    }
+
+    .about-container span {
+        font-size: 18px;
+        font-weight: 600;
+        color: black;
+    }
     /* ----------------------- */
 
     .about p {
@@ -71,13 +82,14 @@
     }
 
     .advantage i {
-        color: var(--button-hover-color);
+        color: #f29425;
         font-size: 18px;
     }
 
     .advantage p {
         font-size: 15px;
         font-weight: 600;
+        margin-left:10px;
     }
 
     .advantage-image {
@@ -223,20 +235,17 @@
     @media (max-width:991px) {
 
         .banner {
-            padding: 0 40px;
+        padding: 0 40px;
         }
 
         .banner-details {
-            padding: 100px 0;
+        padding: 100px 0;
         }
 
         .banner-details h1 {
-            font-size: 40px;
+        font-size: 40px;
         }
 
-        .banner-details h3 {
-            font-size: 35px;
-        }
 
         .advantage-details h5 {
             text-align: center;
@@ -265,19 +274,15 @@
     @media (max-width:767px) {
 
         .banner {
-            padding: 0 25px;
+        padding: 0 25px;
         }
 
         .banner-details {
-            padding: 90px 0;
+        padding: 90px 0;
         }
 
         .banner-details h1 {
-            font-size: 35px;
-        }
-
-        .banner-details h3 {
-            font-size: 25px;
+        font-size: 35px;
         }
 
         .advantage-details h5 {
@@ -317,22 +322,37 @@
     <!-- ==== About Section ==== -->
     @php($landing_page_text = \App\Models\BusinessSetting::where(['key' => 'landing_page_text'])->first())
     @php($landing_page_text = isset($landing_page_text->value) ? json_decode($landing_page_text->value, true) : null)
-    <div class="banner" style="background-image: url(/public/assets/admin/img/banner-homepage.png)">
+    <!-- <div class="banner" style="background-image: url(/public/assets/admin/img/banner-homepage.png)">
         <div class="banner-details">
             <h1 class="mb-0 text-white">{{ $data_title }}</h1>
         </div>
-    </div>
-    <div class="container" style="margin-top: 2rem;">
+    </div> -->
+    <!-- <div class="container" style="margin-top: 2rem;">
         <div class="about" style="text-align: center; font-size: 15px; font-weight: 500; color: #666;">
             {!! $data !!}
         </div>
+    </div> -->
+
+<!-- Banner -->
+    <div class="banner">
+        <div class="banner-details">
+            <h1>About Us</h1>
+        </div>
     </div>
 
+<!-- About Us Content -->
+    <div class="container" style="margin-top: 2rem;">
+        <div class="about-container">
+            <p>We, a group of millennials, are dedicated to establishing India's premier mobility solutions provider. Our dedication has driven us to create a platform offering rentals across 14 states, 43 cities, and 3 international locations.</p>
+            <p>The realm of transportation and mobility solutions remains one of the least comprehended and disorganized sectors. We perceive this as an untapped opportunity to develop a reliable system accessible to all, transcending barriers.</p>
+            <p>In our realm of two-wheelers, we embrace diversity, catering to everything from scooters to superbikes, accessible via both our website and mobile application.</p>
+            <p><span>"Why buy when you can rent"</span></p>
+        </div>
+    </div>
 
-
+<!-- Advantages -->
     <div class="container" style="margin-top: 2rem;">
         <div class="advantage-container row">
-
             <div class="col-lg-6 col-md-12 col-12 advantage-details">
                 <h5>Advantages of our Company</h5>
                 <div class="advantages row mt-4">
@@ -390,6 +410,7 @@
             </div>
         </div>
     </div>
+
     <!-- Discount -->
     <div class="discount-container" style="margin-top: 3rem;">
         <div class="container">
@@ -398,222 +419,4 @@
             </div>
         </div>
     </div>
-    {{-- <div class="container my-5">
-        <div class="title d-flex justify-content-between">
-            <h3 class="section-title">Best Renting</h3>
-            <button class="view">View All</button>
-        </div>
-        <div class="items w-100 my-3">
-            <div class="card text-center">
-                <div class="card-body p-1 d-flex flex-column text-center">
-                    <img src="./Images/scooty2.png">
-                    <div class="card-details d-flex flex-column p-1 mt-1 text-center" style="gap: 12px;">
-                        <i class="fa-regular fa-heart"></i>
-                        <p class="new">New</p>
-                        <div class="card-title text-center mb-0">
-                            <h4 class="product-title mb-0">TVS Jupiter</h4>
-                        </div>
-                        <div class="rating d-flex justify-content-center mb-0 text-center" style="font-size: 12px; color: rgb(248, 82, 82);">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star-half-stroke"></i>
-                        </div>
-                        <div class="icons d-flex justify-content-around">
-                            <i class="fa-solid fa-people-group"></i>
-                            <i class="fa-solid fa-briefcase"></i>
-                            <i class="fa-solid fa-gauge"></i>
-                            <i class="fa-solid fa-gauge"></i>
-                        </div>
-                            <p class="price mb-0 text-center">Rs.600
-                                <small class="old-price mb-0" style="text-decoration: line-through;">Rs.800</small> / day
-                            </p>
-                        <button class="btn mb-0 mt-1">Book Now</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card text-center">
-                <div class="card-body p-2 d-flex flex-column text-center">
-                    <img src="./Images/scooty2.png">
-                    <div class="card-details d-flex flex-column p-1 mt-1 text-center" style="gap: 12px;">
-                        <i class="fa-regular fa-heart"></i>
-                        <p class="new">New</p>
-                        <div class="card-title text-center mb-0">
-                            <h4 class="product-title mb-0">Vespa</h4>
-                        </div>
-                        <div class="rating d-flex justify-content-center mb-0 text-center" style="font-size: 12px; color: rgb(248, 82, 82);">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star-half-stroke"></i>
-                        </div>
-                        <div class="icons d-flex justify-content-around">
-                            <i class="fa-solid fa-people-group"></i>
-                            <i class="fa-solid fa-briefcase"></i>
-                            <i class="fa-solid fa-gauge"></i>
-                            <i class="fa-solid fa-gauge"></i>
-                        </div>
-                            <p class="price mb-0 text-center">Rs.600
-                                <small class="old-price mb-0" style="text-decoration: line-through;">Rs.800</small> / day
-                            </p>
-                        <button class="btn mb-0 mt-1">Book Now</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card text-center">
-                <div class="card-body p-2 d-flex flex-column text-center">
-                    <img src="./Images/scooty2.png">
-                    <div class="card-details d-flex flex-column p-1 mt-1 text-center" style="gap: 12px;">
-                        <i class="fa-regular fa-heart"></i>
-                        <p class="new">New</p>
-                        <div class="card-title text-center mb-0">
-                            <h4 class="product-title mb-0">Honda Activa</h4>
-                        </div>
-                        <div class="rating d-flex justify-content-center mb-0 text-center" style="font-size: 12px; color: rgb(248, 82, 82);">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star-half-stroke"></i>
-                        </div>
-                        <div class="icons d-flex justify-content-around">
-                            <i class="fa-solid fa-people-group"></i>
-                            <i class="fa-solid fa-briefcase"></i>
-                            <i class="fa-solid fa-gauge"></i>
-                            <i class="fa-solid fa-gauge"></i>
-                        </div>
-                            <p class="price mb-0 text-center">Rs.600
-                                <small class="old-price mb-0" style="text-decoration: line-through;">Rs.800</small> / day
-                            </p>
-                        <button class="btn mb-0 mt-1">Book Now</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card text-center">
-                <div class="card-body p-2 d-flex flex-column text-center">
-                    <img src="./Images/scooty2.png">
-                    <div class="card-details d-flex flex-column p-1 mt-1 text-center" style="gap: 12px;">
-                        <i class="fa-regular fa-heart"></i>
-                        <p class="new">New</p>
-                        <div class="card-title text-center mb-0">
-                            <h4 class="product-title mb-0">Vespa</h4>
-                        </div>
-                        <div class="rating d-flex justify-content-center mb-0 text-center" style="font-size: 12px; color: rgb(248, 82, 82);">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star-half-stroke"></i>
-                        </div>
-                        <div class="icons d-flex justify-content-around">
-                            <i class="fa-solid fa-people-group"></i>
-                            <i class="fa-solid fa-briefcase"></i>
-                            <i class="fa-solid fa-gauge"></i>
-                            <i class="fa-solid fa-gauge"></i>
-                        </div>
-                            <p class="price mb-0 text-center">Rs.600
-                                <small class="old-price mb-0" style="text-decoration: line-through;">Rs.800</small> / day
-                            </p>
-                        <button class="btn mb-0 mt-1">Book Now</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card text-center">
-                <div class="card-body p-2 d-flex flex-column text-center">
-                    <img src="./Images/scooty2.png">
-                    <div class="card-details d-flex flex-column p-1 mt-1 text-center" style="gap: 12px;">
-                        <i class="fa-regular fa-heart"></i>
-                        <p class="new">New</p>
-                        <div class="card-title text-center mb-0">
-                            <h4 class="product-title mb-0">Honda Activa</h4>
-                        </div>
-                        <div class="rating d-flex justify-content-center mb-0 text-center" style="font-size: 12px; color: rgb(248, 82, 82);">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star-half-stroke"></i>
-                        </div>
-                        <div class="icons d-flex justify-content-around">
-                            <i class="fa-solid fa-people-group"></i>
-                            <i class="fa-solid fa-briefcase"></i>
-                            <i class="fa-solid fa-gauge"></i>
-                            <i class="fa-solid fa-gauge"></i>
-                        </div>
-                            <p class="price mb-0 text-center">Rs.600
-                                <small class="old-price mb-0" style="text-decoration: line-through;">Rs.800</small> / day
-                            </p>
-                        <button class="btn mb-0 mt-1">Book Now</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card text-center">
-                <div class="card-body p-2 d-flex flex-column text-center">
-                    <img src="./Images/scooty2.png">
-                    <div class="card-details d-flex flex-column p-1 mt-1 text-center" style="gap: 12px;">
-                        <i class="fa-regular fa-heart"></i>
-                        <p class="new">New</p>
-                        <div class="card-title text-center mb-0">
-                            <h4 class="product-title mb-0">Vespa</h4>
-                        </div>
-                        <div class="rating d-flex justify-content-center mb-0 text-center" style="font-size: 12px; color: rgb(248, 82, 82);">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star-half-stroke"></i>
-                        </div>
-                        <div class="icons d-flex justify-content-around">
-                            <i class="fa-solid fa-people-group"></i>
-                            <i class="fa-solid fa-briefcase"></i>
-                            <i class="fa-solid fa-gauge"></i>
-                            <i class="fa-solid fa-gauge"></i>
-                        </div>
-                            <p class="price mb-0 text-center">Rs.600
-                                <small class="old-price mb-0" style="text-decoration: line-through;">Rs.800</small> / day
-                            </p>
-                        <button class="btn mb-0 mt-1">Book Now</button>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div> --}}
-    <!-- ==== About Section ==== -->
-@endsection
-@section('scripts')
-<script>
-    $(document).ready(function(){
-
-        $('.items').slick({
-                infinite: true,
-                slidesToShow: 4,
-                slidesToScroll: 1,
-                responsive: [
-                    {
-                        breakpoint: 992,
-                        settings: {
-                            slidesToShow: 3,
-                            slidesToScroll: 1
-                        }
-                    },
-                    {
-                        breakpoint: 768,
-                        settings: {
-                            slidesToShow: 2,
-                            slidesToScroll: 1
-                        }
-                    }
-                ]
-        });
-
-    });
-    </script>
 @endsection

@@ -977,6 +977,7 @@ header {
     position: sticky;
     z-index: 999;
     transition: all ease 0.3s;
+    background-color: white;
 }
 
 header.active {
@@ -988,8 +989,13 @@ header.active::after {
     inset: 0;
     content: "";
     position: absolute;
-    background: rgba(var(--base-rgb), 0.051);
+    background: #fff;
 }
+
+.logo {
+    width: 60px;
+}
+
 .navbar-bottom {
     position: relative;
     z-index: 1;
@@ -1046,7 +1052,7 @@ header.active::after {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 18px 22px 17px;
+    padding: 10px 0;
 }
 
 .navbar-bottom-wrapper .menu {
@@ -1100,7 +1106,7 @@ header.active::after {
     inset-inline-start: 0;
     bottom: -9px;
     height: 2px;
-    background: var(--base-1);
+    background: #f29425;
     border-radius: 2px;
     width: 0;
     transition: 0.3s ease-in-out;
@@ -1108,7 +1114,7 @@ header.active::after {
 
 .navbar-bottom-wrapper .menu li a:hover,
 .navbar-bottom-wrapper .menu li a.active {
-    color: var(--base-1);
+    color: #003360;
 }
 
 .navbar-bottom-wrapper .menu li a:hover span::before,
@@ -1492,6 +1498,13 @@ header.active::after {
 
 .section-header .title {
     margin-bottom: 12px;
+    font-size: 35px;
+    font-weight: 600;
+    color: #003360;
+}
+
+p:last-child {
+    margin-bottom: 0px !important;
 }
 
 @media (min-width: 768px) {
@@ -1500,7 +1513,7 @@ header.active::after {
     }
 
     .section-header .title {
-        font-size: 30px;
+        font-size: 40px;
         margin-bottom: 18px;
     }
 }
@@ -2771,8 +2784,8 @@ header.active::after {
     inset: 0;
     background: linear-gradient(
         270deg,
-        rgba(var(--base-rgb), 0.64) 13.66%,
-        rgba(var(--base-rgb), 0.1) 89.75%
+        #003360,
+        #a2c0da
     );
     transform: matrix(-1, 0, 0, 1, 0, 0);
 }
@@ -2819,7 +2832,8 @@ textarea.form--control {
 }
 
 .contact-item {
-    padding: 40px 24px 28px;
+    height: 180px;
+    padding: 20px 24px;
     background: #ffffff;
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
     border-radius: 30px;
@@ -2829,15 +2843,6 @@ textarea.form--control {
     color: #18191b;
 }
 
-.contact-item h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font-size: 20px;
-}
-
 .contact-item ul {
     margin-top: 15px;
 }
@@ -2845,6 +2850,24 @@ h6 {
 .contact-item ul li a {
     color: #18191b;
     text-decoration: none;
+}
+
+.contact-details {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.contact-details h5 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.contact-details a {
+    font-size: 16px;
+    font-weight: 500;
 }
 
 @media (min-width: 1200px) {
@@ -3049,16 +3072,10 @@ h6 {
     line-height: 25px;
     font-weight: 700;
     text-decoration: none;
-    color: var(--white-clr);
-    background: var(--base-1);
+    background-color: #003360;
     border-radius: 10px;
     text-align: center;
-    background: linear-gradient(
-        119.87deg,
-        var(--base-1) 0%,
-        var(--base-1) 40.8%,
-        var(--base-1) 84.23%
-    );
+    color: white;
     box-shadow: 0px 3px 40px rgba(0, 0, 0, 0.1);
     transition: all ease 0.3s;
 }
