@@ -10,7 +10,9 @@ use App\Models\AdminPromotionalBanner;
 use App\Models\AdminSpecialCriteria;
 use App\Models\AdminTestimonial;
 use App\Models\BusinessSetting;
+use App\Models\Category;
 use App\Models\DataSetting;
+use App\Models\Item;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Support\Facades\File;
 
@@ -112,8 +114,9 @@ class HomeController extends Controller
         $redirect_url = Helpers::get_business_data('landing_page_custom_url');
 
         if(isset($config) && $config){
-
-            return view('home',compact('landing_data'));
+            $category = Category::all();
+            $item = Item::where('status',1)->get();
+            return view('home',compact('landing_data','item','category'));
         }elseif($landing_integration_type == 'file_upload' && File::exists('resources/views/layouts/landing/custom/index.blade.php')){
             return view('layouts.landing.custom.index');
         }elseif($landing_integration_type == 'url'){

@@ -210,7 +210,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-sm-6 col-lg-3" id="unit_input">
+                                {{-- <div class="col-sm-6 col-lg-3" id="unit_input">
                                     <div class="form-group mb-0">
                                         <label class="input-label text-capitalize"
                                             for="unit">{{ translate('messages.unit') }}</label>
@@ -220,7 +220,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="col-sm-6 col-lg-3" id="veg_input">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
@@ -253,14 +253,14 @@
                                         <input type="number"  placeholder="{{ translate('messages.Ex:_10') }}" class="form-control" name="maximum_cart_quantity" min="0" id="cart_quantity">
                                     </div>
                                 </div>
-                                <div class="col-sm-6 col-lg-3" id="organic">
+                                {{-- <div class="col-sm-6 col-lg-3" id="organic">
                                     <div class="form-check mb-0 p-6">
                                         <input class="form-check-input" name="organic" type="checkbox" value="1" id="flexCheckDefault" checked>
                                         <label class="form-check-label" for="flexCheckDefault">
                                           {{ translate('messages.is_organic') }}
                                         </label>
                                       </div>
-                                </div>
+                                </div> --}}
                                 <div class="col-sm-6 col-lg-3" id="basic">
                                     <div class="form-check mb-0 p-6">
                                         <input class="form-check-input" name="basic" type="checkbox" value="1" id="flexCheckDefault" checked>

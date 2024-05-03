@@ -158,7 +158,7 @@
                         <thead class="thead-light">
                             <tr>
                                 <th class="border-0">{{translate('sl')}}</th>
-                                <th class="border-0">{{translate('messages.id')}}</th>
+                                <th class="border-0">{{translate('messages.image')}}</th>
                                 <th class="border-0 w--1">{{translate('messages.name')}}</th>
                                 <th class="border-0 text-center">{{translate('messages.module')}}</th>
                                 <th class="border-0 text-center">{{translate('messages.status')}}</th>
@@ -172,7 +172,18 @@
                         @foreach($categories as $key=>$category)
                             <tr>
                                 <td>{{$key+$categories->firstItem()}}</td>
-                                <td>{{$category->id}}</td>
+                                <td>
+                                    <img class="avatar avatar-lg mr-3 onerror-image"
+
+                                    src="{{ \App\CentralLogics\Helpers::onerror_image_helper(
+                                        $category['image'] ?? '',
+                                        asset('storage/app/public/category').'/'.$category['image'] ?? '',
+                                        asset('public/assets/admin'),
+                                        'category/'
+                                    ) }}"
+
+                                    data-onerror-image="{{asset('public/assets/admin/img/160x160/img2.jpg')}}" alt="{{$category->name}} image">
+                                </td>
                                 <td>
                                     <span class="d-block font-size-sm text-body">
                                         {{Str::limit($category['name'], 20,'...')}}

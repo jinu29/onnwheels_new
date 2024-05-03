@@ -14,6 +14,8 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+
+
 -- Dumping structure for table test.account_transactions
 CREATE TABLE IF NOT EXISTS `account_transactions` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
@@ -131,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `admins` (
   UNIQUE KEY `admins_email_unique` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.admins: ~1 rows (approximately)
+-- Dumping data for table test.admins: ~2 rows (approximately)
 INSERT INTO `admins` (`id`, `f_name`, `l_name`, `phone`, `email`, `image`, `password`, `remember_token`, `created_at`, `updated_at`, `role_id`, `zone_id`, `is_logged_in`) VALUES
 	(1, 'Test', 'Admin', '01500000000', 'admin@admin.com', NULL, '$2y$10$VfktRD62HSKO2/wOHDFyKO04d0nFtE6UtMpb5o/l8QSWE0uC/WLni', NULL, '2023-08-16 23:34:18', '2023-08-16 23:34:18', 1, NULL, 1),
 	(2, 'akhil', 'jinu', '9655804621', 'admin@gmail.com', NULL, '$2y$10$9rz8xT.Q7.bUiorvsK6BquxfE22DzK7D6RRYULFPnTUf2vvSvfqqu', NULL, '2024-05-01 18:10:23', '2024-05-01 18:10:23', 1, NULL, 1);
@@ -162,11 +164,12 @@ CREATE TABLE IF NOT EXISTS `admin_promotional_banners` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.admin_promotional_banners: ~0 rows (approximately)
+-- Dumping data for table test.admin_promotional_banners: ~1 rows (approximately)
 INSERT INTO `admin_promotional_banners` (`id`, `title`, `sub_title`, `image`, `status`, `created_at`, `updated_at`) VALUES
-	(1, 'Demo Title', 'Demo Promotional Subtitle', '2023-08-16-64dca9d76d4f4.png', 1, '2023-08-15 23:49:59', '2023-08-15 23:49:59');
+	(1, 'Demo Title', 'Demo Promotional Subtitle', '2023-08-16-64dca9d76d4f4.png', 1, '2023-08-15 23:49:59', '2023-08-15 23:49:59'),
+	(2, 'cxcxcxzc', 'zxc', '2024-05-02-663358025a326.png', 1, '2024-05-01 22:38:18', '2024-05-01 22:38:18');
 
 -- Dumping structure for table test.admin_roles
 CREATE TABLE IF NOT EXISTS `admin_roles` (
@@ -272,9 +275,9 @@ CREATE TABLE IF NOT EXISTS `business_settings` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=140 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=141 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.business_settings: ~135 rows (approximately)
+-- Dumping data for table test.business_settings: ~136 rows (approximately)
 INSERT INTO `business_settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES
 	(1, 'cash_on_delivery', '{"status":null}', '2021-07-01 15:51:17', '2024-05-01 18:47:18'),
 	(2, 'stripe', '{"status":"0","api_key":null,"published_key":null}', '2021-05-11 03:57:02', '2022-03-23 04:22:00'),
@@ -292,7 +295,7 @@ INSERT INTO `business_settings` (`id`, `key`, `value`, `created_at`, `updated_at
 	(15, 'terms_and_conditions', '<p>This is a test Teams &amp; Conditions<br />\r\n<br />\r\nThese terms of use (the &quot;Terms of Use&quot;) govern your use of our website www.evaly.com.bd (the &quot;Website&quot;) and our &quot;StackFood&quot; application for mobile and handheld devices (the &quot;App&quot;). The Website and the App are jointly referred to as the &quot;Platform&quot;. Please read these Terms of Use carefully before you use the services. If you do not agree to these Terms of Use, you may not use the services on the Platform, and we request you to uninstall the App. By installing, downloading and/or even merely using the Platform, you shall be contracting with StackFood and you provide your acceptance to the Terms of Use and other StackFood policies (including but not limited to the Cancellation &amp; Refund Policy, Privacy Policy etc.) as posted on the Platform from time to time, which takes effect on the date on which you download, install or use the Services, and create a legally binding arrangement to abide by the same. The Platforms will be used by (i) natural persons who have reached 18 years of age and (ii) corporate legal entities, e.g companies. Where applicable, these Terms shall be subject to country-specific provisions as set out herein.</p>\r\n\r\n<h3>USE OF PLATFORM AND SERVICES</h3>\r\n\r\n<p>All commercial/contractual terms are offered by and agreed to between Buyers and Merchants alone. The commercial/contractual terms include without limitation to price, taxes, shipping costs, payment methods, payment terms, date, period and mode of delivery, warranties related to products and services and after sales services related to products and services. StackFood does not have any kind of control or does not determine or advise or in any way involve itself in the offering or acceptance of such commercial/contractual terms between the Buyers and Merchants. StackFood may, however, offer support services to Merchants in respect to order fulfilment, payment collection, call centre, and other services, pursuant to independent contracts executed by it with the Merchants. eFood is not responsible for any non-performance or breach of any contract entered into between Buyers and Merchants on the Platform. eFood cannot and does not guarantee that the concerned Buyers and/or Merchants shall perform any transaction concluded on the Platform. eFood is not responsible for unsatisfactory services or non-performance of services or damages or delays as a result of products which are out of stock, unavailable or back ordered.</p>\r\n\r\n<p>StackFood&nbsp;is operating an e-commerce platform and assumes and operates the role of facilitator, and does not at any point of time during any transaction between Buyer and Merchant on the Platform come into or take possession of any of the products or services offered by Merchant. At no time shall StackFood hold any right, title or interest over the products nor shall StackFood have any obligations or liabilities in respect of such contract entered into between Buyer and Merchant. You agree and acknowledge that we shall not be responsible for:</p>\r\n\r\n<ul>\r\n	<li>The goods provided by the shops or restaurants including, but not limited, serving of food orders suiting your requirements and needs;</li>\r\n	<li>The Merchant&quot;s goods not being up to your expectations or leading to any loss, harm or damage to you;</li>\r\n	<li>The availability or unavailability of certain items on the menu;</li>\r\n	<li>The Merchant serving the incorrect orders.</li>\r\n</ul>\r\n\r\n<p>The details of the menu and price list available on the Platform are based on the information provided by the Merchants and we shall not be responsible for any change or cancellation or unavailability. All Menu &amp; Food Images used on our platforms are only representative and shall/might not match with the actual Menu/Food Ordered, StackFood shall not be responsible or Liable for any discrepancies or variations on this aspect.</p>\r\n\r\n<h3>Personal Information that you provide</h3>\r\n\r\n<p>If you want to use our service, you must create an account on our Site. To establish your account, we will ask for personally identifiable information that can be used to contact or identify you, which may include your name, phone number, and e-mail address. We may also collect demographic information about you, such as your zip code, and allow you to submit additional information that will be part of your profile. Other than basic information that we need to establish your account, it will be up to you to decide how much information to share as part of your profile. We encourage you to think carefully about the information that you share and we recommend that you guard your identity and your sensitive information. Of course, you can review and revise your profile at any time.</p>\r\n\r\n<p>You understand that delivery periods quoted to you at the time of confirming the order is an approximate estimate and may vary. We shall not be responsible for any delay in the delivery of your order due to the delay at seller/merchant end for order processing or any other unavoidable circumstances.</p>\r\n\r\n<p>Your order shall be only delivered to the address designated by you at the time of placing the order on the Platform. We reserve the right to cancel the order, in our sole discretion, in the event of any change to the place of delivery and you shall not be entitled to any refund for the same. Delivery in the event of change of the delivery location shall be at our sole discretion and reserve the right to charge with additional delivery fee if required.</p>\r\n\r\n<p>You shall undertake to provide adequate directions, information and authorizations to accept delivery. In the event of any failure to accept delivery, failure to deliver within the estimated time due to your failure to provide appropriate instructions, or authorizations, then such goods shall be deemed to have been delivered to you and all risk and responsibility in relation to such goods shall pass to you and you shall not be entitled to any refund for the same. Our decision in relation to this shall be final and binding. You understand that our liability ends once your order has been delivered to you.</p>\r\n\r\n<p>You might be required to provide your credit or debit card details to the approved payment gateways while making the payment. In this regard, you agree to provide correct and accurate credit/ debit card details to the approved payment gateways for availing the Services. You shall not use the credit/ debit card which is not lawfully owned by you, i.e. in any transaction, you must use your own credit/ debit card. The information provided by you shall not be utilized or shared with any third party unless required in relation to fraud verifications or by law, regulation or court order. You shall be solely responsible for the security and confidentiality of your credit/ debit card details. We expressly disclaim all liabilities that may arise as a consequence of any unauthorized use of your credit/ debit card. You agree that the Services shall be provided by us only during the working hours of the relevant Merchants.</p>\r\n\r\n<h3>ACTIVITIES PROHIBITED ON THE PLATFORM</h3>\r\n\r\n<p>The following is a partial list of the kinds of conduct that are illegal or prohibited on the Websites. StackFood reserves the right to investigate and take appropriate legal action/s against anyone who, in StackFood sole discretion, engages in any of the prohibited activities. Prohibited activities include &mdash; but are not limited to &mdash; the following:</p>\r\n\r\n<ul>\r\n	<li>Using the Websites for any purpose in violation of laws or regulations;</li>\r\n	<li>Posting Content that infringes the intellectual property rights, privacy rights, publicity rights, trade secret rights, or any other rights of any party;</li>\r\n	<li>Posting Content that is unlawful, obscene, defamatory, threatening, harassing, abusive, slanderous, hateful, or embarrassing to any other person or entity as determined by StackFood in its sole discretion or pursuant to local community standards;</li>\r\n	<li>Posting Content that constitutes cyber-bullying, as determined by StackFood in its sole discretion;</li>\r\n	<li>Posting Content that depicts any dangerous, life-threatening, or otherwise risky behavior;</li>\r\n	<li>Posting telephone numbers, street addresses, or last names of any person;</li>\r\n	<li>Posting URLs to external websites or any form of HTML or programming code;</li>\r\n	<li>Posting anything that may be &quot;spam,&quot; as determined by StackFood in its sole discretion;</li>\r\n	<li>Impersonating another person when posting Content;</li>\r\n	<li>Harvesting or otherwise collecting information about others, including email addresses, without their consent;</li>\r\n	<li>Allowing any other person or entity to use your identification for posting or viewing comments;</li>\r\n	<li>Harassing, threatening, stalking, or abusing any person;</li>\r\n	<li>Engaging in any other conduct that restricts or inhibits any other person from using or enjoying the Websites, or which, in the sole discretion of StackFood , exposes eFood or any of its customers, suppliers, or any other parties to any liability or detriment of any type; or</li>\r\n	<li>Encouraging other people to engage in any prohibited activities as described herein.</li>\r\n</ul>\r\n\r\n<p>StackFood&nbsp;reserves the right but is not obligated to do any or all of the following:</p>\r\n\r\n<ul>\r\n	<li>Investigate an allegation that any Content posted on the Websites does not conform to these Terms of Use and determine in its sole discretion to remove or request the removal of the Content;</li>\r\n	<li>Remove Content which is abusive, illegal, or disruptive, or that otherwise fails to conform with these Terms of Use;</li>\r\n	<li>Terminate a user&#39;s access to the Websites upon any breach of these Terms of Use;</li>\r\n	<li>Monitor, edit, or disclose any Content on the Websites; and</li>\r\n	<li>Edit or delete any Content posted on the Websites, regardless of whether such Content violates these standards.</li>\r\n</ul>\r\n\r\n<h3>AMENDMENTS</h3>\r\n\r\n<p>StackFood&nbsp;reserves the right to change or modify these Terms (including our policies which are incorporated into these Terms) at any time by posting changes on the Platform. You are strongly recommended to read these Terms regularly. You will be deemed to have agreed to the amended Terms by your continued use of the Platforms following the date on which the amended Terms are posted.</p>\r\n\r\n<h3>PAYMENT</h3>\r\n\r\n<p>StackFood&nbsp;reserves the right to offer additional payment methods and/or remove existing payment methods at any time in its sole discretion. If you choose to pay using an online payment method, the payment shall be processed by our third party payment service provider(s). With your consent, your credit card / payment information will be stored with our third party payment service provider(s) for future orders. StackFood does not store your credit card or payment information. You must ensure that you have sufficient funds on your credit and debit card to fulfil payment of an Order. Insofar as required, StackFood takes responsibility for payments made on our Platforms including refunds, chargebacks, cancellations and dispute resolution, provided if reasonable and justifiable and in accordance with these Terms.</p>\r\n\r\n<h3>CANCELLATION</h3>\r\n\r\n<p>StackFood&nbsp;can cancel any order anytime due to the foods/products unavailability, out of coverage area and any other unavoidable circumstances.</p>', NULL, '2021-08-22 01:48:01'),
 	(16, 'business_name', 'onnwheels', NULL, NULL),
 	(17, 'currency', 'INR', NULL, NULL),
-	(18, 'logo', '2024-05-02-66334f44d70e9.png', NULL, NULL),
+	(18, 'logo', '2024-05-02-6633571cb94fd.png', NULL, NULL),
 	(19, 'phone', '9655804621', NULL, NULL),
 	(20, 'email_address', 'admin@gmail.com', NULL, NULL),
 	(21, 'address', 'test', NULL, NULL),
@@ -368,7 +371,7 @@ INSERT INTO `business_settings` (`id`, `key`, `value`, `created_at`, `updated_at
 	(93, 'paytm', '{"status":"1","paytm_merchant_key":null,"paytm_merchant_mid":null,"paytm_merchant_website":null,"paytm_refund_url":null}', NULL, '2022-02-27 06:06:37'),
 	(94, 'schedule_order_slot_duration', NULL, NULL, NULL),
 	(95, 'digit_after_decimal_point', '0', NULL, NULL),
-	(96, 'icon', '2024-05-02-66334f44d8f16.png', NULL, NULL),
+	(96, 'icon', '2024-05-02-6633571cbaf7f.png', NULL, NULL),
 	(97, 'toggle_store_registration', '1', NULL, NULL),
 	(98, 'canceled_by_store', '0', NULL, NULL),
 	(99, 'parcel_per_km_shipping_charge', '0', NULL, NULL),
@@ -411,7 +414,8 @@ INSERT INTO `business_settings` (`id`, `key`, `value`, `created_at`, `updated_at
 	(136, 'dm_picture_upload_status', '1', NULL, NULL),
 	(137, 'offline_payment_status', NULL, NULL, '2023-10-16 20:16:58'),
 	(138, 'apple_login', '[{"login_medium":"apple","client_id":"","client_secret":"","team_id":"","key_id":"","service_file":"","redirect_url":"","status":""}]', '2024-05-01 18:30:55', '2024-05-01 18:30:55'),
-	(139, 'guest_checkout_status', '0', NULL, NULL);
+	(139, 'guest_checkout_status', '0', NULL, NULL),
+	(140, 'backgroundChange', '{"primary_1_hex":"#003361","primary_1_rgb":"0, 51, 97","primary_2_hex":"#333e4f","primary_2_rgb":"51, 62, 79"}', NULL, NULL);
 
 -- Dumping structure for table test.campaigns
 CREATE TABLE IF NOT EXISTS `campaigns` (
@@ -481,12 +485,16 @@ CREATE TABLE IF NOT EXISTS `categories` (
   PRIMARY KEY (`id`),
   KEY `categories_module_id_foreign` (`module_id`),
   CONSTRAINT `categories_module_id_foreign` FOREIGN KEY (`module_id`) REFERENCES `modules` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.categories: ~2 rows (approximately)
+-- Dumping data for table test.categories: ~6 rows (approximately)
 INSERT INTO `categories` (`id`, `name`, `image`, `parent_id`, `position`, `status`, `created_at`, `updated_at`, `priority`, `module_id`, `slug`, `featured`) VALUES
-	(1, 'Demo category', '2023-08-16-64dca78f6ba7b.png', 0, 0, 1, '2023-08-15 23:40:15', '2023-08-15 23:40:30', 0, 1, 'demo-category', 1),
-	(2, 'Demo sub category', 'def.png', 1, 1, 1, '2023-08-15 23:40:51', '2023-08-15 23:40:51', 0, 1, 'demo-sub-category', 0);
+	(5, 'Best Rental Bike', '2024-05-03-6634a50876470.png', 0, 0, 1, '2024-05-02 22:19:12', '2024-05-02 22:19:12', 0, 1, 'best-rental-bike', 0),
+	(6, 'Best Milage Bike', '2024-05-03-6634a52a72fe8.png', 0, 0, 1, '2024-05-02 22:19:46', '2024-05-02 22:19:46', 0, 1, 'best-milage-bike', 0),
+	(7, 'Sport Bike', '2024-05-03-6634a565887eb.png', 0, 0, 1, '2024-05-02 22:20:45', '2024-05-02 22:20:45', 0, 1, 'sport-bike', 0),
+	(8, 'Scooty', '2024-05-03-6634bf3f6dd7e.png', 0, 0, 1, '2024-05-02 22:21:30', '2024-05-03 00:11:03', 0, 1, 'scooty', 0),
+	(9, 'Honda', '2024-05-03-6634c3cd936e3.png', 0, 0, 1, '2024-05-03 00:30:29', '2024-05-03 00:30:29', 0, 1, 'honda', 0),
+	(10, 'Hero', '2024-05-03-6634c3e745bb6.png', 0, 0, 1, '2024-05-03 00:30:55', '2024-05-03 00:30:55', 0, 1, 'hero', 0);
 
 -- Dumping structure for table test.common_conditions
 CREATE TABLE IF NOT EXISTS `common_conditions` (
@@ -730,9 +738,9 @@ CREATE TABLE IF NOT EXISTS `data_settings` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.data_settings: ~85 rows (approximately)
+-- Dumping data for table test.data_settings: ~87 rows (approximately)
 INSERT INTO `data_settings` (`id`, `key`, `value`, `type`, `created_at`, `updated_at`) VALUES
 	(1, 'admin_login_url', 'admin', 'login_admin', '2023-06-11 14:34:59', '2023-06-11 14:34:59'),
 	(2, 'admin_employee_login_url', 'admin-employee', 'login_admin_employee', '2023-06-11 14:34:59', '2023-06-11 14:34:59'),
@@ -818,7 +826,9 @@ INSERT INTO `data_settings` (`id`, `key`, `value`, `type`, `created_at`, `update
 	(82, 'download_user_app_title', 'Download app and enjoy more!', 'flutter_landing_page', '2023-06-12 18:17:56', '2023-06-12 18:17:56'),
 	(83, 'download_user_app_sub_title', 'Download app from', 'flutter_landing_page', '2023-06-12 18:17:56', '2023-06-12 18:17:56'),
 	(84, 'download_user_app_image', '2023-08-16-64dcae82675b2.png', 'flutter_landing_page', '2023-06-12 18:17:56', '2023-08-16 00:09:54'),
-	(85, 'download_user_app_links', '{"playstore_url_status":"1","playstore_url":"https:\\/\\/play.google.com\\/store\\/","apple_store_url_status":"1","apple_store_url":"https:\\/\\/www.apple.com\\/app-store\\/"}', 'flutter_landing_page', NULL, NULL);
+	(85, 'download_user_app_links', '{"playstore_url_status":"1","playstore_url":"https:\\/\\/play.google.com\\/store\\/","apple_store_url_status":"1","apple_store_url":"https:\\/\\/www.apple.com\\/app-store\\/"}', 'flutter_landing_page', NULL, NULL),
+	(86, 'about_us', '<p>We, a group of millennials, are dedicated to establishing India&#39;s premier mobility solutions provider. Our dedication has driven us to create a platform offering rentals across 14 states, 43 cities, and 3 international locations.</p>\r\n\r\n<p>The realm of transportation and mobility solutions remains one of the least comprehended and disorganized sectors. We perceive this as an untapped opportunity to develop a reliable system accessible to all, transcending barriers.</p>\r\n\r\n<p>In our realm of two-wheelers, we embrace diversity, catering to everything from scooters to superbikes, accessible via both our website and mobile application.</p>\r\n\r\n<p><strong>&quot;Why buy when you can rent&quot;</strong></p>', 'admin_landing_page', '2024-05-02 02:07:01', '2024-05-02 02:22:57'),
+	(87, 'about_title', 'About Us', 'admin_landing_page', '2024-05-02 02:07:01', '2024-05-02 02:07:01');
 
 -- Dumping structure for table test.delivery_histories
 CREATE TABLE IF NOT EXISTS `delivery_histories` (
@@ -1210,11 +1220,16 @@ CREATE TABLE IF NOT EXISTS `items` (
   PRIMARY KEY (`id`),
   KEY `items_module_id_foreign` (`module_id`),
   CONSTRAINT `items_module_id_foreign` FOREIGN KEY (`module_id`) REFERENCES `modules` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.items: ~0 rows (approximately)
+-- Dumping data for table test.items: ~1 rows (approximately)
 INSERT INTO `items` (`id`, `name`, `description`, `image`, `category_id`, `category_ids`, `variations`, `add_ons`, `attributes`, `choice_options`, `price`, `tax`, `tax_type`, `discount`, `discount_type`, `available_time_starts`, `available_time_ends`, `veg`, `status`, `store_id`, `created_at`, `updated_at`, `order_count`, `avg_rating`, `rating_count`, `rating`, `module_id`, `stock`, `unit_id`, `images`, `food_variations`, `slug`, `recommended`, `organic`, `maximum_cart_quantity`, `is_approved`) VALUES
-	(1, 'Demo Product', 'Demo Product Description', '2023-08-16-64dca91404b64.png', 2, '[{"id":"1","position":1},{"id":"2","position":2}]', '[]', '[]', '[]', '[]', 10.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 1, '2023-08-15 23:46:44', '2023-08-16 00:00:05', 0, 0.00000000000000, 0, NULL, 1, 10, NULL, '["2023-08-16-64dca9140233e.png","2023-08-16-64dcac358a7ea.png"]', '[]', 'demo-product', 0, 1, 2, 1);
+	(2, 'Test Bike', 'qwertyuiasdfghjk', '2024-05-03-6634742957e7e.png', 2, '[{"id":"1","position":1},{"id":"2","position":2}]', '[]', '[]', '[]', '[]', 1000.00, 0.00, 'percent', 20.00, 'percent', '00:00:00', '23:59:59', 0, 1, 2, '2024-05-02 18:50:41', '2024-05-02 23:30:17', 0, 0.00000000000000, 0, NULL, 1, 1, NULL, '["2024-05-03-6634742955938.png"]', '[]', 'test-bike', 0, 0, 1, 1),
+	(3, 'Hero', 'asdfghjk', '2024-05-03-6634a7e6799c8.png', 2, '[{"id":"1","position":1},{"id":"2","position":2}]', '[]', '[]', '[]', '[]', 2000.00, 0.00, 'percent', 18.00, 'percent', '00:00:00', '23:59:59', 0, 1, 2, '2024-05-02 22:14:05', '2024-05-02 23:30:18', 0, 0.00000000000000, 0, NULL, 1, 1, NULL, '["2024-05-03-6634a3d5c5bfc.png","2024-05-03-6634a7e6753fc.png"]', '[]', 'hero', 0, 0, 1, 1),
+	(4, 'KTM', 'test KTM', '2024-05-03-6634a80c85a78.png', 5, '[{"id":"5","position":1}]', '[]', '[]', '[]', '[]', 5000.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 2, '2024-05-02 22:30:18', '2024-05-02 23:30:19', 0, 0.00000000000000, 0, NULL, 1, 10, NULL, '["2024-05-03-6634a7a238697.png","2024-05-03-6634a80c804d5.png"]', '[]', 'ktm', 0, 0, 1, 1),
+	(5, 'Aprilia', 'qwertyuiop', '2024-05-03-6634aa94da9f8.png', 6, '[{"id":"6","position":1}]', '[]', '[]', '[]', '[]', 8500.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 2, '2024-05-02 22:42:52', '2024-05-02 23:30:19', 0, 0.00000000000000, 0, NULL, 1, 1, NULL, '["2024-05-03-6634aa94d1a88.png"]', '[]', 'aprilia', 0, 0, 1, 1),
+	(6, 'Hero Splendor+', 'qwertyjjbvcx vb', '2024-05-03-6634aaeee859a.png', 6, '[{"id":"6","position":1}]', '[]', '[]', '[]', '[]', 850.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 2, '2024-05-02 22:44:22', '2024-05-02 23:30:11', 0, 0.00000000000000, 0, NULL, 1, 1, NULL, '["2024-05-03-6634aaeee3cf7.png"]', '[]', 'hero-splendor', 0, 0, 0, 1),
+	(7, '2023 Ducati', 'wertghj', '2024-05-03-6634ab4cb3b5c.png', 7, '[{"id":"7","position":1}]', '[]', '[]', '[]', '[]', 550.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 1, '2024-05-02 22:45:56', '2024-05-02 23:30:11', 0, 0.00000000000000, 0, NULL, 1, 1, NULL, '["2024-05-03-6634ab4caf64d.png"]', '[]', '2023-ducati', 0, 0, 1, 1);
 
 -- Dumping structure for table test.item_campaigns
 CREATE TABLE IF NOT EXISTS `item_campaigns` (
@@ -1262,9 +1277,13 @@ CREATE TABLE IF NOT EXISTS `item_tag` (
   `item_id` bigint unsigned NOT NULL,
   `tag_id` bigint unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table test.item_tag: ~0 rows (approximately)
+INSERT INTO `item_tag` (`id`, `item_id`, `tag_id`) VALUES
+	(1, 2, 1),
+	(2, 3, 2),
+	(3, 4, 3);
 
 -- Dumping structure for table test.jobs
 CREATE TABLE IF NOT EXISTS `jobs` (
@@ -2206,7 +2225,7 @@ CREATE TABLE IF NOT EXISTS `stores` (
   CONSTRAINT `stores_module_id_foreign` FOREIGN KEY (`module_id`) REFERENCES `modules` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.stores: ~1 rows (approximately)
+-- Dumping data for table test.stores: ~2 rows (approximately)
 INSERT INTO `stores` (`id`, `name`, `phone`, `email`, `logo`, `latitude`, `longitude`, `address`, `footer_text`, `minimum_order`, `comission`, `schedule_order`, `status`, `vendor_id`, `created_at`, `updated_at`, `free_delivery`, `rating`, `cover_photo`, `delivery`, `take_away`, `item_section`, `tax`, `zone_id`, `reviews_section`, `active`, `off_day`, `gst`, `self_delivery_system`, `pos_system`, `minimum_shipping_charge`, `delivery_time`, `veg`, `non_veg`, `order_count`, `total_order`, `module_id`, `order_place_to_schedule_interval`, `featured`, `per_km_shipping_charge`, `prescription_order`, `slug`, `maximum_shipping_charge`, `cutlery`, `meta_title`, `meta_description`, `meta_image`, `announcement`, `announcement_message`) VALUES
 	(1, 'Demo Store', '+101511111111', 'demo.store@gmail.com', '2023-08-16-64dca8ad238c4.png', '23.81695886557418', '90.36934144046135', 'House, road', NULL, 0.00, NULL, 0, 1, 1, '2023-08-15 23:45:01', '2023-08-15 23:45:19', 0, NULL, '2023-08-16-64dca8ad263f6.png', 1, 1, 1, 5.00, 1, 1, 1, ' ', NULL, 0, 0, 0.00, '30-40 min', 1, 1, 0, 0, 1, 0, 1, 0.000, 0, 'demo-store', NULL, 0, NULL, NULL, NULL, 0, NULL),
 	(2, 'Mekala', '+918989787878', 'mekala@gmail.com', '2024-05-02-66332617be7fe.png', '11.007064012118711', '76.99151128898258', 'sadsad', NULL, 0.00, NULL, 0, 1, 2, '2024-05-01 19:05:19', '2024-05-01 19:05:19', 0, NULL, '2024-05-02-66332617c18d0.png', 1, 1, 1, 12.00, 2, 1, 1, ' ', NULL, 0, 0, 0.00, '20-40 min', 1, 1, 0, 0, 1, 0, 0, 0.000, 0, 'mekala', NULL, 0, NULL, NULL, NULL, 0, NULL);
@@ -2260,9 +2279,13 @@ CREATE TABLE IF NOT EXISTS `tags` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table test.tags: ~0 rows (approximately)
+INSERT INTO `tags` (`id`, `tag`, `created_at`, `updated_at`) VALUES
+	(1, 'bike', '2024-05-02 18:50:41', '2024-05-02 18:50:41'),
+	(2, 'hero', '2024-05-02 22:14:05', '2024-05-02 22:14:05'),
+	(3, 'KTM', '2024-05-02 22:30:18', '2024-05-02 22:30:18');
 
 -- Dumping structure for table test.temp_products
 CREATE TABLE IF NOT EXISTS `temp_products` (
@@ -2335,19 +2358,15 @@ CREATE TABLE IF NOT EXISTS `translations` (
   PRIMARY KEY (`id`),
   KEY `translations_translationable_id_index` (`translationable_id`),
   KEY `translations_locale_index` (`locale`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.translations: ~32 rows (approximately)
+-- Dumping data for table test.translations: ~36 rows (approximately)
 INSERT INTO `translations` (`id`, `translationable_type`, `translationable_id`, `locale`, `key`, `value`, `created_at`, `updated_at`) VALUES
 	(1, 'App\\Models\\Module', 1, 'en', 'module_name', 'onnwheels', NULL, NULL),
 	(2, 'App\\Models\\Module', 1, 'en', 'description', '<p>Demo module description.</p>', NULL, NULL),
 	(3, 'App\\Models\\Zone', 1, 'en', 'name', 'Demo Zone', NULL, NULL),
-	(4, 'App\\Models\\Category', 1, 'en', 'name', 'Demo category', NULL, NULL),
-	(5, 'App\\Models\\Category', 2, 'en', 'name', 'Demo sub category', NULL, NULL),
 	(6, 'App\\Models\\Store', 1, 'en', 'name', 'Demo Store', NULL, NULL),
 	(7, 'App\\Models\\Store', 1, 'en', 'address', 'House, road', NULL, NULL),
-	(8, 'App\\Models\\Item', 1, 'en', 'name', 'Demo Product', NULL, NULL),
-	(9, 'App\\Models\\Item', 1, 'en', 'description', 'Demo Product Description', NULL, NULL),
 	(10, 'App\\Models\\AdminPromotionalBanner', 1, 'en', 'title', 'Demo Title', NULL, NULL),
 	(11, 'App\\Models\\AdminPromotionalBanner', 1, 'en', 'sub_title', 'Demo Promotional Subtitle', NULL, NULL),
 	(12, 'App\\Models\\AdminFeature', 1, 'en', 'title', 'Demo Feature Title', NULL, NULL),
@@ -2370,7 +2389,29 @@ INSERT INTO `translations` (`id`, `translationable_type`, `translationable_id`, 
 	(29, 'App\\Models\\RefundReason', 1, 'en', 'reason', 'I ordered the wrong food', NULL, NULL),
 	(30, 'App\\Models\\Zone', 2, 'en', 'name', 'Puliyakulam', NULL, NULL),
 	(31, 'App\\Models\\Store', 2, 'en', 'name', 'Mekala', NULL, NULL),
-	(32, 'App\\Models\\Store', 2, 'en', 'address', 'sadsad', NULL, NULL);
+	(32, 'App\\Models\\Store', 2, 'en', 'address', 'sadsad', NULL, NULL),
+	(33, 'App\\Models\\AdminPromotionalBanner', 2, 'en', 'title', 'cxcxcxzc', NULL, NULL),
+	(34, 'App\\Models\\AdminPromotionalBanner', 2, 'en', 'sub_title', 'zxc', NULL, NULL),
+	(35, 'App\\Models\\DataSetting', 86, 'en', 'about_us', '<p>We, a group of millennials, are dedicated to establishing India&#39;s premier mobility solutions provider. Our dedication has driven us to create a platform offering rentals across 14 states, 43 cities, and 3 international locations.</p>\r\n\r\n<p>The realm of transportation and mobility solutions remains one of the least comprehended and disorganized sectors. We perceive this as an untapped opportunity to develop a reliable system accessible to all, transcending barriers.</p>\r\n\r\n<p>In our realm of two-wheelers, we embrace diversity, catering to everything from scooters to superbikes, accessible via both our website and mobile application.</p>\r\n\r\n<p><strong>&quot;Why buy when you can rent&quot;</strong></p>', NULL, NULL),
+	(36, 'App\\Models\\DataSetting', 87, 'en', 'about_title', 'About Us', NULL, NULL),
+	(37, 'App\\Models\\Item', 2, 'en', 'name', 'Test Bike', NULL, NULL),
+	(38, 'App\\Models\\Item', 2, 'en', 'description', 'qwertyuiasdfghjk', NULL, NULL),
+	(39, 'App\\Models\\Item', 3, 'en', 'name', 'Hero', NULL, NULL),
+	(40, 'App\\Models\\Item', 3, 'en', 'description', 'asdfghjk', NULL, NULL),
+	(43, 'App\\Models\\Category', 5, 'en', 'name', 'Best Rental Bike', NULL, NULL),
+	(44, 'App\\Models\\Category', 6, 'en', 'name', 'Best Milage Bike', NULL, NULL),
+	(45, 'App\\Models\\Category', 7, 'en', 'name', 'Sport Bike', NULL, NULL),
+	(46, 'App\\Models\\Category', 8, 'en', 'name', 'Scooty', NULL, NULL),
+	(47, 'App\\Models\\Item', 4, 'en', 'name', 'KTM', NULL, NULL),
+	(48, 'App\\Models\\Item', 4, 'en', 'description', 'test KTM', NULL, NULL),
+	(49, 'App\\Models\\Item', 5, 'en', 'name', 'Aprilia', NULL, NULL),
+	(50, 'App\\Models\\Item', 5, 'en', 'description', 'qwertyuiop', NULL, NULL),
+	(51, 'App\\Models\\Item', 6, 'en', 'name', 'Hero Splendor+', NULL, NULL),
+	(52, 'App\\Models\\Item', 6, 'en', 'description', 'qwertyjjbvcx vb', NULL, NULL),
+	(53, 'App\\Models\\Item', 7, 'en', 'name', '2023 Ducati', NULL, NULL),
+	(54, 'App\\Models\\Item', 7, 'en', 'description', 'wertghj', NULL, NULL),
+	(55, 'App\\Models\\Category', 9, 'en', 'name', 'Honda', NULL, NULL),
+	(56, 'App\\Models\\Category', 10, 'en', 'name', 'Hero', NULL, NULL);
 
 -- Dumping structure for table test.units
 CREATE TABLE IF NOT EXISTS `units` (
@@ -2477,7 +2518,7 @@ CREATE TABLE IF NOT EXISTS `vendors` (
   UNIQUE KEY `vendors_email_unique` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.vendors: ~1 rows (approximately)
+-- Dumping data for table test.vendors: ~2 rows (approximately)
 INSERT INTO `vendors` (`id`, `f_name`, `l_name`, `phone`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `bank_name`, `branch`, `holder_name`, `account_no`, `image`, `status`, `firebase_token`, `auth_token`) VALUES
 	(1, 'Demo', 'Store', '+101511111111', 'demo.store@gmail.com', NULL, '$2y$10$Rtm/6/dNJwwRZcfUAjCNdezs3xCwTN1oTW/2mqrRBZkGqHHZAqcuW', NULL, '2023-08-15 23:45:01', '2023-08-15 23:45:01', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL),
 	(2, 'mekala', 'nagaraj', '+918989787878', 'mekala@gmail.com', NULL, '$2y$10$hqmNDsBj4mGsmYtC6/t.pu7TCpmqU9kRMAP/SPhRspEYBM/1jJn2K', NULL, '2024-05-01 19:05:19', '2024-05-01 19:05:19', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL);
@@ -2640,7 +2681,7 @@ CREATE TABLE IF NOT EXISTS `zones` (
   UNIQUE KEY `zones_name_unique` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.zones: ~1 rows (approximately)
+-- Dumping data for table test.zones: ~2 rows (approximately)
 INSERT INTO `zones` (`id`, `name`, `coordinates`, `status`, `created_at`, `updated_at`, `store_wise_topic`, `customer_wise_topic`, `deliveryman_wise_topic`, `cash_on_delivery`, `digital_payment`, `increased_delivery_fee`, `increased_delivery_fee_status`, `increase_delivery_charge_message`, `offline_payment`) VALUES
 	(1, 'Demo Zone', _binary 0x0000000001030000000100000006000000d8b95578f0965640804b97f820d6374014ba5508809556403a236f336ed2374017ba55d83696564031240701bacd3740d5b95598ce985640f47608c3f7cd374015ba55f87c995640ce86cbe863d23740d8b95578f0965640804b97f820d63740, 1, '2023-08-15 23:35:04', '2023-08-15 23:35:44', 'zone_1_store', 'zone_1_customer', 'zone_1_delivery_man', 1, 1, 0.00, 0, NULL, 0),
 	(2, 'Puliyakulam', _binary 0x0000000001030000000100000008000000dffade555e3f5340b79ee0732704264008fbde05453f5340b80ead8dc0022640d9fadef1493f5340ca6a966d20022640e8fade4d843f53401f1d07f4a6012640f9fade21a13f53408da1716396012640cdfadea1b73f53406d6bbea3d6022640cafade49973f53407b836b5185042640dffade555e3f5340b79ee07327042640, 1, '2024-05-01 19:02:38', '2024-05-01 19:02:38', 'zone_2_store', 'zone_2_customer', 'zone_2_delivery_man', 0, 0, 0.00, 0, NULL, 0);

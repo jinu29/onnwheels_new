@@ -42,16 +42,26 @@
             background-color: #eeededee;
         }
 
+        .header--btn {
+            border-radius: 10px;
+            padding: 5px 22px;
+            font-size: 16px;
+            color: white;
+            background-color: #003360;
+            border: none;
+        }
 
         .footer {
-            background-color: #373737;
+            padding: 40px 0;
+            background-color: #003360;
             color: white;
+            border-radius: 50px 50px 0 0;
         }
 
         .line {
         width: 60%;
         height: 5px;
-        background-color: #F5CF46;
+        background-color: #f29425;
         }
 
         .social-icons img {
@@ -81,6 +91,11 @@
             justify-content: center;
         }
 
+        footer p {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
         .float:hover {
             color: white;
             border: none;
@@ -88,10 +103,38 @@
 
         footer li {
             list-style: disc;
+            font-size: 16px;
+            font-weight: 500;
+            padding-bottom: 12px;
+            cursor: pointer;
+
+        }
+
+        .footer a {
+            text-decoration: none;
+            color: white;
         }
 
         .social-icons img {
             margin-right: 10px;
+            cursor: pointer;
+        }
+
+        /* ------------------------------- */
+        .copyrights {
+            background-color:#003360;
+            color: white;
+        }
+
+
+        .copyrights-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid gray;
+            padding: 15px 0;
+            font-size: 16px;
+            font-weight: 600;
         }
 
     </style>
@@ -186,13 +229,13 @@
                         </div>
                     @endif -->
                     @if (isset($toggle_dm_registration) || isset($toggle_store_registration))
-                    <div class="dropdown--btn-hover position-relative">
+                    <div class="dropdown--btn-hover position-relative login">
                         <a class="dropdown--btn header--btn text-capitalize d-flex align-items-center" href="javascript:void(0)">
                             <span class="me-1">{{ translate('Login') }}</span>
-                            <svg width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg width="12" height="7" viewBox="0 0 12 7" fill="white" xmlns="http://www.w3.org/2000/svg" style="margin-left: 8px;">
                                 <path
                                     d="M6.00224 5.46105L1.33333 0.415128C1.21002 0.290383 1 0.0787335 1 0.0787335C1 0.0787335 0.708488 -0.0458817 0.584976 0.0788632L0.191805 0.475841C0.0680976 0.600389 7.43292e-08 0.766881 7.22135e-08 0.9443C7.00978e-08 1.12172 0.0680976 1.28801 0.191805 1.41266L5.53678 6.80682C5.66068 6.93196 5.82624 7.00049 6.00224 7C6.17902 7.00049 6.34439 6.93206 6.46839 6.80682L11.8082 1.41768C11.9319 1.29303 12 1.12674 12 0.949223C12 0.771804 11.9319 0.605509 11.8082 0.480765L11.415 0.0838844C11.1591 -0.174368 10.9225 0.222512 10.6667 0.480765L6.00224 5.46105Z"
-                                    fill="#000000" />
+                                    fill="white" />
                             </svg>
                         </a>
 
@@ -228,35 +271,59 @@
         <footer class="footer" style="margin-top:2rem;">
             <div class="container p-4">
                 <div class="row">
-                    <div class="col-sm-6 col-md-4">
+
+                    <div class="col-lg-3 col-sm-6 col-md-4 mt-3">
                         <div class="footer-title mb-4">
                             <h5>ONN WHEELS</h5>
                             <p class="line"></p>
                         </div>
-                        <div class="mail mb-2 d-flex align-items-center" style="gap: 10px;">
-                            <i class="fa-regular fa-envelope" style="font-size: 19px;"></i>
-                            <p class="mb-0">pradeep.stallin@gmail.com</p>
+                        <div class="phone mb-2 d-flex align-items-center mt-4" style="gap: 10px;">
+                            <i class="fa-solid fa-location-dot" style="font-size: 19px;"></i>
+                            <p class="mb-0">16,abc <br>123layout</p>
                         </div>
-                        <div class="phone mb-2 d-flex align-items-center" style="gap: 10px;">
+                        <div class="phone mb-2 d-flex align-items-center mt-4" style="gap: 10px;">
                             <i class="fa-solid fa-phone" style="font-size: 19px;"></i>
                             <p class="mb-0">9686201100</p>
                         </div>
+                        <div class="mail mb-2 d-flex align-items-center mt-4" style="gap: 10px;">
+                            <i class="fa-regular fa-envelope" style="font-size: 19px;"></i>
+                            <p class="mb-0">pradeep.stallin@gmail.com</p>
+                        </div>
+                        <div class="social-icons mt-4">
+                            <a href="#">
+                                <img src="/public/assets/landing/image/devicon_facebook.png" alt="" class="mr-2">
+                            </a>
+                            <a href="#">
+                                <img src="/public/assets/landing/image/skill-icons_linkedin.png" alt="" class="mr-2">
+                            </a>
+                            <a href="#">
+                                <img src="/public/assets/landing/image/skill-icons_instagram.png" alt="">
+                            </a>
+                        </div>
                     </div>
 
-                    <div class="col-sm-6 col-md-4">
+                    <div class="col-lg-3 col-sm-6 col-md-4 mt-3">
                         <div class="footer-title mb-4">
-                            <h5>Company</h5>
+                            <h5>Quick Links</h5>
                             <p class="line"></p>
                         </div>
-                        <ul class="pl-4">
-                            <li>About Us</li>
-                            <li>Blogs</li>
-                            <li>Careers</li>
-                            <li>Contact Us</li>
+                        <ul class="pl-4 d-flex flex-column">
+                            <a href="#">
+                                <li>Home</li>
+                            </a>
+                            <a href="{{route('about-us')}}">
+                                <li>About Us</li>
+                            </a>
+                            <a href="#">
+                                <li>Rental Bikes</li>
+                            </a>
+                            <a href="{{route('contact-us')}}">
+                                <li>Contact Us</li>
+                            </a>
                         </ul>
                     </div>
 
-                    <div class="col-sm-6 col-md-4">
+                    <div class="col-lg-3 col-sm-6 col-md-4 mt-3">
                         <div class="footer-title mb-4">
                             <h5>Policies</h5>
                             <p class="line"></p>
@@ -267,32 +334,7 @@
                         </ul>
                     </div>
 
-                    <div class="col-sm-6 col-md-4 mt-3">
-                        <div class="footer-title mb-4">
-                            <h5>Quick Lines</h5>
-                            <p class="line"></p>
-                        </div>
-                        <ul class="pl-4">
-                            <li>Home</li>
-                            <li>Rental Bikes</li>
-                            <li>Safety</li>
-                            <li>Indian Bike Routes</li>
-                        </ul>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4 mt-3">
-                        <div class="footer-title mb-4">
-                            <h5>Follow us on</h5>
-                            <p class="line"></p>
-                        </div>
-                        <div class="social-icons">
-                            <img src="/public/assets/landing/image/devicon_facebook.png" alt="" class="mr-2">
-                            <img src="/public/assets/landing/image/skill-icons_linkedin.png" alt="" class="mr-2">
-                            <img src="/public/assets/landing/image/skill-icons_instagram.png" alt="">
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6 col-md-4 mt-3">
+                    <div class="col-lg-3 col-sm-6 col-md-4 mt-3">
                         <div class="footer-title mb-4">
                             <h5>Onn Wheels App</h5>
                             <p class="line"></p>
@@ -311,6 +353,17 @@
         </footer>
 
     <!-- ======= Footer Section ======= -->
+
+    {{-- --------------------------------------------------- --}}
+        <div class="copyrights">
+            <div class="container copyrights-container">
+                <p class="mb-0">Copyrights @2024</p>
+                <p class="mb-0">Designed by Codeplus Gen</p>
+            </div>
+        </div>
+
+
+    {{-- --------------------------------------------------- --}}
     <script src="{{ asset('public/assets/landing/js/jquery-3.6.0.min.js') }}"></script>
     <script src="{{ asset('public/assets/landing/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('public/assets/landing/js/viewport.jquery.js') }}"></script>

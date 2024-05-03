@@ -72,7 +72,7 @@
     }
 
     .new {
-        --f: .5em; 
+        --f: .5em;
         position: absolute;
         top: 0;
         left: 0;
@@ -334,7 +334,51 @@
     </div>
 
 <!-- Features -->
-    <div class="container features">
+    <div class="container-fluid features mt-5">
+{{--
+        <div class="row">
+            <div class="col">
+                <div class="card text-center rounded rounded-pill" style="height: 100px;">
+                    <div class="card-body p-2 d-flex flex-column text-center">
+                        <div class="card-title text-center mb-0 ">
+                            <img src="/public/assets/landing/image/sanitized_vehicle.svg" alt="" style="width: 50px;">
+                            <h5 class=" mt-3"><b>Sanitized Vehicles</b></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card text-center rounded rounded-pill" style="height: 100px;">
+                    <div class="card-body p-2 d-flex flex-column text-center">
+                        <div class="card-title text-center mb-0 ">
+                            <img src="/public/assets/landing/image/insurance.svg" alt="" style="width: 50px;">
+                            <h5 class=" mt-3"><b>Sanitized Vehicles</b></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card text-center rounded rounded-pill" style="height: 100px;">
+                    <div class="card-body p-2 d-flex flex-column text-center">
+                        <div class="card-title text-center mb-0 ">
+                            <img src="/public/assets/landing/image/maintenance.svg" alt="" style="width: 50px;">
+                            <h5 class=" mt-3"><b>Sanitized Vehicles</b></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card text-center rounded rounded-pill" style="height: 100px;">
+                    <div class="card-body p-2 d-flex flex-column text-center">
+                        <div class="card-title text-center mb-0 ">
+                            <img src="/public/assets/landing/image/roadside_assistance.svg" alt="" style="width: 50px;">
+                            <h5 class=" mt-3"><b>Sanitized Vehicles</b></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> --}}
+
         <div class="row justify-content-between px-3 my-3" style="border-radius: 25px; background-color: white; padding: 15px 0; row-gap: 25px;">
             <div class="col-lg col-md-6 col-6 d-flex justify-content-center align-items-center" style="gap:8px;">
                 <img src="/public/assets/landing/image/sanitized_vehicle.svg" alt="" style="width: 30px;">
@@ -355,22 +399,49 @@
         </div>
     </div>
 
-<!-- Scooty -->
-    <div class="container my-5">
+    <!--Category-->
+    <div class="container mt-5">
         <div class="title d-flex justify-content-between">
-            <h3 class="section-title">Scooty</h3>
+            <h3 class="section-title">Category</h3>
+            <button class="view">View All</button>
+        </div>
+        <div class="category w-100 my-3">
+            @foreach ($category as $categorys )
+                <div class="card text-center">
+                    <div class="card-body p-2 d-flex flex-column text-center">
+                        <a href="#">
+                            <img class="avatar avatar-lg mr-3 onerror-image"src="{{ \App\CentralLogics\Helpers::onerror_image_helper($categorys['image'] ?? '',asset('storage/app/public/category').'/'.$categorys['image'] ?? '',asset('public/assets/admin'),'category/') }}"data-onerror-image="{{asset('public/assets/admin/img/160x160/img2.jpg')}}" alt="{{$categorys->name}} image">
+                            <div class="card-title text-center mb-0">
+                                <h4 class="product-title mb-0">{{$categorys->name}}</h4>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            @endforeach
+
+        </div>
+    </div>
+
+    <!-- Best Rental Bikes -->
+
+    @if (count($item) > 0)
+    <div class="container my-5 mt-5">
+        <div class="title d-flex justify-content-between">
+            <h3 class="section-title">Best Rental Bikes</h3>
             <button class="view">View All</button>
         </div>
         <div class="items w-100 my-3">
-
+            @foreach ( $item as $items )
             <div class="card text-center">
                 <div class="card-body p-2 d-flex flex-column text-center">
-                    <img src="/public/assets/landing/image/scooty1.png">
+                   <img class="avatar avatar-lg mr-3 onerror-image" src="{{ \App\CentralLogics\Helpers::onerror_image_helper( $items['image'] ?? '', asset('storage/app/public/product').'/'.$items['image'] ?? '', asset('public/assets/admin/img/160x160/img2.jpg'),'product/') }}" data-onerror-image="{{asset('public/assets/admin/img/160x160/img2.jpg')}}" alt="{{$items->name}} image">
                     <div class="card-details d-flex flex-column p-1 mt-1 text-center" style="gap: 12px;">
                         <i class="fa-regular fa-heart"></i>
-                        <p class="new">New</p>
+                        @if ($items->discount != 0)
+                        <p class="new">{{$items->discount}} %</p>
+                        @endif
                         <div class="card-title text-center mb-0">
-                            <h4 class="product-title mb-0">TVS Jupiter</h4>
+                            <h4 class="product-title mb-0">{{$items->name}}</h4>
                         </div>
                         <div class="rating d-flex justify-content-center mb-0 text-center" style="font-size: 12px; color: rgb(248, 82, 82);">
                             <i class="fa-solid fa-star"></i>
@@ -379,21 +450,25 @@
                             <i class="fa-solid fa-star"></i>
                             <i class="fa-regular fa-star-half-stroke"></i>
                         </div>
-                        <div class="icons d-flex justify-content-around">
+                        {{-- <div class="icons d-flex justify-content-around">
                             <i class="fa-solid fa-people-group"></i>
                             <i class="fa-solid fa-briefcase"></i>
                             <i class="fa-solid fa-gauge"></i>
                             <i class="fa-solid fa-gauge"></i>
-                        </div>
-                            <p class="price mb-0 text-center">Rs.600
-                                <small class="old-price mb-0" style="text-decoration: line-through; color:grey;">Rs.800</small> / day
-                            </p>
+                        </div> --}}
+                        <p class="price mb-0 text-center">Rs. {{$items->price}}
+                            {{-- @if ($items->discount != 0)
+                            <small class="old-price mb-0" style="text-decoration: line-through; color:grey;">{{$items->discount}}</small> / day
+                            @endif --}}
+                        </p>
                         <button class="btn mb-0 mt-1">Book Now</button>
                     </div>
                 </div>
             </div>
+            @endforeach
 
-            <div class="card text-center">
+
+            {{-- <div class="card text-center">
                 <div class="card-body p-2 d-flex flex-column text-center">
                     <img src="/public/assets/landing/image/scooty3.png">
                     <div class="card-details d-flex flex-column p-1 mt-1 text-center" style="gap: 12px;">
@@ -541,10 +616,11 @@
                         <button class="btn mb-0 mt-1">Book Now</button>
                     </div>
                 </div>
-            </div>
-            
+            </div> --}}
+
         </div>
     </div>
+    @endif
 
 <!--Blog -->
     <div class="container blog-container">
@@ -553,49 +629,49 @@
             <button class="view">View All</button>
         </div>
         <div class="blogs w-100 mt-3">
-            <div class="card border-0 bg-transparent">    
+            <div class="card border-0 bg-transparent">
                 <div class="card-body p-2">
                     <img src="https://img.freepik.com/free-photo/abstract-autumn-beauty-multi-colored-leaf-vein-pattern-generated-by-ai_188544-9871.jpg?size=626&ext=jpg&ga=GA1.1.1395991368.1711584000&semt=ais">
                     <p class="text-center mt-2">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
                 </div>
             </div>
 
-            <div class="card border-0 bg-transparent">    
+            <div class="card border-0 bg-transparent">
                 <div class="card-body p-2">
                     <img src="https://img.freepik.com/free-photo/abstract-autumn-beauty-multi-colored-leaf-vein-pattern-generated-by-ai_188544-9871.jpg?size=626&ext=jpg&ga=GA1.1.1395991368.1711584000&semt=ais">
                     <p class="text-center mt-2">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
                 </div>
             </div>
 
-            <div class="card border-0 bg-transparent">    
+            <div class="card border-0 bg-transparent">
                 <div class="card-body p-2">
                     <img src="https://img.freepik.com/free-photo/abstract-autumn-beauty-multi-colored-leaf-vein-pattern-generated-by-ai_188544-9871.jpg?size=626&ext=jpg&ga=GA1.1.1395991368.1711584000&semt=ais">
                     <p class="text-center mt-2">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
                 </div>
             </div>
 
-            <div class="card border-0 bg-transparent">    
+            <div class="card border-0 bg-transparent">
                 <div class="card-body p-2">
                     <img src="https://img.freepik.com/free-photo/abstract-autumn-beauty-multi-colored-leaf-vein-pattern-generated-by-ai_188544-9871.jpg?size=626&ext=jpg&ga=GA1.1.1395991368.1711584000&semt=ais">
                     <p class="text-center mt-2">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
                 </div>
             </div>
 
-            <div class="card border-0 bg-transparent">    
+            <div class="card border-0 bg-transparent">
                 <div class="card-body p-2">
                     <img src="https://img.freepik.com/free-photo/abstract-autumn-beauty-multi-colored-leaf-vein-pattern-generated-by-ai_188544-9871.jpg?size=626&ext=jpg&ga=GA1.1.1395991368.1711584000&semt=ais">
                     <p class="text-center mt-2">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
                 </div>
             </div>
 
-            <div class="card border-0 bg-transparent">    
+            <div class="card border-0 bg-transparent">
                 <div class="card-body p-2">
                     <img src="https://img.freepik.com/free-photo/abstract-autumn-beauty-multi-colored-leaf-vein-pattern-generated-by-ai_188544-9871.jpg?size=626&ext=jpg&ga=GA1.1.1395991368.1711584000&semt=ais">
                     <p class="text-center mt-2">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
                 </div>
             </div>
 
-            <div class="card border-0 bg-transparent">    
+            <div class="card border-0 bg-transparent">
                 <div class="card-body p-2">
                     <img src="https://img.freepik.com/free-photo/abstract-autumn-beauty-multi-colored-leaf-vein-pattern-generated-by-ai_188544-9871.jpg?size=626&ext=jpg&ga=GA1.1.1395991368.1711584000&semt=ais">
                     <p class="text-center mt-2">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
@@ -612,7 +688,7 @@
             <button class="view">View All</button>
         </div>
         <div class="reviews w-100">
-            <div class="card border-0 bg-transparent">    
+            <div class="card border-0 bg-transparent">
                 <div class="card-body p-2 d-flex flex-column align-items-center">
                     <img src="/public/assets/landing/image/user1.webp">
                     <p class="mb-0 mt-2" style="font-size: 13px; font-weight: 600;">John Doe</p>
@@ -627,7 +703,7 @@
                 </div>
             </div>
 
-            <div class="card border-0 bg-transparent">    
+            <div class="card border-0 bg-transparent">
                 <div class="card-body p-2 d-flex flex-column align-items-center">
                     <img src="/public/assets/landing/image/user2.jpg">
                     <p class="mb-0 mt-2" style="font-size: 13px; font-weight: 600;">Chen Zheyuan</p>
@@ -642,7 +718,7 @@
                 </div>
             </div>
 
-            <div class="card border-0 bg-transparent">    
+            <div class="card border-0 bg-transparent">
                 <div class="card-body p-2 d-flex flex-column align-items-center">
                     <img src="/public/assets/landing/image/user1.webp">
                     <p class="mb-0 mt-2" style="font-size: 13px; font-weight: 600;">John Doe</p>
@@ -657,7 +733,7 @@
                 </div>
             </div>
 
-            <div class="card border-0 bg-transparent">    
+            <div class="card border-0 bg-transparent">
                 <div class="card-body p-2 d-flex flex-column align-items-center">
                     <img src="/public/assets/landing/image/user2.jpg">
                     <p class="mb-0 mt-2" style="font-size: 13px; font-weight: 600;">Chen Zheyuan</p>
@@ -672,7 +748,7 @@
                 </div>
             </div>
 
-            <div class="card border-0 bg-transparent">    
+            <div class="card border-0 bg-transparent">
                 <div class="card-body p-2 d-flex flex-column align-items-center">
                     <img src="/public/assets/landing/image/user1.webp">
                     <p class="mb-0 mt-2" style="font-size: 13px; font-weight: 600;">Chen Zheyuan</p>
@@ -691,9 +767,9 @@
 @endsection
 @section('scripts')
 <script>
-// Script for Scooty Slick
+    // Script for Scooty Slick
     $(document).ready(function(){
-     
+
         $('.items').slick({
             infinite: true,
             slidesToShow: 5,
@@ -714,14 +790,14 @@
                     }
                 }
             ]
-            
+
         });
-    
+
     });
 
 // Script for Blog Slick
     $(document).ready(function(){
-     
+
         $('.blogs').slick({
             infinite: true,
             slidesToShow: 4,
@@ -742,14 +818,14 @@
                     }
                 }
             ]
-            
+
         });
- 
+
     });
 
 // Slick for Reviews
     $(document).ready(function(){
-        
+
         $('.reviews').slick({
             infinite: true,
             slidesToShow: 4,
@@ -770,10 +846,39 @@
                     }
                 }
             ]
-            
+
         });
-    
+
     });
 
+</script>
+
+<script>
+    $(document).ready(function(){
+
+    $('.category').slick({
+        infinite: true,
+        slidesToShow: 5,
+        slidesToScroll: 1,
+        responsive: [
+            {
+                breakpoint: 992,
+                settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 1
+                }
+            },
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1
+                }
+            }
+        ]
+
+    });
+
+    });
 </script>
 @endsection
