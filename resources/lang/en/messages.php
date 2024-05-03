@@ -3859,4 +3859,6 @@
   'customer_verification_toggle' => 'Customer verification toggle',
   'If_enabled,_delivery_men_have_to_provide_collected_cash_by_themselves.' => 'If enabled  delivery men have to provide collected cash by themselves.',
   'If_disabled,_delivery_men_do_not_have_to_provide_collected_cash_by_themselves.' => 'If disabled  delivery men do not have to provide collected cash by themselves.',
+  'the_start_day_and_end_day_is_same' => 'The start day and end day is same',
+  'contact_section_updated' => 'Contact section updated',
 );
