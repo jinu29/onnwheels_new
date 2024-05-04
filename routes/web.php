@@ -14,6 +14,8 @@ use App\Http\Controllers\FlutterwaveV3Controller;
 use App\Http\Controllers\PaypalPaymentController;
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\SslCommerzPaymentController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\Customer\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -196,3 +198,15 @@ Route::group(['prefix' => 'deliveryman', 'as' => 'deliveryman.'], function () {
     Route::get('apply', 'DeliveryManController@create')->name('create');
     Route::post('apply', 'DeliveryManController@store')->name('store');
 });
+
+
+//user routes
+
+// user Registration
+Route::get('signup', [AuthController::class , 'signup'])->name('signup');
+Route::post('user', [AuthController::class, 'register'])->name('user.store');
+
+// OTP Route
+Route::get('otp', [AuthController::class , 'otp'])->name('user.otp');
+
+

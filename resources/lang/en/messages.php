@@ -3861,4 +3861,12 @@
   'If_disabled,_delivery_men_do_not_have_to_provide_collected_cash_by_themselves.' => 'If disabled  delivery men do not have to provide collected cash by themselves.',
   'the_start_day_and_end_day_is_same' => 'The start day and end day is same',
   'contact_section_updated' => 'Contact section updated',
+  'The email must be a valid email address.' => 'The email must be a valid email address.',
+  'The role field is required.' => 'The role field is required.',
+  'header_menu' => 'Header menu',
+  'Ex_:_Header' => 'Ex : Header',
+  'Ex_:_Home' => 'Ex : Home',
+  'Ex_:_/' => 'Ex : /',
+  'landing_page_text_updated' => 'Landing page text updated',
+  'earning_section_updated' => 'Earning section updated',
 );
