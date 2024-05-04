@@ -13,7 +13,7 @@
                     <img src="{{asset('/public/assets/admin/img/social.png')}}" class="w--26" alt="">
                 </span>
                 <span>
-                     {{translate('social_media')}}
+                    {{translate('social_media')}}
                 </span>
             </h1>
         </div>
