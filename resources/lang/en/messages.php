@@ -3862,4 +3862,9 @@
   'the_start_day_and_end_day_is_same' => 'The start day and end day is same',
   'contact_section_updated' => 'Contact section updated',
   'remove_sub_categories_first' => 'Remove sub categories first',
+  'category_deleted' => 'Category deleted',
+  'The reviewer image field is required.' => 'The reviewer image field is required.',
+  'testimonial_added_successfully' => 'Testimonial added successfully',
+  '(3:1)' => '(3:1)',
+  'review_updated_successfully' => 'Review updated successfully',
 );

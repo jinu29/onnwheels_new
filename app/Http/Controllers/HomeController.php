@@ -114,9 +114,12 @@ class HomeController extends Controller
         $redirect_url = Helpers::get_business_data('landing_page_custom_url');
 
         if(isset($config) && $config){
-            $category = Category::all();
+            $review = AdminTestimonial::where('status',1)->get();
+            $category = Category::where('status',1)->where('featured',1)->get();
+
             $item = Item::where('status',1)->get();
-            return view('home',compact('landing_data','item','category'));
+
+            return view('home',compact('landing_data','item','category','review'));
         }elseif($landing_integration_type == 'file_upload' && File::exists('resources/views/layouts/landing/custom/index.blade.php')){
             return view('layouts.landing.custom.index');
         }elseif($landing_integration_type == 'url'){
@@ -125,6 +128,8 @@ class HomeController extends Controller
             abort(404);
         }
     }
+
+
 
     public function terms_and_conditions(Request $request)
     {
@@ -368,5 +373,16 @@ class HomeController extends Controller
         session()->put('landing_site_direction', $direction);
         session()->put('landing_local', $local);
         return redirect()->back();
+    }
+
+    public function product_detail ($slug)
+    {
+        $items = Item::where('slug', $slug)->first();
+
+        if($items != null){
+            // dd($items->images);
+            return view('product.product_detail', compact('items'));
+        }
+        // return view('product.product_detail');
     }
 }
