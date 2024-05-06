@@ -23,13 +23,14 @@ use Modules\Gateways\Traits\SmsGateway;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class CustomerAuthController extends Controller
 {
     public function verify_phone(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'phone' => 'required|min:11|max:14',
+            'phone' => 'required',
             'otp' => 'required',
         ]);
 
@@ -39,24 +40,8 @@ class CustomerAuthController extends Controller
         $user = User::where('phone', $request->phone)->first();
         if ($user) {
             if ($user->is_phone_verified) {
-                return response()->json([
-                    'message' => translate('messages.phone_number_is_already_varified')
-                ], 200);
-            }
-
-            if (env('APP_MODE') == 'demo') {
-                if ($request['otp'] == "1234") {
-                    $user->is_phone_verified = 1;
-                    $user->save();
-
-                    return response()->json([
-                        'message' => translate('messages.phone_number_varified_successfully'),
-                        'otp' => 'inactive'
-                    ], 200);
-                }
-                return response()->json([
-                    'message' => translate('messages.phone_number_and_otp_not_matched')
-                ], 404);
+                $token = $user->createToken('RestaurantCustomerAuth')->accessToken;
+                return response()->json(['token' => $token, 'is_phone_verified' => true], 200);
             }
 
             $data = DB::table('phone_verifications')->where([
@@ -282,8 +267,8 @@ class CustomerAuthController extends Controller
         $user->save();
 
 
-        
-        // $token = $user->createToken('RestaurantCustomerAuth')->accessToken;
+
+        $token = $user->createToken('RestaurantCustomerAuth')->accessToken;
 
         if ($customer_verification && env('APP_MODE') != 'demo') {
 
@@ -357,12 +342,13 @@ class CustomerAuthController extends Controller
 
             Cart::where('user_id', $request->guest_id)->update(['user_id' => $user->id, 'is_guest' => 0]);
         }
-        return response()->json(['token' => "hi", 'is_phone_verified' => 0, 'phone_verify_end_url' => "api/v1/auth/verify-phone"], 200);
+        return response()->json(['token' => $token, 'is_phone_verified' => 0, 'phone_verify_end_url' => "api/v1/auth/verify-phone"], 200);
     }
 
-    public function login(Request $request)
+    public function loginss(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'email' => 'required',
             'phone' => 'required',
             'password' => 'required|min:6'
         ]);
@@ -463,6 +449,111 @@ class CustomerAuthController extends Controller
             return response()->json([
                 'errors' => $errors
             ], 401);
+        }
+    }
+
+    public function login(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'sometimes|nullable|email',
+            'phone' => 'sometimes|nullable',
+            'password' => 'required_if:email,null|min:6',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => Helpers::error_processor($validator)], 403);
+        }
+
+        $credentials = [
+            'password' => $request->password,
+        ];
+
+        if ($request->has('email')) {
+            $credentials['email'] = $request->email;
+        } elseif ($request->has('phone')) {
+            $customer_verification = BusinessSetting::where('key', 'customer_verification')->first()->value;
+            $credentials['phone'] = $request->phone;
+            if ($customer_verification) {
+                $otp_interval_time = 60; //seconds
+
+                $verification_data = DB::table('phone_verifications')->where('phone', $request['phone'])->first();
+
+                if (isset($verification_data) && Carbon::parse($verification_data->updated_at)->DiffInSeconds() < $otp_interval_time) {
+
+                    $time = $otp_interval_time - Carbon::parse($verification_data->updated_at)->DiffInSeconds();
+                    $errors = [];
+                    array_push($errors, ['code' => 'otp', 'message' => translate('messages.please_try_again_after_') . $time . ' ' . translate('messages.seconds')]);
+                    return response()->json([
+                        'errors' => $errors
+                    ], 405);
+                }
+
+                $otp = rand(1000, 9999);
+                DB::table('phone_verifications')->updateOrInsert(
+                    ['phone' => $request['phone']],
+                    [
+                        'token' => $otp,
+                        'otp_hit_count' => 0,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]
+                );
+                $mail_status = Helpers::get_mail_status('login_otp_mail_status_user');
+                if (config('mail.status') && $mail_status == '1') {
+                    Mail::to($user['email'])->send(new LoginVerification($otp, $user->f_name));
+                }
+                //for payment and sms gateway addon
+                $published_status = 0;
+                $payment_published_status = config('get_payment_publish_status');
+                if (isset($payment_published_status[0]['is_published'])) {
+                    $published_status = $payment_published_status[0]['is_published'];
+                }
+
+                if ($published_status == 1) {
+                    $response = SmsGateway::send($request['phone'], $otp);
+                } else {
+                    $response = SMS_module::send($request['phone'], $otp);
+                }
+
+                if ($response != 'success') {
+                    $errors = [];
+                    array_push($errors, ['code' => 'otp', 'message' => translate('messages.faield_to_send_sms')]);
+                    return response()->json([
+                        'errors' => $errors
+                    ], 405);
+                }
+
+                return response()->json(['is_phone_verified' => 0, 'phone_verify_end_url' => "api/v1/auth/verify-phone"], 200);
+            }
+        } else {
+            return response()->json(['errors' => [['code' => 'auth-002', 'message' => translate('messages.Email_or_phone_required')]]], 403);
+        }
+
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+            $token = $user->createToken('RestaurantCustomerAuth')->accessToken;
+            if (!$user->status) {
+                return response()->json(['errors' => [['code' => 'auth-003', 'message' => translate('messages.your_account_is_blocked')]]], 403);
+            }
+
+            if ($request->guest_id && isset($user->id)) {
+
+                $userStoreIds = Cart::where('user_id', $request->guest_id)
+                    ->join('items', 'carts.item_id', '=', 'items.id')
+                    ->pluck('items.store_id')
+                    ->toArray();
+
+                Cart::where('user_id', $user->id)
+                    ->whereHas('item', function ($query) use ($userStoreIds) {
+                        $query->whereNotIn('store_id', $userStoreIds);
+                    })
+                    ->delete();
+
+                Cart::where('user_id', $request->guest_id)->update(['user_id' => $user->id, 'is_guest' => 0]);
+            }
+            return response()->json(['token' => $token, 'is_phone_verified' => $user->is_phone_verified], 200);
+        } else {
+            return response()->json(['errors' => [['code' => 'auth-001', 'message' => translate('messages.Unauthorized')]]], 401);
         }
     }
 

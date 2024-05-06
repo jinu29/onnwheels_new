@@ -40,9 +40,9 @@
             </div>
         </div>
         <div class="auth-wrapper-right">
-            <label class="badge badge-soft-success __login-badge">
+            {{-- <label class="badge badge-soft-success __login-badge">
                 {{translate('messages.software_version')}} : {{env('SOFTWARE_VERSION')}}
-            </label>
+            </label> --}}
 
             <!-- Card -->
             <div class="auth-wrapper-form">
@@ -55,6 +55,12 @@
                             <h2 class="title">{{ translate($role) }} {{translate('messages.signin')}}</h2>
                             <div>{{translate('messages.welcome_back_login_to_your_panel') }}.</div>
                         </div>
+                    </div>
+
+                    <div>
+                        <p>Or login with:</p>
+                        <a href="{{ route('user.social.login') }}">Login with Google</a>
+                        {{-- <a href="{{ route('login.facebook') }}">Login with Facebook</a> --}}
                     </div>
 
                     <!-- Form Group -->
@@ -119,6 +125,12 @@
                                 <span type="button" data-toggle="modal" class="text-primary" data-target="#forgetPassModal1">{{ translate('messages.Forget Password') }}?</span>
                             </div>
                         </div>
+
+                        <div class="form-group" id="forget-password1" style="display: {{ $role == 'customer' ? '' : 'none' }};">
+                            <div class="custom-control">
+                                <span type="button" data-toggle="modal" class="text-primary" data-target="#forgetPassModal1">{{ translate('messages.Forget Password') }}?</span>
+                            </div>
+                        </div>
                         <!-- End forget password -->
                     </div>
 
@@ -144,36 +156,7 @@
                     <button type="submit" class="btn btn-lg btn-block btn--primary mt-xxl-3">{{translate('messages.login')}}</button>
                 </form>
                 <!-- End Form -->
-                @if(env('APP_MODE') == 'demo')
-                @if (isset($role) && $role == 'admin')
-                <div class="auto-fill-data-copy">
-                    <div class="d-flex flex-wrap align-items-center justify-content-between">
-                        <div>
-                            <span class="d-block"><strong>Email</strong> : admin@admin.com</span>
-                            <span class="d-block"><strong>Password</strong> : 12345678</span>
-                        </div>
-                        <div>
-                            <button class="btn action-btn btn--primary m-0 copy_cred"><i class="tio-copy"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                @endif
-                @if (isset($role) && $role == 'vendor')
-                <div class="auto-fill-data-copy">
-                    <div class="d-flex flex-wrap align-items-center justify-content-between">
-                        <div>
-                            <span class="d-block"><strong>Email</strong> : test.restaurant@gmail.com</span>
-                            <span class="d-block"><strong>Password</strong> : 12345678</span>
-                        </div>
-                        <div>
-                            <button class="btn action-btn btn--primary m-0 copy_cred2"><i class="tio-copy"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                @endif
-                @endif
+             
             </div>
             <!-- End Card -->
 

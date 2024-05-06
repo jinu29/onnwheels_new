@@ -4,17 +4,19 @@
     $log_email_succ = session()->get('log_email_succ');
 ?>
 
-
+<html >
 <head>
     <!-- Required Meta Tags Always Come First -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Title -->
-    <title>Sign Up</title>
+    <title>{{translate('messages.login')}}</title>
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="{{asset('public/favicon.ico')}}">
 
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <!-- CSS Implementing Plugins -->
     <link rel="stylesheet" href="{{asset('public/assets/admin')}}/css/vendor.min.css">
     <link rel="stylesheet" href="{{asset('public/assets/admin')}}/vendor/icon-set/style.css">
@@ -23,13 +25,6 @@
     <link rel="stylesheet" href="{{asset('public/assets/admin/css/theme.minc619.css?v=1.0')}}">
     <link rel="stylesheet" href="{{asset('public/assets/admin/css/style.css')}}">
     <link rel="stylesheet" href="{{asset('public/assets/admin')}}/css/toastr.css">
-
-    <style>
-        .form-group {
-            margin-bottom:1rem;
-        }
-    </style>
-
 </head>
 
 <body>
@@ -49,68 +44,133 @@
             <!-- Card -->
             <div class="auth-wrapper-form">
                 <!-- Form -->
-                <form class="" action="{{route('user.store')}}" method="post" id="form-id">
+                <form class="" action="{{route('user.login')}}" method="post" id="form-id">
                     @csrf
                     <input type="hidden" name="role" value="{{  $role ?? null }}">
                     <div class="auth-header">
                         <div class="mb-5">
-                            <h2 class="title">Sign Up</h2>
+                            <h2 class="title">{{translate('messages.login')}}</h2>
+                            <div>{{translate('messages.welcome_back_login_to_your_panel') }}.</div>
                         </div>
                     </div>
 
                     <!-- Form Group -->
                     <div class="js-form-message form-group">
-                        <label class="input-label text-capitalize" for="signupName">Name</label>
-                        <input type="text" class="form-control form-control-lg" name="f_name" id="signupName" tabindex="1" placeholder="Enter Your name">
+                        <label class="input-label text-capitalize" for="signinSrEmail">{{translate('messages.your_email')}}</label>
+
+                        <input type="email" class="form-control form-control-lg" name="email" id="signinSrEmail"
+                                tabindex="1" placeholder="email@address.com" value="{{ $email ?? '' }}" aria-label="email@address.com"
+                                required data-msg="{{ translate('Please_enter_a_valid_email_address.') }}">
                     </div>
-                    <!-- End Form Group -->
-
-                    <!-- Form Group -->
-                    <div class="js-form-message form-group">
-                        <label class="input-label text-capitalize" for="signupName">Email</label>
-
-                        <input type="email" class="form-control form-control-lg" name="email" id="signupName" tabindex="1" placeholder="Enter your email">
-                    </div>
-                    <!-- End Form Group -->
-
-                    <!-- Form Group -->
-                    <div class="js-form-message form-group">
-                        <label class="input-label text-capitalize" for="signupName">Phone Number</label>
-
-                        <input type="tel" class="form-control form-control-lg" name="phone" id="signupName" tabindex="1" placeholder="Enter your Number">
-                    </div>
-                    <!-- End Form Group -->
-
-                    <!-- Form Group -->
-                        <div class="js-form-message form-group mb-2">
-                            <label class="input-label" for="signupPassword" tabindex="0">
-                                <span class="d-flex justify-content-between align-items-center">
-                                    Password
-                                </span>
-                            </label>
-                            <div class="input-group input-group-merge">
-                                <input type="password" class="form-control form-control-lg" name="password" id="signupPassword" placeholder="Enter password" aria-label="Password" required>
-                            </div>
-                        </div>
                     <!-- End Form Group -->
 
                     <!-- Form Group -->
                     <div class="js-form-message form-group mb-2">
-                        <label class="input-label" for="confirmPassword" tabindex="0">
+                        <label class="input-label" for="signupSrPassword" tabindex="0">
                             <span class="d-flex justify-content-between align-items-center">
-                                Confirm Password
+                                {{translate('messages.password')}}
                             </span>
                         </label>
+
                         <div class="input-group input-group-merge">
-                            <input type="password" class="form-control form-control-lg" name="password" id="confirmPassword" placeholder="Re-enter the password" aria-label="Confirm Password" required>
+                            <input type="password" class="js-toggle-password form-control form-control-lg"
+                                    name="password" id="signupSrPassword" placeholder="{{translate('messages.password_length_placeholder',['length'=>'6+'])}}" 
+                                    aria-label="{{translate('messages.password_length_placeholder',['length'=>'6+'])}}" required
+                                    data-msg="{{translate('messages.invalid_password_warning')}}"
+                                    data-hs-toggle-password-options='{
+                                                "target": "#changePassTarget",
+                                    "defaultClass": "tio-hidden-outlined",
+                                    "showClass": "tio-visible-outlined",
+                                    "classChangeTarget": "#changePassIcon"
+                                    }'>
+                            <div id="changePassTarget" class="input-group-append">
+                                <a class="input-group-text" href="javascript:">
+                                    <i id="changePassIcon" class="tio-visible-outlined"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
                     <!-- End Form Group -->
 
-                        <button type="submit" class="btn btn-lg btn-block btn--primary mt-4">SignUp</button>
+                    <div class="d-flex justify-content-between mt-5">
+                        <!-- Checkbox -->
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="termsCheckbox" 
+                                        name="remember">
+                                <label class="custom-control-label text-muted" for="termsCheckbox">
+                                    {{translate('messages.remember_me')}}
+                                </label>
+                            </div>
+                        </div>
+                        <!-- End Checkbox -->
+                        <!-- forget password -->
+                        <div class="form-group" id="forget-password" style="display: {{ $role == 'admin' ? '' : 'none' }};">
+                            <div class="custom-control">
+                                <span type="button" data-toggle="modal" class="text-primary" data-target="#forgetPassModal">{{ translate('Forget Password') }}?</span>
+                            </div>
+                        </div>
+                        <!-- End forget password -->
+                        <div class="form-group" id="forget-password1" style="display: {{ $role == 'vendor' ? '' : 'none' }};">
+                            <div class="custom-control">
+                                <span type="button" data-toggle="modal" class="text-primary" data-target="#forgetPassModal1">{{ translate('messages.Forget Password') }}?</span>
+                            </div>
+                        </div>
+                        <!-- End forget password -->
+                    </div>
+
+                    @php($recaptcha = \App\CentralLogics\Helpers::get_business_settings('recaptcha'))
+                    @if(isset($recaptcha) && $recaptcha['status'] == 1)
+                        <div id="recaptcha_element" class="w-100" data-type="image"></div>
+                        <br/>
+                    @else
+                        <div class="row p-2" id="reload-captcha">
+                            <div class="col-6 pr-0">
+                                <input type="text" class="form-control form-control-lg border-0" name="custome_recaptcha"
+                                        id="custome_recaptcha" required placeholder="{{translate('Enter recaptcha value')}}" autocomplete="off" value="{{env('APP_MODE')=='dev'? session('six_captcha'):''}}">
+                            </div>
+                            <div class="col-6 bg-white rounded d-flex">
+                                <img src="<?php echo $custome_recaptcha->inline(); ?>" class="rounded w-100" />
+                                <div class="p-3 pr-0 capcha-spin reloadCaptcha">
+                                    <i class="tio-cached"></i>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
+                    <button type="submit" class="btn btn-lg btn-block btn--primary mt-xxl-3">{{translate('messages.login')}}</button>
                 </form>
                 <!-- End Form -->
-              
+                @if(env('APP_MODE') == 'demo')
+                @if (isset($role) && $role == 'admin')
+                <div class="auto-fill-data-copy">
+                    <div class="d-flex flex-wrap align-items-center justify-content-between">
+                        <div>
+                            <span class="d-block"><strong>Email</strong> : admin@admin.com</span>
+                            <span class="d-block"><strong>Password</strong> : 12345678</span>
+                        </div>
+                        <div>
+                            <button class="btn action-btn btn--primary m-0 copy_cred"><i class="tio-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                @endif
+                @if (isset($role) && $role == 'vendor')
+                <div class="auto-fill-data-copy">
+                    <div class="d-flex flex-wrap align-items-center justify-content-between">
+                        <div>
+                            <span class="d-block"><strong>Email</strong> : test.restaurant@gmail.com</span>
+                            <span class="d-block"><strong>Password</strong> : 12345678</span>
+                        </div>
+                        <div>
+                            <button class="btn action-btn btn--primary m-0 copy_cred2"><i class="tio-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                @endif
+                @endif
             </div>
             <!-- End Card -->
 
@@ -118,7 +178,6 @@
     </div>
 </main>
 <!-- ========== END MAIN CONTENT ========== -->
-
 <div class="modal fade" id="forgetPassModal">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -333,25 +392,6 @@
 <!-- IE Support -->
 <script>
     if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) document.write('<script src="{{asset('public//assets/admin')}}/vendor/babel-polyfill/polyfill.min.js"><\/script>');
-</script>
-
-// Script for password and confirm password
-<script>
-    function checkPasswordMatch() {
-        var password = document.getElementById("signupPassword").value;
-        var confirmPassword = document.getElementById("confirmPassword").value;
-        if (password != confirmPassword) {
-            alert("Passwords do not match!");
-            return false;
-        }
-        return true;
-    }
-
-    document.getElementById("form-id").addEventListener("submit", function(event) {
-        if (!checkPasswordMatch()) {
-            event.preventDefault(); // Prevent form submission if passwords don't match
-        }
-    });
 </script>
 </body>
 </html>

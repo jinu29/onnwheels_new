@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <!-- Required Meta Tags Always Come First -->
     <meta charset="utf-8">
@@ -8,34 +9,34 @@
     <title>Sign Up</title>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{{asset('public/favicon.ico')}}">
+    <link rel="shortcut icon" href="{{ asset('public/favicon.ico') }}">
 
     <!-- CSS Implementing Plugins -->
-    <link rel="stylesheet" href="{{asset('public/assets/admin')}}/css/vendor.min.css">
-    <link rel="stylesheet" href="{{asset('public/assets/admin')}}/vendor/icon-set/style.css">
+    <link rel="stylesheet" href="{{ asset('public/assets/admin') }}/css/vendor.min.css">
+    <link rel="stylesheet" href="{{ asset('public/assets/admin') }}/vendor/icon-set/style.css">
     <!-- CSS Front Template -->
-    <link rel="stylesheet" href="{{asset('public/assets/admin/css/bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{asset('public/assets/admin/css/theme.minc619.css?v=1.0')}}">
-    <link rel="stylesheet" href="{{asset('public/assets/admin/css/style.css')}}">
-    <link rel="stylesheet" href="{{asset('public/assets/admin')}}/css/toastr.css">
+    <link rel="stylesheet" href="{{ asset('public/assets/admin/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/assets/admin/css/theme.minc619.css?v=1.0') }}">
+    <link rel="stylesheet" href="{{ asset('public/assets/admin/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/assets/admin') }}/css/toastr.css">
 
 
     <style>
-        .customBtn{
-            border-radius:0px;
-            padding:10px;
+        .customBtn {
+            border-radius: 0px;
+            padding: 10px;
         }
 
-        form input{
-            display:inline-block;
-            width:50px;
-            height:50px;
-            text-align:center;
+        form input {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            text-align: center;
         }
 
         .auth-wrapper-right {
             display: flex;
-            flex-direction:column;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
         }
@@ -45,54 +46,103 @@
         }
     </style>
 </head>
-<body>
-<main id="content" role="main" class="main">
-    <div class="auth-wrapper">
-        <div class="auth-wrapper-left">
-            <div class="auth-left-cont">
-                @php($store_logo = \App\Models\BusinessSetting::where(['key' => 'logo'])->first()->value)
-                <img class="onerror-image"  data-onerror-image="{{asset('/public/assets/admin/img/favicon.png')}}"
-                src="{{\App\CentralLogics\Helpers::onerror_image_helper($store_logo, asset('storage/app/public/business/').'/' . $store_logo, asset('/public/assets/admin/img/favicon.png'),'business/')}}"  alt="public/img">
-                <h2 class="title">{{translate('Your')}} <span class="d-block">{{translate('All Service')}}</span> <strong class="text--039D55">{{translate('in one field')}}....</strong></h2>
-            </div>
-        </div>
-        <div class="auth-wrapper-right">
 
-            <div class="auth-header mb-0">
-                <div class="mb-2">
-                    <h2 class="title">OTP</h2>
+<body>
+    <main id="content" role="main" class="main">
+        <div class="auth-wrapper">
+            <div class="auth-wrapper-left">
+                <div class="auth-left-cont">
+                    @php($store_logo = \App\Models\BusinessSetting::where(['key' => 'logo'])->first()->value)
+                    <img class="onerror-image" data-onerror-image="{{ asset('/public/assets/admin/img/favicon.png') }}"
+                        src="{{ \App\CentralLogics\Helpers::onerror_image_helper($store_logo, asset('storage/app/public/business/') . '/' . $store_logo, asset('/public/assets/admin/img/favicon.png'), 'business/') }}"
+                        alt="public/img">
+                    <h2 class="title">{{ translate('Your') }} <span
+                            class="d-block">{{ translate('All Service') }}</span> <strong
+                            class="text--039D55">{{ translate('in one field') }}....</strong></h2>
                 </div>
             </div>
+            <div class="auth-wrapper-right">
 
-            <form action="" class="mt-3 d-flex" style="gap:10px;">
-                <input class="otp form-control form-control-lg" type="text" oninput='digitValidate(this)' onkeyup='tabChange(1)' maxlength=1 >
-                <input class="otp form-control form-control-lg" type="text" oninput='digitValidate(this)' onkeyup='tabChange(2)' maxlength=1 >
-                <input class="otp form-control form-control-lg" type="text" oninput='digitValidate(this)' onkeyup='tabChange(3)' maxlength=1 >
-                <input class="otp form-control form-control-lg" type="text" oninput='digitValidate(this)'onkeyup='tabChange(4)' maxlength=1 >
-            </form>
-            <button class='verify btn-block mt-4 mb-4 customBtn'>Verify</button>
+                <div class="auth-wrapper-form">
+
+                    <form action="{{ route('user.verify.otp') }}" method="post">
+                        @csrf <!-- Add CSRF token -->
+                        <div class="auth-header">
+                            <div class="mb-5">
+                                <h2 class="title">OTP</h2>
+                            </div>
+                        </div>
+                        <div class="js-form-message form-group mb-2">
+                            <label class="input-label" for="confirmPassword" tabindex="0">
+                                <span class="d-flex justify-content-between align-items-center">
+                                    OTP
+                                </span>
+                            </label>
+                            <div class="" style="display: flex; gap: 10px;">
+                                <input id="otp1" class="otp form-control form-control-lg" type="text"
+                                    name="otp[]" maxlength="1" oninput="handleInput(1)">
+                                <input id="otp2" class="otp form-control form-control-lg" type="text"
+                                    name="otp[]" maxlength="1" oninput="handleInput(2)">
+                                <input id="otp3" class="otp form-control form-control-lg" type="text"
+                                    name="otp[]" maxlength="1" oninput="handleInput(3)">
+                                <input id="otp4" class="otp form-control form-control-lg" type="text"
+                                    name="otp[]" maxlength="1" oninput="handleInput(4)">
+                            </div>
+                            <input type="hidden" name="phone" value="{{ $phone ?? null }}">
+
+                        </div>
+
+                        <button type="submit" class="btn btn-lg btn-block btn--primary mt-4">Verify</button>
+                    </form>
+                </div>
+            </div>
         </div>
-    </div>
-</main>
-
-<script>
-    let digitValidate = function(ele){
-        console.log(ele.value);
-        ele.value = ele.value.replace(/[^0-9]/g,'');
-    }
-
-let tabChange = function(val){
-    let ele = document.querySelectorAll('input');
-    if(ele[val-1].value != ''){
-      ele[val].focus()
-    }else if(ele[val-1].value == ''){
-      ele[val-2].focus()
-    }   
-}
-</script>
+    </main>
 
 
+    <!-- JS Front -->
+    <script src="{{ asset('public/assets/admin') }}/js/theme.min.js"></script>
+    <script src="{{ asset('public/assets/admin') }}/js/toastr.js"></script>
+    {!! Toastr::message() !!}
 
+    @if ($errors->any())
+        <script>
+            "use strict";
+            @foreach ($errors->all() as $error)
+                toastr.error('{{ translate($error) }}', Error, {
+                    CloseButton: true,
+                    ProgressBar: true
+                });
+            @endforeach
+        </script>
+    @endif
+    {{-- @if ($log_email_succ)
+        @php(session()->forget('log_email_succ'))
+        <script>
+            "use strict";
+            $('#successMailModal').modal('show');
+        </script>
+    @endif --}}
+
+    <script>
+        function handleInput(index, event) {
+            const currentInput = document.getElementById('otp' + index);
+            const value = currentInput.value;
+
+            if (value.length === 1 && index < 4) {
+                const nextIndex = index + 1;
+                const nextInput = document.getElementById('otp' + nextIndex);
+                nextInput.focus();
+            }
+
+            if (event.keyCode === 8 && index > 1 && value.length === 0) {
+                const prevIndex = index - 1;
+                const prevInput = document.getElementById('otp' + prevIndex);
+                prevInput.focus();
+            }
+        }
+    </script>
 
 </body>
+
 </html>

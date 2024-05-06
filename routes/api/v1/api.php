@@ -32,6 +32,8 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function (
 
         Route::post('guest/request','CustomerAuthController@guest_request');
 
+        
+
         Route::group(['prefix' => 'delivery-man'], function () {
             Route::post('login', 'DeliveryManLoginController@login');
             Route::post('store', 'DeliveryManLoginController@store');

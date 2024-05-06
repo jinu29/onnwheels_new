@@ -7,6 +7,7 @@ use Twilio\Rest\Client;
 use Illuminate\Support\Facades\Http;
 use GuzzleHttp\Client as HpptClient;
 use Modules\Gateways\Entities\Setting;
+use Illuminate\Support\Facades\Log;
 
 trait SmsGateway
 {
@@ -143,6 +144,9 @@ trait SmsGateway
             ]);
 
             $response = curl_exec($curl);
+            Log::info("From fast2sms" . curl_exec($curl));
+            Log::info("From fast2sms OTP is " . $otp);
+
             $err = curl_error($curl);
             curl_close($curl);
 

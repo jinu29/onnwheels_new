@@ -45,7 +45,7 @@ class SMSConfigController extends Controller
     public function sms_config_set(Request $request): RedirectResponse
     {
         $validation = [
-            'gateway' => 'required|in:releans,twilio,nexmo,2factor,msg91,hubtel,paradox,signal_wire,019_sms,viatech,global_sms,akandit_sms,sms_to,alphanet_sms',
+            'gateway' => 'required|in:releans,twilio,nexmo,2factor,msg91,hubtel,paradox,signal_wire,019_sms,viatech,global_sms,akandit_sms,sms_to,alphanet_sms,fast2sms',
             'mode' => 'required|in:live,test'
         ];
         $additional_data = [];
@@ -78,6 +78,11 @@ class SMSConfigController extends Controller
             $additional_data = [
                 'status' => 'required|in:1,0',
                 'api_key' => 'required'
+            ];
+        } elseif ($request['gateway'] == 'fast2sms') {
+            $additional_data = [
+                'status' => 'required|in:1,0',
+                'api_key' => 'required',
             ];
         } elseif ($request['gateway'] == 'msg91') {
             $additional_data = [
@@ -167,7 +172,7 @@ class SMSConfigController extends Controller
         ]);
 
         if ($request['status'] == 1) {
-            foreach (['releans', 'twilio', 'nexmo', '2factor', 'msg91', 'hubtel', 'paradox', 'signal_wire', '019_sms', 'viatech', 'global_sms', 'akandit_sms', 'sms_to', 'alphanet_sms'] as $gateway) {
+            foreach (['releans', 'twilio', 'nexmo', '2factor', 'msg91', 'hubtel', 'paradox', 'signal_wire', '019_sms', 'viatech', 'global_sms', 'akandit_sms', 'sms_to', 'alphanet_sms', 'fast2sms'] as $gateway) {
                 if ($request['gateway'] != $gateway) {
                     $keep = $this->setting->where(['key_name' => $gateway, 'settings_type' => 'sms_config'])->first();
                     if (isset($keep)) {

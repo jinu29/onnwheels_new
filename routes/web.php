@@ -70,9 +70,10 @@ Route::get('payment-cancel', 'PaymentController@cancel')->name('payment-cancel')
 
 $is_published = 0;
 try {
-$full_data = include('Modules/Gateways/Addon/info.php');
-$is_published = $full_data['is_published'] == 1 ? 1 : 0;
-} catch (\Exception $exception) {}
+    $full_data = include ('Modules/Gateways/Addon/info.php');
+    $is_published = $full_data['is_published'] == 1 ? 1 : 0;
+} catch (\Exception $exception) {
+}
 
 if (!$is_published) {
     Route::group(['prefix' => 'payment'], function () {
@@ -106,9 +107,11 @@ if (!$is_published) {
         Route::group(['prefix' => 'paypal', 'as' => 'paypal.'], function () {
             Route::get('pay', [PaypalPaymentController::class, 'payment']);
             Route::any('success', [PaypalPaymentController::class, 'success'])->name('success')
-                ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);;
+                ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
+            ;
             Route::any('cancel', [PaypalPaymentController::class, 'cancel'])->name('cancel')
-                ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);;
+                ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
+            ;
         });
 
         //SENANG-PAY
@@ -121,7 +124,7 @@ if (!$is_published) {
         Route::group(['prefix' => 'paytm', 'as' => 'paytm.'], function () {
             Route::get('pay', [PaytmController::class, 'payment']);
             Route::any('response', [PaytmController::class, 'callback'])->name('response')
-            ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
+                ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
         });
 
         //FLUTTERWAVE
@@ -203,10 +206,17 @@ Route::group(['prefix' => 'deliveryman', 'as' => 'deliveryman.'], function () {
 //user routes
 
 // user Registration
-Route::get('signup', [AuthController::class , 'signup'])->name('signup');
-Route::post('user', [AuthController::class, 'register'])->name('user.store');
+Route::get('signup', [AuthController::class, 'signup'])->name('user.signup');
+Route::post('register', [AuthController::class, 'register'])->name('user.store');
 
 // OTP Route
-Route::get('otp', [AuthController::class , 'otp'])->name('user.otp');
+Route::get('otp', [AuthController::class, 'otp'])->name('user.otp');
+Route::post('otp-verify', [AuthController::class, 'verifyPhone'])->name('user.verify.otp');
 
+//user login
+Route::post('/user-login', [AuthController::class, 'login'])->name('user.login');
+Route::get('user-logout', [AuthController::class, 'logout'])->name('user.logout');
 
+//Social login
+Route::post('social-login',  [AuthController::class, 'social_login'])->name('user.social.login');
+Route::post('social-register',  [AuthController::class, 'social_register'])->name('user.social.register');

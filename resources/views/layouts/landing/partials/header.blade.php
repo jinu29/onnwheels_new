@@ -20,10 +20,10 @@
                     <a class="nav-link" href="#">Safety</a>
                 </li>
                 <li class="nav-item mr-2">
-                    <a class="nav-link" href="{{ route('about') }}">About Us</a>
+                    <a class="nav-link" href="{{ route('about-us') }}">About Us</a>
                 </li>
                 <li class="nav-item mr-2">
-                    <a class="nav-link" href="{{ route('contact') }}">Contact Us</a>
+                    <a class="nav-link" href="{{ route('contact-us') }}">Contact Us</a>
                 </li>
             </ul>
             @if (session('user_location'))
@@ -46,7 +46,7 @@
                         <div class="dropdown-menu" id="dropdown-menu">
                             <a>Profile</a>
                             <div class="menu-divider"></div> <!-- Divider -->
-                            <a href="{{ route('logout') }}">Logout</a>
+                            <a href="{{ route('user.logout') }}">Logout</a>
                         </div>
                     </div>
                 </div>
@@ -89,27 +89,27 @@
             localStorage.setItem('locationFetched', true);
         }
 
-        function sendLocationToServer(latitude, longitude) {
-            // You can use AJAX to send location data to your Laravel backend
-            // Example using jQuery AJAX
-            $.ajax({
-                url: '{{ route('location.fetch') }}',
-                type: 'POST',
-                data: {
-                    latitude: latitude,
-                    longitude: longitude,
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    console.log('Location sent successfully.');
-                    // Update session value with the fetched location
-                    $('#userLocation').text(response.location);
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error sending location:', error);
-                }
-            });
+        // function sendLocationToServer(latitude, longitude) {
+        //     // You can use AJAX to send location data to your Laravel backend
+        //     // Example using jQuery AJAX
+        //     $.ajax({
+        //         url: '{{ route('location.fetch') }}',
+        //         type: 'POST',
+        //         data: {
+        //             latitude: latitude,
+        //             longitude: longitude,
+        //             _token: '{{ csrf_token() }}'
+        //         },
+        //         success: function(response) {
+        //             console.log('Location sent successfully.');
+        //             // Update session value with the fetched location
+        //             $('#userLocation').text(response.location);
+        //         },
+        //         error: function(xhr, status, error) {
+        //             console.error('Error sending location:', error);
+        //         }
+        //     });
 
-        }
+        // }
     </script>
 @endsection
