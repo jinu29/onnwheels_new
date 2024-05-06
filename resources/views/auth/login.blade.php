@@ -57,12 +57,6 @@
                         </div>
                     </div>
 
-                    <div>
-                        <p>Or login with:</p>
-                        <a href="{{ route('user.social.login') }}">Login with Google</a>
-                        {{-- <a href="{{ route('login.facebook') }}">Login with Facebook</a> --}}
-                    </div>
-
                     <!-- Form Group -->
                     <div class="js-form-message form-group">
                         <label class="input-label text-capitalize" for="signinSrEmail">{{translate('messages.your_email')}}</label>
