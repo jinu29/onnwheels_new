@@ -434,7 +434,9 @@
             @foreach ( $item as $items )
             <div class="card text-center">
                 <div class="card-body p-2 d-flex flex-column text-center">
-                   <img class="avatar avatar-lg mr-3 onerror-image" src="{{ \App\CentralLogics\Helpers::onerror_image_helper( $items['image'] ?? '', asset('storage/app/public/product').'/'.$items['image'] ?? '', asset('public/assets/admin/img/160x160/img2.jpg'),'product/') }}" data-onerror-image="{{asset('public/assets/admin/img/160x160/img2.jpg')}}" alt="{{$items->name}} image">
+                    <a href="{{route('product.product_detail',$items->slug)}}">
+                        <img class="avatar avatar-lg mr-3 onerror-image" src="{{ \App\CentralLogics\Helpers::onerror_image_helper( $items['image'] ?? '', asset('storage/app/public/product').'/'.$items['image'] ?? '', asset('public/assets/admin/img/160x160/img2.jpg'),'product/') }}" data-onerror-image="{{asset('public/assets/admin/img/160x160/img2.jpg')}}" alt="{{$items->name}} image">
+                    </a>
                     <div class="card-details d-flex flex-column p-1 mt-1 text-center" style="gap: 12px;">
                         <i class="fa-regular fa-heart"></i>
                         @if ($items->discount != 0)
@@ -461,162 +463,12 @@
                             <small class="old-price mb-0" style="text-decoration: line-through; color:grey;">{{$items->discount}}</small> / day
                             @endif --}}
                         </p>
-                        <button class="btn mb-0 mt-1">Book Now</button>
+                        <a href="{{route('product.product_detail',$items->slug)}}" class="btn mb-0 mt-1">Book Now</a>
                     </div>
                 </div>
             </div>
             @endforeach
 
-
-            {{-- <div class="card text-center">
-                <div class="card-body p-2 d-flex flex-column text-center">
-                    <img src="/public/assets/landing/image/scooty3.png">
-                    <div class="card-details d-flex flex-column p-1 mt-1 text-center" style="gap: 12px;">
-                        <i class="fa-regular fa-heart"></i>
-                        <p class="new">New</p>
-                        <div class="card-title text-center mb-0">
-                            <h4 class="product-title mb-0">Vespa</h4>
-                        </div>
-                        <div class="rating d-flex justify-content-center mb-0 text-center" style="font-size: 12px; color: rgb(248, 82, 82);">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star-half-stroke"></i>
-                        </div>
-                        <div class="icons d-flex justify-content-around">
-                            <i class="fa-solid fa-people-group"></i>
-                            <i class="fa-solid fa-briefcase"></i>
-                            <i class="fa-solid fa-gauge"></i>
-                            <i class="fa-solid fa-gauge"></i>
-                        </div>
-                            <p class="price mb-0 text-center">Rs.600
-                                <small class="old-price mb-0" style="text-decoration: line-through;color:grey;">Rs.800</small> / day
-                            </p>
-                        <button class="btn mb-0 mt-1">Book Now</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card text-center">
-                <div class="card-body p-2 d-flex flex-column text-center">
-                    <img src="/public/assets/landing/image/scooty1.png">
-                    <div class="card-details d-flex flex-column p-1 mt-1 text-center" style="gap: 12px;">
-                        <i class="fa-regular fa-heart"></i>
-                        <p class="new">New</p>
-                        <div class="card-title text-center mb-0">
-                            <h4 class="product-title mb-0">Honda Activa</h4>
-                        </div>
-                        <div class="rating d-flex justify-content-center mb-0 text-center" style="font-size: 12px; color: rgb(248, 82, 82);">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star-half-stroke"></i>
-                        </div>
-                        <div class="icons d-flex justify-content-around">
-                            <i class="fa-solid fa-people-group"></i>
-                            <i class="fa-solid fa-briefcase"></i>
-                            <i class="fa-solid fa-gauge"></i>
-                            <i class="fa-solid fa-gauge"></i>
-                        </div>
-                            <p class="price mb-0 text-center">Rs.600
-                                <small class="old-price mb-0" style="text-decoration: line-through;color:grey;">Rs.800</small> / day
-                            </p>
-                        <button class="btn mb-0 mt-1">Book Now</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card text-center">
-                <div class="card-body p-2 d-flex flex-column text-center">
-                    <img src="/public/assets/landing/image/scooty3.png">
-                    <div class="card-details d-flex flex-column p-1 mt-1 text-center" style="gap: 12px;">
-                        <i class="fa-regular fa-heart"></i>
-                        <p class="new">New</p>
-                        <div class="card-title text-center mb-0">
-                            <h4 class="product-title mb-0">Vespa</h4>
-                        </div>
-                        <div class="rating d-flex justify-content-center mb-0 text-center" style="font-size: 12px; color: rgb(248, 82, 82);">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star-half-stroke"></i>
-                        </div>
-                        <div class="icons d-flex justify-content-around">
-                            <i class="fa-solid fa-people-group"></i>
-                            <i class="fa-solid fa-briefcase"></i>
-                            <i class="fa-solid fa-gauge"></i>
-                            <i class="fa-solid fa-gauge"></i>
-                        </div>
-                            <p class="price mb-0 text-center">Rs.600
-                                <small class="old-price mb-0" style="text-decoration: line-through;color:grey;">Rs.800</small> / day
-                            </p>
-                        <button class="btn mb-0 mt-1">Book Now</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card text-center">
-                <div class="card-body p-2 d-flex flex-column text-center">
-                    <img src="/public/assets/landing/image/scooty1.png">
-                    <div class="card-details d-flex flex-column p-1 mt-1 text-center" style="gap: 12px;">
-                        <i class="fa-regular fa-heart"></i>
-                        <p class="new">New</p>
-                        <div class="card-title text-center mb-0">
-                            <h4 class="product-title mb-0">Honda Activa</h4>
-                        </div>
-                        <div class="rating d-flex justify-content-center mb-0 text-center" style="font-size: 12px; color: rgb(248, 82, 82);">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star-half-stroke"></i>
-                        </div>
-                        <div class="icons d-flex justify-content-around">
-                            <i class="fa-solid fa-people-group"></i>
-                            <i class="fa-solid fa-briefcase"></i>
-                            <i class="fa-solid fa-gauge"></i>
-                            <i class="fa-solid fa-gauge"></i>
-                        </div>
-                            <p class="price mb-0 text-center">Rs.600
-                                <small class="old-price mb-0" style="text-decoration: line-through;">Rs.800</small> / day
-                            </p>
-                        <button class="btn mb-0 mt-1">Book Now</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card text-center">
-                <div class="card-body p-2 d-flex flex-column text-center">
-                    <img src="/public/assets/landing/image/scooty3.png">
-                    <div class="card-details d-flex flex-column p-1 mt-1 text-center" style="gap: 12px;">
-                        <i class="fa-regular fa-heart"></i>
-                        <p class="new">New</p>
-                        <div class="card-title text-center mb-0">
-                            <h4 class="product-title mb-0">Vespa</h4>
-                        </div>
-                        <div class="rating d-flex justify-content-center mb-0 text-center" style="font-size: 12px; color: rgb(248, 82, 82);">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star-half-stroke"></i>
-                        </div>
-                        <div class="icons d-flex justify-content-around">
-                            <i class="fa-solid fa-people-group"></i>
-                            <i class="fa-solid fa-briefcase"></i>
-                            <i class="fa-solid fa-gauge"></i>
-                            <i class="fa-solid fa-gauge"></i>
-                        </div>
-                            <p class="price mb-0 text-center">Rs.600
-                                <small class="old-price mb-0" style="text-decoration: line-through;color:grey;">Rs.800</small> / day
-                            </p>
-                        <button class="btn mb-0 mt-1">Book Now</button>
-                    </div>
-                </div>
-            </div> --}}
 
         </div>
     </div>
@@ -681,89 +533,102 @@
         </div>
     </div>
 
-<!--Reviews -->
-    <div class="container reviews-container">
-        <div class="title d-flex justify-content-between">
-            <h3 class="section-title">Customer Reviews</h3>
-            <button class="view">View All</button>
+    <!--Reviews -->
+
+    @if (count($review) > 0)
+        <div class="container reviews-container">
+            <div class="title d-flex justify-content-between">
+                <h3 class="section-title">Customer Reviews</h3>
+                <button class="view">View All</button>
+            </div>
+            <div class="reviews">
+                @foreach ($review as $reviews)
+                    <div class="card border-0 bg-white">
+                        <div class="card-body p-2 d-flex flex-column align-items-center">
+                            <img
+                            src="{{ \App\CentralLogics\Helpers::onerror_image_helper(
+                                $reviews->company_image ?? '',
+                                asset('storage/app/public/reviewer_company_image').'/'.$reviews->company_image ?? '',
+                                asset('/public/assets/admin/img/upload-3.png'),
+                                'reviewer_company_image/'
+                            ) }}"
+                            data-onerror-image="{{asset('/public/assets/admin/img/upload-3.png')}}" class="__size-105 onerror-image" alt="">
+                            <h4>{{$reviews->name}}</h4>
+                            <div class="rating d-flex justify-content-center mb-0 text-center mt-2" style="font-size: 12px; color: rgb(248, 82, 82);">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-regular fa-star-half-stroke"></i>
+                            </div>
+
+                            <p class="text-center mt-2" style="font-size: 13px; font-weight: 500;">{{$reviews->review}}</p>
+                        </div>
+                    </div>
+                @endforeach
+
+                <div class="card border-0 bg-transparent">
+                    <div class="card-body p-2 d-flex flex-column align-items-center">
+                        <img src="/public/assets/landing/image/user2.jpg">
+                        <p class="mb-0 mt-2" style="font-size: 13px; font-weight: 600;">Chen Zheyuan</p>
+                        <div class="rating d-flex justify-content-center mb-0 text-center mt-2" style="font-size: 12px; color: rgb(248, 82, 82);">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star-half-stroke"></i>
+                        </div>
+                        <p class="text-center mt-2" style="font-size: 13px; font-weight: 500;">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                    </div>
+                </div>
+
+                <div class="card border-0 bg-transparent">
+                    <div class="card-body p-2 d-flex flex-column align-items-center">
+                        <img src="/public/assets/landing/image/user1.webp">
+                        <p class="mb-0 mt-2" style="font-size: 13px; font-weight: 600;">John Doe</p>
+                        <div class="rating d-flex justify-content-center mb-0 text-center mt-2" style="font-size: 12px; color: rgb(248, 82, 82);">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star-half-stroke"></i>
+                        </div>
+                        <p class="text-center mt-2" style="font-size: 13px; font-weight: 500;">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                    </div>
+                </div>
+
+                <div class="card border-0 bg-transparent">
+                    <div class="card-body p-2 d-flex flex-column align-items-center">
+                        <img src="/public/assets/landing/image/user2.jpg">
+                        <p class="mb-0 mt-2" style="font-size: 13px; font-weight: 600;">Chen Zheyuan</p>
+                        <div class="rating d-flex justify-content-center mb-0 text-center mt-2" style="font-size: 12px; color: rgb(248, 82, 82);">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star-half-stroke"></i>
+                        </div>
+                        <p class="text-center mt-2" style="font-size: 13px; font-weight: 500;">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                    </div>
+                </div>
+
+                <div class="card border-0 bg-transparent">
+                    <div class="card-body p-2 d-flex flex-column align-items-center">
+                        <img src="/public/assets/landing/image/user1.webp">
+                        <p class="mb-0 mt-2" style="font-size: 13px; font-weight: 600;">Chen Zheyuan</p>
+                        <div class="rating d-flex justify-content-center mb-0 text-center mt-2" style="font-size: 12px; color: rgb(248, 82, 82);">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star-half-stroke"></i>
+                        </div>
+                        <p class="text-center mt-2" style="font-size: 13px; font-weight: 500;">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="reviews w-100">
-            <div class="card border-0 bg-transparent">
-                <div class="card-body p-2 d-flex flex-column align-items-center">
-                    <img src="/public/assets/landing/image/user1.webp">
-                    <p class="mb-0 mt-2" style="font-size: 13px; font-weight: 600;">John Doe</p>
-                    <div class="rating d-flex justify-content-center mb-0 text-center mt-2" style="font-size: 12px; color: rgb(248, 82, 82);">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-regular fa-star-half-stroke"></i>
-                    </div>
-                    <p class="text-center mt-2" style="font-size: 13px; font-weight: 500;">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                </div>
-            </div>
-
-            <div class="card border-0 bg-transparent">
-                <div class="card-body p-2 d-flex flex-column align-items-center">
-                    <img src="/public/assets/landing/image/user2.jpg">
-                    <p class="mb-0 mt-2" style="font-size: 13px; font-weight: 600;">Chen Zheyuan</p>
-                    <div class="rating d-flex justify-content-center mb-0 text-center mt-2" style="font-size: 12px; color: rgb(248, 82, 82);">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-regular fa-star-half-stroke"></i>
-                    </div>
-                    <p class="text-center mt-2" style="font-size: 13px; font-weight: 500;">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                </div>
-            </div>
-
-            <div class="card border-0 bg-transparent">
-                <div class="card-body p-2 d-flex flex-column align-items-center">
-                    <img src="/public/assets/landing/image/user1.webp">
-                    <p class="mb-0 mt-2" style="font-size: 13px; font-weight: 600;">John Doe</p>
-                    <div class="rating d-flex justify-content-center mb-0 text-center mt-2" style="font-size: 12px; color: rgb(248, 82, 82);">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-regular fa-star-half-stroke"></i>
-                    </div>
-                    <p class="text-center mt-2" style="font-size: 13px; font-weight: 500;">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                </div>
-            </div>
-
-            <div class="card border-0 bg-transparent">
-                <div class="card-body p-2 d-flex flex-column align-items-center">
-                    <img src="/public/assets/landing/image/user2.jpg">
-                    <p class="mb-0 mt-2" style="font-size: 13px; font-weight: 600;">Chen Zheyuan</p>
-                    <div class="rating d-flex justify-content-center mb-0 text-center mt-2" style="font-size: 12px; color: rgb(248, 82, 82);">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-regular fa-star-half-stroke"></i>
-                    </div>
-                    <p class="text-center mt-2" style="font-size: 13px; font-weight: 500;">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                </div>
-            </div>
-
-            <div class="card border-0 bg-transparent">
-                <div class="card-body p-2 d-flex flex-column align-items-center">
-                    <img src="/public/assets/landing/image/user1.webp">
-                    <p class="mb-0 mt-2" style="font-size: 13px; font-weight: 600;">Chen Zheyuan</p>
-                    <div class="rating d-flex justify-content-center mb-0 text-center mt-2" style="font-size: 12px; color: rgb(248, 82, 82);">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-regular fa-star-half-stroke"></i>
-                    </div>
-                    <p class="text-center mt-2" style="font-size: 13px; font-weight: 500;">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                </div>
-            </div>
-        </div>
-    </div>
+    @endif
 @endsection
 @section('scripts')
 <script>

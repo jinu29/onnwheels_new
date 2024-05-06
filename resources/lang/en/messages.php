@@ -3883,4 +3883,9 @@
   'credential_updated' => 'Credential updated',
   'phone_number_varified_successfully' => 'Phone number varified successfully',
   'phone_number_is_already_varified' => 'Phone number is already varified',
+  'category_deleted' => 'Category deleted',
+  'The reviewer image field is required.' => 'The reviewer image field is required.',
+  'testimonial_added_successfully' => 'Testimonial added successfully',
+  '(3:1)' => '(3:1)',
+  'review_updated_successfully' => 'Review updated successfully',
 );

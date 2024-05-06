@@ -11,6 +11,7 @@ use App\Http\Controllers\SenangPayController;
 use App\Http\Controllers\MercadoPagoController;
 use App\Http\Controllers\BkashPaymentController;
 use App\Http\Controllers\FlutterwaveV3Controller;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\PaypalPaymentController;
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\SslCommerzPaymentController;
@@ -38,7 +39,9 @@ Route::get('privacy-policy', 'HomeController@privacy_policy')->name('privacy-pol
 Route::get('cancelation', 'HomeController@cancelation')->name('cancelation');
 Route::get('refund', 'HomeController@refund_policy')->name('refund');
 Route::get('shipping-policy', 'HomeController@shipping_policy')->name('shipping-policy');
+Route::get('product-detail/{slug}','HomeController@product_detail')->name('product.product_detail');
 Route::post('newsletter/subscribe', 'NewsletterController@newsLetterSubscribe')->name('newsletter.subscribe');
+// Route::get('/item/{slug}', 'item')->name('item');
 
 Route::get('login/{tab}', 'LoginController@login')->name('login');
 Route::post('login_submit', 'LoginController@submit')->name('login_post')->middleware('actch');
@@ -220,3 +223,4 @@ Route::get('user-logout', [AuthController::class, 'logout'])->name('user.logout'
 //Social login
 Route::post('social-login',  [AuthController::class, 'social_login'])->name('user.social.login');
 Route::post('social-register',  [AuthController::class, 'social_register'])->name('user.social.register');
+Route::post('/save-location', [LocationController::class,'saveLocation'])->name('location.fetch');

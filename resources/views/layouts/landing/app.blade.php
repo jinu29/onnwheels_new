@@ -186,7 +186,7 @@ $landing_site_direction = session()->get('landing_site_direction');
         }
 
         .sign-up {
-            background-color: orange      
+            background-color: orange
         }
     </style>
 
@@ -253,6 +253,13 @@ $landing_site_direction = session()->get('landing_site_direction');
                         <span></span>
                         <span></span>
                     </div>
+                    @if (session('user_location'))
+                        <div class="location">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <span id="userLocation">{{ Str::limit(session('user_location'), 20) }}</span>
+                        </div>
+                    @endif
+
                     @if (Auth::check())
                         <div class="user-avatar-container" id="user-avatar-container">
                             <div class="user-avatar" id="user-avatar">
@@ -584,6 +591,53 @@ $landing_site_direction = session()->get('landing_site_direction');
                 $owl_slider.to(number, 500, true);
             });
         sync1.owlCarousel();
+    </script>
+    <script>
+        window.addEventListener('load', function() {
+            // Check if the flag indicating location fetch has been set
+            if (!localStorage.getItem('locationFetched')) {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(showPosition);
+                } else {
+                    console.log('Geolocation is not supported by this browser.');
+                }
+            }
+        });
+
+        function showPosition(position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+
+            console.log("d", latitude)
+            // Send latitude and longitude to server for further processing
+            sendLocationToServer(latitude, longitude);
+
+            // Set flag indicating location has been fetched
+            localStorage.setItem('locationFetched', true);
+        }
+
+        function sendLocationToServer(latitude, longitude) {
+            // You can use AJAX to send location data to your Laravel backend
+            // Example using jQuery AJAX
+            $.ajax({
+                url: '{{ route('location.fetch') }}',
+                type: 'POST',
+                data: {
+                    latitude: latitude,
+                    longitude: longitude,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    console.log('Location sent successfully.');
+                    // Update session value with the fetched location
+                    $('#userLocation').text(response.location);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error sending location:', error);
+                }
+            });
+
+        }
     </script>
 
     @yield('script')
