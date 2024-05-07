@@ -3890,4 +3890,22 @@
   'review_updated_successfully' => 'Review updated successfully',
   'kyc_status' => 'Kyc status',
   'Credentials do not match.' => 'Credentials do not match.',
+  'KYC Config' => 'KYC Config',
+  'KYC Config Setup' => 'KYC Config Setup',
+  'kyc_config_setup' => 'Kyc config setup',
+  'Without configuring this section map functionality will not work properly. Thus the whole
+                                 system will not work as it planned' => 'Without configuring this section map functionality will not work properly. Thus the whole
+                                 system will not work as it planned',
+  'API Key' => 'API Key',
+  'API Secret' => 'API Secret',
+  'Prod URL' => 'Prod URL',
+  'Developer Key' => 'Developer Key',
+  'Secret Key Timestamp' => 'Secret Key Timestamp',
+  'Initiator ID' => 'Initiator ID',
+  'Customer ID' => 'Customer ID',
+  'Authenticator KEY' => 'Authenticator KEY',
+  'User Code' => 'User Code',
+  'EKO' => 'EKO',
+  'Authenticator Key' => 'Authenticator Key',
+  'zone_updated_successfully' => 'Zone updated successfully',
 );

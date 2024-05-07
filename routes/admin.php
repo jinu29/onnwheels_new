@@ -563,6 +563,9 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
                 //recaptcha
                 Route::get('recaptcha', 'BusinessSettingsController@recaptcha_index')->name('recaptcha_index');
                 Route::post('recaptcha-update', 'BusinessSettingsController@recaptcha_update')->name('recaptcha_update');
+
+                Route::get('kycconfig', 'BusinessSettingsController@kyc_index')->name('kyc_index');
+                Route::post('kycconfig-update', 'BusinessSettingsController@kyc_update')->name('kyc_update');
             });
             // Offline payment Methods
             Route::get('/offline-payment', 'OfflinePaymentMethodController@index')->name('offline');
