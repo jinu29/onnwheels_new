@@ -31,6 +31,7 @@ class AuthController extends Controller
             'f_name' => 'required',
             'email' => 'required|unique:users',
             'phone' => 'required|unique:users',
+            'image' => 'nullable',
             'password' => ['required', Password::min(8)],
         ], [
             'f_name.required' => 'The first name field is required.',
@@ -85,6 +86,7 @@ class AuthController extends Controller
             'l_name' => $request->l_name,
             'email' => $request->email,
             'phone' => $request->phone,
+            'image' => $request->image,
             'ref_by' => $ref_by,
             'password' => bcrypt($request->password),
         ]);
@@ -184,4 +186,43 @@ class AuthController extends Controller
     {
         return view('auth.customer.otp');
     }
+
+    public function edit ($id)
+    {
+        $user_id = decrypt($id);
+        $user_data = user::findOrFail($user_id);
+        return view('userprofile', compact('user_data'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'f_name' => 'required|string',
+            'email' => 'required|email|unique:users,email,'.$id,
+            'phone' => 'required|string|unique:users,phone,'.$id,
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust validation rules as needed
+        ]);
+
+        $user = User::findOrFail($id);
+        $user->f_name = $request->f_name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time().'.'.$image->getClientOriginalExtension();
+            $image->move(public_path('assets/profile/'), $imageName);
+            $user->image = $imageName;
+
+            // Optionally delete previous image if it exists
+            if ($user->image && file_exists(public_path('assets/'.$user->image))) {
+                unlink(public_path('assets/'.$user->image));
+            }
+        }
+
+        $user->save();
+
+        return redirect()->back()->with('success', 'User updated successfully.');
+    }
+
 }

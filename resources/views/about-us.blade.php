@@ -3,318 +3,348 @@
 @section('css')
 <style>
 
-    /* :root {
-        --button-hover-color: #f29425;
-        --product-title-color: #003360;
-        --button-color: #003360;
-        --footer-background: #373737;
-        --counter-bg:#003360;
-    } */
-
+    body {
+        background-color: white;
+    }
+/* ----------------------------------- */
     .banner {
         width: 100%;
-        background-image: url(/public/assets/landing/image/banner-homepage.png);
+        /* height: 530px; */
+        background-color: red;
+        background-image: url(/public/assets/landing/image/about_banner.jpg);
         background-size: cover;
+        background-position: center;
         background-repeat: no-repeat;
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-end;
     }
 
-    .banner-details {
+    .slide-details {
         display: flex;
-        flex-direction: column;
         align-items: center;
-        justify-content: center;
-        color: white;
-        text-transform: uppercase;
-        padding: 170px 0;
+        justify-content: flex-end;
+        padding: 170px 60px 170px 0px;
     }
 
-    .banner-details h1 {
+    .slide-details h2 {
+        color: white;
+        text-transform: capitalize;
         font-size: 60px;
-        font-weight: 800;
-        line-height: 65px;
-        letter-spacing: 3px;
+        font-weight: 700;
+    }
+
+    /* ----------------------------------------Counter */
+    .counter-container {
+        background-color: #E6A43B;
+        padding: 30px 0;
+        margin: 30px 0;
+        border-radius: 35px;
         color: white;
+        position: relative;
     }
 
-    /* ----------------------- */
-    .about-container {
-        text-align: center;
+    .counter-container::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        border-bottom: 50px solid transparent;
+        border-left: 50px solid #E6A43B; /* Adjust size and color as needed */
     }
 
-    .about-container p {
-        font-size: 15px;
-        font-weight: 500;
-        color: #666;
-    }
-
-    .about-container span {
-        font-size: 18px;
-        font-weight: 600;
-        color: black;
-    }
-    /* ----------------------- */
-
-    .about p {
-        font-size: 15px;
-        font-weight: 500;
-        color: #666;
-    }
-
-    .about span {
-        font-size: 18px;
-        font-weight: 600;
-        color: black;
-    }
-
-    .advantage-container {
-        display: flex;
-        align-items: center;
-    }
-
-    .advantage-details h5 {
-        color: #353637;
-        font-size: 55px;
+    .counter {
+        font-size: 65px;
         font-weight: 800;
-        text-transform: uppercase;
     }
 
-    .advantage i {
-        color: #f29425;
-        font-size: 18px;
-    }
-
-    .advantage p {
-        font-size: 15px;
+    .counter-box h6 {
+        font-size: 20px;
         font-weight: 600;
-        margin-left:10px;
     }
 
-    .advantage-image {
-        width: 100%;
+    /* --------------------------------------- */
+    .advantage-details {
+        padding-left: 15px;
+    }
+
+    .advantage-details h6 {
+        color: #525252;
+        font-size: 13px;
+        font-weight: 400;
+        text-transform: capitalize;
+    }
+
+    .advantage-details h3 {
+        color: #2E709E;
+        font-size: 30px;
+        font-weight: 700;
+        text-transform: capitalize;
+    }
+
+    .advantage-details p {
+        font-size: 15px;
+        font-weight: 500;
+        padding-left: 15px;
+        margin-top: 30px;
+    }
+
+    .advantage-title {
+        border-left: 1px solid #E6A43B;
+        padding-left: 15px;
     }
 
     .advantage-image img {
         width: 100%;
     }
 
-    /* -------------------------------- */
+    .advantage-btn {
+        padding-left: 15px;
+    }
 
-    .discount-container {
-        width: 100%;
-        background-image: url(/public/assets/admin/img/bg-des.jpg);
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: center;
+    .explore {
+        background-color: #E6A43B;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 15px;
+        border: none;
+        outline: none;
+        margin-top: 25px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    /* ---------------------------------------- */
+    .service-image {
+        position: relative;
         display: flex;
         align-items: center;
-        justify-content: flex-end;
+        justify-content: center;
     }
 
-    .discount-details {
-        padding: 150px 0;
+    .img-one {
+        position: absolute;
+        top: 55px;
+        left: 95px;
+    }
+
+    .img-two {
+        position: absolute;
+        left: 195px;
+        top: 70px;
+    }
+
+    .service-bike-img {
+        z-index: 15;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        top: 60px;
+    }
+
+    .services-list {
         display: flex;
         flex-direction: column;
-        align-items: end;
-        justify-content: flex-end;
-        color: white;
+        align-items: center;
     }
 
-    .discount-details h4 {
-        font-size: 60px;
-        font-weight: 800;
-        width: 20rem;
-        text-transform: uppercase;
+    .services-list h4 {
+        color: #21408E;
+        font-size: 25px;
+        font-weight: 700;
+        text-transform: capitalize;
     }
 
-    .discount-details span {
-        color: #b2b2b9;
+    .services {
+        padding-left: 15px;
+        margin-top: 25px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
     }
 
-    /* --------------------------------- */
-    .slick-slide{
-        margin: 0 10px;
+    .service {
+        display: flex;
+        align-items: center;
+        gap: 20px;
     }
 
-    .slick-slide img{
-        width:100%;
-    }
-
-    .slick-prev::before,
-    .slick-next::before {
+    .service-details h6 {
         color: black;
-    }
-
-    .view {
-        background: transparent;
-        color: #027FEE;
-        font-size: 15px;
-        font-weight: 600;
-        border: none;
-        outline: none;
-    }
-
-    .section-title {
-        font-size: 18px;
-        font-weight: 600;
-        letter-spacing: 1.2px;
-    }
-
-    .price {
-        font-size: 14px;
+        font-size: 17px;
         font-weight: 700;
     }
 
-    .card {
-        border-radius: 8px;
-    }
-
-    .card-body {
-        position: relative;
-        border-radius: 20px;
-    }
-
-    .fa-heart {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-    }
-
-    .new {
-        font-size: 12px;
-        font-weight: bold;
-        color: #fff;
-    }
-
-    .new {
-        --f: .5em;
-        position: absolute;
-        top: 0;
-        left: 0;
-        line-height: 1.8;
-        padding-inline: 1lh;
-        padding-bottom: var(--f);
-        border-image: conic-gradient(#0008 0 0) 51%/var(--f);
-        clip-path: polygon(
-        100% calc(100% - var(--f)),100% 100%,calc(100% - var(--f)) calc(100% - var(--f)),var(--f) calc(100% - var(--f)), 0 100%,0 calc(100% - var(--f)),999px calc(100% - var(--f) - 999px),calc(100% - 999px) calc(100% - var(--f) - 999px));
-        transform: translate(calc((cos(45deg) - 1)*100%), -100%) rotate(-45deg);
-        transform-origin: 100% 100%;
-        background-color: red; /* the main color  */
-    }
-
-    .product-title {
-        font-size: 13px;
-        font-weight: 700;
-        color: var(--product-title-color);
-    }
-
-    .icons {
-        color: rgb(194, 192, 192);
-    }
-
-    .btn {
-        padding: 8px 15px;
-        background-color: var(--button-color);
-        color: white;
-        font-size: 12px;
+    .service-details p {
+        color: #525252;
+        font-size: 17px;
         font-weight: 500;
-        border: none;
-        outline: none;
-        align-self: center;
-        border-radius: 8px;
     }
 
-    .btn:hover {
-        background-color: var(--button-hover-color);
-        color: white;
+    /* ---------------------------------- */
+    .app {
+        padding: 20px 0;
+        background-color: #E6A43B;
+        margin-top: 23rem;
     }
 
-    /* Tablet */
+    .app-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .app-details h5 {
+        font-size: 23px;
+        font-weight: 800;
+    }
+
+    .app-details h3 {
+        font-size: 45px;
+        font-weight: 800;
+        width: 45rem;
+    }
+
+    .app-image {
+        margin-top: -20rem;
+    }
+
+    /* tablet */
     @media (max-width:991px) {
 
-        .banner {
-        padding: 0 40px;
+        .services-list {
+            margin-top: 6rem;
         }
 
-        .banner-details {
-        padding: 100px 0;
+        .app {
+            margin-top: 5rem;
         }
 
-        .banner-details h1 {
-        font-size: 40px;
-        }
-
-
-        .advantage-details h5 {
+        .app-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 0;
             text-align: center;
         }
 
-        .discount-details {
-            padding: 100px 0;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            justify-content: center;
+        .app-image {
+            display: none;
         }
 
-        .slick-prev {
-            left: -10px;
-            z-index: 2;
-        }
-
-        .slick-next {
-            right: -10px;
-            z-index: 2;
-        }
     }
 
     /* Mobile */
     @media (max-width:767px) {
 
         .banner {
-        padding: 0 25px;
-        }
-
-        .banner-details {
-        padding: 90px 0;
-        }
-
-        .banner-details h1 {
-        font-size: 35px;
-        }
-
-        .advantage-details h5 {
-            font-size: 25px;
-        }
-
-        .advantage i {
-            font-size: 15px;
-        }
-
-        .advantage p {
-            font-size: 11px;
-        }
-
-        .discount-details {
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            text-align: center;
         }
 
-        .discount-details h4 {
-            font-size: 30px;
+        .slide-details {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 150px 0;
         }
 
-        .slick-slide{
-            margin: 0 10px;
+        .advantage-row {
+            display: flex;
+            flex-direction: column-reverse;
+            gap: 30px;
+        }
+
+        .advantage-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .advantage-details h3 {
+            font-size: 22px;
+        }
+
+        .advantage-details p {
+            padding: 0;
+            border: none;
+        }
+
+        .advantage-title {
+            padding: 0;
+            border: none;
+        }
+
+        .advantage-btn {
+            padding-left: 0px;
+            align-self: center;
+        }
+
+        /* ------------------------- */
+        .services-list {
+            margin-top: 6rem;
+        }
+
+        .services {
+            padding-left: 0;
+        }
+
+        .service img {
+            width: 40px;
+        }
+
+        .img-one {
+            position: absolute;
+            top: 55px;
+            left: -5px;
+        }
+        
+        .img-two {
+            position: absolute;
+            left: 85px;
+            top: 80px;
+        }
+
+        .service-bike-img {
+            top: 50%;
+        }
+
+        .services-list {
+            margin-top: 8rem;
+        }
+
+        .service-bike-img img {
+            width: 100%;
+        }
+
+        .service-details h6 {
+            color: black;
+            font-size: 15px;
+            font-weight: 700;
+        }
+        
+        .service-details p {
+            color: #525252;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* ------------------------------ */
+        .app-details h5 {
+            font-size: 15px;
+            font-weight: 800;
+        }
+        
+        .app-details h3 {
+            font-size: 18px;
+            font-weight: 800;
+            width: 100%;
         }
 
     }
-
+   
 </style>
 @endsection
 
@@ -335,87 +365,121 @@
 
 <!-- Banner -->
     <div class="banner">
-        <div class="banner-details">
-            <h1>About Us</h1>
-        </div>
-    </div>
-
-<!-- About Us Content -->
-    <div class="container" style="margin-top: 2rem;">
-        <div class="about-container">
-            <p>We, a group of millennials, are dedicated to establishing India's premier mobility solutions provider. Our dedication has driven us to create a platform offering rentals across 14 states, 43 cities, and 3 international locations.</p>
-            <p>The realm of transportation and mobility solutions remains one of the least comprehended and disorganized sectors. We perceive this as an untapped opportunity to develop a reliable system accessible to all, transcending barriers.</p>
-            <p>In our realm of two-wheelers, we embrace diversity, catering to everything from scooters to superbikes, accessible via both our website and mobile application.</p>
-            <p><span>"Why buy when you can rent"</span></p>
+        <div class="slide-details">
+            <h2>About Us</h2>
         </div>
     </div>
 
 <!-- Advantages -->
-    <div class="container" style="margin-top: 2rem;">
-        <div class="advantage-container row">
-            <div class="col-lg-6 col-md-12 col-12 advantage-details">
-                <h5>Advantages of our Company</h5>
-                <div class="advantages row mt-4">
-                    <div class="col-lg-6 col-md-4 col-6 d-flex align-items-center advantage mb-2">
-                        <i class="fa-solid fa-chevron-right"></i>
-                        <p class="mb-0 ml-2">Relax renting</p>
+    <div class="container" style="margin-top: 3rem;">
+        <div class="row advantage-row">
+
+            <div class="col-lg-6 col-md-6 col-12">
+                <div class="advantage-details">
+                    <div class="advantage-title">
+                        <h6>Experience the Freedom, Embrace the Exceptional</h6>
+                        <h3>Unleash your journey: The Drivewise Advantage</h3>
                     </div>
-                    <div class="col-lg-6 col-md-4 col-6 d-flex align-items-center advantage mb-2">
-                        <i class="fa-solid fa-chevron-right"></i>
-                        <p class="mb-0 ml-2">Standard renting</p>
-                    </div>
-                    <div class="col-lg-6 col-md-4 col-6 d-flex align-items-center advantage mb-2">
-                        <i class="fa-solid fa-chevron-right"></i>
-                        <p class="mb-0 ml-2">Special Discount</p>
-                    </div>
-                    <div class="col-lg-6 col-md-4 col-6 d-flex align-items-center advantage mb-2">
-                        <i class="fa-solid fa-chevron-right"></i>
-                        <p class="mb-0 ml-2">Luggage Storage</p>
-                    </div>
-                    <div class="col-lg-6 col-md-4 col-6 d-flex align-items-center advantage mb-2">
-                        <i class="fa-solid fa-chevron-right"></i>
-                        <p class="mb-0 ml-2">Repair Kit</p>
-                    </div>
-                    <div class="col-lg-6 col-md-4 col-6 d-flex align-items-center advantage mb-2">
-                        <i class="fa-solid fa-chevron-right"></i>
-                        <p class="mb-0 ml-2">Secure % Equipped</p>
-                    </div>
-                    <div class="col-lg-6 col-md-4 col-6 d-flex align-items-center advantage mb-2">
-                        <i class="fa-solid fa-chevron-right"></i>
-                        <p class="mb-0 ml-2">Special Request</p>
-                    </div>
-                    <div class="col-lg-6 col-md-4 col-6 d-flex align-items-center advantage mb-2">
-                        <i class="fa-solid fa-chevron-right"></i>
-                        <p class="mb-0 ml-2">Always overhauled</p>
-                    </div>
-                    <div class="col-lg-6 col-md-4 col-6 d-flex align-items-center advantage mb-2">
-                        <i class="fa-solid fa-chevron-right"></i>
-                        <p class="mb-0 ml-2">Premium Assistance</p>
-                    </div>
-                    <div class="col-lg-6 col-md-4 col-6 d-flex align-items-center advantage mb-2">
-                        <i class="fa-solid fa-chevron-right"></i>
-                        <p class="mb-0 ml-2">Pleasant Staff</p>
-                    </div>
+                    <p>Immerse yourself in a world of possibilities with our extensive range of vehicles. From sleek sedans to rugged SUVs and luxurious convertibles, we have the perfect wheels to match your style, preferences, and the demands of your adventure.</p>
+                    <a class="advantage-btn" href="#">
+                        <button class="explore">Explore the possibilities</button>
+                    </a>
                 </div>
             </div>
 
-            <div class="col-lg-6">
-                <div class="col-lg-6 col-md-12 col-12 advantage-image p-0 mt-3">
-                    <picture>
-                        <source media="(max-width:991px)" srcset="/public/assets/admin/img/advantage-tab.jpg">
-                        <source media="(max-width:767px)" srcset="/public/assets/admin/img/advantage-tab.jpg">
-                        <img src="/public/assets/admin/img/advantage-tab.jpg" alt="">
-                    </picture>
+            <div class="col-lg-6 col-md-6 col-12">
+                <div class="advantage-image">
+                    <img src="/public/assets/landing/image/advantage.png" alt="Image">
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Discount -->
-    <div class="discount-container" style="margin-top: 3rem;">
-        <div class="container">
-            <div class="discount-details">
-                <h4>15% <span>Discount on First Order</span></h4>
+<!-- Memories -->
+    <div class="container" style="margin-top: 5rem;">
+        <div class="row advantage-row">
+
+            <div class="col-lg-6 col-md-6 col-12">
+                <div class="advantage-image">
+                    <img src="/public/assets/landing/image/memories.png" alt="Image">
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-12">
+                <div class="advantage-details">
+                    <div class="advantage-title">
+                        <h6>Experience the Freedom, Embrace the Exceptional</h6>
+                        <h3>Beyond Rentals, Building Memories</h3>
+                    </div>
+                    <p>We are more than just a car rental service. We strive to be your travel companion, providing recommendations, tips, and local insights to help you create unforgettable memories. Count on us to make your journey not only comfortable but also enriching and unforgettable.</p>
+                    <a class="advantage-btn" href="#">
+                        <button class="explore">Book your Bike today</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Services Container -->
+    <div class="container" style="margin-top: 3rem; margin-bottom: 6rem;">
+        <div class="row">
+            <div class="col-lg-6 col-md-12 col-12">
+                <div class="service-image">
+                    <img class="img-one" src="/public/assets/landing/image/service_1.png" alt="">
+                    <img class="img-two" src="/public/assets/landing/image/service_2.png" alt="">
+                </div>
+                <div class="service-bike-img">
+                    <img src="/public/assets/landing/image/bike_img.png" alt="">
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-12 col-12">
+                <div class="services-list">
+                    <h4>Our Services</h4>
+                    <div class="services">
+
+                        <div class="service">
+                            <img src="/public/assets/landing/image/vector.svg" alt="">
+                            <div class="service-details">
+                                <h6>Bike Hire</h6>
+                                <p class="mb-0">We pride ourselves in always going the extra mile for our customers.</p>
+                            </div>
+                        </div>
+
+                        <div class="service">
+                            <img src="/public/assets/landing/image/vector.svg" alt="">
+                            <div class="service-details">
+                                <h6>Bike Sales</h6>
+                                <p class="mb-0">we sale the best luxury Bikes across the world at a competitive price. </p>
+                            </div>
+                        </div>
+
+                        <div class="service">
+                            <img src="/public/assets/landing/image/vector.svg" alt="">
+                            <div class="service-details">
+                                <h6>Hire a driver</h6>
+                                <p class="mb-0">You want to travel and fell confortable , our drivers are available.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- App container -->
+    <div class="app">
+        <div class="container app-container">
+
+            <div class="app-details">
+                <h5>Unlock your adventure. Rent a Bike with ease.</h5>
+                <h3>Download our new app and book your first Bike today</h3>
+                <div class="store-image">
+                    
+                </div>
+            </div>
+            <div class="app-image">
+                <img src="/public/assets/landing/image/mobile_app.png" alt="">
             </div>
         </div>
     </div>

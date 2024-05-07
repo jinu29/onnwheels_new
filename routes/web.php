@@ -205,8 +205,12 @@ Route::group(['prefix' => 'deliveryman', 'as' => 'deliveryman.'], function () {
 // user Registration
 Route::get('signup', [AuthController::class , 'signup'])->name('signup');
 Route::post('user', [AuthController::class, 'register'])->name('user.store');
+Route::post('user/{id}', [AuthController::class ,'update'])->name('user.update');
 
 // OTP Route
 Route::get('otp', [AuthController::class , 'otp'])->name('user.otp');
+
+// UserProfile Route
+Route::get('userprofile', [UserController::class , 'userprofile'])->name('userprofile');
 
 
