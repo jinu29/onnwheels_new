@@ -385,4 +385,13 @@ class HomeController extends Controller
         }
         // return view('product.product_detail');
     }
+
+    public function payment($slug)
+    {
+        $items = Item::where('slug', $slug)->first();
+        if($items != null){
+            return view ('payment',compact('items'));
+        }
+
+    }
 }

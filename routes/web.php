@@ -40,6 +40,7 @@ Route::get('cancelation', 'HomeController@cancelation')->name('cancelation');
 Route::get('refund', 'HomeController@refund_policy')->name('refund');
 Route::get('shipping-policy', 'HomeController@shipping_policy')->name('shipping-policy');
 Route::get('product-detail/{slug}','HomeController@product_detail')->name('product.product_detail');
+Route::get('payment/{slug}','HomeController@payment')->name('user.payment');
 Route::post('newsletter/subscribe', 'NewsletterController@newsLetterSubscribe')->name('newsletter.subscribe');
 // Route::get('/item/{slug}', 'item')->name('item');
 

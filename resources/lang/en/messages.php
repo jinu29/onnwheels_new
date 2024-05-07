@@ -3888,4 +3888,5 @@
   'testimonial_added_successfully' => 'Testimonial added successfully',
   '(3:1)' => '(3:1)',
   'review_updated_successfully' => 'Review updated successfully',
+  'kyc_status' => 'Kyc status',
 );

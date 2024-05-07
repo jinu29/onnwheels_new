@@ -37,7 +37,7 @@
         <!-- End Page Header -->
         <div class="row mb-2 g-2">
             <!-- Collected Cash Card Example -->
-            <div class="col-lg-6 col-md-6 col-sm-6">
+            <div class="col-lg-4 col-md-6 col-sm-6">
                 <div class="resturant-card card--bg-1">
                     <img class="resturant-icon" src="{{asset('public/assets/admin/img/customer-loyality/1.png')}}" alt="public">
                     <div class="title text-capitalize">{{$customer->wallet_balance??0}}</div>
@@ -46,11 +46,19 @@
             </div>
 
             <!-- Pending Requests Card Example -->
-            <div class="col-lg-6 col-md-6 col-sm-6">
+            <div class="col-lg-4 col-md-6 col-sm-6">
                 <div class="resturant-card card--bg-2">
                     <img class="resturant-icon" src="{{asset('public/assets/admin/img/customer-loyality/2.png')}}" alt="public">
                     <div class="title text-capitalize">{{$customer->loyalty_point??0}}</div>
                     <div class="subtitle    ">{{translate('messages.loyalty_point_balance')}}</div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="resturant-card card--bg-3">
+                    <img class="resturant-icon" src="{{asset('public/assets/admin/img/customer-loyality/5.png')}}" alt="public">
+                    <div class="title text-capitalize">{{$customer->loyalty_point??0}}</div>
+                    <div class="subtitle    ">{{translate('messages.kyc_status')}}</div>
                 </div>
             </div>
         </div>
