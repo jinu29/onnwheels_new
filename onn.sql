@@ -15,7 +15,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
-
 -- Dumping structure for table test.account_transactions
 CREATE TABLE IF NOT EXISTS `account_transactions` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
@@ -50,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `addon_settings` (
   KEY `payment_settings_id_index` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.addon_settings: ~47 rows (approximately)
+-- Dumping data for table test.addon_settings: ~48 rows (approximately)
 INSERT INTO `addon_settings` (`id`, `key_name`, `live_values`, `test_values`, `settings_type`, `mode`, `is_active`, `created_at`, `updated_at`, `additional_data`) VALUES
 	('070c6bbd-d777-11ed-96f4-0c7a158e4469', 'twilio', '{"gateway":"twilio","mode":"live","status":0,"sid":"","messaging_service_sid":"","token":"","from":"","otp_template":""}', '{"gateway":"twilio","mode":"live","status":0,"sid":"","messaging_service_sid":"","token":"","from":"","otp_template":""}', 'sms_config', 'live', 0, NULL, '2024-05-03 18:32:27', NULL),
 	('070c766c-d777-11ed-96f4-0c7a158e4469', '2factor', '{"gateway":"2factor","mode":"live","status":0,"api_key":""}', '{"gateway":"2factor","mode":"live","status":0,"api_key":""}', 'sms_config', 'live', 0, NULL, '2024-05-03 18:32:27', NULL),
@@ -151,7 +150,7 @@ CREATE TABLE IF NOT EXISTS `admin_features` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.admin_features: ~0 rows (approximately)
+-- Dumping data for table test.admin_features: ~1 rows (approximately)
 INSERT INTO `admin_features` (`id`, `title`, `sub_title`, `image`, `status`, `created_at`, `updated_at`) VALUES
 	(1, 'Demo Feature Title', 'Demo Feature  Sub Title', '2023-08-16-64dcaa268d2d0.png', 1, '2023-08-15 23:51:18', '2023-08-15 23:51:18');
 
@@ -183,7 +182,7 @@ CREATE TABLE IF NOT EXISTS `admin_roles` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.admin_roles: ~0 rows (approximately)
+-- Dumping data for table test.admin_roles: ~1 rows (approximately)
 INSERT INTO `admin_roles` (`id`, `name`, `modules`, `status`, `created_at`, `updated_at`) VALUES
 	(1, 'Master admin', NULL, 1, NULL, NULL);
 
@@ -198,7 +197,7 @@ CREATE TABLE IF NOT EXISTS `admin_special_criterias` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.admin_special_criterias: ~0 rows (approximately)
+-- Dumping data for table test.admin_special_criterias: ~1 rows (approximately)
 INSERT INTO `admin_special_criterias` (`id`, `title`, `image`, `status`, `created_at`, `updated_at`) VALUES
 	(1, 'Demo Title', '2023-08-16-64dcaaa5b0d37.png', 1, '2023-08-15 23:53:25', '2023-08-15 23:53:25');
 
@@ -216,7 +215,7 @@ CREATE TABLE IF NOT EXISTS `admin_testimonials` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.admin_testimonials: ~0 rows (approximately)
+-- Dumping data for table test.admin_testimonials: ~1 rows (approximately)
 INSERT INTO `admin_testimonials` (`id`, `name`, `designation`, `review`, `reviewer_image`, `company_image`, `status`, `created_at`, `updated_at`) VALUES
 	(1, 'John Doe', 'CTO', 'Very good service.', '2023-08-16-64dcaae2e5bc0.png', '2023-08-16-64dcaae2eae2a.png', 1, '2023-08-15 23:54:26', '2023-08-15 23:54:26');
 
@@ -278,7 +277,7 @@ CREATE TABLE IF NOT EXISTS `business_settings` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=141 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.business_settings: ~137 rows (approximately)
+-- Dumping data for table test.business_settings: ~138 rows (approximately)
 INSERT INTO `business_settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES
 	(1, 'cash_on_delivery', '{"status":null}', '2021-07-01 15:51:17', '2024-05-01 18:47:18'),
 	(2, 'stripe', '{"status":"0","api_key":null,"published_key":null}', '2021-05-11 03:57:02', '2022-03-23 04:22:00'),
@@ -353,13 +352,13 @@ INSERT INTO `business_settings` (`id`, `key`, `value`, `created_at`, `updated_at
 	(73, 'admin_order_notification', NULL, NULL, NULL),
 	(74, 'swish_payment', '{"status":"1"}', NULL, '2021-12-28 12:02:40'),
 	(76, 'service_charge', '12', NULL, NULL),
-	(77, 'social_login', '[{"login_medium":"google","client_id":null,"client_secret":null,"status":"0"},{"login_medium":"facebook","client_id":null,"client_secret":null,"status":"0"}]', NULL, '2022-01-04 13:09:23'),
+	(77, 'social_login', '[{"login_medium":"google","client_id":"sad","client_secret":"sadsad","status":"1"},{"login_medium":"facebook","client_id":null,"client_secret":null,"status":"0"}]', NULL, '2024-05-05 20:36:22'),
 	(78, 'language', '["en"]', NULL, NULL),
 	(79, 'timeformat', '24', NULL, NULL),
 	(80, 'canceled_by_restaurant', '0', NULL, NULL),
 	(81, 'canceled_by_deliveryman', '0', NULL, NULL),
 	(82, 'show_dm_earning', NULL, NULL, NULL),
-	(83, 'recaptcha', '{"status":"0","site_key":null,"secret_key":null}', '2022-03-23 15:17:39', '2022-03-23 15:17:39'),
+	(83, 'recaptcha', '{"status":"1","site_key":null,"secret_key":null}', '2022-03-23 15:17:39', '2022-03-23 15:17:39'),
 	(84, 'toggle_veg_non_veg', '1', NULL, NULL),
 	(85, 'toggle_dm_registration', '1', NULL, NULL),
 	(86, 'toggle_restaurant_registration', '1', NULL, NULL),
@@ -416,7 +415,8 @@ INSERT INTO `business_settings` (`id`, `key`, `value`, `created_at`, `updated_at
 	(137, 'offline_payment_status', NULL, NULL, '2023-10-16 20:16:58'),
 	(138, 'apple_login', '[{"login_medium":"apple","client_id":"","client_secret":"","team_id":"","key_id":"","service_file":"","redirect_url":"","status":""}]', '2024-05-01 18:30:55', '2024-05-01 18:30:55'),
 	(139, 'guest_checkout_status', '0', NULL, NULL),
-	(140, 'backgroundChange', '{"primary_1_hex":"#003361","primary_1_rgb":"0, 51, 97","primary_2_hex":"#333e4f","primary_2_rgb":"51, 62, 79"}', NULL, NULL);
+	(140, 'backgroundChange', '{"primary_1_hex":"#003361","primary_1_rgb":"0, 51, 97","primary_2_hex":"#333e4f","primary_2_rgb":"51, 62, 79"}', NULL, NULL),
+	(141, 'kycconfig', '{"prod_url":"https:\\/\\/api.eko.in:25002\\/ekoicici","developer_key":"793db230ef4ac2eb691e3087f73fe749","secret_key":"y4k0KzCD1cCfUNnOqz7WsshrduUZC51YH61sxj8zxdM","secret_key_timestamp":"1704791808198","initiator_id":"7708080885","customer_id":null,"authenticator_key":null,"user_code":"34870001"}', '2024-05-06 23:57:05', '2024-05-06 23:57:05');
 
 -- Dumping structure for table test.campaigns
 CREATE TABLE IF NOT EXISTS `campaigns` (
@@ -741,7 +741,7 @@ CREATE TABLE IF NOT EXISTS `data_settings` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.data_settings: ~87 rows (approximately)
+-- Dumping data for table test.data_settings: ~88 rows (approximately)
 INSERT INTO `data_settings` (`id`, `key`, `value`, `type`, `created_at`, `updated_at`) VALUES
 	(1, 'admin_login_url', 'admin', 'login_admin', '2023-06-11 14:34:59', '2023-06-11 14:34:59'),
 	(2, 'admin_employee_login_url', 'admin-employee', 'login_admin_employee', '2023-06-11 14:34:59', '2023-06-11 14:34:59'),
@@ -1165,7 +1165,7 @@ CREATE TABLE IF NOT EXISTS `flutter_special_criterias` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.flutter_special_criterias: ~0 rows (approximately)
+-- Dumping data for table test.flutter_special_criterias: ~1 rows (approximately)
 INSERT INTO `flutter_special_criterias` (`id`, `title`, `image`, `status`, `created_at`, `updated_at`) VALUES
 	(1, 'Demo Feature Title', '2023-08-16-64dcae4ca0594.png', 1, '2023-08-16 00:09:00', '2023-08-16 00:09:00');
 
@@ -1340,9 +1340,9 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=135 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=136 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.migrations: ~132 rows (approximately)
+-- Dumping data for table test.migrations: ~133 rows (approximately)
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 	(1, '2016_06_01_000001_create_oauth_auth_codes_table', 30),
 	(2, '2016_06_01_000002_create_oauth_access_tokens_table', 30),
@@ -1475,7 +1475,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 	(131, '2023_11_21_124049_create_disbursement_details_table', 45),
 	(132, '2023_11_21_160728_add_created_by_col_to_account_transactions_table', 45),
 	(133, '2023_11_23_093859_create_parcel_delivery_instructions_table', 45),
-	(134, '2024_01_17_105010_create_order_references_table', 46);
+	(134, '2024_01_17_105010_create_order_references_table', 46),
+	(135, '2024_04_29_065936_add_location_to_users_table', 47);
 
 -- Dumping structure for table test.modules
 CREATE TABLE IF NOT EXISTS `modules` (
@@ -1494,7 +1495,7 @@ CREATE TABLE IF NOT EXISTS `modules` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.modules: ~0 rows (approximately)
+-- Dumping data for table test.modules: ~1 rows (approximately)
 INSERT INTO `modules` (`id`, `module_name`, `module_type`, `thumbnail`, `status`, `stores_count`, `created_at`, `updated_at`, `icon`, `theme_id`, `description`, `all_zone_service`) VALUES
 	(1, 'onnwheels', 'rental', '2024-05-02-66334f7a09b9d.png', 1, 2, '2023-08-15 23:31:17', '2024-05-01 22:01:54', '2024-05-02-66334f7a08dc2.png', 1, '<p>Demo module description.</p>', 0);
 
@@ -1552,7 +1553,7 @@ CREATE TABLE IF NOT EXISTS `module_zone` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.module_zone: ~0 rows (approximately)
+-- Dumping data for table test.module_zone: ~1 rows (approximately)
 INSERT INTO `module_zone` (`id`, `module_id`, `zone_id`, `per_km_shipping_charge`, `minimum_shipping_charge`, `maximum_cod_order_amount`, `maximum_shipping_charge`) VALUES
 	(1, 1, 1, 10.00, 10.00, 10.00, 10.00);
 
@@ -1665,7 +1666,13 @@ CREATE TABLE IF NOT EXISTS `oauth_access_tokens` (
   KEY `oauth_access_tokens_user_id_index` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.oauth_access_tokens: ~0 rows (approximately)
+-- Dumping data for table test.oauth_access_tokens: ~5 rows (approximately)
+INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes`, `revoked`, `created_at`, `updated_at`, `expires_at`) VALUES
+	('19945962d133f6fa14f0d2347a0eb60f98e15619ae107303edd27b264634ed4f5b48549757230e8f', 25, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-06 00:50:02', '2024-05-06 00:50:02', '2025-05-06 06:20:02'),
+	('4d34ea2a1d79b087ba5718b865199ef398af9e0380fb5e0361bab8c17998ac44f4c2cdbc9f19b1e5', 25, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-06 00:51:28', '2024-05-06 00:51:28', '2025-05-06 06:21:28'),
+	('762fd2fe0fce720b1cdc15d2cdd0b86bb25ce27f8d3eb4c8652529840625bb715cfc935eb22e70ed', 24, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-05 22:36:21', '2024-05-05 22:36:21', '2025-05-06 04:06:21'),
+	('88d8dc679b2b002c9d500cd3f6647277b5fdb6a98710a8b90e6f52fd91b87504068e8b8d0f86a481', 25, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-06 02:24:57', '2024-05-06 02:24:57', '2025-05-06 07:54:57'),
+	('b8579a28b56ac5a6a8b377a75e50fdcc451281e402b5487e4a1d9c281ab04158ddd73d6b0ecbbccb', 24, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-05 23:34:58', '2024-05-05 23:34:58', '2025-05-06 05:04:58');
 
 -- Dumping structure for table test.oauth_auth_codes
 CREATE TABLE IF NOT EXISTS `oauth_auth_codes` (
@@ -2054,11 +2061,13 @@ CREATE TABLE IF NOT EXISTS `phone_verifications` (
   `temp_block_time` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `phone_verifications_phone_unique` (`phone`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.phone_verifications: ~1 rows (approximately)
+-- Dumping data for table test.phone_verifications: ~3 rows (approximately)
 INSERT INTO `phone_verifications` (`id`, `phone`, `token`, `created_at`, `updated_at`, `otp_hit_count`, `is_blocked`, `is_temp_blocked`, `temp_block_time`) VALUES
-	(4, '9655800621', '7110', '2024-05-04 02:20:14', '2024-05-04 02:20:14', 0, 0, 0, NULL);
+	(4, '9655800621', '7110', '2024-05-04 02:20:14', '2024-05-04 02:20:14', 0, 0, 0, NULL),
+	(6, '9655804621', '8816', '2024-05-05 23:34:40', '2024-05-05 23:34:40', 0, 0, 0, NULL),
+	(8, '9597755160', '8203', '2024-05-06 02:24:34', '2024-05-06 02:24:34', 0, 0, 0, NULL);
 
 -- Dumping structure for table test.provide_d_m_earnings
 CREATE TABLE IF NOT EXISTS `provide_d_m_earnings` (
@@ -2088,7 +2097,7 @@ CREATE TABLE IF NOT EXISTS `react_testimonials` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.react_testimonials: ~0 rows (approximately)
+-- Dumping data for table test.react_testimonials: ~1 rows (approximately)
 INSERT INTO `react_testimonials` (`id`, `name`, `designation`, `review`, `reviewer_image`, `company_image`, `status`, `created_at`, `updated_at`) VALUES
 	(1, 'John Doe', 'CTO', 'Very good Service.', '2023-08-16-64dcad86217a2.png', 'def.png', 1, '2023-08-16 00:05:42', '2023-08-16 00:05:42');
 
@@ -2123,8 +2132,6 @@ CREATE TABLE IF NOT EXISTS `refund_reasons` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table test.refund_reasons: ~0 rows (approximately)
-INSERT INTO `refund_reasons` (`id`, `reason`, `status`, `created_at`, `updated_at`) VALUES
-	(1, 'I ordered the wrong food', 1, '2023-08-16 23:39:23', '2023-08-16 23:39:23');
 
 -- Dumping structure for table test.reviews
 CREATE TABLE IF NOT EXISTS `reviews` (
@@ -2364,7 +2371,7 @@ CREATE TABLE IF NOT EXISTS `translations` (
   KEY `translations_locale_index` (`locale`)
 ) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.translations: ~50 rows (approximately)
+-- Dumping data for table test.translations: ~49 rows (approximately)
 INSERT INTO `translations` (`id`, `translationable_type`, `translationable_id`, `locale`, `key`, `value`, `created_at`, `updated_at`) VALUES
 	(1, 'App\\Models\\Module', 1, 'en', 'module_name', 'onnwheels', NULL, NULL),
 	(2, 'App\\Models\\Module', 1, 'en', 'description', '<p>Demo module description.</p>', NULL, NULL),
@@ -2390,7 +2397,6 @@ INSERT INTO `translations` (`id`, `translationable_type`, `translationable_id`, 
 	(26, 'App\\Models\\FlutterSpecialCriteria', 1, 'en', 'title', 'Demo Feature Title', NULL, NULL),
 	(27, 'App\\Models\\DataSetting', 82, 'en', 'download_user_app_title', 'Download app and enjoy more!', NULL, NULL),
 	(28, 'App\\Models\\DataSetting', 83, 'en', 'download_user_app_sub_title', 'Download app from', NULL, NULL),
-	(29, 'App\\Models\\RefundReason', 1, 'en', 'reason', 'I ordered the wrong food', NULL, NULL),
 	(30, 'App\\Models\\Zone', 2, 'en', 'name', 'Puliyakulam', NULL, NULL),
 	(31, 'App\\Models\\Store', 2, 'en', 'name', 'Mekala', NULL, NULL),
 	(32, 'App\\Models\\Store', 2, 'en', 'address', 'sadsad', NULL, NULL),
@@ -2455,16 +2461,18 @@ CREATE TABLE IF NOT EXISTS `users` (
   `current_language_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'en',
   `ref_by` bigint unsigned DEFAULT NULL,
   `temp_token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `latitude` double DEFAULT NULL,
+  `longitude` double DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_phone_unique` (`phone`),
   UNIQUE KEY `users_ref_code_unique` (`ref_code`),
   KEY `users_zone_id_index` (`zone_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table test.users: ~2 rows (approximately)
-INSERT INTO `users` (`id`, `f_name`, `l_name`, `phone`, `email`, `image`, `is_phone_verified`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `interest`, `cm_firebase_token`, `status`, `order_count`, `login_medium`, `social_id`, `zone_id`, `wallet_balance`, `loyalty_point`, `ref_code`, `current_language_key`, `ref_by`, `temp_token`) VALUES
-	(22, 'akhil', NULL, '9655804621', 'admin@gmail.com', NULL, 1, NULL, '$2y$10$KfaZBfWd0YaOTlyzJ0mrrORdnTwhc0.40QpbAEyj.CJWUb27vcqZy', NULL, '2024-05-03 23:59:10', '2024-05-03 23:59:39', NULL, NULL, 1, 0, NULL, NULL, NULL, 0.000, 0.000, 'GSKHCYRQHV', 'en', NULL, NULL),
-	(23, 'akhil', NULL, '9655800621', 'admisdasdn@gmail.com', NULL, 0, NULL, '$2y$10$rCdV/Bho0TTHO.cr1kiwSOtodioF8WEi8hq7KnQFxQwDlfTjXY5xa', NULL, '2024-05-04 02:20:14', '2024-05-04 02:20:14', NULL, NULL, 1, 0, NULL, NULL, NULL, 0.000, 0.000, 'X98JSKXQGB', 'en', NULL, NULL);
+INSERT INTO `users` (`id`, `f_name`, `l_name`, `phone`, `email`, `image`, `is_phone_verified`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `interest`, `cm_firebase_token`, `status`, `order_count`, `login_medium`, `social_id`, `zone_id`, `wallet_balance`, `loyalty_point`, `ref_code`, `current_language_key`, `ref_by`, `temp_token`, `latitude`, `longitude`) VALUES
+	(24, 'John', 'Doe', '9655804621', '3mo8rts@example.com', NULL, 1, NULL, '$2y$10$YVJ4d0zGDhhruMHt5tvIB.1N9ht7J45TgRRjDo6gemEOq5vPQ2SZa', NULL, '2024-05-05 22:16:19', '2024-05-06 00:19:35', NULL, NULL, 1, 0, NULL, NULL, NULL, 0.000, 0.000, 'KPZNDPJKUG', 'en', NULL, NULL, 11.0027796, 76.9936588),
+	(25, 'John', 'Doe', '9597755160', 'jana@example.com', NULL, 1, NULL, '$2y$10$R2unxKgJ02Ef1UxCJ5WVieuCR3es1TDhAOoFmHU12ZPYsr4rPUDk2', NULL, '2024-05-06 00:50:02', '2024-05-06 00:50:35', NULL, NULL, 1, 0, NULL, NULL, NULL, 0.000, 0.000, 'PEVB9OOB55', 'en', NULL, NULL, NULL, NULL);
 
 -- Dumping structure for table test.user_infos
 CREATE TABLE IF NOT EXISTS `user_infos` (
@@ -2690,7 +2698,7 @@ CREATE TABLE IF NOT EXISTS `zones` (
 
 -- Dumping data for table test.zones: ~2 rows (approximately)
 INSERT INTO `zones` (`id`, `name`, `coordinates`, `status`, `created_at`, `updated_at`, `store_wise_topic`, `customer_wise_topic`, `deliveryman_wise_topic`, `cash_on_delivery`, `digital_payment`, `increased_delivery_fee`, `increased_delivery_fee_status`, `increase_delivery_charge_message`, `offline_payment`) VALUES
-	(1, 'Demo Zone', _binary 0x0000000001030000000100000006000000d8b95578f0965640804b97f820d6374014ba5508809556403a236f336ed2374017ba55d83696564031240701bacd3740d5b95598ce985640f47608c3f7cd374015ba55f87c995640ce86cbe863d23740d8b95578f0965640804b97f820d63740, 1, '2023-08-15 23:35:04', '2023-08-15 23:35:44', 'zone_1_store', 'zone_1_customer', 'zone_1_delivery_man', 1, 1, 0.00, 0, NULL, 0),
+	(1, 'Coimbatore', _binary 0x0000000001030000000100000006000000b707c0da03385340418596aff63c2640c007c05a0f34534088953835a5f82540ec07c0da704353408631af7d70b82540d207c05ac24453401a08364af1142640c007c05a4f3f5340427ddf31343a2640b707c0da03385340418596aff63c2640, 1, '2023-08-15 23:35:04', '2024-05-07 01:33:20', 'zone_1_store', 'zone_1_customer', 'zone_1_delivery_man', 0, 0, 0.00, 0, NULL, 0),
 	(2, 'Puliyakulam', _binary 0x0000000001030000000100000008000000dffade555e3f5340b79ee0732704264008fbde05453f5340b80ead8dc0022640d9fadef1493f5340ca6a966d20022640e8fade4d843f53401f1d07f4a6012640f9fade21a13f53408da1716396012640cdfadea1b73f53406d6bbea3d6022640cafade49973f53407b836b5185042640dffade555e3f5340b79ee07327042640, 1, '2024-05-01 19:02:38', '2024-05-01 19:02:38', 'zone_2_store', 'zone_2_customer', 'zone_2_delivery_man', 0, 0, 0.00, 0, NULL, 0);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;

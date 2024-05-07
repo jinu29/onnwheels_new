@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\KycController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaytmController;
 use App\Http\Controllers\LiqPayController;
@@ -42,6 +44,7 @@ Route::get('shipping-policy', 'HomeController@shipping_policy')->name('shipping-
 Route::get('product-detail/{slug}','HomeController@product_detail')->name('product.product_detail');
 Route::get('payment/{slug}','HomeController@payment')->name('user.payment');
 Route::post('newsletter/subscribe', 'NewsletterController@newsLetterSubscribe')->name('newsletter.subscribe');
+Route::get('category/{category_id}/products', 'HomeController@product')->name('product_listing');
 // Route::get('/item/{slug}', 'item')->name('item');
 
 Route::get('login/{tab}', 'LoginController@login')->name('login');
@@ -230,3 +233,7 @@ Route::post('user/{id}', [AuthController::class ,'update'])->name('user.update')
 Route::post('social-login',  [AuthController::class, 'social_login'])->name('user.social.login');
 Route::post('social-register',  [AuthController::class, 'social_register'])->name('user.social.register');
 Route::post('/save-location', [LocationController::class,'saveLocation'])->name('location.fetch');
+
+// KYC Store
+Route::post('kycstore', [KycController::class,'kycstore'])->name('kyc.store');
+Route::post('kyc/{id}', [KycController::class ,'update'])->name('kyc.update');
