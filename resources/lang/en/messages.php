@@ -3890,4 +3890,5 @@
   'review_updated_successfully' => 'Review updated successfully',
   'kyc_status' => 'Kyc status',
   'Credentials do not match.' => 'Credentials do not match.',
+  'Faield to send sms' => 'Faield to send sms',
 );

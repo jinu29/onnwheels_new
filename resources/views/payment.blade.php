@@ -277,6 +277,34 @@
         .card-body {
             padding: 0.3rem 0.3rem 0.2rem
         }
+
+        /* modal */
+        body {
+            font-family: "Montserrat", sans-serif;
+        }
+
+        .modal-header {
+            border:none;
+        }
+
+        .modal-footer {
+            border: none;
+        }
+
+        .modal-body p {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .thanks {
+            background-color: black;
+            color: white;
+            padding: 8px 20px;
+            width: 150px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+        }
     </style>
 @endsection
 @section('content')
@@ -338,9 +366,25 @@
 
                 </div>
                 <div class="mt-4 text-center">
-                    <button type="button" class="btn btn-dark">Confirm</button>
+                    <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModal">Confirm</button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body d-flex flex-column align-items-center">
+              <img src="/public/assets/landing/image/modal_img.jpg" alt="" style="width:300px;">
+              <p>Your Booking has been Accepted</p>
+            </div>
+            <div class="modal-footer d-flex align-items-center justify-content-center">
+                <a href="{{route('home')}}">
+                    <button type="button" class="thanks">Thank You</button>
+                </a>
+            </div>
+          </div>
         </div>
     </div>
 @endsection

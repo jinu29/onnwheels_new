@@ -394,4 +394,13 @@ class HomeController extends Controller
         }
 
     }
+
+    public function product($category_id) {
+        $products = Item::where('category_id', $category_id)->get();
+        // Assuming you have a Category model and want to retrieve the category name
+        $category = Category::findOrFail($category_id);
+    
+        return view('productlisting', compact('products', 'category'));
+    }
+
 }
