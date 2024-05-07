@@ -213,6 +213,7 @@ Route::group(['prefix' => 'deliveryman', 'as' => 'deliveryman.'], function () {
 Route::get('signup', [AuthController::class, 'signup'])->name('user.signup');
 Route::post('register', [AuthController::class, 'register'])->name('user.store');
 
+
 // OTP Route
 Route::get('otp', [AuthController::class, 'otp'])->name('user.otp');
 Route::post('otp-verify', [AuthController::class, 'verifyPhone'])->name('user.verify.otp');
@@ -220,6 +221,10 @@ Route::post('otp-verify', [AuthController::class, 'verifyPhone'])->name('user.ve
 //user login
 Route::post('/user-login', [AuthController::class, 'login'])->name('user.login');
 Route::get('user-logout', [AuthController::class, 'logout'])->name('user.logout');
+
+// UserProfile Route
+Route::get('userprofile', [UserController::class , 'userprofile'])->name('userprofile');
+Route::post('user/{id}', [AuthController::class ,'update'])->name('user.update');
 
 //Social login
 Route::post('social-login',  [AuthController::class, 'social_login'])->name('user.social.login');

@@ -86,6 +86,7 @@ class AuthController extends Controller
             'l_name' => $request->l_name,
             'email' => $request->email,
             'phone' => $request->phone,
+            'image' => $request->image,
             'ref_by' => $ref_by,
             'password' => bcrypt($request->password),
         ]);
@@ -339,7 +340,7 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => 'wrong credential.', 'message' => $e->getMessage()], 403);
         }
-      
+
         if ($request['medium'] != 'apple' && strcmp($email, $data['email']) === 0) {
             $name = explode(' ', $data['name']);
             if (count($name) > 1) {
@@ -455,4 +456,37 @@ class AuthController extends Controller
 
         return response()->json(['error' => translate('messages.email_does_not_match')]);
     }
+
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'f_name' => 'required|string',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'phone' => 'required|string|unique:users,phone,' . $id,
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust validation rules as needed
+        ]);
+
+        $user = User::findOrFail($id);
+        $user->f_name = $request->f_name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('assets/profile/'), $imageName);
+            $user->image = $imageName;
+
+            // Optionally delete previous image if it exists
+            if ($user->image && file_exists(public_path('assets/' . $user->image))) {
+                unlink(public_path('assets/' . $user->image));
+            }
+        }
+
+        $user->save();
+
+        return redirect()->back()->with('success', 'User updated successfully.');
+    }
+
 }
