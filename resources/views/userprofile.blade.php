@@ -413,7 +413,6 @@
 
     .group {
         position: relative;
-        margin: 45px 0;
     }
   
     textarea {
@@ -475,24 +474,159 @@
         }
     }
 
-    .file-input__label {
-        cursor: pointer;
-        display: inline-flex;
+    /* ---------------------------------- file upload */
+    svg:not(:root) {
+        overflow: hidden;
+    }
+
+    .main-wrapper {
+        max-width: 1170px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    #file-upload-name{
+        margin: 4px 0 0 0;
+        font-size: 12px;
+    }
+    .upload-wrapper {
+        display: flex;
         align-items: center;
-        border-radius: 4px;
-        font-size: 14px;
-        font-weight: 600;
-        color: black;
-        font-size: 14px;
-        padding: 10px 12px;
-        background-color: #003360;
+        justify-content: flex-start;
+        margin: 40px auto 0;
+        position: relative;
+        cursor: pointer;
+        background-color: #bcaef5;
+        padding: 8px 10px;
+        border-radius: 10px;
+        overflow: hidden;
+        transition: 0.2s linear all;
+        color: #ffffff;
+    }
+    .upload-wrapper input[type="file"] {
+        width: 100%;
+        position: absolute;
+        left: 0;
+        right: 0;
+        opacity: 0;
+        top: 0;
+        bottom: 0;
+        cursor: pointer;
+        z-index: 1;
+    }
+    .upload-wrapper > svg {
+        width: 50px;
+        height: auto;
+        cursor: pointer;
+    }
+    .upload-wrapper.success > svg{
+        transform: translateX(-200px);
+    }
+    .upload-wrapper.uploaded {
+        transition: 0.2s linear all;
+        width: 60px;
+        border-radius: 50%;
+        height: 60px;
+        text-align: center;
+    }
+    .upload-wrapper .file-upload-text {
+        position: absolute;
+        left: 80px;
+        opacity: 1;
+        visibility: visible;
+        transition: 0.2s linear all;
+    }
+    .upload-wrapper.uploaded .file-upload-text {
+        text-indent: -999px;
+        margin: 0;
+    }
+    .file-success-text {
+        opacity: 0;
+        transition: 0.2s linear all;
+        visibility: hidden;
+        transform: translateX(200px);
+        position: absolute;
+        left: 0;
+        right: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .file-success-text svg {
+        width: 25px;
+        height: auto;
+    }
+    .file-success-text span{
+    margin-left: 15px;
+    }
+    .upload-wrapper.success .file-success-text{
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+    }
+    .upload-wrapper.success.uploaded .file-success-text{
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+    }
+    .upload-wrapper.success.uploaded .file-success-text span{
+        display: none;
+    }
+    .upload-wrapper .file-success-text circle{
+        stroke-dasharray: 380;
+        stroke-dashoffset: 380;
+        transition: 1s linear all;
+        transition-delay: 1.4s;
+    }
+    .upload-wrapper.success .file-success-text  circle {
+        stroke-dashoffset: 0;
+    }
+    .upload-wrapper .file-success-text polyline {
+        stroke-dasharray: 380;
+        stroke-dashoffset: 380;
+        transition: 1s linear all;
+        transition-delay: 2s;
+    }
+    .upload-wrapper.success .file-success-text polyline {
+        stroke-dashoffset: 0;
+    }
+    .upload-wrapper.success .file-upload-text{
+        -webkit-animation-name: bounceOutLeft;
+        animation-name: bounceOutLeft;
+        -webkit-animation-duration: 0.2s;
+        animation-duration: 0.2s;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+    }
+    @-webkit-keyframes bounceOutLeft {
+        20% {
+            opacity: 1;
+            -webkit-transform: translate3d(20px, 0, 0);
+            transform: translate3d(20px, 0, 0);
+        }
+
+        to {
+            opacity: 0;
+            -webkit-transform: translate3d(-2000px, 0, 0);
+            transform: translate3d(-2000px, 0, 0);
+        }
     }
 
-    .file-input__label svg {
-        height: 16px;
-        margin-right: 4px;
+    @keyframes bounceOutLeft {
+        20% {
+            opacity: 1;
+            -webkit-transform: translate3d(20px, 0, 0);
+            transform: translate3d(20px, 0, 0);
+        }
+
+        to {
+            opacity: 0;
+            -webkit-transform: translate3d(-2000px, 0, 0);
+            transform: translate3d(-2000px, 0, 0);
+        }
     }
 
+    
   
 </style>
 @endsection
@@ -836,35 +970,60 @@
                                     <i class="fas fa-arrow-left"></i>
                                     <h4 class="mb-0"></i>Document Verification</h4>
                                 </div>
-                                <div class="docs row" style="margin-top: 2rem;">
+                                <div class="docs" style="margin-top: 2rem;">
 
-                                    <div class="col-6">
-                                        <div class="group">
-                                            <input type="text" required>
-                                            <span class="bar"></span>
-                                            <label for="">Enter Aadhar Number</label>
+                                    <form action="{{route('kyc.store')}}" method="POST" class="row" enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="col-6">
+                                            <div class="group">
+                                                <input type="text" name="aadhar" id="card_number" value="{{$user_kyc->aadhar}}" required>
+                                                <span class="bar"></span>
+                                                <label for="">Enter Aadhar Number</label>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="col-6">
-                                        <div class="group">
-                                            <input type="text" required>
-                                            <span class="bar"></span>
-                                            <label for="">Enter PAN Number</label>
+                                        <div class="col-6">
+                                            <div class="group">
+                                                <input type="text" name="pan" required>
+                                                <span class="bar"></span>
+                                                <label for="">Enter PAN Number</label>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="file-input">
-                                        <input type="file" name="file-input" id="file-input" class="file-input__input"/>
-                                        <label class="file-input__label" for="file-input">
-                                            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="upload" class="svg-inline--fa fa-upload fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                                <path fill="currentColor" d="M296 384h-80c-13.3 0-24-10.7-24-24V192h-87.7c-17.8 0-26.7-21.5-14.1-34.1L242.3 5.7c7.5-7.5 19.8-7.5 27.3 0l152.2 152.2c12.6 12.6 3.7 34.1-14.1 34.1H320v168c0 13.3-10.7 24-24 24zm216-8v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h136v8c0 30.9 25.1 56 56 56h80c30.9 0 56-25.1 56-56v-8h136c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z"></path>
-                                            </svg>
-                                            <span>Upload file</span>
-                                        </label>
-                                    </div>
+                                        <div class="col-6 mt-0">
+                                            <div class="upload-wrapper">
+                                                        <input type="file" name="license_front" id="upload-file-front" value="{{$user_kyc->license_front}}">
+                                                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" viewBox="224.3881704980842 176.8527621722847 221.13266283524905 178.8472378277154" width="221.13" height="178.85"><defs><path d="M357.38 176.85C386.18 176.85 409.53 204.24 409.53 238.02C409.53 239.29 409.5 240.56 409.42 241.81C430.23 246.95 445.52 264.16 445.52 284.59C445.52 284.59 445.52 284.59 445.52 284.59C445.52 309.08 423.56 328.94 396.47 328.94C384.17 328.94 285.74 328.94 273.44 328.94C246.35 328.94 224.39 309.08 224.39 284.59C224.39 284.59 224.39 284.59 224.39 284.59C224.39 263.24 241.08 245.41 263.31 241.2C265.3 218.05 281.96 199.98 302.22 199.98C306.67 199.98 310.94 200.85 314.93 202.46C324.4 186.96 339.88 176.85 357.38 176.85Z" id="b1aO7LLtdW"></path><path d="M306.46 297.6L339.79 297.6L373.13 297.6L339.79 255.94L306.46 297.6Z" id="c4SXvvMdYD"></path><path d="M350.79 293.05L328.79 293.05L328.79 355.7L350.79 355.7L350.79 293.05Z" id="b11si2zUk"></path></defs><g><g><g><use xlink:href="#b1aO7LLtdW" opacity="1" fill="#ffffff" fill-opacity="1"></use></g><g><g><use xlink:href="#c4SXvvMdYD" opacity="1" fill="#363535" fill-opacity="1"></use></g><g><use xlink:href="#b11si2zUk" opacity="1" fill="#363535" fill-opacity="1"></use></g></g></g></g></svg>
+                                                        <span class="file-upload-text">Upload License Front</span>
+                                                        <div class="file-success-text">
+                                                        <svg version="1.1" id="check" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                    viewBox="0 0 100 100"  xml:space="preserve">
+                                                    <circle style="fill:rgba(0,0,0,0);stroke:#ffffff;stroke-width:10;stroke-miterlimit:10;" cx="49.799" cy="49.746" r="44.757"/>
+                                                    <polyline style="fill:rgba(0,0,0,0);stroke:#ffffff;stroke-width:10;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;" points="
+                                                    27.114,51 41.402,65.288 72.485,34.205 "/>
+                                                    </svg> <span>Successfully</span></div>
+                                            </div>
+                                            <p id="file-upload-name"></p>
+                                            <img src="{{ asset('public/assets/kyc/' . $user_kyc->license_front)}}" alt="" width="150px">
+                                            
+                                        </div>
 
-                                    <button class="btn mt-3">Upload</button>
+                                        <div class="col-6 mt-0">
+                                            <div class="upload-wrapper">
+                                                <input type="file" name="license_back" id="upload-file-back" value="{{$user_kyc->license_back}}">
+                                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" viewBox="224.3881704980842 176.8527621722847 221.13266283524905 178.8472378277154" width="221.13" height="178.85"><defs><path d="M357.38 176.85C386.18 176.85 409.53 204.24 409.53 238.02C409.53 239.29 409.5 240.56 409.42 241.81C430.23 246.95 445.52 264.16 445.52 284.59C445.52 284.59 445.52 284.59 445.52 284.59C445.52 309.08 423.56 328.94 396.47 328.94C384.17 328.94 285.74 328.94 273.44 328.94C246.35 328.94 224.39 309.08 224.39 284.59C224.39 284.59 224.39 284.59 224.39 284.59C224.39 263.24 241.08 245.41 263.31 241.2C265.3 218.05 281.96 199.98 302.22 199.98C306.67 199.98 310.94 200.85 314.93 202.46C324.4 186.96 339.88 176.85 357.38 176.85Z" id="b1aO7LLtdW"></path><path d="M306.46 297.6L339.79 297.6L373.13 297.6L339.79 255.94L306.46 297.6Z" id="c4SXvvMdYD"></path><path d="M350.79 293.05L328.79 293.05L328.79 355.7L350.79 355.7L350.79 293.05Z" id="b11si2zUk"></path></defs><g><g><g><use xlink:href="#b1aO7LLtdW" opacity="1" fill="#ffffff" fill-opacity="1"></use></g><g><g><use xlink:href="#c4SXvvMdYD" opacity="1" fill="#363535" fill-opacity="1"></use></g><g><use xlink:href="#b11si2zUk" opacity="1" fill="#363535" fill-opacity="1"></use></g></g></g></g></svg>
+                                                <span class="file-upload-text">Upload License Back</span>
+                                                <div class="file-success-text">
+                                                <svg version="1.1" id="check" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100"  xml:space="preserve">
+                                                <circle style="fill:rgba(0,0,0,0);stroke:#ffffff;stroke-width:10;stroke-miterlimit:10;" cx="49.799" cy="49.746" r="44.757"/>
+                                                <polyline style="fill:rgba(0,0,0,0);stroke:#ffffff;stroke-width:10;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;" points="27.114,51 41.402,65.288 72.485,34.205 "/>
+                                                </svg> <span>Successfully</span></div>
+                                            </div>
+                                            <p id="file-upload-name"></p>
+                                        </div>
+                                        
+                                        <button type="submit" class="btn mt-3" style="width:200px">Verify</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -975,18 +1134,65 @@
     }
 
     function showProfilePage() {
-  var docsPage = document.querySelector('.docs-page');
-  var transactionPage = document.querySelector('.transaction-page');
-  var bookingPage = document.querySelector('.booking-page');
-  var wishlistPage = document.querySelector('.wishlist-page');
-  var profilePage = document.querySelector('.profile-page');
+        var docsPage = document.querySelector('.docs-page');
+        var transactionPage = document.querySelector('.transaction-page');
+        var bookingPage = document.querySelector('.booking-page');
+        var wishlistPage = document.querySelector('.wishlist-page');
+        var profilePage = document.querySelector('.profile-page');
 
-  docsPage.style.display = 'none';
-  transactionPage.style.display = 'none';
-  bookingPage.style.display = 'none';
-  wishlistPage.style.display = 'none';
-  profilePage.style.display = 'block';
+        docsPage.style.display = 'none';
+        transactionPage.style.display = 'none';
+        bookingPage.style.display = 'none';
+        wishlistPage.style.display = 'none';
+        profilePage.style.display = 'block';
+    }
 
-}
+    $(document).ready(function(){
+        $('#upload-file-front').change(function() {
+        var filename = $(this).val().split('\\').pop(); // Extract filename from the file input
+        $(this).closest('.upload-wrapper').find('.file-upload-text').html(filename); // Update the file-upload-text element with the filename
+        $(this).closest('.upload-wrapper').find('.file-upload-name').html(filename); // Update the file-upload-name element with the filename
+        if(filename!=""){
+            setTimeout(function(){
+                $(this).closest('.upload-wrapper').addClass("uploaded");
+            }.bind(this), 600);
+            setTimeout(function(){
+                $(this).closest('.upload-wrapper').removeClass("uploaded").addClass("success");
+            }.bind(this), 1600);
+        }
+        });
+    });
+
+    $(document).ready(function(){
+        $('#upload-file-back').change(function() {
+            var filename = $(this).val().split('\\').pop(); // Extract filename from the file input
+            $(this).closest('.upload-wrapper').find('.file-upload-text').html(filename); // Update the file-upload-text element with the filename
+            $(this).closest('.upload-wrapper').find('.file-upload-name').html(filename); // Update the file-upload-name element with the filename
+            if(filename!=""){
+                setTimeout(function(){
+                    $(this).closest('.upload-wrapper').addClass("uploaded");
+                }.bind(this), 600);
+                setTimeout(function(){
+                    $(this).closest('.upload-wrapper').removeClass("uploaded").addClass("success");
+                }.bind(this), 1600);
+            }
+        });
+    });
+
+    const cardNumber = document.querySelector('#card_number');
+        cardNumber.addEventListener('input', function (e) {
+        // Remove any non-digit characters
+        this.value = this.value.replace(/\D/g, '');
+        
+        // Format the input as groups of 4 digits with a space
+        this.value = this.value.replace(/(\d{4})(?=\d)/g, '$1 ');
+
+        // Limit the input to 12 characters
+        if (this.value.length > 14) {
+            this.value = this.value.slice(0, 14);
+        }
+    });
+
+
 </script>
 @endsection

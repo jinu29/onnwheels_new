@@ -3894,4 +3894,5 @@
   'Hours' => 'Hours',
   'Hours price' => 'Hours price',
   'KM price' => 'KM price',
+  'Faield to send sms' => 'Faield to send sms',
 );

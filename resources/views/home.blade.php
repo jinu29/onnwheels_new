@@ -409,7 +409,7 @@
             @foreach ($category as $categorys )
                 <div class="card text-center">
                     <div class="card-body p-2 d-flex flex-column text-center">
-                        <a href="#">
+                        <a href="{{ route('product_listing', ['category_id' => $categorys->id]) }}">
                             <img class="avatar avatar-lg mr-3 onerror-image"src="{{ \App\CentralLogics\Helpers::onerror_image_helper($categorys['image'] ?? '',asset('storage/app/public/category').'/'.$categorys['image'] ?? '',asset('public/assets/admin'),'category/') }}"data-onerror-image="{{asset('public/assets/admin/img/160x160/img2.jpg')}}" alt="{{$categorys->name}} image">
                             <div class="card-title text-center mb-0">
                                 <h4 class="product-title mb-0">{{$categorys->name}}</h4>

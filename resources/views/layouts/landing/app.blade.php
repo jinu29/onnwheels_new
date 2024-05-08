@@ -18,12 +18,12 @@ $landing_site_direction = session()->get('landing_site_direction');
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="{{ asset('public/assets/landing/css/bootstrap.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('public/assets/landing/css/customize-animate.css') }}" />
-    <link rel="stylesheet" href="{{ asset('public/assets/landing/css/odometer.css') }}" />
-    <link rel="stylesheet" href="{{ asset('public/assets/landing/css/owl.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('public/assets/admin/css/toastr.css') }}">
-    <link rel="stylesheet" href="{{ asset('public/assets/landing/css/main.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/public/assets/landing/css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/public/assets/landing/css/customize-animate.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/public/assets/landing/css/odometer.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/public/assets/landing/css/owl.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/public/assets/admin/css/toastr.css') }}">
+    <link rel="stylesheet" href="{{ asset('/public/assets/landing/css/main.css') }}" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <!-- Slick Carousel -->
@@ -271,7 +271,7 @@ $landing_site_direction = session()->get('landing_site_direction');
                             </div>
                             <div class="user-details">
                                 <div class="dropdown-menu" id="dropdown-menu">
-                                    <a>Profile</a>
+                                    <a href="{{route ('userprofile')}}">Profile</a>
                                     <div class="menu-divider"></div> <!-- Divider -->
                                     <a href="{{ route('user.logout') }}">Logout</a>
                                 </div>
@@ -445,9 +445,8 @@ $landing_site_direction = session()->get('landing_site_direction');
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous">
     </script>
-
-    {{-- Date and Range Picker --}}
-
+    {{-- Jquery --}}
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     {!! Toastr::message() !!}
     @if ($errors->any())
         <script>
