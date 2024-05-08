@@ -626,8 +626,245 @@
         }
     }
 
+    .error {
+        font-size: 11px;
+        font-weight: 600;
+        color: red;
+        margin-top: 10px;
+    }
+
+    .success {
+        font-size: 11px;
+        font-weight: 600;
+        color: green;
+        margin-top: 10px;
+    }
+
+    .verify-title {
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .aadhar {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #otp-form input {
+        width: 50px;
+        height: 50px;
+        padding: 5px;
+        background-color: #f1f5f9;
+        border: none;
+        outline: none;
+        font-weight: 700;
+    }
+
+    .verify {
+        padding: 10px 15px;
+        border-radius: 12px;
+        background-color: #6366f1;
+        color: white;
+        font-size: 14px;
+        font-weight: 600;
+        border: none;
+        outline: none;
+    }
+
+    .code {
+        margin-top: 15px;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .resend {
+        color:#6366f1;
+    }
+
+    .buttons {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .prev {
+        display: flex;
+        align-self: flex-end;
+        margin-top: 2rem;
+    }
+
+    .next {
+        display: flex;
+        align-self: flex-end;
+        margin-top: 2rem;
+    }
+
+    .prev button {
+        padding: 10px 20px;
+        border-radius: 12px;
+        background-color: #003361;
+        color: white;
+        font-size: 14px;
+        font-weight: 500;
+        border: none;
+        outline: none;
+    }
+
+    .next button {
+        padding: 10px 20px;
+        border-radius: 12px;
+        background-color: #003361;
+        color: white;
+        font-size: 14px;
+        font-weight: 500;
+        border: none;
+        outline: none;
+    }
+
+    .aadhar, .pan {
+        display: block;
+        margin-top: 2rem;
+    }
+
+    .pan {
+        display: none;
+    }
+
+    .license-front {
+        display: none;
+    }
+
+    /* Image upload */
+    .upload__box {
+        padding: 40px;
+    }
+
+    .upload__inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+    }
+    .upload__btn {
+    display: inline-block;
+    font-weight: 600;
+    color: #fff;
+    text-align: center;
+    min-width: 116px;
+    padding: 5px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 2px solid;
+    background-color: #4045ba;
+    border-color: #4045ba;
+    border-radius: 10px;
+    line-height: 26px;
+    font-size: 14px;
+    }
+    .upload__btn:hover {
+    background-color: unset;
+    color: #4045ba;
+    transition: all 0.3s ease;
+    }
+    .upload__btn-box {
+    margin-bottom: 10px;
+    }
+    .upload__img-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -10px;
+    }
+    .upload__img-box {
+    width: 200px;
+    padding: 0 10px;
+    margin-bottom: 12px;
+    }
+    .upload__img-close {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    text-align: center;
+    line-height: 24px;
+    z-index: 1;
+    cursor: pointer;
+    }
+    .upload__img-close:after {
+    content: "✖";
+    font-size: 14px;
+    color: white;
+    }
+
+    .img-bg {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    padding-bottom: 100%;
+    }
+
+    /* Tracking */
+
+    .order-track {
+        padding: 0 1rem;
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .order-track-step {
+    display: flex;
+    height: 7rem;
+    }
+
+    .order-track-step:last-child {
+    overflow: hidden;
+    height: 4rem;
+    }
+
+    .order-track-step:last-child .order-track-status span:last-of-type {
+    display: none;
+    }
+
+    .order-track-status {
+    margin-right: 1.5rem;
+    position: relative;
+    }
     
-  
+    .order-track-status-dot {
+    display: block;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    background: #f05a00;
+    }
+    .order-track-status-line {
+    display: block;
+    margin: 0 auto;
+    width: 2px;
+    height: 7rem;
+    background: #f05a00;
+    }
+    .order-track-text-stat {
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin-bottom: 3px;
+    }
+    .order-track-text-sub {
+    font-size: 1rem;
+    font-weight: 300;
+    }
+
+    .order-track {
+    transition: all 0.3s height 0.3s;
+    transform-origin: top center;
+    }
+
 </style>
 @endsection
 @section('content')
@@ -851,9 +1088,63 @@
                                     </table>
                                 </div>
                                 <div class="tracking">
-                                    <a href="https://www.google.com/maps/dir//Current+Location/Your+Destination/@currentLocation" target="_blank">
+                                    <a href="#" id="trackLink">
                                         <p>Track my Booking</p>
                                     </a>
+                                </div>
+                                <div class="tracking" id="orderTrack">
+                                    <div class="order-track">
+                                        <div class="order-track-step">
+                                          <div class="order-track-status">
+                                            <span class="order-track-status-dot"></span>
+                                            <span class="order-track-status-line"></span>
+                                          </div>
+                                          <div class="order-track-text">
+                                            <p class="order-track-text-stat">Order Received</p>
+                                            <span class="order-track-text-sub">21st November, 2019</span>
+                                          </div>
+                                        </div>
+                                        <div class="order-track-step">
+                                          <div class="order-track-status">
+                                            <span class="order-track-status-dot"></span>
+                                            <span class="order-track-status-line"></span>
+                                          </div>
+                                          <div class="order-track-text">
+                                            <p class="order-track-text-stat">Order Processed</p>
+                                            <span class="order-track-text-sub">21st November, 2019</span>
+                                          </div>
+                                        </div>
+                                        <div class="order-track-step">
+                                          <div class="order-track-status">
+                                            <span class="order-track-status-dot"></span>
+                                            <span class="order-track-status-line"></span>
+                                          </div>
+                                          <div class="order-track-text">
+                                            <p class="order-track-text-stat">Manufracturing In Progress</p>
+                                            <span class="order-track-text-sub">21st November, 2019</span>
+                                          </div>
+                                        </div>
+                                        <div class="order-track-step">
+                                          <div class="order-track-status">
+                                            <span class="order-track-status-dot"></span>
+                                            <span class="order-track-status-line"></span>
+                                          </div>
+                                          <div class="order-track-text">
+                                            <p class="order-track-text-stat">Order Dispatched</p>
+                                            <span class="order-track-text-sub">21st November, 2019</span>
+                                          </div>
+                                        </div>
+                                        <div class="order-track-step">
+                                          <div class="order-track-status">
+                                            <span class="order-track-status-dot"></span>
+                                            <span class="order-track-status-line"></span>
+                                          </div>
+                                          <div class="order-track-text">
+                                            <p class="order-track-text-stat">Order Deliverd</p>
+                                            <span class="order-track-text-sub">21st November, 2019</span>
+                                          </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -970,7 +1261,84 @@
                                     <i class="fas fa-arrow-left"></i>
                                     <h4 class="mb-0"></i>Document Verification</h4>
                                 </div>
-                                <div class="docs" style="margin-top: 2rem;">
+
+                                <div class="aadhar" style="margin-top: 2rem">
+                                    <div class="group">
+                                        <input type="text" name="aadhar" id="card_number" value="{{$user_kyc->aadhar}}" required>
+                                        <span class="bar"></span>
+                                        <label for="">Enter Aadhar Number</label>
+                                        <span class="error mt-3">Entered Aadhar number is incorrect</span>
+                                    </div>
+                                    
+                                    <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                          <div class="modal-content">
+                                            <div class="modal-header border-0">
+                                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body text-center">
+                                                <div class="otp" >
+                                                    <h1 class="verify-title">OTP Verification</h1>
+                                                    <form id="otp-form" style="margin-top: 20px;">
+                                                        <div class="d-flex justify-content-center" style="gap: 10px;">
+                                                            <input type="text" class="text-center rounded outline-none " pattern="\d*" maxlength="1"/>
+            
+                                                            <input type="text" class="text-center rounded outline-none " maxlength="1"/>
+            
+                                                            <input type="text" class="text-center rounded outline-none" maxlength="1"/>
+            
+                                                            <input type="text" class="text-center rounded outline-none" maxlength="1"/>
+                                                        </div>
+                                                        <span class="error">OTP is Incorrect</span> <br>
+                                                        <span class="success">OTP is Verified</span>
+                                                    </form>
+                                                    <div class="code">Didn't receive code? <a class="font-medium resend" href="#">Resend</a></div>
+                                                </div>                                            </div>
+                                            
+                                          </div>
+                                        </div>
+                                      </div>
+                                     
+                                      <a class="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Verify</a>
+                                                                    
+                                    <div class="next">
+                                        <button id="nextBtn">Next Step</button>
+                                    </div>
+                                </div>
+
+                                <div class="pan" style="margin-top: 2rem">
+                                    <div class="group">
+                                        <input type="text" name="pan" required>
+                                        <span class="bar"></span>
+                                        <label for="">Enter PAN Number</label>
+                                    </div>
+                                    <span class="error">Entered PAN is Incorrect</span> <br>
+                                    <span class="success">PAN is Verified</span>
+                                    <div class="buttons">
+                                        {{-- <div class="prev">
+                                            <button id="nextBtn">Prev Step</button>
+                                        </div> --}}
+                                        <div class="next">
+                                            <button id="nextBtnOne">Next Step</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="license-front">
+                                    <div class="group">
+                                        <input type="text" name="license_front" id="card_number" required>
+                                        <span class="bar"></span>
+                                        <label for="">Upload License Front Page</label>
+                                        <span class="error mt-3">Entered Aadhar number is incorrect</span>
+                                    </div>
+                                    <div class="group">
+                                        <input type="text" name="aadhar" id="card_number" required>
+                                        <span class="bar"></span>
+                                        <label for="">Upload License Back Page</label>
+                                        <span class="error mt-3">Entered Aadhar number is incorrect</span>
+                                    </div>
+                                </div>
+                                {{-- <div class="docs" style="margin-top: 2rem;">
 
                                     <form action="{{route('kyc.store')}}" method="POST" class="row" enctype="multipart/form-data">
                                         @csrf
@@ -1024,7 +1392,7 @@
                                         
                                         <button type="submit" class="btn mt-3" style="width:200px">Verify</button>
                                     </form>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
 
@@ -1193,6 +1561,180 @@
         }
     });
 
+    const form = document.getElementById('otp-form')
+    const inputs = [...form.querySelectorAll('input[type=text]')]
+    const submit = form.querySelector('button[type=submit]')
+
+    const handleKeyDown = (e) => {
+        if (
+            !/^[0-9]{1}$/.test(e.key)
+            && e.key !== 'Backspace'
+            && e.key !== 'Delete'
+            && e.key !== 'Tab'
+            && !e.metaKey
+        ) {
+            e.preventDefault()
+        }
+
+        if (e.key === 'Delete' || e.key === 'Backspace') {
+            const index = inputs.indexOf(e.target);
+            if (index > 0) {
+                inputs[index - 1].value = '';
+                inputs[index - 1].focus();
+            }
+        }
+    }
+
+    const handleInput = (e) => {
+        const { target } = e
+        const index = inputs.indexOf(target)
+        if (target.value) {
+            if (index < inputs.length - 1) {
+                inputs[index + 1].focus()
+            } else {
+                submit.focus()
+            }
+        }
+    }
+
+    const handleFocus = (e) => {
+        e.target.select()
+    }
+
+    const handlePaste = (e) => {
+        e.preventDefault()
+        const text = e.clipboardData.getData('text')
+        if (!new RegExp(`^[0-9]{${inputs.length}}$`).test(text)) {
+            return
+        }
+        const digits = text.split('')
+        inputs.forEach((input, index) => input.value = digits[index])
+        submit.focus()
+    }
+
+    inputs.forEach((input) => {
+        input.addEventListener('input', handleInput)
+        input.addEventListener('keydown', handleKeyDown)
+        input.addEventListener('focus', handleFocus)
+        input.addEventListener('paste', handlePaste)
+    })
+
+    // Multistep Form
+    // For Aadhar section
+    document.getElementById('nextBtn').addEventListener('click', function() {
+        // Hide the Aadhar section
+        document.querySelector('.aadhar').style.display = 'none';
+        document.querySelector('.license-front').style.display = 'none';
+        // Display the PAN section
+        document.querySelector('.pan').style.display = 'block';
+    });
+
+    // For PAN section
+    document.getElementById('nextBtnOne').addEventListener('click', function() {
+        // Hide the PAN section
+        document.querySelector('.pan').style.display = 'none';
+        
+        // Display the License Front section
+        document.querySelector('.license-front').style.display = 'block';
+    });
+
+
+</script>
+<script>
+    $('#imageInput').on('change', function() {
+	$input = $(this);
+	if($input.val().length > 0) {
+		fileReader = new FileReader();
+		fileReader.onload = function (data) {
+		$('.image-preview').attr('src', data.target.result);
+		}
+		fileReader.readAsDataURL($input.prop('files')[0]);
+		$('.image-button').css('display', 'none');
+		$('.image-preview').css('display', 'block');
+		$('.change-image').css('display', 'block');
+	}
+});
+						
+$('.change-image').on('click', function() {
+	$control = $(this);			
+	$('#imageInput').val('');	
+	$preview = $('.image-preview');
+	$preview.attr('src', '');
+	$preview.css('display', 'none');
+	$control.css('display', 'none');
+	$('.image-button').css('display', 'block');
+});
+</script>
+{{-- Image upload --}}
+<script>
+    jQuery(document).ready(function () {
+  ImgUpload();
+});
+
+function ImgUpload() {
+  var imgWrap = "";
+  var imgArray = [];
+
+  $('.upload__inputfile').each(function () {
+    $(this).on('change', function (e) {
+      imgWrap = $(this).closest('.upload__box').find('.upload__img-wrap');
+      var maxLength = $(this).attr('data-max_length');
+
+      var files = e.target.files;
+      var filesArr = Array.prototype.slice.call(files);
+      var iterator = 0;
+      filesArr.forEach(function (f, index) {
+
+        if (!f.type.match('image.*')) {
+          return;
+        }
+
+        if (imgArray.length > maxLength) {
+          return false
+        } else {
+          var len = 0;
+          for (var i = 0; i < imgArray.length; i++) {
+            if (imgArray[i] !== undefined) {
+              len++;
+            }
+          }
+          if (len > maxLength) {
+            return false;
+          } else {
+            imgArray.push(f);
+
+            var reader = new FileReader();
+            reader.onload = function (e) {
+              var html = "<div class='upload__img-box'><div style='background-image: url(" + e.target.result + ")' data-number='" + $(".upload__img-close").length + "' data-file='" + f.name + "' class='img-bg'><div class='upload__img-close'></div></div></div>";
+              imgWrap.append(html);
+              iterator++;
+            }
+            reader.readAsDataURL(f);
+          }
+        }
+      });
+    });
+  });
+
+  $('body').on('click', ".upload__img-close", function (e) {
+    var file = $(this).parent().data("file");
+    for (var i = 0; i < imgArray.length; i++) {
+      if (imgArray[i].name === file) {
+        imgArray.splice(i, 1);
+        break;
+      }
+    }
+    $(this).parent().parent().remove();
+  });
+}
+</script>
+<script>
+    document.getElementById('trackLink').addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent the default link behavior
+    
+    // Show the order track section
+    document.getElementById('orderTrack').style.display = 'block';
+});
 
 </script>
 @endsection
