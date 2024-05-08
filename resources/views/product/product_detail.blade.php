@@ -4,7 +4,9 @@
     <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet'>
     <link rel='stylesheet' href='https://sachinchoolur.github.io/lightslider/dist/css/lightslider.css'>
     <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js'></script>
-
+    {{-- Date --}}
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
 
     {{-- <style>
         * {
@@ -47,10 +49,22 @@
         }
     </style> --}}
     <style>
+        body {
+            font-family: "Montserrat", sans-serif;
+        }
+
         .card {
             background-color: #fff;
             padding: 14px;
             border: none
+        }
+
+        .lSAction>.lSPrev {
+            background-color: black;
+        }
+
+        .lSAction>.lSNext {
+            background-color: black;
         }
 
         #lightSlider li {}
@@ -277,18 +291,139 @@
         .card-body {
             padding: 0.3rem 0.3rem 0.2rem
         }
+
+        /* product details */
+        .product-details {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 15px 25px;
+        }
+
+        .product-title {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .product-title h4 {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .icons {
+            display: flex;
+            gap: 20px;
+            font-size: 20px;
+        }
+
+        .rating {
+            font-size: 12px;
+            font-weight: 500;
+            margin-left: 6px;
+        }
+
+        .rent {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 12px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid gray;
+        }
+
+        .total-price {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 12px;
+        }
+
+        .total-price p {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .rent p {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .price {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .desp p {
+            margin-top: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .date-range {
+            width: 70%;
+        }
+
+        #demo {
+            padding: 8px 15px;
+            margin-top: 15px;
+            text-align: center;
+            background: #FFA500;
+            color: white;
+            border: none;
+            outline: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            background-color: #003360;
+            color: white;
+            font-size: 12px;
+            font-weight: 500;
+            border: none;
+            outline: none;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
     </style>
 @endsection
 @section('content')
     <div class="container mt-2 mb-3">
         <div class="row no-gutters">
+            <?php
+            // JSON string containing the key-value pair
+            $jsonString = $items['hours_price'];
+
+            // Decode the JSON string into an associative array
+            $hoursPriceArray = json_decode($jsonString, true);
+
+            // Initialize variables to store key and value
+            $defaultKey = '';
+            $defaultValue = '';
+
+            // Check if decoding was successful and $hoursPriceArray is not empty
+            if ($hoursPriceArray && is_array($hoursPriceArray)) {
+                // Extract key and value from the associative array
+                $defaultKey = key($hoursPriceArray); // Get the key (e.g., "12")
+                $defaultValue = current($hoursPriceArray); // Get the value (e.g., "200")
+            }
+            ?>
             <div class="col-md-5 pr-2">
                 <div class="card">
                     <div class="demo">
                         <ul id="lightSlider">
                             @foreach ($items->images as $item)
-                                <li data-thumb="{{  asset('storage/app/public/product') . '/' . $item ?? '', asset('public/assets/admin/img/160x160/img2.jpg'), 'product/' }}"   >
-                                    <img src="{{  asset('storage/app/public/product') . '/' . $item ?? '', asset('public/assets/admin/img/160x160/img2.jpg'), 'product/' }}">
+                                <li data-thumb="{{ asset('storage/app/public/product') . '/' . $item ?? '', asset('public/assets/admin/img/160x160/img2.jpg'), 'product/' }}"
+                                    style="width: 100%;">
+                                    <img
+                                        src="{{ asset('storage/app/public/product') . '/' . $item ?? '', asset('public/assets/admin/img/160x160/img2.jpg'), 'product/' }}">
                                 </li>
                             @endforeach
                         </ul>
@@ -297,32 +432,47 @@
 
             </div>
             <div class="col-md-7">
-                <div class="card">
-
-                    <div class="about"> <span class="font-weight-bold">{{ $items->name }} </span>
-                        <h4 class="font-weight-bold">Rs. {{ $items->price }}</h4>
+                <div class="product-details">
+                    <div class="product-title">
+                        <h4>{{ $items->name }}</h4>
+                        <div class="icons">
+                            <i class="fa-regular fa-heart"></i>
+                            <i class="fa-solid fa-share-nodes"></i>
+                        </div>
                     </div>
                     <div class="d-flex flex-row align-items-center">
-                        <div class="p-ratings"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-                                class="fa fa-star"></i> <i class="fa fa-star"></i> </div> <span class="ml-1">5.0</span>
-                    </div>
-
-                    <hr>
-                    <div class="product-description">
-
-                        <div class="d-flex flex-row align-items-center">
-                            <i class="fa-solid fa-location-dot"></i> <span class="ml-1">Delivery Tamilnadu, 15-45
-                                days</span>
+                        <div class="p-ratings">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
                         </div>
-                        <div class="mt-2">
-                            <span class="font-weight-bold">Description</span>
-                            <p>{{ $items->description }}</p>
+                        <span class="rating">5.0</span>
+                    </div>
+                    <div class="rent">
+                        <p class="mb-0">Rent {{ $defaultKey }} Hour:</p>
+                        <div class="price">
+                            <i class="fa-solid fa-indian-rupee-sign"></i>
+                            <p class="mb-0">{{ $defaultValue }}</p>
                         </div>
                     </div>
-                    <div class="mt-3">
-                        {{-- <a class="btn  btn-warning btn-long buy" href=""></a> --}}
-                        <a class="btn btn-primary" href="{{route('user.payment',$items->slug)}}" role="button">Book Now</a>
+                    <div class="desp">
+                        <p>{{ $items->description }}</p>
                     </div>
+                    <div class="date-range">
+                        <input type="text" id="demo" name="datefilter" value="" class="shadow" />
+                    </div>
+                    <div class="total-price">
+                        <p class="mb-0">Total Price:</p>
+                        <div class="price">
+                            <i class="fa-solid fa-indian-rupee-sign"></i>
+                            <p class="mb-0" id="totalPrice">0</p>
+                        </div>
+                    </div>
+                    <a href="{{ route('user.payment', $items->slug) }}">
+                        <button type="submit" class="btn">Book Now</button>
+                    </a>
                 </div>
 
             </div>
@@ -337,6 +487,11 @@
     <script type='text/javascript' src=''></script>
     <script type='text/javascript' src=''></script>
     <script type='text/Javascript'></script>
+    {{-- Date --}}
+    {{-- <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script> --}}
+
+    <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
     <script>
         const items = document.querySelectorAll('.item');
 
@@ -368,7 +523,90 @@
             item: 1,
             loop: true,
             slideMargin: 0,
-            thumbItem: 6
+            thumbItem: 4
+        });
+    </script>
+    <script>
+        let spinNumberOutput = document.querySelector('.spinNumberOutput')
+        let regularPrice = document.querySelector('.regularPrice')
+        let quantityOutput = document.querySelector('.quantityOutput')
+        let plusButton = document.querySelector('.incrimentButton')
+        let minusButton = document.querySelector('.decrimentButton')
+
+        spinNumberOutput.value = 1;
+        quantityOutput.innerHTML = regularPrice.innerHTML * spinNumberOutput.value
+
+        plusButton.addEventListener('click', function() {
+            spinNumberOutput.value++
+            console.log(quantityOutput.innerHTML = regularPrice.innerHTML * spinNumberOutput.value)
+        })
+
+        minusButton.addEventListener('click', function() {
+
+            if (spinNumberOutput.value > 1) {
+                spinNumberOutput.value--
+                console.log(quantityOutput.innerHTML = regularPrice.innerHTML * spinNumberOutput.value)
+
+            }
+        })
+    </script>
+    {{-- Date Range --}}
+    <script>
+        $('#demo').daterangepicker({
+            "showISOWeekNumbers": true,
+            "timePicker": true,
+            "autoUpdateInput": true,
+            "locale": {
+                "cancelLabel": 'Clear',
+                "format": "MMMM DD, YYYY @ h:mm A",
+                "separator": " - ",
+                "applyLabel": "Apply",
+                "cancelLabel": "Cancel",
+                "fromLabel": "From",
+                "toLabel": "To",
+                "customRangeLabel": "Custom",
+                "weekLabel": "W",
+                "daysOfWeek": ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+                "monthNames": [
+                    "January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"
+                ],
+                "firstDay": 1
+            },
+            "linkedCalendars": true,
+            "showCustomRangeLabel": false,
+            "startDate": moment().startOf('hour'), // Set initial start date to current time (hour precision)
+            "endDate": moment().startOf('hour').add(1,
+            'hour'), // Set initial end date to one hour from current time
+            "opens": "center"
+        });
+
+        // Function to calculate and update total price based on date range selection
+        function updateTotalPrice(startDate, endDate, pricePerHour) {
+            // Calculate the difference in hours between start date and end date
+            const hours = moment.duration(endDate.diff(startDate)).asHours();
+
+            // Calculate total price by multiplying hours with price per hour
+            const totalPrice = hours * pricePerHour;
+            console.log("total",totalPrice)
+
+            // Display the calculated total price on the page
+            $('#totalPrice').text(totalPrice.toFixed(2)); // Display total price rounded to 2 decimal places
+        }
+
+        // Event listener for date range selection
+        $('#demo').on('apply.daterangepicker', function(ev, picker) {
+            // Retrieve the selected start date and end date from the picker
+            const startDate = picker.startDate;
+            const endDate = picker.endDate;
+
+            // Retrieve the price per hour (convert $defaultValue to a numeric value)
+            const pricePerHour = parseFloat("{{ $defaultValue }}");
+
+            console.log("DD",pricePerHour)
+
+            // Update the total price based on the selected date range and price per hour
+            updateTotalPrice(startDate, endDate, pricePerHour);
         });
     </script>
 @endsection

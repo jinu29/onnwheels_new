@@ -280,8 +280,8 @@
     </style>
 @endsection
 @section('content')
-    <div class="container mt-5  mb-3">
-        <div class="row no-gutters ">
+    <div class="container mt-2 mb-3">
+        <div class="row no-gutters">
             <div class="col-md-5 pr-2">
                 <div class="card">
                     <div class="demo">
@@ -296,50 +296,58 @@
                 </div>
 
             </div>
-            <div class="col-md-7 px-lg-5  mt-3">
-                <div class="border rounded-3 d-flex justify-content-between p-3  shadow">
-                    <div>
-                        <p>Security deposit</p>
-                        <p>Security deposit</p>
-                        <p>Security deposit</p>
+            <div class="col-md-7">
+                <div class="card">
+
+                    <div class="about"> <span class="font-weight-bold">{{ $items->name }} </span>
+                        <h4 class="font-weight-bold">Rs. {{ $items->price }}</h4>
                     </div>
-                   <div>
-                        <p>Rs.4000</p>
-                        <p>Rs.4000</p>
-                        <p>Rs.4000</p>
-                   </div>
-                </div>
-                <h3 class="mt-4">Make a Payment</h3>
-                <div class="border p-5 rounded-3 shadow mt-4">
-                    <div class="row">
-                        <div class="col">
-                            <img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/phonepe-logo-icon.png" alt="" style="width: 50px;margin-left:20px;" class="">
-                            <div class="form-check form-check-inline mt-3">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                                <label class="form-check-label " for="inlineRadio1">Pone Pay</label>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <img src="https://cdn1.iconfinder.com/data/icons/logos-brands-in-colors/436/Google_Pay_GPay_Logo-512.png" alt="" style="width: 60px;">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                                <label class="form-check-label" for="inlineRadio1">Gpay</label>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <img src="https://w7.pngwing.com/pngs/173/994/png-transparent-paytm-social-icons-color-icon-thumbnail.png" alt=""  style="width: 50px;margin-left:10px;">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                                <label class="form-check-label" for="inlineRadio1">Paytm </label>
-                            </div>
-                        </div>
+                    <div class="d-flex flex-row align-items-center">
+                        <div class="p-ratings"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+                                class="fa fa-star"></i> <i class="fa fa-star"></i> </div> <span class="ml-1">5.0</span>
                     </div>
 
+                    <hr>
+                    <div class="product-description">
 
+                        <div class="d-flex flex-row align-items-center">
+                            <i class="fa-solid fa-location-dot"></i> <span class="ml-1">Delivery Tamilnadu, 15-45
+                                days</span>
+
+                        </div>
+                        <div class="mt-2">
+                            <span class="font-weight-bold">Description</span>
+                            <p>{{ $items->description }}</p>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-2">
+                                <h4>Hours</h4>
+                            </div>
+                            <div class="col">
+                                <div class="d-flex align-items-center">
+                                    <div class="quantityOne">
+                                        <div class=" d-flex">
+                                            {{-- <div class=""></div> --}}
+                                            <button class="decrimentButton btn btn-primary">-</button>
+                                              <input class="spinNumberOutput text-center " type="text" readonly value="0" style="width: 50px;">
+                                            {{-- <div class="">-</div> --}}
+                                            <button class="incrimentButton btn btn-primary">+</button>
+                                            <div class="quantityOutput">0</div>
+
+                                        </div>
+                                        <div type="hidden" class="regularPrice" style="display: none;">90</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="mt-3">
+                        {{-- <a class="btn  btn-warning btn-long buy" href=""></a> --}}
+                        <a class="btn btn-primary" href="{{route('user.payment',$items->slug)}}" role="button">Book Now</a>
+                    </div>
                 </div>
-                <div class="mt-4 text-center">
-                    <button type="button" class="btn btn-dark">Confirm</button>
-                </div>
+
             </div>
         </div>
     </div>
@@ -383,7 +391,32 @@
             item: 1,
             loop: true,
             slideMargin: 0,
-            thumbItem: 4
+            thumbItem: 6
         });
+    </script>
+    <script>
+        let spinNumberOutput = document.querySelector('.spinNumberOutput')
+        let regularPrice = document.querySelector('.regularPrice')
+        let quantityOutput = document.querySelector('.quantityOutput')
+        let plusButton = document.querySelector('.incrimentButton')
+        let minusButton = document.querySelector('.decrimentButton')
+
+        spinNumberOutput.value = 1;
+        quantityOutput.innerHTML = regularPrice.innerHTML * spinNumberOutput.value
+
+        plusButton.addEventListener('click', function(){
+            spinNumberOutput.value ++
+            console.log( quantityOutput.innerHTML = regularPrice.innerHTML * spinNumberOutput.value)
+        })
+
+        minusButton.addEventListener('click', function(){
+
+            if( spinNumberOutput.value > 1){
+            spinNumberOutput.value--
+            console.log( quantityOutput.innerHTML = regularPrice.innerHTML * spinNumberOutput.value)
+
+            }
+        })
+
     </script>
 @endsection

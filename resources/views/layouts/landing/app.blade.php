@@ -42,6 +42,9 @@ $landing_site_direction = session()->get('landing_site_direction');
         href="https://cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
 
+    {{-- Date and time picker --}}
+
+
     <style>
         body {
             font-family: "Montserrat", sans-serif;
@@ -262,8 +265,8 @@ $landing_site_direction = session()->get('landing_site_direction');
 
                     @if (Auth::check())
                         <div class="user-avatar-container" id="user-avatar-container">
-                            <div class="user-avatar" id="user-avatar">
-                                <img src="/public/Images/user-avatar.png" width="40" alt="User Avatar">
+                            <div class="user-avatar d-flex align-items-center" id="user-avatar">
+                                <img src="/public/Images/user-avatar.png" width="40" alt="User Avatar" style="height: 40px;">
                                 <span class="user-name">{{ Auth::user()->f_name }}</span>
                             </div>
                             <div class="user-details">
@@ -292,7 +295,7 @@ $landing_site_direction = session()->get('landing_site_direction');
                                     <span class="me-1">{{ translate('Signup') }}</span>
                                 </a>
 
-                                {{-- 
+                                {{--
                                 <ul class="dropdown-list">
                                     @if ($toggle_store_registration)
                                         <li>
@@ -442,6 +445,9 @@ $landing_site_direction = session()->get('landing_site_direction');
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous">
     </script>
+
+    {{-- Date and Range Picker --}}
+
     {!! Toastr::message() !!}
     @if ($errors->any())
         <script>
