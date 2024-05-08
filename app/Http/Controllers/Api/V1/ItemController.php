@@ -41,13 +41,50 @@ class ItemController extends Controller
         }
         $zone_id = $request->header('zoneId');
         $type = $request->query('type', 'all');
-        $product_id = $request->query('product_id')??null;
+        $product_id = $request->query('product_id') ?? null;
         $min = $request->query('min_price');
         $max = $request->query('max_price');
 
-        $items = ProductLogic::get_latest_products($zone_id, $request['limit'], $request['offset'], $request['store_id'], $request['category_id'], $type,$min,$max,$product_id);
+        $items = ProductLogic::get_latest_products($zone_id, $request['limit'], $request['offset'], $request['store_id'], $request['category_id'], $type, $min, $max, $product_id);
         $items['categories'] = $items['categories'];
         $items['products'] = Helpers::product_data_formatting($items['products'], true, false, app()->getLocale());
+        return response()->json($items, 200);
+    }
+
+    public function get_all_products(Request $request)
+    {
+        $items = ProductLogic::get_all();
+
+        return response()->json($items, 200);
+    }
+
+    public function get_zone_products(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'limit' => 'required',
+            'offset' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => Helpers::error_processor($validator)], 403);
+        }
+
+        if (!$request->hasHeader('zoneId')) {
+            $errors = [];
+            array_push($errors, ['code' => 'zoneId', 'message' => translate('messages.zone_id_required')]);
+            return response()->json([
+                'errors' => $errors
+            ], 403);
+        }
+        $zone_id = $request->header('zoneId');
+        $type = "all";
+        $product_id = $request->query('product_id') ?? null;
+        $min = $request->query('min_price');
+        $max = $request->query('max_price');
+
+        $items = ProductLogic::get_zone($zone_id, $request['limit'], $request['offset'], $type, $min, $max, $product_id);
+        
+        // $items['products'] = Helpers::product_data_formatting($items['products'], true, false, app()->getLocale());
         return response()->json($items, 200);
     }
 
@@ -62,13 +99,13 @@ class ItemController extends Controller
         }
         $zone_id = $request->header('zoneId');
         $type = $request->query('type', 'all');
-        $product_id = $request->query('product_id')??null;
+        $product_id = $request->query('product_id') ?? null;
         $min = $request->query('min_price');
         $max = $request->query('max_price');
-        $limit = isset($request['limit'])?$request['limit']:50;
-        $offset = isset($request['offset'])?$request['offset']:1;
+        $limit = isset($request['limit']) ? $request['limit'] : 50;
+        $offset = isset($request['offset']) ? $request['offset'] : 1;
 
-        $items = ProductLogic::get_new_products($zone_id, $type,$min,$max,$product_id,$limit,$offset);
+        $items = ProductLogic::get_new_products($zone_id, $type, $min, $max, $product_id, $limit, $offset);
         $items['categories'] = $items['categories'];
         $items['products'] = Helpers::product_data_formatting($items['products'], true, false, app()->getLocale());
         return response()->json($items, 200);
@@ -94,79 +131,81 @@ class ItemController extends Controller
 
         $key = explode(' ', $request['name']);
 
-        $limit = $request['limit']??10;
-        $offset = $request['offset']??1;
-        $category_ids = $request['category_ids']?json_decode($request['category_ids']):'';
+        $limit = $request['limit'] ?? 10;
+        $offset = $request['offset'] ?? 1;
+        $category_ids = $request['category_ids'] ? json_decode($request['category_ids']) : '';
 
         $type = $request->query('type', 'all');
 
         $items = Item::active()->type($type)
-        ->with('store', function($query){
-            $query->withCount(['campaigns'=> function($query){
-                $query->Running();
-            }]);
-        })
-        ->when($request->category_id, function($query)use($request){
-            $query->whereHas('category',function($q)use($request){
-                return $q->whereId($request->category_id)->orWhere('parent_id', $request->category_id);
-            });
-        })
-        ->when($category_ids, function($query)use($category_ids){
-            $query->whereHas('category',function($q)use($category_ids){
-                return $q->whereIn('id',$category_ids)->orWhereIn('parent_id', $category_ids);
-            });
-        })
-        ->when($request->store_id, function($query) use($request){
-            return $query->where('store_id', $request->store_id);
-        })
-        ->whereHas('module.zones', function($query)use($zone_id){
-            $query->whereIn('zones.id', json_decode($zone_id, true));
-        })
-        ->whereHas('store', function($query)use($zone_id){
-            $query->when(config('module.current_module_data'), function($query){
-                $query->where('module_id', config('module.current_module_data')['id'])->whereHas('zone.modules',function($query){
-                    $query->where('modules.id', config('module.current_module_data')['id']);
+            ->with('store', function ($query) {
+                $query->withCount([
+                    'campaigns' => function ($query) {
+                        $query->Running();
+                    }
+                ]);
+            })
+            ->when($request->category_id, function ($query) use ($request) {
+                $query->whereHas('category', function ($q) use ($request) {
+                    return $q->whereId($request->category_id)->orWhere('parent_id', $request->category_id);
                 });
-            })->whereIn('zone_id', json_decode($zone_id, true));
-        })
-        ->where(function ($q) use ($key) {
-            foreach ($key as $value) {
-                $q->orWhere('name', 'like', "%{$value}%");
-            }
-            $q->orWhereHas('translations',function($query)use($key){
-                $query->where(function($q)use($key){
-                    foreach ($key as $value) {
-                        $q->where('value', 'like', "%{$value}%");
-                    };
+            })
+            ->when($category_ids, function ($query) use ($category_ids) {
+                $query->whereHas('category', function ($q) use ($category_ids) {
+                    return $q->whereIn('id', $category_ids)->orWhereIn('parent_id', $category_ids);
                 });
-            });
-            $q->orWhereHas('tags',function($query)use($key){
-                $query->where(function($q)use($key){
-                    foreach ($key as $value) {
-                        $q->where('tag', 'like', "%{$value}%");
-                    };
+            })
+            ->when($request->store_id, function ($query) use ($request) {
+                return $query->where('store_id', $request->store_id);
+            })
+            ->whereHas('module.zones', function ($query) use ($zone_id) {
+                $query->whereIn('zones.id', json_decode($zone_id, true));
+            })
+            ->whereHas('store', function ($query) use ($zone_id) {
+                $query->when(config('module.current_module_data'), function ($query) {
+                    $query->where('module_id', config('module.current_module_data')['id'])->whereHas('zone.modules', function ($query) {
+                        $query->where('modules.id', config('module.current_module_data')['id']);
+                    });
+                })->whereIn('zone_id', json_decode($zone_id, true));
+            })
+            ->where(function ($q) use ($key) {
+                foreach ($key as $value) {
+                    $q->orWhere('name', 'like', "%{$value}%");
+                }
+                $q->orWhereHas('translations', function ($query) use ($key) {
+                    $query->where(function ($q) use ($key) {
+                        foreach ($key as $value) {
+                            $q->where('value', 'like', "%{$value}%");
+                        };
+                    });
                 });
-            });
-            $q->orWhereHas('category.parent',function($query)use($key){
-                $query->where(function($q)use($key){
-                    foreach ($key as $value) {
-                        $q->where('name', 'like', "%{$value}%");
-                    };
+                $q->orWhereHas('tags', function ($query) use ($key) {
+                    $query->where(function ($q) use ($key) {
+                        foreach ($key as $value) {
+                            $q->where('tag', 'like', "%{$value}%");
+                        };
+                    });
                 });
-            });
-            $q->orWhereHas('category',function($query)use($key){
-                $query->where(function($q)use($key){
-                    foreach ($key as $value) {
-                        $q->where('name', 'like', "%{$value}%");
-                    };
+                $q->orWhereHas('category.parent', function ($query) use ($key) {
+                    $query->where(function ($q) use ($key) {
+                        foreach ($key as $value) {
+                            $q->where('name', 'like', "%{$value}%");
+                        };
+                    });
                 });
-            });
+                $q->orWhereHas('category', function ($query) use ($key) {
+                    $query->where(function ($q) use ($key) {
+                        foreach ($key as $value) {
+                            $q->where('name', 'like', "%{$value}%");
+                        };
+                    });
+                });
 
-        })
-        ->orderByRaw("FIELD(name, ?) DESC", [$request['name']])
-        ->paginate($limit, ['*'], 'page', $offset);
+            })
+            ->orderByRaw("FIELD(name, ?) DESC", [$request['name']])
+            ->paginate($limit, ['*'], 'page', $offset);
 
-        $data =  [
+        $data = [
             'total_size' => $items->total(),
             'limit' => $limit,
             'offset' => $offset,
@@ -197,54 +236,54 @@ class ItemController extends Controller
 
         $key = explode(' ', $request['name']);
 
-        $limit = $request['limit']??10;
-        $offset = $request['offset']??1;
+        $limit = $request['limit'] ?? 10;
+        $offset = $request['offset'] ?? 1;
 
         $type = $request->query('type', 'all');
 
         $items = Item::active()->type($type)
 
-        ->when($request->category_id, function($query)use($request){
-            $query->whereHas('category',function($q)use($request){
-                return $q->whereId($request->category_id)->orWhere('parent_id', $request->category_id);
-            });
-        })
-        ->when($request->store_id, function($query) use($request){
-            return $query->where('store_id', $request->store_id);
-        })
-        ->whereHas('module.zones', function($query)use($zone_id){
-            $query->whereIn('zones.id', json_decode($zone_id, true));
-        })
-        ->whereHas('store', function($query)use($zone_id){
-            $query->when(config('module.current_module_data'), function($query){
-                $query->where('module_id', config('module.current_module_data')['id'])->whereHas('zone.modules',function($query){
-                    $query->where('modules.id', config('module.current_module_data')['id']);
+            ->when($request->category_id, function ($query) use ($request) {
+                $query->whereHas('category', function ($q) use ($request) {
+                    return $q->whereId($request->category_id)->orWhere('parent_id', $request->category_id);
                 });
-            })->whereIn('zone_id', json_decode($zone_id, true));
-        })
-        ->where(function ($q) use ($key) {
-            foreach ($key as $value) {
-                $q->orWhere('name', 'like', "%{$value}%");
-            }
-            $q->orWhereHas('translations',function($query)use($key){
-                $query->where(function($q)use($key){
-                    foreach ($key as $value) {
-                        $q->where('value', 'like', "%{$value}%");
-                    };
+            })
+            ->when($request->store_id, function ($query) use ($request) {
+                return $query->where('store_id', $request->store_id);
+            })
+            ->whereHas('module.zones', function ($query) use ($zone_id) {
+                $query->whereIn('zones.id', json_decode($zone_id, true));
+            })
+            ->whereHas('store', function ($query) use ($zone_id) {
+                $query->when(config('module.current_module_data'), function ($query) {
+                    $query->where('module_id', config('module.current_module_data')['id'])->whereHas('zone.modules', function ($query) {
+                        $query->where('modules.id', config('module.current_module_data')['id']);
+                    });
+                })->whereIn('zone_id', json_decode($zone_id, true));
+            })
+            ->where(function ($q) use ($key) {
+                foreach ($key as $value) {
+                    $q->orWhere('name', 'like', "%{$value}%");
+                }
+                $q->orWhereHas('translations', function ($query) use ($key) {
+                    $query->where(function ($q) use ($key) {
+                        foreach ($key as $value) {
+                            $q->where('value', 'like', "%{$value}%");
+                        };
+                    });
                 });
-            });
-            $q->orWhereHas('tags',function($query)use($key){
-                $query->where(function($q)use($key){
-                    foreach ($key as $value) {
-                        $q->where('tag', 'like', "%{$value}%");
-                    };
+                $q->orWhereHas('tags', function ($query) use ($key) {
+                    $query->where(function ($q) use ($key) {
+                        foreach ($key as $value) {
+                            $q->where('tag', 'like', "%{$value}%");
+                        };
+                    });
                 });
-            });
-        })->select(['name','image'])
+            })->select(['name', 'image'])
 
-        ->paginate($limit, ['*'], 'page', $offset);
+            ->paginate($limit, ['*'], 'page', $offset);
 
-        $data =  [
+        $data = [
             'total_size' => $items->total(),
             'limit' => $limit,
             'offset' => $offset,
@@ -266,7 +305,7 @@ class ItemController extends Controller
 
         $type = $request->query('type', 'all');
 
-        $zone_id= $request->header('zoneId');
+        $zone_id = $request->header('zoneId');
         $items = ProductLogic::popular_products($zone_id, $request['limit'], $request['offset'], $type);
         $items['products'] = Helpers::product_data_formatting($items['products'], true, false, app()->getLocale());
         return response()->json($items, 200);
@@ -284,7 +323,7 @@ class ItemController extends Controller
 
         $type = $request->query('type', 'all');
 
-        $zone_id= $request->header('zoneId');
+        $zone_id = $request->header('zoneId');
         $items = ProductLogic::most_reviewed_products($zone_id, $request['limit'], $request['offset'], $type);
         $items['categories'] = $items['categories'];
         $items['products'] = Helpers::product_data_formatting($items['products'], true, false, app()->getLocale());
@@ -304,7 +343,7 @@ class ItemController extends Controller
         $type = $request->query('type', 'all');
         $category_ids = $request->query('category_ids', '');
 
-        $zone_id= $request->header('zoneId');
+        $zone_id = $request->header('zoneId');
         $items = ProductLogic::discounted_products($zone_id, $request['limit'], $request['offset'], $type, $category_ids);
         $items['products'] = Helpers::product_data_formatting($items['products'], true, false, app()->getLocale());
         return response()->json($items, 200);
@@ -332,7 +371,7 @@ class ItemController extends Controller
         $type = $request->query('type', 'all');
         $recommended = $request->query('recommended');
 
-        $items = ProductLogic::cart_suggest_products($zone_id, $request['store_id'], $request['limit'], $request['offset'], $type,$recommended);
+        $items = ProductLogic::cart_suggest_products($zone_id, $request['store_id'], $request['limit'], $request['offset'], $type, $recommended);
         $items['items'] = Helpers::product_data_formatting($items['items'], true, false, app()->getLocale());
         return response()->json($items, 200);
     }
@@ -340,34 +379,33 @@ class ItemController extends Controller
     public function get_product($id)
     {
         try {
-            $item = Item::withCount('whislists')->with(['tags','reviews','reviews.customer'])->active()
-            ->when(config('module.current_module_data'), function($query){
-                $query->module(config('module.current_module_data')['id']);
-            })
-            ->when(is_numeric($id),function ($qurey) use($id){
-                $qurey-> where('id', $id);
-            })
-            ->when(!is_numeric($id),function ($qurey) use($id){
-                $qurey-> where('slug', $id);
-            })
-            ->first();
+            $item = Item::withCount('whislists')->with(['tags', 'reviews', 'reviews.customer'])->active()
+                ->when(config('module.current_module_data'), function ($query) {
+                    $query->module(config('module.current_module_data')['id']);
+                })
+                ->when(is_numeric($id), function ($qurey) use ($id) {
+                    $qurey->where('id', $id);
+                })
+                ->when(!is_numeric($id), function ($qurey) use ($id) {
+                    $qurey->where('slug', $id);
+                })
+                ->first();
             $store = StoreLogic::get_store_details($item->store_id);
-            if($store)
-            {
+            if ($store) {
                 $category_ids = DB::table('items')
-                ->join('categories', 'items.category_id', '=', 'categories.id')
-                ->selectRaw('categories.position as positions, IF((categories.position = "0"), categories.id, categories.parent_id) as categories')
-                ->where('items.store_id', $item->store_id)
-                ->where('categories.status',1)
-                ->groupBy('categories','positions')
-                ->get();
+                    ->join('categories', 'items.category_id', '=', 'categories.id')
+                    ->selectRaw('categories.position as positions, IF((categories.position = "0"), categories.id, categories.parent_id) as categories')
+                    ->where('items.store_id', $item->store_id)
+                    ->where('categories.status', 1)
+                    ->groupBy('categories', 'positions')
+                    ->get();
 
                 $store = Helpers::store_data_formatting($store);
                 $store['category_ids'] = array_map('intval', $category_ids->pluck('categories')->toArray());
-                $store['category_details'] = Category::whereIn('id',$store['category_ids'])->get();
-                $store['price_range']  = Item::withoutGlobalScopes()->where('store_id', $item->store_id)
-                ->select(DB::raw('MIN(price) AS min_price, MAX(price) AS max_price'))
-                ->get(['min_price','max_price']);
+                $store['category_details'] = Category::whereIn('id', $store['category_ids'])->get();
+                $store['price_range'] = Item::withoutGlobalScopes()->where('store_id', $item->store_id)
+                    ->select(DB::raw('MIN(price) AS min_price, MAX(price) AS max_price'))
+                    ->get(['min_price', 'max_price']);
             }
             $item = Helpers::product_data_formatting($item, false, false, app()->getLocale());
             $item['store_details'] = $store;
@@ -379,7 +417,7 @@ class ItemController extends Controller
         }
     }
 
-    public function get_related_products(Request $request,$id)
+    public function get_related_products(Request $request, $id)
     {
         if (!$request->hasHeader('zoneId')) {
             $errors = [];
@@ -388,9 +426,9 @@ class ItemController extends Controller
                 'errors' => $errors
             ], 403);
         }
-        $zone_id= $request->header('zoneId');
+        $zone_id = $request->header('zoneId');
         if (Item::find($id)) {
-            $items = ProductLogic::get_related_products($zone_id,$id);
+            $items = ProductLogic::get_related_products($zone_id, $id);
             $items = Helpers::product_data_formatting($items, true, false, app()->getLocale());
             return response()->json($items, 200);
         }
@@ -398,7 +436,7 @@ class ItemController extends Controller
             'errors' => ['code' => 'product-001', 'message' => translate('messages.not_found')]
         ], 404);
     }
-    public function get_related_store_products(Request $request,$id)
+    public function get_related_store_products(Request $request, $id)
     {
         if (!$request->hasHeader('zoneId')) {
             $errors = [];
@@ -407,9 +445,9 @@ class ItemController extends Controller
                 'errors' => $errors
             ], 403);
         }
-        $zone_id= $request->header('zoneId');
+        $zone_id = $request->header('zoneId');
         if (Item::find($id)) {
-            $items = ProductLogic::get_related_store_products($zone_id,$id);
+            $items = ProductLogic::get_related_store_products($zone_id, $id);
             $items = Helpers::product_data_formatting($items, true, false, app()->getLocale());
             return response()->json($items, 200);
         }
@@ -431,8 +469,8 @@ class ItemController extends Controller
         $type = $request->query('type', 'all');
         $filter = $request->query('filter', 'all');
 
-        $zone_id= $request->header('zoneId');
-        $items = ProductLogic::recommended_items($zone_id, $request->store_id,$request['limit'], $request['offset'], $type, $filter);
+        $zone_id = $request->header('zoneId');
+        $items = ProductLogic::recommended_items($zone_id, $request->store_id, $request['limit'], $request['offset'], $type, $filter);
         $items['items'] = Helpers::product_data_formatting($items['items'], true, false, app()->getLocale());
         return response()->json($items, 200);
     }
@@ -451,11 +489,11 @@ class ItemController extends Controller
 
     public function get_product_reviews(Request $request, $item_id)
     {
-        if(isset($request['limit']) && ($request['limit'] != null) && isset($request['offset']) && ($request['offset'] != null)){
+        if (isset($request['limit']) && ($request['limit'] != null) && isset($request['offset']) && ($request['offset'] != null)) {
 
             $reviews = Review::with(['customer', 'item'])->where(['item_id' => $item_id])->active()->paginate($request['limit'], ['*'], 'page', $request['offset']);
             $total = $reviews->total();
-        }else{
+        } else {
 
             $reviews = Review::with(['customer', 'item'])->where(['item_id' => $item_id])->active()->get();
             $total = $reviews->count();
@@ -465,11 +503,9 @@ class ItemController extends Controller
         foreach ($reviews as $temp) {
             $temp['attachment'] = json_decode($temp['attachment']);
             $temp['item_name'] = null;
-            if($temp->item)
-            {
+            if ($temp->item) {
                 $temp['item_name'] = $temp->item->name;
-                if(count($temp->item->translations)>0)
-                {
+                if (count($temp->item->translations) > 0) {
                     $translate = array_column($temp->item->translations->toArray(), 'value', 'key');
                     $temp['item_name'] = $translate['name'];
                 }
@@ -479,7 +515,7 @@ class ItemController extends Controller
             array_push($storage, $temp);
         }
 
-        $data =  [
+        $data = [
             'total_size' => $total,
             'limit' => $request['limit'],
             'offset' => $request['offset'],
@@ -519,11 +555,11 @@ class ItemController extends Controller
             $validator->errors()->add('item_id', translate('messages.item_not_found'));
         }
 
-        $multi_review = Review::where(['item_id' => $request->item_id, 'user_id' => $request->user()->id, 'order_id'=>$request->order_id])->first();
+        $multi_review = Review::where(['item_id' => $request->item_id, 'user_id' => $request->user()->id, 'order_id' => $request->order_id])->first();
         if (isset($multi_review)) {
             return response()->json([
                 'errors' => [
-                    ['code'=>'review','message'=> translate('messages.already_submitted')]
+                    ['code' => 'review', 'message' => translate('messages.already_submitted')]
                 ]
             ], 403);
         } else {
@@ -559,14 +595,13 @@ class ItemController extends Controller
         $review->attachment = json_encode($image_array);
         $review->save();
 
-        if($item->store)
-        {
-            $store_rating = StoreLogic::update_store_rating($item->store->rating, (int)$request->rating);
+        if ($item->store) {
+            $store_rating = StoreLogic::update_store_rating($item->store->rating, (int) $request->rating);
             $item->store->rating = $store_rating;
             $item->store->save();
         }
 
-        $item->rating = ProductLogic::update_rating($item->rating, (int)$request->rating);
+        $item->rating = ProductLogic::update_rating($item->rating, (int) $request->rating);
         $item->avg_rating = ProductLogic::get_avg_rating(json_decode($item->rating, true));
         $item->save();
         $item->increment('rating_count');
@@ -574,7 +609,8 @@ class ItemController extends Controller
         return response()->json(['message' => translate('messages.review_submited_successfully')], 200);
     }
 
-    public function item_or_store_search(Request $request){
+    public function item_or_store_search(Request $request)
+    {
 
         if (!$request->hasHeader('zoneId')) {
             $errors = [];
@@ -593,77 +629,79 @@ class ItemController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required',
         ]);
-        $zone_id= $request->header('zoneId');
-        $longitude= $request->header('longitude');
-        $latitude= $request->header('latitude');
+        $zone_id = $request->header('zoneId');
+        $longitude = $request->header('longitude');
+        $latitude = $request->header('latitude');
 
         if ($validator->fails()) {
             return response()->json(['errors' => Helpers::error_processor($validator)], 403);
         }
         $key = explode(' ', $request->name);
 
-        $items = Item::active()->whereHas('store', function($query)use($zone_id){
-            $query->when(config('module.current_module_data'), function($query){
-                $query->where('module_id', config('module.current_module_data')['id'])->whereHas('zone.modules',function($query){
+        $items = Item::active()->whereHas('store', function ($query) use ($zone_id) {
+            $query->when(config('module.current_module_data'), function ($query) {
+                $query->where('module_id', config('module.current_module_data')['id'])->whereHas('zone.modules', function ($query) {
                     $query->where('modules.id', config('module.current_module_data')['id']);
                 });
             })->whereIn('zone_id', json_decode($zone_id, true));
         })
-        ->where(function ($q) use ($key) {
-            foreach ($key as $value) {
-                $q->orwhere('name', 'like', "%{$value}%")->orWhere('description', 'like', "%{$value}%");
-            }
-            $q->orWhereHas('translations',function($query)use($key){
-                $query->where(function($q)use($key){
-                    foreach ($key as $value) {
-                        $q->where('value', 'like', "%{$value}%");
-                    };
+            ->where(function ($q) use ($key) {
+                foreach ($key as $value) {
+                    $q->orwhere('name', 'like', "%{$value}%")->orWhere('description', 'like', "%{$value}%");
+                }
+                $q->orWhereHas('translations', function ($query) use ($key) {
+                    $query->where(function ($q) use ($key) {
+                        foreach ($key as $value) {
+                            $q->where('value', 'like', "%{$value}%");
+                        };
+                    });
                 });
-            });
-            $q->orWhereHas('tags',function($query)use($key){
-                $query->where(function($q)use($key){
-                    foreach ($key as $value) {
-                        $q->where('tag', 'like', "%{$value}%");
-                    };
+                $q->orWhereHas('tags', function ($query) use ($key) {
+                    $query->where(function ($q) use ($key) {
+                        foreach ($key as $value) {
+                            $q->where('tag', 'like', "%{$value}%");
+                        };
+                    });
                 });
-            });
-            $q->orWhereHas('category.parent',function($query)use($key){
-                $query->where(function($q)use($key){
-                    foreach ($key as $value) {
-                        $q->where('name', 'like', "%{$value}%");
-                    };
+                $q->orWhereHas('category.parent', function ($query) use ($key) {
+                    $query->where(function ($q) use ($key) {
+                        foreach ($key as $value) {
+                            $q->where('name', 'like', "%{$value}%");
+                        };
+                    });
                 });
-            });
-            $q->orWhereHas('category',function($query)use($key){
-                $query->where(function($q)use($key){
-                    foreach ($key as $value) {
-                        $q->where('name', 'like', "%{$value}%");
-                    };
+                $q->orWhereHas('category', function ($query) use ($key) {
+                    $query->where(function ($q) use ($key) {
+                        foreach ($key as $value) {
+                            $q->where('name', 'like', "%{$value}%");
+                        };
+                    });
                 });
-            });
-        })
-        ->limit(50)
-        ->get(['id','name','image']);
+            })
+            ->limit(50)
+            ->get(['id', 'name', 'image']);
 
-        $stores = Store::whereHas('zone.modules', function($query){
+        $stores = Store::whereHas('zone.modules', function ($query) {
             $query->where('modules.id', config('module.current_module_data')['id']);
-        })->withOpen($longitude??0,$latitude??0)->with(['discount'=>function($q){
-            return $q->validate();
-        }])->weekday()->where(function ($q) use ($key) {
-            foreach ($key as $value) {
-                $q->orWhere('name', 'like', "%{$value}%");
-            }
-        })
-        ->when(config('module.current_module_data'), function($query)use($zone_id){
-            $query->module(config('module.current_module_data')['id']);
-            if(!config('module.current_module_data')['all_zone_service']) {
-                $query->whereIn('zone_id', json_decode($zone_id, true));
-            }
-        })
-        ->active()
-        ->limit(50)
-        ->select(['id','name','logo'])
-        ->get();
+        })->withOpen($longitude ?? 0, $latitude ?? 0)->with([
+                    'discount' => function ($q) {
+                        return $q->validate();
+                    }
+                ])->weekday()->where(function ($q) use ($key) {
+                    foreach ($key as $value) {
+                        $q->orWhere('name', 'like', "%{$value}%");
+                    }
+                })
+            ->when(config('module.current_module_data'), function ($query) use ($zone_id) {
+                $query->module(config('module.current_module_data')['id']);
+                if (!config('module.current_module_data')['all_zone_service']) {
+                    $query->whereIn('zone_id', json_decode($zone_id, true));
+                }
+            })
+            ->active()
+            ->limit(50)
+            ->select(['id', 'name', 'logo'])
+            ->get();
 
         return [
             'items' => $items,
@@ -691,42 +729,42 @@ class ItemController extends Controller
             return response()->json(['errors' => Helpers::error_processor($validator)], 403);
         }
 
-        $zone_id= $request->header('zoneId');
+        $zone_id = $request->header('zoneId');
 
         $type = $request->query('type', 'all');
         $limit = $request['limit'];
         $offset = $request['offset'];
 
         $paginator = Item::
-        whereHas('module.zones', function($query)use($zone_id){
-            $query->whereIn('zones.id', json_decode($zone_id, true));
-        })
-        ->whereHas('store', function($query)use($zone_id){
-            $query->whereIn('zone_id', json_decode($zone_id, true))->whereHas('zone.modules',function($query){
-                $query->when(config('module.current_module_data'), function($query){
-                    $query->where('modules.id', config('module.current_module_data')['id']);
+            whereHas('module.zones', function ($query) use ($zone_id) {
+                $query->whereIn('zones.id', json_decode($zone_id, true));
+            })
+            ->whereHas('store', function ($query) use ($zone_id) {
+                $query->whereIn('zone_id', json_decode($zone_id, true))->whereHas('zone.modules', function ($query) {
+                    $query->when(config('module.current_module_data'), function ($query) {
+                        $query->where('modules.id', config('module.current_module_data')['id']);
+                    });
                 });
-            });
-        })
-        ->whereHas('pharmacy_item_details',function($q){
-            return $q->whereNotNull('common_condition_id');
-        })
-        ->when(is_numeric($request->store_id),function ($qurey) use($request){
-            $qurey->where('store_id', $request->store_id);
-        })
-        ->when(!is_numeric($request->store_id), function ($query) use ($request) {
-            $query->whereHas('store', function ($q) use ($request) {
-                $q->where('slug', $request->store_id);
-            });
-        })
-        ->active()->type($type)->latest()->paginate($limit, ['*'], 'page', $offset);
-        $data=[
+            })
+            ->whereHas('pharmacy_item_details', function ($q) {
+                return $q->whereNotNull('common_condition_id');
+            })
+            ->when(is_numeric($request->store_id), function ($qurey) use ($request) {
+                $qurey->where('store_id', $request->store_id);
+            })
+            ->when(!is_numeric($request->store_id), function ($query) use ($request) {
+                $query->whereHas('store', function ($q) use ($request) {
+                    $q->where('slug', $request->store_id);
+                });
+            })
+            ->active()->type($type)->latest()->paginate($limit, ['*'], 'page', $offset);
+        $data = [
             'total_size' => $paginator->total(),
             'limit' => $limit,
             'offset' => $offset,
             'products' => $paginator->items()
         ];
-        $data['products'] = Helpers::product_data_formatting($data['products'] , true, false, app()->getLocale());
+        $data['products'] = Helpers::product_data_formatting($data['products'], true, false, app()->getLocale());
         return response()->json($data, 200);
     }
 
@@ -750,13 +788,13 @@ class ItemController extends Controller
         }
         $zone_id = $request->header('zoneId');
         $type = $request->query('type', 'all');
-        $product_id = $request->query('product_id')??null;
+        $product_id = $request->query('product_id') ?? null;
         $min = $request->query('min_price');
         $max = $request->query('max_price');
-        $limit = $request['limit']??25;
-        $offset = $request['offset']??1;
+        $limit = $request['limit'] ?? 25;
+        $offset = $request['offset'] ?? 1;
 
-        $items = ProductLogic::get_popular_basic_products($zone_id, $limit, $offset, $type, $request['store_id'], $request['category_id'], $min,$max,$product_id);
+        $items = ProductLogic::get_popular_basic_products($zone_id, $limit, $offset, $type, $request['store_id'], $request['category_id'], $min, $max, $product_id);
         $items['categories'] = $items['categories'];
         $items['products'] = Helpers::product_data_formatting($items['products'], true, false, app()->getLocale());
         return response()->json($items, 200);

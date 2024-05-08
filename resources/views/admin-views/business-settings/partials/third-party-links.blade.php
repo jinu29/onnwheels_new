@@ -20,6 +20,9 @@
             <li class="nav-item">
                 <a class="nav-link {{ Request::is('admin/business-settings/third-party/recaptcha*') ? 'active' : '' }}" href="{{route('admin.business-settings.third-party.recaptcha_index')}}"  aria-disabled="true">{{translate('Recaptcha')}}</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link {{ Request::is('admin/business-settings/third-party/kycconfig*') ? 'active' : '' }}" href="{{route('admin.business-settings.third-party.kyc_index')}}"  aria-disabled="true">{{translate('KYC Config')}}</a>
+            </li>
         </ul>
         <!-- End Nav -->
     </div>
