@@ -45,6 +45,9 @@ Route::get('product-detail/{slug}','HomeController@product_detail')->name('produ
 Route::get('payment/{slug}','HomeController@payment')->name('user.payment');
 Route::post('newsletter/subscribe', 'NewsletterController@newsLetterSubscribe')->name('newsletter.subscribe');
 Route::get('category/{category_id}/products', 'HomeController@product')->name('product_listing');
+Route::get('all_category', 'HomeController@all_category')->name('all_category');
+Route::get('safety', 'HomeController@safety')->name('safety');
+Route::get('rental-bike', 'HomeController@rental_bike')->name('rental_bike');
 // Route::get('/item/{slug}', 'item')->name('item');
 
 Route::get('login/{tab}', 'LoginController@login')->name('login');

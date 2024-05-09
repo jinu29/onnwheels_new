@@ -46,9 +46,10 @@ $landing_site_direction = session()->get('landing_site_direction');
 
 
     <style>
+
         body {
             font-family: "Montserrat", sans-serif;
-            background-color: #eeededee;
+            background-color: white;
         }
 
         .header--btn {
@@ -191,6 +192,7 @@ $landing_site_direction = session()->get('landing_site_direction');
         .sign-up {
             background-color: orange
         }
+
     </style>
 
     @yield('css')
@@ -207,9 +209,9 @@ $landing_site_direction = session()->get('landing_site_direction');
     <!-- ==== Preloader ==== -->
     <!-- ==== Header Section Starts Here ==== -->
     <header>
-        <div class="navbar-bottom">
+        <div class="navbar-bottom shadow">
             <div class="container">
-                <div class="navbar-bottom-wrapper">
+                <div class="navbar-bottom-wrapper ">
                     @php($fav = \App\Models\BusinessSetting::where(['key' => 'icon'])->first()->value ?? '')
                     @php($logo = \App\Models\BusinessSetting::where(['key' => 'logo'])->first()->value ?? '')
                     <a href="{{ route('home') }}" class="logo">
@@ -222,11 +224,11 @@ $landing_site_direction = session()->get('landing_site_direction');
                                 class="{{ Request::is('/') ? 'active' : '' }}"><span>{{ translate('messages.home') }}</span></a>
                         </li>
                         <li>
-                            <a href="#"
+                            <a href="{{route('rental_bike')}}"
                                 class="{{ Request::is('Rental Bike') ? 'active' : '' }}"><span>{{ translate('messages.Rental Bike') }}</span></a>
                         </li>
                         <li>
-                            <a href="#"
+                            <a href="{{route('safety')}}"
                                 class="{{ Request::is('Safety') ? 'active' : '' }}"><span>{{ translate('messages.Safety') }}</span></a>
                         </li>
                         <li>

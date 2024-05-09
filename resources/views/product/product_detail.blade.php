@@ -467,7 +467,7 @@
                         <p class="mb-0">Total Price:</p>
                         <div class="price">
                             <i class="fa-solid fa-indian-rupee-sign"></i>
-                            <p class="mb-0" id="totalPrice">0</p>
+                            <p class="mb-0" id="totalPrice">{{ $defaultValue }}</p>
                         </div>
                     </div>
                     <a href="{{ route('user.payment', $items->slug) }}">
