@@ -1,6 +1,6 @@
 @extends('layouts.admin.app')
 
-@section('title', request()->product_gellary  == 1 ?  translate('Add item') : translate('Edit item'))
+@section('title', request()->product_gellary == 1 ? translate('Add item') : translate('Edit item'))
 
 @push('css_or_js')
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -19,40 +19,41 @@
                     <img src="{{ asset('public/assets/admin/img/edit.png') }}" class="w--22" alt="">
                 </span>
                 <span>
-                    {{ request()->product_gellary  == 1 ?  translate('Add_item') : translate('item_update') }}
+                    {{ request()->product_gellary == 1 ? translate('Add_item') : translate('item_update') }}
                 </span>
             </h1>
             <div class="d-flex align-items-end">
-                @if(Config::get('module.current_module_type') == 'food')
-                <div class="text--primary-2 py-1 d-flex flex-wrap align-items-center foodModalShow" type="button" >
-                    <strong class="mr-2">{{translate('See_how_it_works!')}}</strong>
-                    <div>
-                        <i class="tio-info-outined"></i>
+                @if (Config::get('module.current_module_type') == 'food')
+                    <div class="text--primary-2 py-1 d-flex flex-wrap align-items-center foodModalShow" type="button">
+                        <strong class="mr-2">{{ translate('See_how_it_works!') }}</strong>
+                        <div>
+                            <i class="tio-info-outined"></i>
+                        </div>
                     </div>
-                </div>
                 @else
-                <div class="text--primary-2 py-1 d-flex flex-wrap align-items-center attributeModalShow" type="button" >
-                    <strong class="mr-2">{{translate('See_how_it_works!')}}</strong>
-                    <div>
-                        <i class="tio-info-outined"></i>
+                    <div class="text--primary-2 py-1 d-flex flex-wrap align-items-center attributeModalShow" type="button">
+                        <strong class="mr-2">{{ translate('See_how_it_works!') }}</strong>
+                        <div>
+                            <i class="tio-info-outined"></i>
+                        </div>
                     </div>
-                </div>
                 @endif
             </div>
         </div>
         <!-- End Page Header -->
         <form action="javascript:" method="post" id="product_form" enctype="multipart/form-data">
             @csrf
-                @if (request()->product_gellary  == 1)
-                    @php($route =route('admin.item.store',['product_gellary' => request()->product_gellary ]))
-                    @php($product->price = 0)
-                @else
-                    @php($route =route('admin.item.update', [ isset($temp_product) && $temp_product == 1 ?   $product['item_id'] : $product['id']]))
-                @endif
+            @if (request()->product_gellary == 1)
+                @php($route = route('admin.item.store', ['product_gellary' => request()->product_gellary]))
+                @php($product->price = 0)
+            @else
+                @php($route = route('admin.item.update', [isset($temp_product) && $temp_product == 1 ? $product['item_id'] : $product['id']]))
+            @endif
 
-            <input type="hidden" class="route_url" value="{{ $route ?? route('admin.item.update', [ isset($temp_product) && $temp_product == 1 ?   $product['item_id'] : $product['id']]) }}" >
-            <input type="hidden" value="{{$temp_product ?? 0 }}" name="temp_product" >
-            <input type="hidden" value="{{$product['id'] ?? null }}" name="item_id" >
+            <input type="hidden" class="route_url"
+                value="{{ $route ?? route('admin.item.update', [isset($temp_product) && $temp_product == 1 ? $product['item_id'] : $product['id']]) }}">
+            <input type="hidden" value="{{ $temp_product ?? 0 }}" name="temp_product">
+            <input type="hidden" value="{{ $product['id'] ?? null }}" name="item_id">
 
             @php($language = \App\Models\BusinessSetting::where('key', 'language')->first())
             @php($language = $language->value ?? null)
@@ -82,8 +83,7 @@
                                             ({{ translate('messages.default') }})</label>
                                         <input type="text" name="name[]" id="default_name" class="form-control"
                                             placeholder="{{ translate('messages.new_food') }}"
-                                            value="{{ $product?->getRawOriginal('name') }}" required
-                                             >
+                                            value="{{ $product?->getRawOriginal('name') }}" required>
                                     </div>
                                     <input type="hidden" name="lang[]" value="default">
                                     <div class="form-group pt-2 mb-0">
@@ -111,16 +111,17 @@
                                         <div class="form-group">
                                             <label class="input-label"
                                                 for="{{ $lang }}_name">{{ translate('messages.name') }}
-                                                ({{ strtoupper($lang) }})</label>
+                                                ({{ strtoupper($lang) }})
+                                            </label>
                                             <input type="text" name="name[]" id="{{ $lang }}_name"
                                                 class="form-control" placeholder="{{ translate('messages.new_food') }}"
-                                                value="{{ $translate[$lang]['name'] ?? '' }}"
-                                                 >
+                                                value="{{ $translate[$lang]['name'] ?? '' }}">
                                         </div>
                                         <input type="hidden" name="lang[]" value="{{ $lang }}">
                                         <div class="form-group pt-2 mb-0">
                                             <label class="input-label"
-                                                for="exampleFormControlInput1">{{ translate('messages.short_description') }} ({{ strtoupper($lang) }})</label>
+                                                for="exampleFormControlInput1">{{ translate('messages.short_description') }}
+                                                ({{ strtoupper($lang) }})</label>
                                             <textarea type="text" name="description[]" class="form-control ckeditor min--height-200">{!! $translate[$lang]['description'] ?? '' !!}</textarea>
                                         </div>
                                     </div>
@@ -158,25 +159,29 @@
                                     </label>
                                     <div class="d-flex flex-wrap __gap-12px __new-coba" id="coba">
 
-                                        <input type="hidden" id="removedImageKeysInput" name="removedImageKeys" value="">
-                                        @foreach($product->images as $key => $photo)
-                                            <div id="product_images_{{ $key }}" class="spartan_item_wrapper min-w-100px max-w-100px">
+                                        <input type="hidden" id="removedImageKeysInput" name="removedImageKeys"
+                                            value="">
+                                        @foreach ($product->images as $key => $photo)
+                                            <div id="product_images_{{ $key }}"
+                                                class="spartan_item_wrapper min-w-100px max-w-100px">
                                                 <img class="img--square onerror-image"
-                                                src="{{ \App\CentralLogics\Helpers::onerror_image_helper(
-                                                    $photo ?? '',
-                                                    asset('storage/app/public/product').'/'.$photo ?? '',
-                                                    asset('public/assets/admin/img/upload.png'),
-                                                    'product/'
-                                                ) }}"
+                                                    src="{{ \App\CentralLogics\Helpers::onerror_image_helper(
+                                                        $photo ?? '',
+                                                        asset('storage/app/public/product') . '/' . $photo ?? '',
+                                                        asset('public/assets/admin/img/upload.png'),
+                                                        'product/',
+                                                    ) }}"
                                                     data-onerror-image="{{ asset('public/assets/admin/img/upload.png') }}"
                                                     alt="Product image">
-                                                    @if (request()->product_gellary  == 1)
-                                                        <a href="#" data-key={{ $key }} data-photo="{{ $photo }}"
-                                                        class="spartan_remove_row function_remove_img"><i class="tio-add-to-trash"></i></a>
-                                                    @else
-                                                        <a href="{{ route('admin.item.remove-image', ['id' => $product['id'], 'name' => $photo ,'temp_product' => $temp_product]) }}"
-                                                            class="spartan_remove_row"><i class="tio-add-to-trash"></i></a>
-                                                    @endif
+                                                @if (request()->product_gellary == 1)
+                                                    <a href="#" data-key={{ $key }}
+                                                        data-photo="{{ $photo }}"
+                                                        class="spartan_remove_row function_remove_img"><i
+                                                            class="tio-add-to-trash"></i></a>
+                                                @else
+                                                    <a href="{{ route('admin.item.remove-image', ['id' => $product['id'], 'name' => $photo, 'temp_product' => $temp_product]) }}"
+                                                        class="spartan_remove_row"><i class="tio-add-to-trash"></i></a>
+                                                @endif
                                             </div>
                                         @endforeach
                                     </div>
@@ -188,12 +193,12 @@
                                     </label>
                                     <label class="d-inline-block m-0">
                                         <img class="img--100 onerror-image" id="viewer"
-                                        src="{{ \App\CentralLogics\Helpers::onerror_image_helper(
-                                            $product['image'] ?? '',
-                                            asset('storage/app/public/product').'/'.$product['image'] ?? '',
-                                            asset('public/assets/admin/img/upload.png'),
-                                            'product/'
-                                        ) }}"
+                                            src="{{ \App\CentralLogics\Helpers::onerror_image_helper(
+                                                $product['image'] ?? '',
+                                                asset('storage/app/public/product') . '/' . $product['image'] ?? '',
+                                                asset('public/assets/admin/img/upload.png'),
+                                                'product/',
+                                            ) }}"
                                             data-onerror-image="{{ asset('public/assets/admin/img/upload.png') }}"
                                             alt="thumbnail" />
                                         <input type="file" name="image" id="customFileEg1"
@@ -222,12 +227,13 @@
                                         <label class="input-label" for="store_id">{{ translate('messages.store') }}<span
                                                 class="input-label-secondary"></span></label>
                                         <select name="store_id"
-                                            data-placeholder="{{ translate('messages.select_store') }}"
-                                            id="store_id" class="js-data-example-ajax form-control"
-                                            title="{{ translate('messages.select_store') }}" {{ isset(request()->product_gellary) == false ?'required' : '' }}
+                                            data-placeholder="{{ translate('messages.select_store') }}" id="store_id"
+                                            class="js-data-example-ajax form-control"
+                                            title="{{ translate('messages.select_store') }}"
+                                            {{ isset(request()->product_gellary) == false ? 'required' : '' }}
                                             oninvalid="this.setCustomValidity('{{ translate('messages.please_select_store') }}')">
 
-                                            @if (isset($product->store) && request()->product_gellary  != 1)
+                                            @if (isset($product->store) && request()->product_gellary != 1)
                                                 <option value="{{ $product->store_id }}" selected="selected">
                                                     {{ $product->store->name }}</option>
                                             @endif
@@ -267,24 +273,26 @@
                                 </div>
                                 <div class="col-sm-6 col-lg-3" id="condition_input">
                                     <div class="form-group mb-0">
-                                        <label class="input-label" for="condition_id">{{ translate('messages.Suitable_For') }}<span
+                                        <label class="input-label"
+                                            for="condition_id">{{ translate('messages.Suitable_For') }}<span
                                                 class="input-label-secondary"></span></label>
                                         <select name="condition_id" id="condition_id"
                                             data-placeholder="{{ translate('messages.Select_Condition') }}"
                                             id="condition_id" class="js-data-example-ajax form-control"
                                             oninvalid="this.setCustomValidity('{{ translate('messages.Select_Condition') }}')">
                                             @if (isset($product->pharmacy_item_details?->common_condition_id))
-                                                <option value="{{ $product->pharmacy_item_details->common_condition_id }}" selected="selected">
+                                                <option value="{{ $product->pharmacy_item_details->common_condition_id }}"
+                                                    selected="selected">
                                                     {{ $product->pharmacy_item_details?->common_condition->name }}</option>
-                                            @elseif((isset($temp_product) && $temp_product == 1 && $product->common_condition_id))
-                                            <option value="{{ $product->common_condition_id }}" selected="selected">
-                                                {{ $product->common_condition->name }}</option>
+                                            @elseif(isset($temp_product) && $temp_product == 1 && $product->common_condition_id)
+                                                <option value="{{ $product->common_condition_id }}" selected="selected">
+                                                    {{ $product->common_condition->name }}</option>
                                             @endif
 
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-sm-6 col-lg-3" id="unit_input">
+                                {{-- <div class="col-sm-6 col-lg-3" id="unit_input">
                                     <div class="form-group mb-0">
                                         <label class="input-label text-capitalize"
                                             for="unit">{{ translate('messages.unit') }}</label>
@@ -296,7 +304,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="col-sm-6 col-lg-3" id="veg_input">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
@@ -321,31 +329,34 @@
                                     <div class="form-group mb-0">
                                         <label class="input-label"
                                             for="maximum_cart_quantity">{{ translate('messages.Maximum_Purchase_Quantity_Limit') }}
-                                            <span
-                                            class="input-label-secondary text--title" data-toggle="tooltip"
-                                            data-placement="right"
-                                            data-original-title="{{ translate('If_this_limit_is_exceeded,_customers_can_not_buy_the_item_in_a_single_purchase.') }}">
-                                            <i class="tio-info-outined"></i>
-                                        </span>
+                                            <span class="input-label-secondary text--title" data-toggle="tooltip"
+                                                data-placement="right"
+                                                data-original-title="{{ translate('If_this_limit_is_exceeded,_customers_can_not_buy_the_item_in_a_single_purchase.') }}">
+                                                <i class="tio-info-outined"></i>
+                                            </span>
                                         </label>
-                                        <input type="number" placeholder="{{ translate('messages.Ex:_10') }}" class="form-control" name="maximum_cart_quantity" min="0" value="{{ $product->maximum_cart_quantity }}" id="cart_quantity">
+                                        <input type="number" placeholder="{{ translate('messages.Ex:_10') }}"
+                                            class="form-control" name="maximum_cart_quantity" min="0"
+                                            value="{{ $product->maximum_cart_quantity }}" id="cart_quantity">
                                     </div>
                                 </div>
-                                <div class="col-sm-6 col-lg-3" id="organic">
+                                {{-- <div class="col-sm-6 col-lg-3" id="organic">
                                     <div class="form-check mb-0 p-6">
                                         <input class="form-check-input" name="organic" type="checkbox" value="1" id="flexCheckDefault" {{ $product->organic == 1?'checked':'' }}>
                                         <label class="form-check-label" for="flexCheckDefault">
                                           {{ translate('messages.is_organic') }}
                                         </label>
                                       </div>
-                                </div>
+                                </div> --}}
                                 <div class="col-sm-6 col-lg-3" id="basic">
                                     <div class="form-check mb-0 p-6">
-                                        <input class="form-check-input" name="basic" type="checkbox" value="1" id="flexCheckDefaultbasic" {{ $product->pharmacy_item_details?->is_basic == 1?'checked':((isset($temp_product) && $temp_product == 1 && $product->basic ==1)?'checked':'') }}>
+                                        <input class="form-check-input" name="basic" type="checkbox" value="1"
+                                            id="flexCheckDefaultbasic"
+                                            {{ $product->pharmacy_item_details?->is_basic == 1 ? 'checked' : (isset($temp_product) && $temp_product == 1 && $product->basic == 1 ? 'checked' : '') }}>
                                         <label class="form-check-label" for="flexCheckDefaultbasic">
-                                          {{ translate('messages.Is_Basic_Medicine') }}
+                                            {{ translate('messages.Is_Basic_Medicine') }}
                                         </label>
-                                      </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -456,6 +467,87 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row mt-2">
+                                <?php
+                                // JSON string containing the key-value pair
+                                $jsonString = $product['hours_price'];
+
+                                // Decode the JSON string into an associative array
+                                $hoursPriceArray = json_decode($jsonString, true);
+
+                                // Initialize variables to store key and value
+                                $defaultKey = '';
+                                $defaultValue = '';
+
+
+                                // Check if decoding was successful and $hoursPriceArray is not empty
+                                if ($hoursPriceArray && is_array($hoursPriceArray)) {
+                                    // Extract key and value from the associative array
+                                    $defaultKey = key($hoursPriceArray); // Get the key (e.g., "12")
+                                    $defaultValue = current($hoursPriceArray); // Get the value (e.g., "200")
+                                }
+                                ?>
+
+                                <div class="col-lg-6">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.Hours') }}</label>
+                                        <input type="text" name="hours" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 1hrs"
+                                            value="{{ $defaultKey }}">
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.Hours price') }}</label>
+                                        <input type="number" name="h_price" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100"
+                                            value="{{ $defaultValue }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <?php
+                                // JSON string containing the key-value pair
+                                $jsonString = $product['distance_price'];
+
+                                // Decode the JSON string into an associative array
+                                $discountPriceArray = json_decode($jsonString, true);
+
+                                // Initialize variables to store key and value
+                                $defaultKey = '';
+                                $defaultValue = '';
+
+
+                                // Check if decoding was successful and $hoursPriceArray is not empty
+                                if ($discountPriceArray && is_array($discountPriceArray)) {
+                                    // Extract key and value from the associative array
+                                    $defaultKey = key($discountPriceArray); // Get the key (e.g., "12")
+                                    $defaultValue = current($discountPriceArray); // Get the value (e.g., "200")
+                                }
+                                ?>
+                                <div class="col-lg-6">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.KM') }}</label>
+                                        <input type="text" name="km" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 1km" value="{{ $defaultKey }}">
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.KM price') }}</label>
+                                        <input type="number" name="km_price" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100"  value="{{ $defaultValue }}">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -475,7 +567,7 @@
                         </div>
                         <div class="card-body">
                             <div id="add_new_option">
-                                @if (isset($product->food_variations) && count(json_decode($product->food_variations,true))>0)
+                                @if (isset($product->food_variations) && count(json_decode($product->food_variations, true)) > 0)
                                     @foreach (json_decode($product->food_variations, true) as $key_choice_options => $item)
                                         @if (isset($item['price']))
                                         @break
@@ -486,20 +578,20 @@
                                             'key' => $key_choice_options + 1,
                                         ])
                                     @endif
-                                    @endforeach
-                                @endif
-                            </div>
-
-                                <!-- Empty Variation -->
-                                @if (!isset($product->food_variations) || count(json_decode($product->food_variations,true))<1)
-                                <div id="empty-variation">
-                                    <div class="text-center">
-                                        <img src="{{ asset('/public/assets/admin/img/variation.png') }}" alt="">
-                                        <div>{{ translate('No variation added') }}</div>
-                                    </div>
-                                </div>
+                                @endforeach
                             @endif
                         </div>
+
+                        <!-- Empty Variation -->
+                        @if (!isset($product->food_variations) || count(json_decode($product->food_variations, true)) < 1)
+                            <div id="empty-variation">
+                                <div class="text-center">
+                                    <img src="{{ asset('/public/assets/admin/img/variation.png') }}" alt="">
+                                    <div>{{ translate('No variation added') }}</div>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
                 </div>
             </div>
             <div class="col-md-12" id="attribute_section">
@@ -562,15 +654,21 @@
                     <div class="card-body pb-0">
                         <div class="row g-2">
                             <div class="col-12">
-                                @if (isset($temp_product) && $temp_product == 1 )
-                                <div class="form-group">
-                                    @php( $tags =\App\Models\Tag::whereIn('id',json_decode($product?->tag_ids) )->get('tag'))
-                                    <input type="text" class="form-control" name="tags" placeholder="Enter tags" value="@foreach($tags as $c) {{$c->tag.','}} @endforeach" data-role="tagsinput">
-                                </div>
+                                @if (isset($temp_product) && $temp_product == 1)
+                                    <div class="form-group">
+                                        @php($tags = \App\Models\Tag::whereIn('id', json_decode($product?->tag_ids))->get('tag'))
+                                        <input type="text" class="form-control" name="tags"
+                                            placeholder="Enter tags"
+                                            value="@foreach ($tags as $c) {{ $c->tag . ',' }} @endforeach"
+                                            data-role="tagsinput">
+                                    </div>
                                 @else
-                                <div class="form-group">
-                                    <input type="text" class="form-control" name="tags" placeholder="Enter tags" value="@foreach($product->tags as $c) {{$c->tag.','}} @endforeach" data-role="tagsinput">
-                                </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="tags"
+                                            placeholder="Enter tags"
+                                            value="@foreach ($product->tags as $c) {{ $c->tag . ',' }} @endforeach"
+                                            data-role="tagsinput">
+                                    </div>
                                 @endif
                             </div>
                         </div>
@@ -581,7 +679,8 @@
                 <div class="btn--container justify-content-end">
                     <button type="reset" id="reset_btn"
                         class="btn btn--reset">{{ translate('messages.reset') }}</button>
-                    <button type="submit" class="btn btn--primary">{{ isset($temp_product) && $temp_product == 1  ? translate('Edit_&_Approve') : translate('messages.submit')  }}</button>
+                    <button type="submit"
+                        class="btn btn--primary">{{ isset($temp_product) && $temp_product == 1 ? translate('Edit_&_Approve') : translate('messages.submit') }}</button>
                 </div>
             </div>
         </div>
@@ -594,10 +693,13 @@
             <div class="modal-body">
                 <button type="button" class="close foodModalClose" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                  </button>
+                </button>
                 <div class="embed-responsive embed-responsive-16by9">
-                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/xG8fO7TXPbk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                  </div>
+                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/xG8fO7TXPbk"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+                </div>
             </div>
         </div>
     </div>
@@ -609,10 +711,13 @@
             <div class="modal-body">
                 <button type="button" class="close attributeModalClose" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                  </button>
+                </button>
                 <div class="embed-responsive embed-responsive-16by9">
-                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/xG8fO7TXPbk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                  </div>
+                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/xG8fO7TXPbk"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+                </div>
             </div>
         </div>
     </div>
@@ -626,19 +731,21 @@
 <script src="{{ asset('public/assets/admin/js/spartan-multi-image-picker.js') }}"></script>
 <script>
     "use strict";
-     let removedImageKeys = [];
+    let removedImageKeys = [];
     let element = "";
-     $('.function_remove_img').on('change', function () {
-         let key = $(this).data('key');
-         let photo = $(this).data('photo');
-         function_remove_img(key,photo);
-     })
-        function function_remove_img(key,photo) {
+    $('.function_remove_img').on('change', function() {
+        let key = $(this).data('key');
+        let photo = $(this).data('photo');
+        function_remove_img(key, photo);
+    })
+
+    function function_remove_img(key, photo) {
         $('#product_images_' + key).addClass('d-none');
         removedImageKeys.push(photo);
         $('#removedImageKeysInput').val(removedImageKeys.join(','));
         console.log('Removed Image Keys:', removedImageKeys);
     }
+
     function show_min_max(data) {
         console.log(data);
         $('#min_max1_' + data).removeAttr("readonly");
@@ -657,15 +764,15 @@
         $('#min_max2_' + data).attr("required", "false");
     }
 
-     $(document).on('change', '.show_min_max', function () {
-         let data = $(this).data('count');
-         show_min_max(data);
-     });
+    $(document).on('change', '.show_min_max', function() {
+        let data = $(this).data('count');
+        show_min_max(data);
+    });
 
-     $(document).on('change', '.hide_min_max', function () {
-         let data = $(this).data('count');
-         hide_min_max(data);
-     });
+    $(document).on('change', '.hide_min_max', function() {
+        let data = $(this).data('count');
+        hide_min_max(data);
+    });
 
     let count = {{ isset($product->food_variations) ? count(json_decode($product->food_variations, true)) : 0 }};
 
@@ -692,8 +799,8 @@
                                 <div class="col-xl-4 col-lg-6">
                                     <label for="">{{ translate('name') }}</label>
                                     <input required name=options[` + count +
-                `][name] class="form-control new_option_name" type="text" data-count="`+
-                count +`">
+                `][name] class="form-control new_option_name" type="text" data-count="` +
+                count + `">
                                 </div>
 
                                 <div class="col-xl-4 col-lg-6">
@@ -702,7 +809,7 @@
                                         </label>
                                         <div class="resturant-type-group px-0">
                                             <label class="form-check form--check mr-2 mr-md-4">
-                                                <input class="form-check-input show_min_max" data-count="`+count+`" type="radio" value="multi"
+                                                <input class="form-check-input show_min_max" data-count="` + count + `" type="radio" value="multi"
                                                 name="options[` + count + `][type]" id="type` + count +
                 `" checked
                                                 >
@@ -712,7 +819,7 @@
                                             </label>
 
                                             <label class="form-check form--check mr-2 mr-md-4">
-                                                <input class="form-check-input hide_min_max" data-count="`+count+`" type="radio" value="single"
+                                                <input class="form-check-input hide_min_max" data-count="` + count + `" type="radio" value="single"
                                                 name="options[` + count + `][type]" id="type` + count +
                 `"
                                                 >
@@ -756,8 +863,8 @@
                                     </div>
                                     <div class="row mt-3 p-3 mr-1 d-flex "  id="add_new_button_` + count +
                 `">
-                                        <button type="button" class="btn btn--primary btn-outline-primary add_new_row_button" data-count="`+
-                count +`" >{{ translate('Add_New_Option') }}</button>
+                                        <button type="button" class="btn btn--primary btn-outline-primary add_new_row_button" data-count="` +
+                count + `" >{{ translate('Add_New_Option') }}</button>
                                     </div>
                                 </div>
                             </div>
@@ -779,7 +886,7 @@
         element.parents('.view_new_option').remove();
     }
 
-    $(document).on('click', '.delete_input_button', function () {
+    $(document).on('click', '.delete_input_button', function() {
         let e = $(this);
         removeOption(e);
     });
@@ -789,7 +896,7 @@
         element.parents('.add_new_view_row_class').remove();
     }
 
-    $(document).on('click', '.deleteRow', function () {
+    $(document).on('click', '.deleteRow', function() {
         let e = $(this);
         deleteRow(e);
     });
@@ -825,23 +932,23 @@
 
     }
 
-     $(document).on('click', '.add_new_row_button', function () {
-         let data = $(this).data('count');
-         add_new_row_button(data);
-     });
+    $(document).on('click', '.add_new_row_button', function() {
+        let data = $(this).data('count');
+        add_new_row_button(data);
+    });
 
-     $(document).on('keyup', '.new_option_name', function () {
-         let data = $(this).data('count');
-         let value = $(this).val();
-         new_option_name(value, data);
-     });
+    $(document).on('keyup', '.new_option_name', function() {
+        let data = $(this).data('count');
+        let value = $(this).val();
+        new_option_name(value, data);
+    });
 
-     $('#store_id').on('change', function () {
-         let route = '{{url('/')}}/admin/store/get-addons?data[]=0&store_id=';
-         let store_id = $(this).val();
-         let id = 'add_on';
-         getStoreData(route, store_id, id);
-     });
+    $('#store_id').on('change', function() {
+        let route = '{{ url('/') }}/admin/store/get-addons?data[]=0&store_id=';
+        let store_id = $(this).val();
+        let id = 'add_on';
+        getStoreData(route, store_id, id);
+    });
 
     function getStoreData(route, store_id, id) {
         $.get({
@@ -969,28 +1076,29 @@
         }
     }
 
-     $('#category_id').on('change', function () {
-         parent_category_id = $(this).val();
+    $('#category_id').on('change', function() {
+        parent_category_id = $(this).val();
         let subCategoriesSelect = $('#sub-categories');
-            subCategoriesSelect.empty();
-            subCategoriesSelect.append('<option value="" selected>{{ translate("messages.select_sub_category") }}</option>');
-     });
+        subCategoriesSelect.empty();
+        subCategoriesSelect.append(
+            '<option value="" selected>{{ translate('messages.select_sub_category') }}</option>');
+    });
 
-     $('.foodModalClose').on('click',function (){
-         $('#food-modal').hide();
-     })
+    $('.foodModalClose').on('click', function() {
+        $('#food-modal').hide();
+    })
 
-     $('.foodModalShow').on('click',function (){
-         $('#food-modal').show();
-     })
+    $('.foodModalShow').on('click', function() {
+        $('#food-modal').show();
+    })
 
-     $('.attributeModalClose').on('click',function (){
-         $('#attribute-modal').hide();
-     })
+    $('.attributeModalClose').on('click', function() {
+        $('#attribute-modal').hide();
+    })
 
-     $('.attributeModalShow').on('click',function (){
-         $('#attribute-modal').show();
-     })
+    $('.attributeModalShow').on('click', function() {
+        $('#attribute-modal').show();
+    })
 
     $(document).on('ready', function() {
         $('.js-select2-custom').each(function() {
@@ -999,29 +1107,29 @@
     });
 
     $('#condition_id').select2({
-            ajax: {
-                url: '{{ url('/') }}/admin/common-condition/get-all',
-                data: function(params) {
-                    return {
-                        q: params.term, // search term
-                        page: params.page,
-                    };
-                },
-                processResults: function(data) {
-                    return {
-                        results: data
-                    };
-                },
-                __port: function(params, success, failure) {
-                    let $request = $.ajax(params);
+        ajax: {
+            url: '{{ url('/') }}/admin/common-condition/get-all',
+            data: function(params) {
+                return {
+                    q: params.term, // search term
+                    page: params.page,
+                };
+            },
+            processResults: function(data) {
+                return {
+                    results: data
+                };
+            },
+            __port: function(params, success, failure) {
+                let $request = $.ajax(params);
 
-                    $request.then(success);
-                    $request.fail(failure);
+                $request.then(success);
+                $request.fail(failure);
 
-                    return $request;
-                }
+                return $request;
             }
-        });
+        }
+    });
 
     $('#store_id').select2({
         ajax: {
@@ -1158,9 +1266,9 @@
         });
     }
 
-     $(document).on('change', '.combination_update', function () {
-         combination_update();
-     });
+    $(document).on('change', '.combination_update', function() {
+        combination_update();
+    });
 
     $('#product_form').on('submit', function() {
         console.log('working');
@@ -1171,7 +1279,7 @@
             }
         });
         $.post({
-            url: $('.route_url').val() ,
+            url: $('.route_url').val(),
             data: $('#product_form').serialize(),
             data: formData,
             cache: false,
@@ -1191,13 +1299,13 @@
                         });
                     }
                 }
-                if(data.product_approval){
-                        toastr.success(data.product_approval, {
+                if (data.product_approval) {
+                    toastr.success(data.product_approval, {
                         CloseButton: true,
                         ProgressBar: true
                     });
                 }
-                if(data.success) {
+                if (data.success) {
                     toastr.success(data.success, {
                         CloseButton: true,
                         ProgressBar: true
@@ -1325,8 +1433,5 @@
             }
         });
     })
-
-
-
 </script>
 @endpush

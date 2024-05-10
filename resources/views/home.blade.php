@@ -334,52 +334,8 @@
     </div>
 
 <!-- Features -->
-    <div class="container-fluid features mt-5">
-{{--
-        <div class="row">
-            <div class="col">
-                <div class="card text-center rounded rounded-pill" style="height: 100px;">
-                    <div class="card-body p-2 d-flex flex-column text-center">
-                        <div class="card-title text-center mb-0 ">
-                            <img src="/public/assets/landing/image/sanitized_vehicle.svg" alt="" style="width: 50px;">
-                            <h5 class=" mt-3"><b>Sanitized Vehicles</b></h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card text-center rounded rounded-pill" style="height: 100px;">
-                    <div class="card-body p-2 d-flex flex-column text-center">
-                        <div class="card-title text-center mb-0 ">
-                            <img src="/public/assets/landing/image/insurance.svg" alt="" style="width: 50px;">
-                            <h5 class=" mt-3"><b>Sanitized Vehicles</b></h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card text-center rounded rounded-pill" style="height: 100px;">
-                    <div class="card-body p-2 d-flex flex-column text-center">
-                        <div class="card-title text-center mb-0 ">
-                            <img src="/public/assets/landing/image/maintenance.svg" alt="" style="width: 50px;">
-                            <h5 class=" mt-3"><b>Sanitized Vehicles</b></h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card text-center rounded rounded-pill" style="height: 100px;">
-                    <div class="card-body p-2 d-flex flex-column text-center">
-                        <div class="card-title text-center mb-0 ">
-                            <img src="/public/assets/landing/image/roadside_assistance.svg" alt="" style="width: 50px;">
-                            <h5 class=" mt-3"><b>Sanitized Vehicles</b></h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
-
-        <div class="row justify-content-between px-3 my-3" style="border-radius: 25px; background-color: white; padding: 15px 0; row-gap: 25px;">
+    <div class="container-fluid features mt-5 ">
+        <div class="row justify-content-between px-3 my-3 shadow" style="border-radius: 25px; background-color: white; padding: 15px 0; row-gap: 25px;">
             <div class="col-lg col-md-6 col-6 d-flex justify-content-center align-items-center" style="gap:8px;">
                 <img src="/public/assets/landing/image/sanitized_vehicle.svg" alt="" style="width: 30px;">
                 <p class="ml-2 mb-0" style="font-size: 15px; font-weight: 500; color:black;"> Sanitized Vehicles</p>
@@ -403,13 +359,14 @@
     <div class="container mt-5">
         <div class="title d-flex justify-content-between">
             <h3 class="section-title">Category</h3>
-            <button class="view">View All</button>
+
+            <a href="{{route('all_category')}}" style="text-decoration: none;" class="view">View All</a>
         </div>
         <div class="category w-100 my-3">
             @foreach ($category as $categorys )
                 <div class="card text-center">
                     <div class="card-body p-2 d-flex flex-column text-center">
-                        <a href="{{ route('product_listing', ['category_id' => $categorys->id]) }}">
+                        <a href="{{ route('product_listing', ['category_id' => $categorys->id]) }}" style="text-decoration: none;" >
                             <img class="avatar avatar-lg mr-3 onerror-image"src="{{ \App\CentralLogics\Helpers::onerror_image_helper($categorys['image'] ?? '',asset('storage/app/public/category').'/'.$categorys['image'] ?? '',asset('public/assets/admin'),'category/') }}"data-onerror-image="{{asset('public/assets/admin/img/160x160/img2.jpg')}}" alt="{{$categorys->name}} image">
                             <div class="card-title text-center mb-0">
                                 <h4 class="product-title mb-0">{{$categorys->name}}</h4>
@@ -428,7 +385,7 @@
     <div class="container my-5 mt-5">
         <div class="title d-flex justify-content-between">
             <h3 class="section-title">Best Rental Bikes</h3>
-            <button class="view">View All</button>
+            <a href="{{route('rental_bike')}}" class="view">View All</a>
         </div>
         <div class="items w-100 my-3">
             @foreach ( $item as $items )
@@ -475,7 +432,7 @@
     @endif
 
 <!--Blog -->
-    <div class="container blog-container">
+    {{-- <div class="container blog-container">
         <div class="title d-flex justify-content-between">
             <h3 class="section-title">Blogs</h3>
             <button class="view">View All</button>
@@ -531,7 +488,7 @@
             </div>
 
         </div>
-    </div>
+    </div> --}}
 
     <!--Reviews -->
 
@@ -539,11 +496,11 @@
         <div class="container reviews-container">
             <div class="title d-flex justify-content-between">
                 <h3 class="section-title">Customer Reviews</h3>
-                <button class="view">View All</button>
+                {{-- <button class="view">View All</button> --}}
             </div>
             <div class="reviews">
                 @foreach ($review as $reviews)
-                    <div class="card border-0 bg-white">
+                    <div class="card  bg-white border">
                         <div class="card-body p-2 d-flex flex-column align-items-center">
                             <img
                             src="{{ \App\CentralLogics\Helpers::onerror_image_helper(
@@ -567,7 +524,7 @@
                     </div>
                 @endforeach
 
-                <div class="card border-0 bg-transparent">
+                <div class="card border bg-transparent">
                     <div class="card-body p-2 d-flex flex-column align-items-center">
                         <img src="/public/assets/landing/image/user2.jpg">
                         <p class="mb-0 mt-2" style="font-size: 13px; font-weight: 600;">Chen Zheyuan</p>
@@ -582,7 +539,7 @@
                     </div>
                 </div>
 
-                <div class="card border-0 bg-transparent">
+                <div class="card border bg-transparent">
                     <div class="card-body p-2 d-flex flex-column align-items-center">
                         <img src="/public/assets/landing/image/user1.webp">
                         <p class="mb-0 mt-2" style="font-size: 13px; font-weight: 600;">John Doe</p>
@@ -597,7 +554,7 @@
                     </div>
                 </div>
 
-                <div class="card border-0 bg-transparent">
+                <div class="card border bg-transparent">
                     <div class="card-body p-2 d-flex flex-column align-items-center">
                         <img src="/public/assets/landing/image/user2.jpg">
                         <p class="mb-0 mt-2" style="font-size: 13px; font-weight: 600;">Chen Zheyuan</p>
@@ -612,7 +569,7 @@
                     </div>
                 </div>
 
-                <div class="card border-0 bg-transparent">
+                <div class="card border bg-transparent">
                     <div class="card-body p-2 d-flex flex-column align-items-center">
                         <img src="/public/assets/landing/image/user1.webp">
                         <p class="mb-0 mt-2" style="font-size: 13px; font-weight: 600;">Chen Zheyuan</p>

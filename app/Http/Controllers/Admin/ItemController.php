@@ -43,11 +43,15 @@ class ItemController extends Controller
 
     public function store(Request $request)
     {
-
+        // dd($request->all());
         $validator = Validator::make($request->all(), [
             'name.0' => 'required',
             'name.*' => 'max:191',
             'category_id' => 'required',
+            'hours' => 'required',
+            'h_price' => 'required',
+            'km'=>'nullable',
+            'km_price'=>'nullable|numeric|between:.01,999999999999.99',
             'image' => 'required_unless:product_gellary,1',
             'price' => 'required|numeric|between:.01,999999999999.99',
             'discount' => 'required|numeric|min:0',
@@ -141,6 +145,18 @@ class ItemController extends Controller
         $item->category_ids = json_encode($category);
         $item->category_id = $request->sub_category_id ? $request->sub_category_id : $request->category_id;
         $item->description =  $request->description[array_search('default', $request->lang)];
+
+        $payload = [
+            $request->input('hours') => $request->input('h_price')
+        ];
+
+        $item->hours_price = json_encode($payload);
+
+        $payload_1 = [
+            $request->input('km') => $request->input('km_price')
+        ];
+
+        $item->distance_price = json_encode($payload_1);
 
         $choice_options = [];
         if ($request->has('choice')) {
@@ -317,6 +333,10 @@ class ItemController extends Controller
             'name.*' => 'max:191',
             'category_id' => 'required',
             'price' => 'required|numeric|between:.01,999999999999.99',
+            'hours' => 'required',
+            'h_price' => 'required',
+            'km'=>'nullable',
+            'km_price'=>'nullable|numeric|between:.01,999999999999.99',
             'store_id' => 'required',
             'description' => 'array',
             'description.*' => 'max:1000',
@@ -385,6 +405,14 @@ class ItemController extends Controller
         $item->category_ids = json_encode($category);
         $item->description =  $request->description[array_search('default', $request->lang)];
 
+        $payload = [
+            $request->input('hours') => $request->input('h_price')
+        ];
+
+        $item->hours_price = json_encode($payload);
+
+
+
         $choice_options = [];
         if ($request->has('choice')) {
             foreach ($request->choice_no as $key => $no) {
@@ -401,6 +429,11 @@ class ItemController extends Controller
         }
         $item->choice_options = $request->has('attribute_id') ? json_encode($choice_options) : json_encode([]);
         $variations = [];
+        $payload = [
+            $request->input('km') => $request->input('km_price')
+        ];
+
+        $item->distance_price = json_encode($payload);
         $options = [];
         if ($request->has('choice_no')) {
             foreach ($request->choice_no as $key => $no) {

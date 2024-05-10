@@ -3890,5 +3890,11 @@
   'review_updated_successfully' => 'Review updated successfully',
   'kyc_status' => 'Kyc status',
   'Credentials do not match.' => 'Credentials do not match.',
+  'KM' => 'KM',
+  'Hours' => 'Hours',
+  'Hours price' => 'Hours price',
+  'KM price' => 'KM price',
   'Faield to send sms' => 'Faield to send sms',
+  'safety' => 'Safety',
+  'rental_bike' => 'Rental bike',
 );

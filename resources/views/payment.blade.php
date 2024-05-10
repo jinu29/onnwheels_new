@@ -308,8 +308,8 @@
     </style>
 @endsection
 @section('content')
-    <div class="container mt-2 mb-3">
-        <div class="row no-gutters">
+    <div class="container mt-5  mb-3">
+        <div class="row no-gutters ">
             <div class="col-md-5 pr-2">
                 <div class="card">
                     <div class="demo">
@@ -324,7 +324,7 @@
                 </div>
 
             </div>
-            <div class="col-md-7">
+            <div class="col-md-7 px-lg-5  mt-3">
                 <div class="border rounded-3 d-flex justify-content-between p-3  shadow">
                     <div>
                         <p>Security deposit</p>
@@ -427,7 +427,7 @@
             item: 1,
             loop: true,
             slideMargin: 0,
-            thumbItem: 6
+            thumbItem: 4
         });
     </script>
 @endsection

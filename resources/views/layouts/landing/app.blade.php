@@ -47,10 +47,14 @@ $landing_site_direction = session()->get('landing_site_direction');
         href="https://cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
 
+    {{-- Date and time picker --}}
+
+
     <style>
+
         body {
             font-family: "Montserrat", sans-serif;
-            background-color: #eeededee;
+            background-color: white;
         }
 
         .header--btn {
@@ -193,6 +197,7 @@ $landing_site_direction = session()->get('landing_site_direction');
         .sign-up {
             background-color: orange
         }
+
     </style>
 
     @yield('css')
@@ -209,9 +214,9 @@ $landing_site_direction = session()->get('landing_site_direction');
     <!-- ==== Preloader ==== -->
     <!-- ==== Header Section Starts Here ==== -->
     <header>
-        <div class="navbar-bottom">
+        <div class="navbar-bottom shadow">
             <div class="container">
-                <div class="navbar-bottom-wrapper">
+                <div class="navbar-bottom-wrapper ">
                     @php($fav = \App\Models\BusinessSetting::where(['key' => 'icon'])->first()->value ?? '')
                     @php($logo = \App\Models\BusinessSetting::where(['key' => 'logo'])->first()->value ?? '')
                     <a href="{{ route('home') }}" class="logo">
@@ -224,11 +229,11 @@ $landing_site_direction = session()->get('landing_site_direction');
                                 class="{{ Request::is('/') ? 'active' : '' }}"><span>{{ translate('messages.home') }}</span></a>
                         </li>
                         <li>
-                            <a href="#"
+                            <a href="{{route('rental_bike')}}"
                                 class="{{ Request::is('Rental Bike') ? 'active' : '' }}"><span>{{ translate('messages.Rental Bike') }}</span></a>
                         </li>
                         <li>
-                            <a href="#"
+                            <a href="{{route('safety')}}"
                                 class="{{ Request::is('Safety') ? 'active' : '' }}"><span>{{ translate('messages.Safety') }}</span></a>
                         </li>
                         <li>
@@ -267,8 +272,8 @@ $landing_site_direction = session()->get('landing_site_direction');
 
                     @if (Auth::check())
                         <div class="user-avatar-container" id="user-avatar-container">
-                            <div class="user-avatar" id="user-avatar">
-                                <img src="/public/Images/user-avatar.png" width="40" alt="User Avatar">
+                            <div class="user-avatar d-flex align-items-center" id="user-avatar">
+                                <img src="/public/Images/user-avatar.png" width="40" alt="User Avatar" style="height: 40px;">
                                 <span class="user-name">{{ Auth::user()->f_name }}</span>
                             </div>
                             <div class="user-details">
@@ -297,7 +302,7 @@ $landing_site_direction = session()->get('landing_site_direction');
                                     <span class="me-1">{{ translate('Signup') }}</span>
                                 </a>
 
-                                {{-- 
+                                {{--
                                 <ul class="dropdown-list">
                                     @if ($toggle_store_registration)
                                         <li>
