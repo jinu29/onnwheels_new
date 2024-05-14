@@ -61,6 +61,12 @@ $landing_site_direction = session()->get('landing_site_direction');
             border: none;
         }
 
+        .header--btn:hover {
+            color: white;
+            background-color: #003360;
+            text-decoration: none;
+        }
+
         .footer {
             padding: 40px 0;
             background-color: #003360;
@@ -190,7 +196,12 @@ $landing_site_direction = session()->get('landing_site_direction');
         }
 
         .sign-up {
-            background-color: orange
+            background-color: #F89520;
+        }
+
+        .sign-up:hover {
+            background-color: #F89520;
+            color: white;
         }
 
     </style>
@@ -273,7 +284,7 @@ $landing_site_direction = session()->get('landing_site_direction');
                             </div>
                             <div class="user-details">
                                 <div class="dropdown-menu" id="dropdown-menu">
-                                    <a href="{{route ('userprofile')}}">Profile</a>
+                                    <a href="{{route ('profile')}}">Profile</a>
                                     <div class="menu-divider"></div> <!-- Divider -->
                                     <a href="{{ route('user.logout') }}">Logout</a>
                                 </div>
@@ -282,7 +293,7 @@ $landing_site_direction = session()->get('landing_site_direction');
                     @else
                         @if (isset($toggle_dm_registration) || isset($toggle_store_registration))
                             <div class="dropdown--btn-hover position-relative d-flex" style="gap: 10px;">
-                                <a class="dropdown--btn header--btn text-capitalize d-flex align-items-center"
+                                <a class="dropdown--btn header--btn text-capitalize d-flex align-items-center login"
                                     href="{{ route('login', ['tab' => 'customer']) }}">
                                     <span class="me-1">{{ translate('Login') }}</span>
                                     {{-- <svg width="12" height="7" viewBox="0 0 12 7" fill="none"
@@ -340,15 +351,15 @@ $landing_site_direction = session()->get('landing_site_direction');
                     </div>
                     <div class="phone mb-2 d-flex align-items-center mt-4" style="gap: 10px;">
                         <i class="fa-solid fa-location-dot" style="font-size: 19px;"></i>
-                        <p class="mb-0">16,abc <br>123layout</p>
+                        <p class="mb-0">{{ \App\CentralLogics\Helpers::get_settings('address') }}</p>
                     </div>
                     <div class="phone mb-2 d-flex align-items-center mt-4" style="gap: 10px;">
                         <i class="fa-solid fa-phone" style="font-size: 19px;"></i>
-                        <p class="mb-0">9686201100</p>
+                        <a href="tel:{{ \App\CentralLogics\Helpers::get_settings('phone') }}">{{ \App\CentralLogics\Helpers::get_settings('phone') }}</a>
                     </div>
                     <div class="mail mb-2 d-flex align-items-center mt-4" style="gap: 10px;">
                         <i class="fa-regular fa-envelope" style="font-size: 19px;"></i>
-                        <p class="mb-0">pradeep.stallin@gmail.com</p>
+                        <a href="Malto:{{ \App\CentralLogics\Helpers::get_settings('email_address') }}">{{ \App\CentralLogics\Helpers::get_settings('email_address') }}</a>
                     </div>
                     <div class="social-icons mt-4">
                         <a href="#">
@@ -652,8 +663,6 @@ $landing_site_direction = session()->get('landing_site_direction');
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
         crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-
-
 </body>
 
 </html>

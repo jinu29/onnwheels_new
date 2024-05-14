@@ -392,10 +392,16 @@
             border-radius: 8px;
             margin-top: 20px;
         }
+
+        .btn:hover {
+            background-color: #003360;
+            color: white;
+        }
+
     </style>
 @endsection
 @section('content')
-    <div class="container mt-2 mb-3">
+    <div class="container" style="margin-top: 4rem;">
         <div class="row no-gutters">
             <?php
             // JSON string containing the key-value pair
@@ -436,8 +442,8 @@
                     <div class="product-title">
                         <h4>{{ $items->name }}</h4>
                         <div class="icons">
-                            <i class="fa-regular fa-heart"></i>
-                            <i class="fa-solid fa-share-nodes"></i>
+                            {{-- <i class="fa-regular fa-heart"></i>
+                            <i class="fa-solid fa-share-nodes"></i> --}}
                         </div>
                     </div>
                     <div class="d-flex flex-row align-items-center">
@@ -470,9 +476,15 @@
                             <p class="mb-0" id="totalPrice">{{ $defaultValue }}</p>
                         </div>
                     </div>
-                    <a href="{{ route('user.payment', $items->slug) }}">
-                        <button type="submit" class="btn">Book Now</button>
-                    </a>
+                    @if(auth()->check())
+                        <a href="{{ route('user.payment', $items->slug) }}">
+                            <button type="submit" class="btn">Book Now</button>
+                        </a>
+                    @else
+                        <a href="{{ route('login', ['tab' => 'customer']) }}">
+                            <button type="submit" class="btn">Book Now</button>
+                        </a>
+                    @endif
                 </div>
 
             </div>

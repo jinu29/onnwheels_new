@@ -496,9 +496,8 @@
         <div class="container reviews-container">
             <div class="title d-flex justify-content-between">
                 <h3 class="section-title">Customer Reviews</h3>
-                {{-- <button class="view">View All</button> --}}
             </div>
-            <div class="reviews">
+            <div class="reviews w-100 my-3">
                 @foreach ($review as $reviews)
                     <div class="card  bg-white border">
                         <div class="card-body p-2 d-flex flex-column align-items-center">
@@ -523,66 +522,6 @@
                         </div>
                     </div>
                 @endforeach
-
-                <div class="card border bg-transparent">
-                    <div class="card-body p-2 d-flex flex-column align-items-center">
-                        <img src="/public/assets/landing/image/user2.jpg">
-                        <p class="mb-0 mt-2" style="font-size: 13px; font-weight: 600;">Chen Zheyuan</p>
-                        <div class="rating d-flex justify-content-center mb-0 text-center mt-2" style="font-size: 12px; color: rgb(248, 82, 82);">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star-half-stroke"></i>
-                        </div>
-                        <p class="text-center mt-2" style="font-size: 13px; font-weight: 500;">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                    </div>
-                </div>
-
-                <div class="card border bg-transparent">
-                    <div class="card-body p-2 d-flex flex-column align-items-center">
-                        <img src="/public/assets/landing/image/user1.webp">
-                        <p class="mb-0 mt-2" style="font-size: 13px; font-weight: 600;">John Doe</p>
-                        <div class="rating d-flex justify-content-center mb-0 text-center mt-2" style="font-size: 12px; color: rgb(248, 82, 82);">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star-half-stroke"></i>
-                        </div>
-                        <p class="text-center mt-2" style="font-size: 13px; font-weight: 500;">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                    </div>
-                </div>
-
-                <div class="card border bg-transparent">
-                    <div class="card-body p-2 d-flex flex-column align-items-center">
-                        <img src="/public/assets/landing/image/user2.jpg">
-                        <p class="mb-0 mt-2" style="font-size: 13px; font-weight: 600;">Chen Zheyuan</p>
-                        <div class="rating d-flex justify-content-center mb-0 text-center mt-2" style="font-size: 12px; color: rgb(248, 82, 82);">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star-half-stroke"></i>
-                        </div>
-                        <p class="text-center mt-2" style="font-size: 13px; font-weight: 500;">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                    </div>
-                </div>
-
-                <div class="card border bg-transparent">
-                    <div class="card-body p-2 d-flex flex-column align-items-center">
-                        <img src="/public/assets/landing/image/user1.webp">
-                        <p class="mb-0 mt-2" style="font-size: 13px; font-weight: 600;">Chen Zheyuan</p>
-                        <div class="rating d-flex justify-content-center mb-0 text-center mt-2" style="font-size: 12px; color: rgb(248, 82, 82);">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star-half-stroke"></i>
-                        </div>
-                        <p class="text-center mt-2" style="font-size: 13px; font-weight: 500;">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                    </div>
-                </div>
             </div>
         </div>
     @endif

@@ -229,7 +229,7 @@ Route::post('/user-login', [AuthController::class, 'login'])->name('user.login')
 Route::get('user-logout', [AuthController::class, 'logout'])->name('user.logout');
 
 // UserProfile Route
-Route::get('userprofile', [UserController::class , 'userprofile'])->name('userprofile');
+Route::get('profile', [UserController::class , 'profile'])->name('profile');
 Route::post('user/{id}', [AuthController::class ,'update'])->name('user.update');
 
 //Social login

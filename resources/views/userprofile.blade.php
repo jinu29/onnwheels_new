@@ -192,7 +192,7 @@
         color: #ACACAC;
     }
 
-    .counts h3 { 
+    .counts h3 {
         font-size: 18px;
         font-weight: 600;
     }
@@ -306,12 +306,12 @@
     .card {
         border-radius: 8px;
     }
-    
+
     .card-body {
         position: relative;
         border-radius: 20px;
     }
-    
+
     .fa-heart {
         position: absolute;
         top: 10px;
@@ -323,9 +323,9 @@
         font-weight: bold;
         color: #fff;
     }
-    
+
     .new {
-        --f: .5em; 
+        --f: .5em;
         position: absolute;
         top: 0;
         left: 0;
@@ -339,7 +339,7 @@
         transform-origin: 100% 100%;
         background-color: red; /* the main color  */
     }
-    
+
     .discount {
         position: absolute;
         background-color: green;
@@ -350,18 +350,18 @@
         top: 230px;
         right: 0;
     }
-    
+
     .icons {
         color: rgb(194, 192, 192);
         font-size: 15px;
     }
-    
+
     .product-title {
         font-size: 13px;
         font-weight: 700;
         color: #003360;
     }
-    
+
     .price {
         font-size: 14px;
         font-weight: 700;
@@ -396,7 +396,7 @@
 
     .page-row-one i {
         cursor: pointer;
-    } 
+    }
 
     .profile-page {
         background-color: white;
@@ -414,11 +414,11 @@
     .group {
         position: relative;
     }
-  
+
     textarea {
         resize: none;
     }
-    
+
     input,
     textarea {
         background: none;
@@ -442,11 +442,11 @@
         width: 320px;
         }
     }
-    
+
     input[type="password"] {
         letter-spacing: 0.3em;
     }
-    
+
     label {
         font-size: 16px;
         font-weight: 600;
@@ -457,7 +457,7 @@
         transition: 300ms ease all;
         color:#003360;
     }
-    
+
     .bar {
         position: relative;
         display: block;
@@ -626,15 +626,15 @@
         }
     }
 
-    
-  
+
+
 </style>
 @endsection
 @section('content')
     <div class="container" style="margin-top: 2rem; margin-bottom: 2rem;">
         <div class="row">
             <div class="col-4">
-                
+
                 <div class="user-details">
                     <a href="#">
                         <div class="profile-btn">
@@ -642,64 +642,6 @@
                             <p class="mb-0">Profile</p>
                         </div>
                     </a>
-
-                    <div class="user">
-                        <div class="user-image">
-                        <img src="{{ asset('public/assets/profile/' . $user->image) }}" alt="User">
-                        </div>
-                        <h4 class="user-name mb-0">{{$user->f_name}}</h4>
-                        <div class="details">
-                            <p class="age mb-0">22</p>
-                            <p class="place mb-0">BHEL</p>
-                            <p class="place mb-0">Trichy</p>
-                        </div>
-                        <div class="edit-profile" onclick="showProfilePage()">
-                            <i class="fa-solid fa-pencil"></i>
-                            <p class="mb-0">Edit Profile</p>
-                        </div>
-                        <div class="profile-contact-details">
-                            <div class="box">
-                                <div class="contact">
-                                    <i class="fa-solid fa-phone"></i>
-                                    <p class="mb-0">Contact</p>
-                                </div>
-                                <h6 class="mb-0">{{$user->phone}}</h6>
-                            </div>
-
-                            <div class="box">
-                                <div class="contact">
-                                    <i class="fa-solid fa-envelope"></i>
-                                    <p class="mb-0">Email</p>
-                                </div>
-                                <h6 class="mb-0">{{$user->email}}</h6>
-                            </div>
-
-                            <div class="box">
-                                <div class="contact">
-                                    <i class="fa-solid fa-location-dot"></i>
-                                    <p class="mb-0">Location</p>
-                                </div>
-                                <h6 class="mb-0">Gandhipuram</h6>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="booking-details">
-                        <h4 class="booking-title">Booking Details</h4>
-                        <div class="booking">
-                            <button type="button" class="booking-btn" onclick="showBookingPage()">
-                                My Bookings <i class="fas fa-arrow-right"></i>
-                            </button>
-
-                            <button type="button" class="booking-btn" onclick="showWishlistPage()">
-                                Wishlist <i class="fas fa-arrow-right"></i>
-                            </button>
-
-                            <button type="button" class="booking-btn"  onclick="showDocPage()">
-                                KYC Verification <i class="fas fa-arrow-right"></i>
-                            </button>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -1005,7 +947,7 @@
                                             </div>
                                             <p id="file-upload-name"></p>
                                             <img src="{{ asset('public/assets/kyc/' . $user_kyc->license_front)}}" alt="" width="150px">
-                                            
+
                                         </div>
 
                                         <div class="col-6 mt-0">
@@ -1021,7 +963,7 @@
                                             </div>
                                             <p id="file-upload-name"></p>
                                         </div>
-                                        
+
                                         <button type="submit" class="btn mt-3" style="width:200px">Verify</button>
                                     </form>
                                 </div>
@@ -1183,7 +1125,7 @@
         cardNumber.addEventListener('input', function (e) {
         // Remove any non-digit characters
         this.value = this.value.replace(/\D/g, '');
-        
+
         // Format the input as groups of 4 digits with a space
         this.value = this.value.replace(/(\d{4})(?=\d)/g, '$1 ');
 
