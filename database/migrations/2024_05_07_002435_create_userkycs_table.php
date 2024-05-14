@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('userkycs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained(); 
-            $table->bigInteger('aadhar');
-            $table->string('pan');
-            $table->string('license_front');
-            $table->string('license_back');
-            $table->boolean('is_verified');
+            $table->bigInteger('aadhar')->nullable();
+            $table->string('pan')->nullable();
+            $table->string('license_front')->nullable();
+            $table->string('license_back')->nullable();
+            $table->boolean('is_verified')->nullable();
             $table->timestamps();
         });
     }

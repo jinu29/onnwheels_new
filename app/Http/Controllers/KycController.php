@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Userkyc;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class KycController extends Controller
 {
@@ -76,40 +78,39 @@ class KycController extends Controller
     public function kycstore(Request $request)
     {
         // Validate the incoming request data
-        $request->validate([
-            'aadhar' => 'required|string',
-            'pan' => 'required|string',
-            'license_front' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'license_back' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+        // $request->validate([
+        //     'aadhar' => 'required|integer',
+        //     'pan' => 'required|string',
+        //     'license_front' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        //     'license_back' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        // ]);
 
         // Create a new Userkyc instance
         $form = new Userkyc();
-        $form->user_id = auth()->user()->id;
-        $form->aadhar = $request->aadhar;
+        $form->user_id = Auth::User()->id;
+        // $form->aadhar = $request->aadhar;
         $form->pan = $request->pan;
 
-        // Handle image uploads
-        if ($request->hasFile('license_front')) {
-            $licenseFront = $request->file('license_front');
-            $licenseFrontName = time() . '_front.' . $licenseFront->getClientOriginalExtension();
+        // // Handle image uploads
+        // if ($request->hasFile('license_front')) {
+        //     $licenseFront = $request->file('license_front');
+        //     $licenseFrontName = time() . '_front.' . $licenseFront->getClientOriginalExtension();
 
-            $licenseFront->move(public_path('assets/kyc/'), $licenseFrontName);
-            $form->license_front = $licenseFrontName;
-        }
+        //     $licenseFront->move(public_path('assets/kyc/'), $licenseFrontName);
+        //     $form->license_front = $licenseFrontName;
+        // }
 
-        if ($request->hasFile('license_back')) {
-            $licenseBack = $request->file('license_back');
-            $licenseBackName = time() . '_back.' . $licenseBack->getClientOriginalExtension();
-            $licenseBack->move(public_path('assets/kyc/'), $licenseBackName);
-            $form->license_back = $licenseBackName;
-        }
+        // if ($request->hasFile('license_back')) {
+        //     $licenseBack = $request->file('license_back');
+        //     $licenseBackName = time() . '_back.' . $licenseBack->getClientOriginalExtension();
+        //     $licenseBack->move(public_path('assets/kyc/'), $licenseBackName);
+        //     $form->license_back = $licenseBackName;
+        // }
 
         // Save the form data to the database
         $form->save();
-
         // Redirect to the userprofile view with the form data
-        return view('userprofile', compact('form'));
+        return back();
     }
 
 
@@ -193,6 +194,17 @@ class KycController extends Controller
         // Redirect back with success message
         return redirect()->back()->with('success', 'User KYC updated successfully.');
     }
+
+    // public function kyc_verify()
+    // {
+    //     $user = User::findOrFail(Auth::user()->id);
+    //     if{
+            
+    //     }
+    //     return redirect('userprofile',compact('user'));
+    // }
+
+    
 
 
 

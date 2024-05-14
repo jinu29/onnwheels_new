@@ -240,3 +240,6 @@ Route::post('/save-location', [LocationController::class,'saveLocation'])->name(
 // KYC Store
 Route::post('kycstore', [KycController::class,'kycstore'])->name('kyc.store');
 Route::post('kyc/{id}', [KycController::class ,'update'])->name('kyc.update');
+
+// KYC Verify
+Route::post('/kyc', [KycController::class,'kyc_verify'])->name('kyc_verify');

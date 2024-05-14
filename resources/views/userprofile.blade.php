@@ -650,7 +650,7 @@
         flex-direction: column;
     }
 
-    #otp-form input {
+    .otp input {
         width: 50px;
         height: 50px;
         padding: 5px;
@@ -724,10 +724,6 @@
     .aadhar, .pan {
         display: block;
         margin-top: 2rem;
-    }
-
-    .pan {
-        display: none;
     }
 
     .license-front {
@@ -882,14 +878,9 @@
 
                     <div class="user">
                         <div class="user-image">
-                        <img src="{{ asset('public/assets/profile/' . $user->image) }}" alt="User">
+                            {{-- <img src="{{ asset('public/assets/profile/' . $user->image) }}" alt="User"> --}}
                         </div>
-                        <h4 class="user-name mb-0">{{$user->f_name}}</h4>
-                        <div class="details">
-                            <p class="age mb-0">22</p>
-                            <p class="place mb-0">BHEL</p>
-                            <p class="place mb-0">Trichy</p>
-                        </div>
+                        {{-- <h4 class="user-name mb-0">{{$user->f_name}}</h4> --}}
                         <div class="edit-profile" onclick="showProfilePage()">
                             <i class="fa-solid fa-pencil"></i>
                             <p class="mb-0">Edit Profile</p>
@@ -900,7 +891,7 @@
                                     <i class="fa-solid fa-phone"></i>
                                     <p class="mb-0">Contact</p>
                                 </div>
-                                <h6 class="mb-0">{{$user->phone}}</h6>
+                                {{-- <h6 class="mb-0">{{$user->phone}}</h6> --}}
                             </div>
 
                             <div class="box">
@@ -908,7 +899,7 @@
                                     <i class="fa-solid fa-envelope"></i>
                                     <p class="mb-0">Email</p>
                                 </div>
-                                <h6 class="mb-0">{{$user->email}}</h6>
+                                {{-- <h6 class="mb-0">{{$user->email}}</h6> --}}
                             </div>
 
                             <div class="box">
@@ -1262,69 +1253,70 @@
                                     <h4 class="mb-0"></i>Document Verification</h4>
                                 </div>
 
-                                <div class="aadhar" style="margin-top: 2rem">
-                                    <div class="group">
-                                        <input type="text" name="aadhar" id="card_number" value="{{$user_kyc->aadhar}}" required>
-                                        <span class="bar"></span>
-                                        <label for="">Enter Aadhar Number</label>
-                                        <span class="error mt-3">Entered Aadhar number is incorrect</span>
-                                    </div>
-                                    
-                                    <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-                                        <div class="modal-dialog modal-dialog-centered">
-                                          <div class="modal-content">
-                                            <div class="modal-header border-0">
-                                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body text-center">
-                                                <div class="otp" >
-                                                    <h1 class="verify-title">OTP Verification</h1>
-                                                    <form id="otp-form" style="margin-top: 20px;">
-                                                        <div class="d-flex justify-content-center" style="gap: 10px;">
-                                                            <input type="text" class="text-center rounded outline-none " pattern="\d*" maxlength="1"/>
-            
-                                                            <input type="text" class="text-center rounded outline-none " maxlength="1"/>
-            
-                                                            <input type="text" class="text-center rounded outline-none" maxlength="1"/>
-            
-                                                            <input type="text" class="text-center rounded outline-none" maxlength="1"/>
-                                                        </div>
-                                                        <span class="error">OTP is Incorrect</span> <br>
-                                                        <span class="success">OTP is Verified</span>
-                                                    </form>
-                                                    <div class="code">Didn't receive code? <a class="font-medium resend" href="#">Resend</a></div>
-                                                </div>                                            </div>
-                                            
-                                          </div>
+                                {{-- <div class="aadhar" style="margin-top: 2rem">
+                                    <form id="aadharVerifyForm" enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="group">
+                                            <input type="text" name="aadhar" id="card_number" required>
+                                            <span class="bar"></span>
+                                            <label for="">Enter Aadhar Number</label>
                                         </div>
-                                      </div>
-                                     
-                                      <a class="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Verify</a>
-                                                                    
-                                    <div class="next">
-                                        <button id="nextBtn">Next Step</button>
-                                    </div>
-                                </div>
+                                    
+                                        <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header border-0">
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body text-center">
+                                                        <div class="otp">
+                                                            <h1 class="verify-title">OTP Verification</h1>
+                                                            <form id="otp-form" style="margin-top: 20px;">
+                                                                <div class="d-flex justify-content-center" style="gap: 10px;">
+                                                                    <input type="text" class="text-center rounded outline-none " pattern="\d*" maxlength="1"/>
+                                                                    <input type="text" class="text-center rounded outline-none " maxlength="1"/>
+                                                                    <input type="text" class="text-center rounded outline-none" maxlength="1"/>
+                                                                    <input type="text" class="text-center rounded outline-none" maxlength="1"/>
+                                                                </div>
+                                                                <span class="error">OTP is Incorrect</span> <br>
+                                                                <span class="success">OTP is Verified</span>
+                                                            </form>
+                                                            <div class="code">Didn't receive code? <a class="font-medium resend" href="#">Resend</a></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a class="btn btn-primary mt-3" data-bs-toggle="modal" href="#exampleModalToggle" role="button" type="">Verify</a>
+                                        <div class="next-btn" style="display: none; margin-top: 1rem;">
+                                            <button>Next Step</button>
+                                        </div>
+                                    </form>
+                                </div> --}}
 
                                 <div class="pan" style="margin-top: 2rem">
-                                    <div class="group">
-                                        <input type="text" name="pan" required>
-                                        <span class="bar"></span>
-                                        <label for="">Enter PAN Number</label>
-                                    </div>
-                                    <span class="error">Entered PAN is Incorrect</span> <br>
-                                    <span class="success">PAN is Verified</span>
-                                    <div class="buttons">
-                                        {{-- <div class="prev">
-                                            <button id="nextBtn">Prev Step</button>
-                                        </div> --}}
-                                        <div class="next">
-                                            <button id="nextBtnOne">Next Step</button>
+                                    <form id="panVerifyForm"  enctype="multipart/form-data">
+                                        <div class="group">
+                                            <input type="text" name="pan_number" id="pan_number" required>
+                                            <span class="bar"></span>
+                                            <label for="pan_number">Enter PAN Number</label>
+                                            <div id="successMessage" style="display: none; margin-top:5px; color:green; font-size:10px; font-weight:700;"></div>
+                                            <div id="errorMessage" style="display: none; margin-top:5px; color:red; font-size:10px; font-weight:700;"></div>
                                         </div>
-                                    </div>
+                                        <div class="spinner-border mt-3" role="status" style="display: none;" id="spinner">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                        <div style="margin-top: 1rem;">
+                                            <button type="button" id="verifyBtn" class="btn btn-primary">Verify</button>
+                                        </div>
+                                        <div class="next" id="next-step" style="display: none; margin-top: 1rem;">
+                                            <button>Next Step</button>
+                                        </div>
+                                    </form>
+
                                 </div>
 
-                                <div class="license-front">
+                                {{-- <div class="license-front">
                                     <div class="group">
                                         <input type="text" name="license_front" id="card_number" required>
                                         <span class="bar"></span>
@@ -1337,61 +1329,6 @@
                                         <label for="">Upload License Back Page</label>
                                         <span class="error mt-3">Entered Aadhar number is incorrect</span>
                                     </div>
-                                </div>
-                                {{-- <div class="docs" style="margin-top: 2rem;">
-
-                                    <form action="{{route('kyc.store')}}" method="POST" class="row" enctype="multipart/form-data">
-                                        @csrf
-                                        <div class="col-6">
-                                            <div class="group">
-                                                <input type="text" name="aadhar" id="card_number" value="{{$user_kyc->aadhar}}" required>
-                                                <span class="bar"></span>
-                                                <label for="">Enter Aadhar Number</label>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6">
-                                            <div class="group">
-                                                <input type="text" name="pan" required>
-                                                <span class="bar"></span>
-                                                <label for="">Enter PAN Number</label>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6 mt-0">
-                                            <div class="upload-wrapper">
-                                                        <input type="file" name="license_front" id="upload-file-front" value="{{$user_kyc->license_front}}">
-                                                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" viewBox="224.3881704980842 176.8527621722847 221.13266283524905 178.8472378277154" width="221.13" height="178.85"><defs><path d="M357.38 176.85C386.18 176.85 409.53 204.24 409.53 238.02C409.53 239.29 409.5 240.56 409.42 241.81C430.23 246.95 445.52 264.16 445.52 284.59C445.52 284.59 445.52 284.59 445.52 284.59C445.52 309.08 423.56 328.94 396.47 328.94C384.17 328.94 285.74 328.94 273.44 328.94C246.35 328.94 224.39 309.08 224.39 284.59C224.39 284.59 224.39 284.59 224.39 284.59C224.39 263.24 241.08 245.41 263.31 241.2C265.3 218.05 281.96 199.98 302.22 199.98C306.67 199.98 310.94 200.85 314.93 202.46C324.4 186.96 339.88 176.85 357.38 176.85Z" id="b1aO7LLtdW"></path><path d="M306.46 297.6L339.79 297.6L373.13 297.6L339.79 255.94L306.46 297.6Z" id="c4SXvvMdYD"></path><path d="M350.79 293.05L328.79 293.05L328.79 355.7L350.79 355.7L350.79 293.05Z" id="b11si2zUk"></path></defs><g><g><g><use xlink:href="#b1aO7LLtdW" opacity="1" fill="#ffffff" fill-opacity="1"></use></g><g><g><use xlink:href="#c4SXvvMdYD" opacity="1" fill="#363535" fill-opacity="1"></use></g><g><use xlink:href="#b11si2zUk" opacity="1" fill="#363535" fill-opacity="1"></use></g></g></g></g></svg>
-                                                        <span class="file-upload-text">Upload License Front</span>
-                                                        <div class="file-success-text">
-                                                        <svg version="1.1" id="check" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                                    viewBox="0 0 100 100"  xml:space="preserve">
-                                                    <circle style="fill:rgba(0,0,0,0);stroke:#ffffff;stroke-width:10;stroke-miterlimit:10;" cx="49.799" cy="49.746" r="44.757"/>
-                                                    <polyline style="fill:rgba(0,0,0,0);stroke:#ffffff;stroke-width:10;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;" points="
-                                                    27.114,51 41.402,65.288 72.485,34.205 "/>
-                                                    </svg> <span>Successfully</span></div>
-                                            </div>
-                                            <p id="file-upload-name"></p>
-                                            <img src="{{ asset('public/assets/kyc/' . $user_kyc->license_front)}}" alt="" width="150px">
-                                            
-                                        </div>
-
-                                        <div class="col-6 mt-0">
-                                            <div class="upload-wrapper">
-                                                <input type="file" name="license_back" id="upload-file-back" value="{{$user_kyc->license_back}}">
-                                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" viewBox="224.3881704980842 176.8527621722847 221.13266283524905 178.8472378277154" width="221.13" height="178.85"><defs><path d="M357.38 176.85C386.18 176.85 409.53 204.24 409.53 238.02C409.53 239.29 409.5 240.56 409.42 241.81C430.23 246.95 445.52 264.16 445.52 284.59C445.52 284.59 445.52 284.59 445.52 284.59C445.52 309.08 423.56 328.94 396.47 328.94C384.17 328.94 285.74 328.94 273.44 328.94C246.35 328.94 224.39 309.08 224.39 284.59C224.39 284.59 224.39 284.59 224.39 284.59C224.39 263.24 241.08 245.41 263.31 241.2C265.3 218.05 281.96 199.98 302.22 199.98C306.67 199.98 310.94 200.85 314.93 202.46C324.4 186.96 339.88 176.85 357.38 176.85Z" id="b1aO7LLtdW"></path><path d="M306.46 297.6L339.79 297.6L373.13 297.6L339.79 255.94L306.46 297.6Z" id="c4SXvvMdYD"></path><path d="M350.79 293.05L328.79 293.05L328.79 355.7L350.79 355.7L350.79 293.05Z" id="b11si2zUk"></path></defs><g><g><g><use xlink:href="#b1aO7LLtdW" opacity="1" fill="#ffffff" fill-opacity="1"></use></g><g><g><use xlink:href="#c4SXvvMdYD" opacity="1" fill="#363535" fill-opacity="1"></use></g><g><use xlink:href="#b11si2zUk" opacity="1" fill="#363535" fill-opacity="1"></use></g></g></g></g></svg>
-                                                <span class="file-upload-text">Upload License Back</span>
-                                                <div class="file-success-text">
-                                                <svg version="1.1" id="check" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100"  xml:space="preserve">
-                                                <circle style="fill:rgba(0,0,0,0);stroke:#ffffff;stroke-width:10;stroke-miterlimit:10;" cx="49.799" cy="49.746" r="44.757"/>
-                                                <polyline style="fill:rgba(0,0,0,0);stroke:#ffffff;stroke-width:10;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;" points="27.114,51 41.402,65.288 72.485,34.205 "/>
-                                                </svg> <span>Successfully</span></div>
-                                            </div>
-                                            <p id="file-upload-name"></p>
-                                        </div>
-                                        
-                                        <button type="submit" class="btn mt-3" style="width:200px">Verify</button>
-                                    </form>
                                 </div> --}}
                             </div>
                         </div>
@@ -1404,23 +1341,23 @@
                                 </div>
                                 <div class="profile">
                                     <div class="profile-input row">
-                                        <form action="{{route ('user.update', $user->id)}}" method=POST enctype="multipart/form-data">
-                                            @csrf
+                                        {{-- <form action="{{route ('user.update', $user->id)}}" method=POST enctype="multipart/form-data"> --}}
+                                            {{-- @csrf --}}
                                             <div class="col-6 mt-3">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" placeholder="Enter Your Name" name="f_name" value="{{$user->f_name}}" required>
+                                                    {{-- <input type="text" class="form-control" placeholder="Enter Your Name" name="f_name" value="{{$user->f_name}}" required> --}}
                                                 </div>
                                             </div>
 
                                             <div class="col-6 mt-3">
                                                 <div class="form-group">
-                                                    <input type="email" class="form-control" placeholder="Enter Your Email"  name="email" value="{{$user->email}}" required>
+                                                    {{-- <input type="email" class="form-control" placeholder="Enter Your Email"  name="email" value="{{$user->email}}" required> --}}
                                                 </div>
                                             </div>
 
                                             <div class="col-6 mt-3">
                                                 <div class="form-group">
-                                                    <input type="tel" class="form-control" placeholder="Enter Your Number" name="phone" value="{{$user->phone}}" required>
+                                                    {{-- <input type="tel" class="form-control" placeholder="Enter Your Number" name="phone" value="{{$user->phone}}" required> --}}
                                                 </div>
                                             </div>
 
@@ -1431,7 +1368,7 @@
                                             </div>
 
                                             <button type="submit" class="btn mt-3">Upload</button>
-                                        </form>
+                                        {{-- </form> --}}
                                     </div>
                                 </div>
                             </div>
@@ -1443,6 +1380,163 @@
     </div>
 @endsection
 @section('scripts')
+<script>
+    $(document).ready(function() {
+        $('#verifyAadharBtn').click(function() {
+            var aadharNumber = $('#card_number').val();
+            var realSourceIP = ''; // Provide the real source IP value
+            var accessKey = ''; // Provide the access key value
+            // Show spinner
+            $('#spinner').show();
+            // Perform AJAX request
+            $.ajax({
+                url: "{{ route('verification.aadhar-verify') }}",
+                type: "POST",
+                data: {
+                    aadhar: aadharNumber,
+                    realsourceip: realSourceIP,
+                    access_key: accessKey,
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(response) {
+                    // Hide spinner
+                    $('#spinner').hide();
+                    // Handle successful response
+                    console.log(response);
+                    $('#successMessage').text(response.message).show();
+                    $('.next').show(); // Show the "Next Step" button
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    // Hide spinner
+                    $('#spinner').hide();
+                    // Handle error response
+                    console.error(xhr.responseText);
+                    $('#errorMessage').text(xhr.responseText).show();
+                    // You can handle error response as per your requirement
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#verifyBtn').click(function() {
+            var panNumber = $('#pan_number').val();
+
+            // Show spinner
+            $('#spinner').show();
+
+            // Perform AJAX request
+            $.ajax({
+                url: "{{ route('verification.pan-verify') }}",
+                type: "POST",
+                data: {
+                    pan_number: panNumber,
+                    purpose: 1,
+                    purpose_desc: "onboarding",
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(response) {
+                    // Hide spinner
+                    $('#spinner').hide();
+                    if(response.message == "PAN verification successful"){
+                        $('#errorMessage').hide();
+                        $('#successMessage').text(response.message).show();
+                        $('.next').show();
+                    }
+                    else{
+                        $('#successMessage').hide();
+                        $('.next').hide();
+                        $('#errorMessage').text(response.message).show();
+                    }
+                    // Handle successful response
+                    console.log(response.message);
+                  //  $('#successMessage').text(response.message).show();
+
+                    // Show the "Next Step" button
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    // Hide spinner
+                    $('#spinner').hide();
+
+                    // Handle error response
+                    console.error(xhr.responseText);
+                    $('#errorMessage').text(xhr.responseText).show();
+                    // Here you can handle the error response as per your requirements
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+    const form = document.getElementById('otp-form')
+    const inputs = [...form.querySelectorAll('input[type=text]')]
+    const submit = form.querySelector('button[type=submit]')
+
+    const handleKeyDown = (e) => {
+        if (
+            !/^[0-9]{1}$/.test(e.key)
+            && e.key !== 'Backspace'
+            && e.key !== 'Delete'
+            && e.key !== 'Tab'
+            && !e.metaKey
+        ) {
+            e.preventDefault()
+        }
+
+        if (e.key === 'Delete' || e.key === 'Backspace') {
+            const index = inputs.indexOf(e.target);
+            if (index > 0) {
+                inputs[index - 1].value = '';
+                inputs[index - 1].focus();
+            }
+        }
+    }
+
+    const handleInput = (e) => {
+        const { target } = e
+        const index = inputs.indexOf(target)
+        if (target.value) {
+            if (index < inputs.length - 1) {
+                inputs[index + 1].focus()
+            } else {
+                submit.focus()
+            }
+        }
+    }
+
+    const handleFocus = (e) => {
+        e.target.select()
+    }
+
+    const handlePaste = (e) => {
+        e.preventDefault()
+        const text = e.clipboardData.getData('text')
+        if (!new RegExp(`^[0-9]{${inputs.length}}$`).test(text)) {
+            return
+        }
+        const digits = text.split('')
+        inputs.forEach((input, index) => input.value = digits[index])
+        submit.focus()
+    }
+
+    inputs.forEach((input) => {
+        input.addEventListener('input', handleInput)
+        input.addEventListener('keydown', handleKeyDown)
+        input.addEventListener('focus', handleFocus)
+        input.addEventListener('paste', handlePaste)
+    })
+</script>
+
+<script>
+    $('#exampleModalToggle').on('hidden.bs.modal', function (e) {
+        // Show the next step button after the modal is closed
+        $('.next-btn').show();
+    });
+</script>
+
 <script>
 
     function showBookingPage() {
@@ -1561,82 +1655,23 @@
         }
     });
 
-    const form = document.getElementById('otp-form')
-    const inputs = [...form.querySelectorAll('input[type=text]')]
-    const submit = form.querySelector('button[type=submit]')
-
-    const handleKeyDown = (e) => {
-        if (
-            !/^[0-9]{1}$/.test(e.key)
-            && e.key !== 'Backspace'
-            && e.key !== 'Delete'
-            && e.key !== 'Tab'
-            && !e.metaKey
-        ) {
-            e.preventDefault()
-        }
-
-        if (e.key === 'Delete' || e.key === 'Backspace') {
-            const index = inputs.indexOf(e.target);
-            if (index > 0) {
-                inputs[index - 1].value = '';
-                inputs[index - 1].focus();
-            }
-        }
-    }
-
-    const handleInput = (e) => {
-        const { target } = e
-        const index = inputs.indexOf(target)
-        if (target.value) {
-            if (index < inputs.length - 1) {
-                inputs[index + 1].focus()
-            } else {
-                submit.focus()
-            }
-        }
-    }
-
-    const handleFocus = (e) => {
-        e.target.select()
-    }
-
-    const handlePaste = (e) => {
-        e.preventDefault()
-        const text = e.clipboardData.getData('text')
-        if (!new RegExp(`^[0-9]{${inputs.length}}$`).test(text)) {
-            return
-        }
-        const digits = text.split('')
-        inputs.forEach((input, index) => input.value = digits[index])
-        submit.focus()
-    }
-
-    inputs.forEach((input) => {
-        input.addEventListener('input', handleInput)
-        input.addEventListener('keydown', handleKeyDown)
-        input.addEventListener('focus', handleFocus)
-        input.addEventListener('paste', handlePaste)
-    })
 
     // Multistep Form
     // For Aadhar section
-    document.getElementById('nextBtn').addEventListener('click', function() {
-        // Hide the Aadhar section
-        document.querySelector('.aadhar').style.display = 'none';
-        document.querySelector('.license-front').style.display = 'none';
-        // Display the PAN section
-        document.querySelector('.pan').style.display = 'block';
-    });
+    // document.getElementById('nextBtn').addEventListener('click', function() {
+    //     document.querySelector('.aadhar').style.display = 'none';
+    //     document.querySelector('.license-front').style.display = 'none';
+    //     document.querySelector('.pan').style.display = 'block';
+    // });
 
-    // For PAN section
-    document.getElementById('nextBtnOne').addEventListener('click', function() {
-        // Hide the PAN section
-        document.querySelector('.pan').style.display = 'none';
+
+    // document.getElementById('nextBtnOne').addEventListener('click', function() {
+
+    //     document.querySelector('.pan').style.display = 'none';
         
-        // Display the License Front section
-        document.querySelector('.license-front').style.display = 'block';
-    });
+
+    //     document.querySelector('.license-front').style.display = 'block';
+    // });
 
 
 </script>
@@ -1665,6 +1700,7 @@ $('.change-image').on('click', function() {
 	$('.image-button').css('display', 'block');
 });
 </script>
+
 {{-- Image upload --}}
 <script>
     jQuery(document).ready(function () {

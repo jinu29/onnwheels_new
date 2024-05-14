@@ -56,8 +56,8 @@ Route::group(['namespace' => 'Api\V1', 'middleware' => 'localization'], function
 
     //KYC Verfication
     Route::group(['prefix' => 'verification'], function () {
-        Route::post('pan-verify', 'KycController@pan_verify');
-        Route::post('aadhar-verify', 'KycController@aadhar_verify');
+        Route::post('pan-verify', 'KycController@pan_verify')->name('verification.pan-verify');
+        Route::post('aadhar-verify', 'KycController@aadhar_verify')->name('verification.aadhar-verify');
     });
 
     // Module

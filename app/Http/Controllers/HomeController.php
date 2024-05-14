@@ -11,6 +11,7 @@ use App\Models\AdminSpecialCriteria;
 use App\Models\AdminTestimonial;
 use App\Models\BusinessSetting;
 use App\Models\Category;
+use App\Models\User;
 use App\Models\DataSetting;
 use App\Models\Item;
 use Brian2694\Toastr\Facades\Toastr;
@@ -379,22 +380,46 @@ class HomeController extends Controller
     {
         $items = Item::where('slug', $slug)->first();
 
-        if($items != null){
-            // dd($items->images);
+        if($items != null)
+        {
             return view('product.product_detail', compact('items'));
         }
-        // return view('product.product_detail');
     }
 
+    public function product_detail_store ()
+    {
+        
+    }
+
+    // public function payment($slug)
+    // {
+    //     // $userWithKyc = User::with('userkyc')->find($userId);
+    //     $userkey=Userkey::findOrFail
+        
+    //     $items = Item::where('slug', $slug)->first();
+    //     if($items != null){
+    //         return view ('payment',compact('items'));
+    //     }
+
+    // }
     public function payment($slug)
     {
-        $items = Item::where('slug', $slug)->first();
-        if($items != null){
-            return view ('payment',compact('items'));
+        $user =  auth()->id(); // Retrieve the authenticated user's ID
+    
+        if ($user) {
+            $userKyc = User::with('userkyc')->find($user);
+    
+            if ($userKyc && $userKyc->userkyc->is_verified == 1) {
+                $items = Item::where('slug', $slug)->first();
+    
+                if ($items) {
+                    return view('payment', compact('items'));
+                }
+            } elseif ($userKyc && $userKyc->userkyc->is_verified == 0) {
+                return view('userprofile',compact('user'));
+            }
         }
-
     }
-
     public function product($category_id) {
         $products = Item::where('category_id', $category_id)->get();
         // Assuming you have a Category model and want to retrieve the category name

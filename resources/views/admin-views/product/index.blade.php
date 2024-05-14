@@ -332,7 +332,7 @@
                     <div class="card shadow--card-2 border-0">
                         <div class="card-header">
                             <h5 class="card-title">
-                                <span class="card-header-icon"><i class="tio-dollar-outlined"></i></span>
+                                {{-- <span class="card-header-icon"><i class="tio-dollar-outlined"></i></span> --}}
                                 <span>{{ translate('amount') }}</span>
                             </h5>
                         </div>
@@ -341,7 +341,7 @@
                                 <div class="col-sm-4 col-6">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
-                                        for="exampleFormControlInput1">{{ translate('messages.price') }}</label>
+                                        for="exampleFormControlInput1">{{ translate('messages.Security deposit') }}</label>
                                         <input type="number" min="0" max="999999999999.99" step="0.01"
                                         value="1" name="price" class="form-control"
                                         placeholder="{{ translate('messages.Ex:') }} 100" required>

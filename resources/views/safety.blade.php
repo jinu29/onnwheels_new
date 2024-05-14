@@ -129,6 +129,14 @@
                 font-size: 14px;
                 width: 100%;
             }
+
+            .safety-box {
+                text-align: center;
+            }
+
+            .safety-box-image {
+                display: none;
+            }
         }
     </style>
 @endsection
@@ -160,29 +168,29 @@
                 <p class="line"></p>
             </div>
             <div class="box row" style="margin-top: 2rem;">
-                <div class="col-6">
+                <div class="col-lg-6 col-md-6 col-12">
                     <div class="safety-box">
                         <h5>Daily temperature checks for the team</h5>
                         <p>Operating at minimum capacity to ensure effective social distancing. Our on-ground team is regularly screened for any signs or symptoms of illness, only then are they allowed to continue working. They are provided with all the safety standards and follow all safety procedures.</p>
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-lg-6 col-md-6 col-12">
                     <div class="safety-box-image">
                         <img src="/public/assets/landing/image/sanitize.jpg" alt="" style="width: 50%;">
                     </div>
                 </div>
             </div>
             <div class="box row" style="margin-top: 2rem;">
-                <div class="col-6">
-                    <div class="safety-box">
-                        <div class="safety-box-image">
+                <div class="col-lg-6 col-md-6 col-12">
+                    <div class="safety-box-image">
                             <img src="/public/assets/landing/image/team-mask.jpg" alt="" style="width: 300px;">
-                        </div>
                     </div>
                 </div>
-                <div class="col-6">
-                    <h5>All teams using masks at all times</h5>
-                    <p>With Social distancing being the most, important thing at this moment, we provide our on-ground team with all the safety requirements. All the members are provided with masks to be worn at all times</p>
+                <div class="col-lg-6 col-md-6 col-12">
+                    <div class="safety-box">
+                        <h5>All teams using masks at all times</h5>
+                        <p>With Social distancing being the most, important thing at this moment, we provide our on-ground team with all the safety requirements. All the members are provided with masks to be worn at all times</p>
+                    </div>
                 </div>
             </div>
         </div>
