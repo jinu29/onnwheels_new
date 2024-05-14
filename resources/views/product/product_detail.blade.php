@@ -392,10 +392,16 @@
             border-radius: 8px;
             margin-top: 20px;
         }
+
+        .btn:hover {
+            background-color: #003360;
+            color: white;
+        }
+
     </style>
 @endsection
 @section('content')
-    <div class="container mt-2 mb-3">
+    <div class="container" style="margin-top: 4rem;">
         <div class="row no-gutters">
             <?php
             // JSON string containing the key-value pair
@@ -437,8 +443,8 @@
                         <h4>{{ $items->name }}</h4>
                         <input type="hidden" value="{{ $items->name }}" name="">
                         <div class="icons">
-                            <i class="fa-regular fa-heart"></i>
-                            <i class="fa-solid fa-share-nodes"></i>
+                            {{-- <i class="fa-regular fa-heart"></i>
+                            <i class="fa-solid fa-share-nodes"></i> --}}
                         </div>
                     </div>
                     <div class="d-flex flex-row align-items-center">
@@ -472,17 +478,13 @@
                             <input type="hidden" id="totalPriceInput"  value="{{ $defaultValue }}" name="">
                         </div>
                     </div>
-                    @if(auth()->check()) {{-- Check if the user is logged in --}}
-                        @if(auth()->user()->userKyc) {{-- Check if the user has KYC details --}}
-                            <a href="{{ route('user.payment', $items->slug) }}">
-                                <button class="btn">Book Now</button>
-                            </a>
-                        @else {{-- User has not completed KYC --}}
-                            <button id="completeKycBtn" class="btn">Book Now</button>
-                        @endif
-                    @else {{-- User is not logged in --}}
+                    @if(auth()->check())
+                        <a href="{{ route('user.payment', $items->slug) }}">
+                            <button type="submit" class="btn">Book Now</button>
+                        </a>
+                    @else
                         <a href="{{ route('login', ['tab' => 'customer']) }}">
-                            <button class="btn">Book Now</button>
+                            <button type="submit" class="btn">Book Now</button>
                         </a>
                     @endif
                 </div>

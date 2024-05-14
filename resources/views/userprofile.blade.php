@@ -192,7 +192,7 @@
         color: #ACACAC;
     }
 
-    .counts h3 { 
+    .counts h3 {
         font-size: 18px;
         font-weight: 600;
     }
@@ -306,12 +306,12 @@
     .card {
         border-radius: 8px;
     }
-    
+
     .card-body {
         position: relative;
         border-radius: 20px;
     }
-    
+
     .fa-heart {
         position: absolute;
         top: 10px;
@@ -323,9 +323,9 @@
         font-weight: bold;
         color: #fff;
     }
-    
+
     .new {
-        --f: .5em; 
+        --f: .5em;
         position: absolute;
         top: 0;
         left: 0;
@@ -339,7 +339,7 @@
         transform-origin: 100% 100%;
         background-color: red; /* the main color  */
     }
-    
+
     .discount {
         position: absolute;
         background-color: green;
@@ -350,18 +350,18 @@
         top: 230px;
         right: 0;
     }
-    
+
     .icons {
         color: rgb(194, 192, 192);
         font-size: 15px;
     }
-    
+
     .product-title {
         font-size: 13px;
         font-weight: 700;
         color: #003360;
     }
-    
+
     .price {
         font-size: 14px;
         font-weight: 700;
@@ -396,7 +396,7 @@
 
     .page-row-one i {
         cursor: pointer;
-    } 
+    }
 
     .profile-page {
         background-color: white;
@@ -414,11 +414,11 @@
     .group {
         position: relative;
     }
-  
+
     textarea {
         resize: none;
     }
-    
+
     input,
     textarea {
         background: none;
@@ -442,11 +442,11 @@
         width: 320px;
         }
     }
-    
+
     input[type="password"] {
         letter-spacing: 0.3em;
     }
-    
+
     label {
         font-size: 16px;
         font-weight: 600;
@@ -457,7 +457,7 @@
         transition: 300ms ease all;
         color:#003360;
     }
-    
+
     .bar {
         position: relative;
         display: block;
@@ -626,240 +626,6 @@
         }
     }
 
-    .error {
-        font-size: 11px;
-        font-weight: 600;
-        color: red;
-        margin-top: 10px;
-    }
-
-    .success {
-        font-size: 11px;
-        font-weight: 600;
-        color: green;
-        margin-top: 10px;
-    }
-
-    .verify-title {
-        font-size: 15px;
-        font-weight: 600;
-    }
-
-    .aadhar {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .otp input {
-        width: 50px;
-        height: 50px;
-        padding: 5px;
-        background-color: #f1f5f9;
-        border: none;
-        outline: none;
-        font-weight: 700;
-    }
-
-    .verify {
-        padding: 10px 15px;
-        border-radius: 12px;
-        background-color: #6366f1;
-        color: white;
-        font-size: 14px;
-        font-weight: 600;
-        border: none;
-        outline: none;
-    }
-
-    .code {
-        margin-top: 15px;
-        font-size: 14px;
-        font-weight: 500;
-    }
-
-    .resend {
-        color:#6366f1;
-    }
-
-    .buttons {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .prev {
-        display: flex;
-        align-self: flex-end;
-        margin-top: 2rem;
-    }
-
-    .next {
-        display: flex;
-        align-self: flex-end;
-        margin-top: 2rem;
-    }
-
-    .prev button {
-        padding: 10px 20px;
-        border-radius: 12px;
-        background-color: #003361;
-        color: white;
-        font-size: 14px;
-        font-weight: 500;
-        border: none;
-        outline: none;
-    }
-
-    .next button {
-        padding: 10px 20px;
-        border-radius: 12px;
-        background-color: #003361;
-        color: white;
-        font-size: 14px;
-        font-weight: 500;
-        border: none;
-        outline: none;
-    }
-
-    .aadhar, .pan {
-        display: block;
-        margin-top: 2rem;
-    }
-
-    .license-front {
-        display: none;
-    }
-
-    /* Image upload */
-    .upload__box {
-        padding: 40px;
-    }
-
-    .upload__inputfile {
-    width: 0.1px;
-    height: 0.1px;
-    opacity: 0;
-    overflow: hidden;
-    position: absolute;
-    z-index: -1;
-    }
-    .upload__btn {
-    display: inline-block;
-    font-weight: 600;
-    color: #fff;
-    text-align: center;
-    min-width: 116px;
-    padding: 5px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    border: 2px solid;
-    background-color: #4045ba;
-    border-color: #4045ba;
-    border-radius: 10px;
-    line-height: 26px;
-    font-size: 14px;
-    }
-    .upload__btn:hover {
-    background-color: unset;
-    color: #4045ba;
-    transition: all 0.3s ease;
-    }
-    .upload__btn-box {
-    margin-bottom: 10px;
-    }
-    .upload__img-wrap {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0 -10px;
-    }
-    .upload__img-box {
-    width: 200px;
-    padding: 0 10px;
-    margin-bottom: 12px;
-    }
-    .upload__img-close {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background-color: rgba(0, 0, 0, 0.5);
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    text-align: center;
-    line-height: 24px;
-    z-index: 1;
-    cursor: pointer;
-    }
-    .upload__img-close:after {
-    content: "✖";
-    font-size: 14px;
-    color: white;
-    }
-
-    .img-bg {
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    position: relative;
-    padding-bottom: 100%;
-    }
-
-    /* Tracking */
-
-    .order-track {
-        padding: 0 1rem;
-        margin-top: 20px;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .order-track-step {
-    display: flex;
-    height: 7rem;
-    }
-
-    .order-track-step:last-child {
-    overflow: hidden;
-    height: 4rem;
-    }
-
-    .order-track-step:last-child .order-track-status span:last-of-type {
-    display: none;
-    }
-
-    .order-track-status {
-    margin-right: 1.5rem;
-    position: relative;
-    }
-    
-    .order-track-status-dot {
-    display: block;
-    width: 2.2rem;
-    height: 2.2rem;
-    border-radius: 50%;
-    background: #f05a00;
-    }
-    .order-track-status-line {
-    display: block;
-    margin: 0 auto;
-    width: 2px;
-    height: 7rem;
-    background: #f05a00;
-    }
-    .order-track-text-stat {
-    font-size: 1.3rem;
-    font-weight: 500;
-    margin-bottom: 3px;
-    }
-    .order-track-text-sub {
-    font-size: 1rem;
-    font-weight: 300;
-    }
-
-    .order-track {
-    transition: all 0.3s height 0.3s;
-    transform-origin: top center;
-    }
 
 </style>
 @endsection
@@ -867,7 +633,7 @@
     <div class="container" style="margin-top: 2rem; margin-bottom: 2rem;">
         <div class="row">
             <div class="col-4">
-                
+
                 <div class="user-details">
                     <a href="#">
                         <div class="profile-btn">
@@ -875,59 +641,6 @@
                             <p class="mb-0">Profile</p>
                         </div>
                     </a>
-
-                    <div class="user">
-                        <div class="user-image">
-                            {{-- <img src="{{ asset('public/assets/profile/' . $user->image) }}" alt="User"> --}}
-                        </div>
-                        {{-- <h4 class="user-name mb-0">{{$user->f_name}}</h4> --}}
-                        <div class="edit-profile" onclick="showProfilePage()">
-                            <i class="fa-solid fa-pencil"></i>
-                            <p class="mb-0">Edit Profile</p>
-                        </div>
-                        <div class="profile-contact-details">
-                            <div class="box">
-                                <div class="contact">
-                                    <i class="fa-solid fa-phone"></i>
-                                    <p class="mb-0">Contact</p>
-                                </div>
-                                {{-- <h6 class="mb-0">{{$user->phone}}</h6> --}}
-                            </div>
-
-                            <div class="box">
-                                <div class="contact">
-                                    <i class="fa-solid fa-envelope"></i>
-                                    <p class="mb-0">Email</p>
-                                </div>
-                                {{-- <h6 class="mb-0">{{$user->email}}</h6> --}}
-                            </div>
-
-                            <div class="box">
-                                <div class="contact">
-                                    <i class="fa-solid fa-location-dot"></i>
-                                    <p class="mb-0">Location</p>
-                                </div>
-                                <h6 class="mb-0">Gandhipuram</h6>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="booking-details">
-                        <h4 class="booking-title">Booking Details</h4>
-                        <div class="booking">
-                            <button type="button" class="booking-btn" onclick="showBookingPage()">
-                                My Bookings <i class="fas fa-arrow-right"></i>
-                            </button>
-
-                            <button type="button" class="booking-btn" onclick="showWishlistPage()">
-                                Wishlist <i class="fas fa-arrow-right"></i>
-                            </button>
-
-                            <button type="button" class="booking-btn"  onclick="showDocPage()">
-                                KYC Verification <i class="fas fa-arrow-right"></i>
-                            </button>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -1110,62 +823,6 @@
                                             <span class="order-track-status-dot"></span>
                                             <span class="order-track-status-line"></span>
                                           </div>
-                                          <div class="order-track-text">
-                                            <p class="order-track-text-stat">Manufracturing In Progress</p>
-                                            <span class="order-track-text-sub">21st November, 2019</span>
-                                          </div>
-                                        </div>
-                                        <div class="order-track-step">
-                                          <div class="order-track-status">
-                                            <span class="order-track-status-dot"></span>
-                                            <span class="order-track-status-line"></span>
-                                          </div>
-                                          <div class="order-track-text">
-                                            <p class="order-track-text-stat">Order Dispatched</p>
-                                            <span class="order-track-text-sub">21st November, 2019</span>
-                                          </div>
-                                        </div>
-                                        <div class="order-track-step">
-                                          <div class="order-track-status">
-                                            <span class="order-track-status-dot"></span>
-                                            <span class="order-track-status-line"></span>
-                                          </div>
-                                          <div class="order-track-text">
-                                            <p class="order-track-text-stat">Order Deliverd</p>
-                                            <span class="order-track-text-sub">21st November, 2019</span>
-                                          </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-12 p-0 mt-3 wishlist-page">
-                            <div class="bookings">
-                                <div class="page-row-one" onclick="showTransactionPage()">
-                                    <i class="fas fa-arrow-left"></i>
-                                    <h4 class="mb-0">Wishlist</h4>
-                                </div>
-                                <div class="products row mt-4">
-                                    <div class="col-4">
-                                        <div class="card text-center">
-                                            <div class="card-body p-2 d-flex flex-column text-center">
-                                                <img src="/public/assets/landing/image/scooty1.png">
-                                                <div class="card-details d-flex flex-column p-1 mt-1 text-center" style="gap: 12px;">
-                                                    <i class="fa-solid fa-heart" style="color: red;"></i>
-                                                    <p class="new">New</p>
-                                                    <div class="card-title text-center mb-0">
-                                                        <h4 class="product-title mb-0">TVS Jupiter</h4>
-                                                    </div>
-                                                    <div class="rating d-flex justify-content-center mb-0 text-center" style="font-size: 12px; color: rgb(248, 82, 82);">
-                                                        <i class="fa-solid fa-star"></i>
-                                                        <i class="fa-solid fa-star"></i>
-                                                        <i class="fa-solid fa-star"></i>
-                                                        <i class="fa-solid fa-star"></i>
-                                                        <i class="fa-regular fa-star-half-stroke"></i>
-                                                    </div>
-                                                    <div class="icons d-flex justify-content-around">
-                                                        <i class="fa-solid fa-people-group"></i>
                                                         <i class="fa-solid fa-briefcase"></i>
                                                         <i class="fa-solid fa-gauge"></i>
                                                         <i class="fa-solid fa-gauge"></i>
@@ -1261,7 +918,7 @@
                                             <span class="bar"></span>
                                             <label for="">Enter Aadhar Number</label>
                                         </div>
-                                    
+
                                         <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
                                             <div class="modal-dialog modal-dialog-centered">
                                                 <div class="modal-content">
@@ -1291,6 +948,40 @@
                                         <div class="next-btn" style="display: none; margin-top: 1rem;">
                                             <button>Next Step</button>
                                         </div>
+
+                                        <div class="col-6 mt-0">
+                                            <div class="upload-wrapper">
+                                                        <input type="file" name="license_front" id="upload-file-front" value="{{$user_kyc->license_front}}">
+                                                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" viewBox="224.3881704980842 176.8527621722847 221.13266283524905 178.8472378277154" width="221.13" height="178.85"><defs><path d="M357.38 176.85C386.18 176.85 409.53 204.24 409.53 238.02C409.53 239.29 409.5 240.56 409.42 241.81C430.23 246.95 445.52 264.16 445.52 284.59C445.52 284.59 445.52 284.59 445.52 284.59C445.52 309.08 423.56 328.94 396.47 328.94C384.17 328.94 285.74 328.94 273.44 328.94C246.35 328.94 224.39 309.08 224.39 284.59C224.39 284.59 224.39 284.59 224.39 284.59C224.39 263.24 241.08 245.41 263.31 241.2C265.3 218.05 281.96 199.98 302.22 199.98C306.67 199.98 310.94 200.85 314.93 202.46C324.4 186.96 339.88 176.85 357.38 176.85Z" id="b1aO7LLtdW"></path><path d="M306.46 297.6L339.79 297.6L373.13 297.6L339.79 255.94L306.46 297.6Z" id="c4SXvvMdYD"></path><path d="M350.79 293.05L328.79 293.05L328.79 355.7L350.79 355.7L350.79 293.05Z" id="b11si2zUk"></path></defs><g><g><g><use xlink:href="#b1aO7LLtdW" opacity="1" fill="#ffffff" fill-opacity="1"></use></g><g><g><use xlink:href="#c4SXvvMdYD" opacity="1" fill="#363535" fill-opacity="1"></use></g><g><use xlink:href="#b11si2zUk" opacity="1" fill="#363535" fill-opacity="1"></use></g></g></g></g></svg>
+                                                        <span class="file-upload-text">Upload License Front</span>
+                                                        <div class="file-success-text">
+                                                        <svg version="1.1" id="check" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                    viewBox="0 0 100 100"  xml:space="preserve">
+                                                    <circle style="fill:rgba(0,0,0,0);stroke:#ffffff;stroke-width:10;stroke-miterlimit:10;" cx="49.799" cy="49.746" r="44.757"/>
+                                                    <polyline style="fill:rgba(0,0,0,0);stroke:#ffffff;stroke-width:10;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;" points="
+                                                    27.114,51 41.402,65.288 72.485,34.205 "/>
+                                                    </svg> <span>Successfully</span></div>
+                                            </div>
+                                            <p id="file-upload-name"></p>
+                                            <img src="{{ asset('public/assets/kyc/' . $user_kyc->license_front)}}" alt="" width="150px">
+
+                                        </div>
+
+                                        <div class="col-6 mt-0">
+                                            <div class="upload-wrapper">
+                                                <input type="file" name="license_back" id="upload-file-back" value="{{$user_kyc->license_back}}">
+                                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" viewBox="224.3881704980842 176.8527621722847 221.13266283524905 178.8472378277154" width="221.13" height="178.85"><defs><path d="M357.38 176.85C386.18 176.85 409.53 204.24 409.53 238.02C409.53 239.29 409.5 240.56 409.42 241.81C430.23 246.95 445.52 264.16 445.52 284.59C445.52 284.59 445.52 284.59 445.52 284.59C445.52 309.08 423.56 328.94 396.47 328.94C384.17 328.94 285.74 328.94 273.44 328.94C246.35 328.94 224.39 309.08 224.39 284.59C224.39 284.59 224.39 284.59 224.39 284.59C224.39 263.24 241.08 245.41 263.31 241.2C265.3 218.05 281.96 199.98 302.22 199.98C306.67 199.98 310.94 200.85 314.93 202.46C324.4 186.96 339.88 176.85 357.38 176.85Z" id="b1aO7LLtdW"></path><path d="M306.46 297.6L339.79 297.6L373.13 297.6L339.79 255.94L306.46 297.6Z" id="c4SXvvMdYD"></path><path d="M350.79 293.05L328.79 293.05L328.79 355.7L350.79 355.7L350.79 293.05Z" id="b11si2zUk"></path></defs><g><g><g><use xlink:href="#b1aO7LLtdW" opacity="1" fill="#ffffff" fill-opacity="1"></use></g><g><g><use xlink:href="#c4SXvvMdYD" opacity="1" fill="#363535" fill-opacity="1"></use></g><g><use xlink:href="#b11si2zUk" opacity="1" fill="#363535" fill-opacity="1"></use></g></g></g></g></svg>
+                                                <span class="file-upload-text">Upload License Back</span>
+                                                <div class="file-success-text">
+                                                <svg version="1.1" id="check" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100"  xml:space="preserve">
+                                                <circle style="fill:rgba(0,0,0,0);stroke:#ffffff;stroke-width:10;stroke-miterlimit:10;" cx="49.799" cy="49.746" r="44.757"/>
+                                                <polyline style="fill:rgba(0,0,0,0);stroke:#ffffff;stroke-width:10;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;" points="27.114,51 41.402,65.288 72.485,34.205 "/>
+                                                </svg> <span>Successfully</span></div>
+                                            </div>
+                                            <p id="file-upload-name"></p>
+                                        </div>
+
+                                        <button type="submit" class="btn mt-3" style="width:200px">Verify</button>
                                     </form>
                                 </div> --}}
 
@@ -1645,7 +1336,7 @@
         cardNumber.addEventListener('input', function (e) {
         // Remove any non-digit characters
         this.value = this.value.replace(/\D/g, '');
-        
+
         // Format the input as groups of 4 digits with a space
         this.value = this.value.replace(/(\d{4})(?=\d)/g, '$1 ');
 
@@ -1668,7 +1359,7 @@
     // document.getElementById('nextBtnOne').addEventListener('click', function() {
 
     //     document.querySelector('.pan').style.display = 'none';
-        
+
 
     //     document.querySelector('.license-front').style.display = 'block';
     // });
@@ -1689,10 +1380,10 @@
 		$('.change-image').css('display', 'block');
 	}
 });
-						
+
 $('.change-image').on('click', function() {
-	$control = $(this);			
-	$('#imageInput').val('');	
+	$control = $(this);
+	$('#imageInput').val('');
 	$preview = $('.image-preview');
 	$preview.attr('src', '');
 	$preview.css('display', 'none');
@@ -1767,7 +1458,7 @@ function ImgUpload() {
 <script>
     document.getElementById('trackLink').addEventListener('click', function(event) {
     event.preventDefault(); // Prevent the default link behavior
-    
+
     // Show the order track section
     document.getElementById('orderTrack').style.display = 'block';
 });

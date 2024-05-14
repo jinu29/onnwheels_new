@@ -112,6 +112,45 @@
       .tab__close {
         display: flex;
         color: white;
+        font-size: 12px;
+        font-weight: 500;
+        border: none;
+        outline: none;
+        align-self: center;
+        border-radius: 8px;
+    }
+
+    /* Category Accordion */
+    .tab input {
+        position: absolute;
+        opacity: 0;
+        z-index: -1;
+      }
+
+
+      .tab__content {
+        max-height: 0;
+        overflow: hidden;
+        transition: all 0.35s;
+      }
+
+
+      .tab input:checked ~ .tab__content {
+        max-height: 10rem;
+      }
+
+      /* Visual styles */
+      .accordion {
+        color: #227093;
+        border: 2px solid;
+        border-radius: 0.5rem;
+        overflow: hidden;
+      }
+
+      .tab__label,
+      .tab__close {
+        display: flex;
+        color: white;
         background: #f89520;
         cursor: pointer;
       }
@@ -120,7 +159,12 @@
         justify-content: space-between;
         padding: 1rem;
       }
-      
+
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem;
+      }
+
       .tab__label::after {
         content: "\276F";
         width: 1em;
@@ -157,27 +201,28 @@
         }
       }
   </style>
+</style>
 @endsection
 @section('content')
     <div class="container" style="margin-top: 3rem">
         <div class="row">
-          <div class="col-lg-3">
-            <section class="accordion">
-              <div class="tab">
-                <input type="checkbox" name="accordion-1" id="cb1" checked>
-                <label for="cb1" class="tab__label">Categories</label>
-                <div class="tab__content">
-                    <ul style="padding: 1rem">
-                      <li><i class="fa-solid fa-chevron-right"></i>Royal Enfield</li>
-                    </ul>
-                </div>
-              </div>
-            </section>
-          </div>
-          <div class="col-lg-9">
-            <div class="products row">
-              @foreach($products as $product )
-              <div class="col-lg-3 col-6 ">
+            <div class="col-lg-3">
+                <section class="accordion">
+                    <div class="tab">
+                      <input type="checkbox" name="accordion-1" id="cb1" checked>
+                      <label for="cb1" class="tab__label">Categories</label>
+                      <div class="tab__content">
+                          <ul style="padding: 1rem">
+                            <li>Royal Enfield</li>
+                          </ul>
+                      </div>
+                    </div>
+                </section>
+            </div>
+            <div class="col-lg-9">
+                <div class="products row">
+                    @foreach($products as $product )
+                    <div class="col-lg-3 col-6 ">
                         <div class="card text-center mb-3">
                             <div class="card-body p-2 d-flex flex-column text-center">
                                 {{-- <img src="/public/assets/landing/image/best-renting1.png"> --}}
