@@ -386,11 +386,12 @@ class HomeController extends Controller
 
     public function product_detail($slug)
     {
+        
         $items = Item::where('slug', $slug)->first();
         $product = Item::all();
 
         if ($items != null) {
-            return view('product.product_detail', compact('items'));
+            return view('product.product_detail', compact('items','product'));
         }
     }
 
