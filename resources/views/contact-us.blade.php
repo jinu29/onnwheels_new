@@ -50,7 +50,7 @@
         border-radius: 8px;
         margin: 0 auto;
     }
-  
+
     .submit:hover {
         background-color: #f29425;
         color: white;
@@ -102,7 +102,7 @@
             <div class="row gy-5 mt-0">
                 <div class="col-lg-6">
                     <div class="row g-4">
-                        
+
                         <div class="col-sm-6">
                             <div class="contact-item">
                                 <div class="d-flex flex-column align-items-center">
@@ -638,7 +638,7 @@
                         <label for="exampleInputNumber">Age</label>
                         <input type="number" class="form-control" id="exampleInputPassword1" placeholder="Enter your age">
                     </div>
-                    <div class="form-group col-lg-12 col-md-12 col-12">  
+                    <div class="form-group col-lg-12 col-md-12 col-12">
                         <label for="exampleInputNumber">Phone Number</label>
                         <input type="number" class="form-control" id="exampleInputPassword1" placeholder="Enter your number">
                     </div>

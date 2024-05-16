@@ -50,6 +50,9 @@ class KycController extends Controller
         }
     }
 
+
+
+
     public function aadhar_verify(Request $request)
     {
         $request->validate([

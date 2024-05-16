@@ -192,7 +192,7 @@
         color: #ACACAC;
     }
 
-    .counts h3 { 
+    .counts h3 {
         font-size: 18px;
         font-weight: 600;
     }
@@ -306,12 +306,12 @@
     .card {
         border-radius: 8px;
     }
-    
+
     .card-body {
         position: relative;
         border-radius: 20px;
     }
-    
+
     .fa-heart {
         position: absolute;
         top: 10px;
@@ -323,9 +323,9 @@
         font-weight: bold;
         color: #fff;
     }
-    
+
     .new {
-        --f: .5em; 
+        --f: .5em;
         position: absolute;
         top: 0;
         left: 0;
@@ -339,7 +339,7 @@
         transform-origin: 100% 100%;
         background-color: red; /* the main color  */
     }
-    
+
     .discount {
         position: absolute;
         background-color: green;
@@ -350,18 +350,18 @@
         top: 230px;
         right: 0;
     }
-    
+
     .icons {
         color: rgb(194, 192, 192);
         font-size: 15px;
     }
-    
+
     .product-title {
         font-size: 13px;
         font-weight: 700;
         color: #003360;
     }
-    
+
     .price {
         font-size: 14px;
         font-weight: 700;
@@ -396,7 +396,7 @@
 
     .page-row-one i {
         cursor: pointer;
-    } 
+    }
 
     .profile-page {
         background-color: white;
@@ -414,11 +414,11 @@
     .group {
         position: relative;
     }
-  
+
     textarea {
         resize: none;
     }
-    
+
     input,
     textarea {
         background: none;
@@ -442,11 +442,11 @@
         width: 320px;
         }
     }
-    
+
     input[type="password"] {
         letter-spacing: 0.3em;
     }
-    
+
     label {
         font-size: 16px;
         font-weight: 600;
@@ -457,7 +457,7 @@
         transition: 300ms ease all;
         color:#003360;
     }
-    
+
     .bar {
         position: relative;
         display: block;
@@ -626,15 +626,14 @@
         }
     }
 
-    
-  
+
 </style>
 @endsection
 @section('content')
     <div class="container" style="margin-top: 2rem; margin-bottom: 2rem;">
         <div class="row">
             <div class="col-4">
-                
+
                 <div class="user-details">
                     <a href="#">
                         <div class="profile-btn">
@@ -642,64 +641,6 @@
                             <p class="mb-0">Profile</p>
                         </div>
                     </a>
-
-                    <div class="user">
-                        <div class="user-image">
-                        <img src="{{ asset('public/assets/profile/' . $user->image) }}" alt="User">
-                        </div>
-                        <h4 class="user-name mb-0">{{$user->f_name}}</h4>
-                        <div class="details">
-                            <p class="age mb-0">22</p>
-                            <p class="place mb-0">BHEL</p>
-                            <p class="place mb-0">Trichy</p>
-                        </div>
-                        <div class="edit-profile" onclick="showProfilePage()">
-                            <i class="fa-solid fa-pencil"></i>
-                            <p class="mb-0">Edit Profile</p>
-                        </div>
-                        <div class="profile-contact-details">
-                            <div class="box">
-                                <div class="contact">
-                                    <i class="fa-solid fa-phone"></i>
-                                    <p class="mb-0">Contact</p>
-                                </div>
-                                <h6 class="mb-0">{{$user->phone}}</h6>
-                            </div>
-
-                            <div class="box">
-                                <div class="contact">
-                                    <i class="fa-solid fa-envelope"></i>
-                                    <p class="mb-0">Email</p>
-                                </div>
-                                <h6 class="mb-0">{{$user->email}}</h6>
-                            </div>
-
-                            <div class="box">
-                                <div class="contact">
-                                    <i class="fa-solid fa-location-dot"></i>
-                                    <p class="mb-0">Location</p>
-                                </div>
-                                <h6 class="mb-0">Gandhipuram</h6>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="booking-details">
-                        <h4 class="booking-title">Booking Details</h4>
-                        <div class="booking">
-                            <button type="button" class="booking-btn" onclick="showBookingPage()">
-                                My Bookings <i class="fas fa-arrow-right"></i>
-                            </button>
-
-                            <button type="button" class="booking-btn" onclick="showWishlistPage()">
-                                Wishlist <i class="fas fa-arrow-right"></i>
-                            </button>
-
-                            <button type="button" class="booking-btn"  onclick="showDocPage()">
-                                KYC Verification <i class="fas fa-arrow-right"></i>
-                            </button>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -851,39 +792,37 @@
                                     </table>
                                 </div>
                                 <div class="tracking">
-                                    <a href="https://www.google.com/maps/dir//Current+Location/Your+Destination/@currentLocation" target="_blank">
+                                    <a href="#" id="trackLink">
                                         <p>Track my Booking</p>
                                     </a>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="col-12 p-0 mt-3 wishlist-page">
-                            <div class="bookings">
-                                <div class="page-row-one" onclick="showTransactionPage()">
-                                    <i class="fas fa-arrow-left"></i>
-                                    <h4 class="mb-0">Wishlist</h4>
-                                </div>
-                                <div class="products row mt-4">
-                                    <div class="col-4">
-                                        <div class="card text-center">
-                                            <div class="card-body p-2 d-flex flex-column text-center">
-                                                <img src="/public/assets/landing/image/scooty1.png">
-                                                <div class="card-details d-flex flex-column p-1 mt-1 text-center" style="gap: 12px;">
-                                                    <i class="fa-solid fa-heart" style="color: red;"></i>
-                                                    <p class="new">New</p>
-                                                    <div class="card-title text-center mb-0">
-                                                        <h4 class="product-title mb-0">TVS Jupiter</h4>
-                                                    </div>
-                                                    <div class="rating d-flex justify-content-center mb-0 text-center" style="font-size: 12px; color: rgb(248, 82, 82);">
-                                                        <i class="fa-solid fa-star"></i>
-                                                        <i class="fa-solid fa-star"></i>
-                                                        <i class="fa-solid fa-star"></i>
-                                                        <i class="fa-solid fa-star"></i>
-                                                        <i class="fa-regular fa-star-half-stroke"></i>
-                                                    </div>
-                                                    <div class="icons d-flex justify-content-around">
-                                                        <i class="fa-solid fa-people-group"></i>
+                                <div class="tracking" id="orderTrack">
+                                    <div class="order-track">
+                                        <div class="order-track-step">
+                                          <div class="order-track-status">
+                                            <span class="order-track-status-dot"></span>
+                                            <span class="order-track-status-line"></span>
+                                          </div>
+                                          <div class="order-track-text">
+                                            <p class="order-track-text-stat">Order Received</p>
+                                            <span class="order-track-text-sub">21st November, 2019</span>
+                                          </div>
+                                        </div>
+                                        <div class="order-track-step">
+                                          <div class="order-track-status">
+                                            <span class="order-track-status-dot"></span>
+                                            <span class="order-track-status-line"></span>
+                                          </div>
+                                          <div class="order-track-text">
+                                            <p class="order-track-text-stat">Order Processed</p>
+                                            <span class="order-track-text-sub">21st November, 2019</span>
+                                          </div>
+                                        </div>
+                                        <div class="order-track-step">
+                                          <div class="order-track-status">
+                                            <span class="order-track-status-dot"></span>
+                                            <span class="order-track-status-line"></span>
+                                          </div>
                                                         <i class="fa-solid fa-briefcase"></i>
                                                         <i class="fa-solid fa-gauge"></i>
                                                         <i class="fa-solid fa-gauge"></i>
@@ -970,24 +909,44 @@
                                     <i class="fas fa-arrow-left"></i>
                                     <h4 class="mb-0"></i>Document Verification</h4>
                                 </div>
-                                <div class="docs" style="margin-top: 2rem;">
 
-                                    <form action="{{route('kyc.store')}}" method="POST" class="row" enctype="multipart/form-data">
+                                {{-- <div class="aadhar" style="margin-top: 2rem">
+                                    <form id="aadharVerifyForm" enctype="multipart/form-data">
                                         @csrf
-                                        <div class="col-6">
-                                            <div class="group">
-                                                <input type="text" name="aadhar" id="card_number" value="{{$user_kyc->aadhar}}" required>
-                                                <span class="bar"></span>
-                                                <label for="">Enter Aadhar Number</label>
-                                            </div>
+                                        <div class="group">
+                                            <input type="text" name="aadhar" id="card_number" required>
+                                            <span class="bar"></span>
+                                            <label for="">Enter Aadhar Number</label>
                                         </div>
 
-                                        <div class="col-6">
-                                            <div class="group">
-                                                <input type="text" name="pan" required>
-                                                <span class="bar"></span>
-                                                <label for="">Enter PAN Number</label>
+                                        <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header border-0">
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body text-center">
+                                                        <div class="otp">
+                                                            <h1 class="verify-title">OTP Verification</h1>
+                                                            <form id="otp-form" style="margin-top: 20px;">
+                                                                <div class="d-flex justify-content-center" style="gap: 10px;">
+                                                                    <input type="text" class="text-center rounded outline-none " pattern="\d*" maxlength="1"/>
+                                                                    <input type="text" class="text-center rounded outline-none " maxlength="1"/>
+                                                                    <input type="text" class="text-center rounded outline-none" maxlength="1"/>
+                                                                    <input type="text" class="text-center rounded outline-none" maxlength="1"/>
+                                                                </div>
+                                                                <span class="error">OTP is Incorrect</span> <br>
+                                                                <span class="success">OTP is Verified</span>
+                                                            </form>
+                                                            <div class="code">Didn't receive code? <a class="font-medium resend" href="#">Resend</a></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
+                                        </div>
+                                        <a class="btn btn-primary mt-3" data-bs-toggle="modal" href="#exampleModalToggle" role="button" type="">Verify</a>
+                                        <div class="next-btn" style="display: none; margin-top: 1rem;">
+                                            <button>Next Step</button>
                                         </div>
 
                                         <div class="col-6 mt-0">
@@ -1005,7 +964,7 @@
                                             </div>
                                             <p id="file-upload-name"></p>
                                             <img src="{{ asset('public/assets/kyc/' . $user_kyc->license_front)}}" alt="" width="150px">
-                                            
+
                                         </div>
 
                                         <div class="col-6 mt-0">
@@ -1021,10 +980,47 @@
                                             </div>
                                             <p id="file-upload-name"></p>
                                         </div>
-                                        
+
                                         <button type="submit" class="btn mt-3" style="width:200px">Verify</button>
                                     </form>
+                                </div> --}}
+
+                                <div class="pan" style="margin-top: 2rem">
+                                    <form id="panVerifyForm"  enctype="multipart/form-data">
+                                        <div class="group">
+                                            <input type="text" name="pan_number" id="pan_number" required>
+                                            <span class="bar"></span>
+                                            <label for="pan_number">Enter PAN Number</label>
+                                            <div id="successMessage" style="display: none; margin-top:5px; color:green; font-size:10px; font-weight:700;"></div>
+                                            <div id="errorMessage" style="display: none; margin-top:5px; color:red; font-size:10px; font-weight:700;"></div>
+                                        </div>
+                                        <div class="spinner-border mt-3" role="status" style="display: none;" id="spinner">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                        <div style="margin-top: 1rem;">
+                                            <button type="button" id="verifyBtn" class="btn btn-primary">Verify</button>
+                                        </div>
+                                        <div class="next" id="next-step" style="display: none; margin-top: 1rem;">
+                                            <button>Next Step</button>
+                                        </div>
+                                    </form>
+
                                 </div>
+
+                                {{-- <div class="license-front">
+                                    <div class="group">
+                                        <input type="text" name="license_front" id="card_number" required>
+                                        <span class="bar"></span>
+                                        <label for="">Upload License Front Page</label>
+                                        <span class="error mt-3">Entered Aadhar number is incorrect</span>
+                                    </div>
+                                    <div class="group">
+                                        <input type="text" name="aadhar" id="card_number" required>
+                                        <span class="bar"></span>
+                                        <label for="">Upload License Back Page</label>
+                                        <span class="error mt-3">Entered Aadhar number is incorrect</span>
+                                    </div>
+                                </div> --}}
                             </div>
                         </div>
 
@@ -1036,23 +1032,23 @@
                                 </div>
                                 <div class="profile">
                                     <div class="profile-input row">
-                                        <form action="{{route ('user.update', $user->id)}}" method=POST enctype="multipart/form-data">
-                                            @csrf
+                                        {{-- <form action="{{route ('user.update', $user->id)}}" method=POST enctype="multipart/form-data"> --}}
+                                            {{-- @csrf --}}
                                             <div class="col-6 mt-3">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" placeholder="Enter Your Name" name="f_name" value="{{$user->f_name}}" required>
+                                                    {{-- <input type="text" class="form-control" placeholder="Enter Your Name" name="f_name" value="{{$user->f_name}}" required> --}}
                                                 </div>
                                             </div>
 
                                             <div class="col-6 mt-3">
                                                 <div class="form-group">
-                                                    <input type="email" class="form-control" placeholder="Enter Your Email"  name="email" value="{{$user->email}}" required>
+                                                    {{-- <input type="email" class="form-control" placeholder="Enter Your Email"  name="email" value="{{$user->email}}" required> --}}
                                                 </div>
                                             </div>
 
                                             <div class="col-6 mt-3">
                                                 <div class="form-group">
-                                                    <input type="tel" class="form-control" placeholder="Enter Your Number" name="phone" value="{{$user->phone}}" required>
+                                                    {{-- <input type="tel" class="form-control" placeholder="Enter Your Number" name="phone" value="{{$user->phone}}" required> --}}
                                                 </div>
                                             </div>
 
@@ -1063,7 +1059,7 @@
                                             </div>
 
                                             <button type="submit" class="btn mt-3">Upload</button>
-                                        </form>
+                                        {{-- </form> --}}
                                     </div>
                                 </div>
                             </div>
@@ -1075,6 +1071,163 @@
     </div>
 @endsection
 @section('scripts')
+<script>
+    $(document).ready(function() {
+        $('#verifyAadharBtn').click(function() {
+            var aadharNumber = $('#card_number').val();
+            var realSourceIP = ''; // Provide the real source IP value
+            var accessKey = ''; // Provide the access key value
+            // Show spinner
+            $('#spinner').show();
+            // Perform AJAX request
+            $.ajax({
+                url: "{{ route('verification.aadhar-verify') }}",
+                type: "POST",
+                data: {
+                    aadhar: aadharNumber,
+                    realsourceip: realSourceIP,
+                    access_key: accessKey,
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(response) {
+                    // Hide spinner
+                    $('#spinner').hide();
+                    // Handle successful response
+                    console.log(response);
+                    $('#successMessage').text(response.message).show();
+                    $('.next').show(); // Show the "Next Step" button
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    // Hide spinner
+                    $('#spinner').hide();
+                    // Handle error response
+                    console.error(xhr.responseText);
+                    $('#errorMessage').text(xhr.responseText).show();
+                    // You can handle error response as per your requirement
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#verifyBtn').click(function() {
+            var panNumber = $('#pan_number').val();
+
+            // Show spinner
+            $('#spinner').show();
+
+            // Perform AJAX request
+            $.ajax({
+                url: "{{ route('verification.pan-verify') }}",
+                type: "POST",
+                data: {
+                    pan_number: panNumber,
+                    purpose: 1,
+                    purpose_desc: "onboarding",
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(response) {
+                    // Hide spinner
+                    $('#spinner').hide();
+                    if(response.message == "PAN verification successful"){
+                        $('#errorMessage').hide();
+                        $('#successMessage').text(response.message).show();
+                        $('.next').show();
+                    }
+                    else{
+                        $('#successMessage').hide();
+                        $('.next').hide();
+                        $('#errorMessage').text(response.message).show();
+                    }
+                    // Handle successful response
+                    console.log(response.message);
+                  //  $('#successMessage').text(response.message).show();
+
+                    // Show the "Next Step" button
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    // Hide spinner
+                    $('#spinner').hide();
+
+                    // Handle error response
+                    console.error(xhr.responseText);
+                    $('#errorMessage').text(xhr.responseText).show();
+                    // Here you can handle the error response as per your requirements
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+    const form = document.getElementById('otp-form')
+    const inputs = [...form.querySelectorAll('input[type=text]')]
+    const submit = form.querySelector('button[type=submit]')
+
+    const handleKeyDown = (e) => {
+        if (
+            !/^[0-9]{1}$/.test(e.key)
+            && e.key !== 'Backspace'
+            && e.key !== 'Delete'
+            && e.key !== 'Tab'
+            && !e.metaKey
+        ) {
+            e.preventDefault()
+        }
+
+        if (e.key === 'Delete' || e.key === 'Backspace') {
+            const index = inputs.indexOf(e.target);
+            if (index > 0) {
+                inputs[index - 1].value = '';
+                inputs[index - 1].focus();
+            }
+        }
+    }
+
+    const handleInput = (e) => {
+        const { target } = e
+        const index = inputs.indexOf(target)
+        if (target.value) {
+            if (index < inputs.length - 1) {
+                inputs[index + 1].focus()
+            } else {
+                submit.focus()
+            }
+        }
+    }
+
+    const handleFocus = (e) => {
+        e.target.select()
+    }
+
+    const handlePaste = (e) => {
+        e.preventDefault()
+        const text = e.clipboardData.getData('text')
+        if (!new RegExp(`^[0-9]{${inputs.length}}$`).test(text)) {
+            return
+        }
+        const digits = text.split('')
+        inputs.forEach((input, index) => input.value = digits[index])
+        submit.focus()
+    }
+
+    inputs.forEach((input) => {
+        input.addEventListener('input', handleInput)
+        input.addEventListener('keydown', handleKeyDown)
+        input.addEventListener('focus', handleFocus)
+        input.addEventListener('paste', handlePaste)
+    })
+</script>
+
+<script>
+    $('#exampleModalToggle').on('hidden.bs.modal', function (e) {
+        // Show the next step button after the modal is closed
+        $('.next-btn').show();
+    });
+</script>
+
 <script>
 
     function showBookingPage() {
@@ -1183,7 +1336,7 @@
         cardNumber.addEventListener('input', function (e) {
         // Remove any non-digit characters
         this.value = this.value.replace(/\D/g, '');
-        
+
         // Format the input as groups of 4 digits with a space
         this.value = this.value.replace(/(\d{4})(?=\d)/g, '$1 ');
 
@@ -1193,6 +1346,122 @@
         }
     });
 
+
+    // Multistep Form
+    // For Aadhar section
+    // document.getElementById('nextBtn').addEventListener('click', function() {
+    //     document.querySelector('.aadhar').style.display = 'none';
+    //     document.querySelector('.license-front').style.display = 'none';
+    //     document.querySelector('.pan').style.display = 'block';
+    // });
+
+
+    // document.getElementById('nextBtnOne').addEventListener('click', function() {
+
+    //     document.querySelector('.pan').style.display = 'none';
+
+
+    //     document.querySelector('.license-front').style.display = 'block';
+    // });
+
+
+</script>
+<script>
+    $('#imageInput').on('change', function() {
+	$input = $(this);
+	if($input.val().length > 0) {
+		fileReader = new FileReader();
+		fileReader.onload = function (data) {
+		$('.image-preview').attr('src', data.target.result);
+		}
+		fileReader.readAsDataURL($input.prop('files')[0]);
+		$('.image-button').css('display', 'none');
+		$('.image-preview').css('display', 'block');
+		$('.change-image').css('display', 'block');
+	}
+});
+
+$('.change-image').on('click', function() {
+	$control = $(this);
+	$('#imageInput').val('');
+	$preview = $('.image-preview');
+	$preview.attr('src', '');
+	$preview.css('display', 'none');
+	$control.css('display', 'none');
+	$('.image-button').css('display', 'block');
+});
+</script>
+
+{{-- Image upload --}}
+<script>
+    jQuery(document).ready(function () {
+  ImgUpload();
+});
+
+function ImgUpload() {
+  var imgWrap = "";
+  var imgArray = [];
+
+  $('.upload__inputfile').each(function () {
+    $(this).on('change', function (e) {
+      imgWrap = $(this).closest('.upload__box').find('.upload__img-wrap');
+      var maxLength = $(this).attr('data-max_length');
+
+      var files = e.target.files;
+      var filesArr = Array.prototype.slice.call(files);
+      var iterator = 0;
+      filesArr.forEach(function (f, index) {
+
+        if (!f.type.match('image.*')) {
+          return;
+        }
+
+        if (imgArray.length > maxLength) {
+          return false
+        } else {
+          var len = 0;
+          for (var i = 0; i < imgArray.length; i++) {
+            if (imgArray[i] !== undefined) {
+              len++;
+            }
+          }
+          if (len > maxLength) {
+            return false;
+          } else {
+            imgArray.push(f);
+
+            var reader = new FileReader();
+            reader.onload = function (e) {
+              var html = "<div class='upload__img-box'><div style='background-image: url(" + e.target.result + ")' data-number='" + $(".upload__img-close").length + "' data-file='" + f.name + "' class='img-bg'><div class='upload__img-close'></div></div></div>";
+              imgWrap.append(html);
+              iterator++;
+            }
+            reader.readAsDataURL(f);
+          }
+        }
+      });
+    });
+  });
+
+  $('body').on('click', ".upload__img-close", function (e) {
+    var file = $(this).parent().data("file");
+    for (var i = 0; i < imgArray.length; i++) {
+      if (imgArray[i].name === file) {
+        imgArray.splice(i, 1);
+        break;
+      }
+    }
+    $(this).parent().parent().remove();
+  });
+}
+</script>
+<script>
+    document.getElementById('trackLink').addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent the default link behavior
+
+    // Show the order track section
+    document.getElementById('orderTrack').style.display = 'block';
+});
 
 </script>
 @endsection

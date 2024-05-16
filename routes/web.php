@@ -229,7 +229,7 @@ Route::post('/user-login', [AuthController::class, 'login'])->name('user.login')
 Route::get('user-logout', [AuthController::class, 'logout'])->name('user.logout');
 
 // UserProfile Route
-Route::get('userprofile', [UserController::class , 'userprofile'])->name('userprofile');
+Route::get('profile', [UserController::class , 'profile'])->name('profile');
 Route::post('user/{id}', [AuthController::class ,'update'])->name('user.update');
 
 //Social login
@@ -240,3 +240,6 @@ Route::post('/save-location', [LocationController::class,'saveLocation'])->name(
 // KYC Store
 Route::post('kycstore', [KycController::class,'kycstore'])->name('kyc.store');
 Route::post('kyc/{id}', [KycController::class ,'update'])->name('kyc.update');
+
+// KYC Verify
+Route::post('/kyc', [KycController::class,'kyc_verify'])->name('kyc_verify');

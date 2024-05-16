@@ -392,10 +392,16 @@
             border-radius: 8px;
             margin-top: 20px;
         }
+
+        .btn:hover {
+            background-color: #003360;
+            color: white;
+        }
+
     </style>
 @endsection
 @section('content')
-    <div class="container mt-2 mb-3">
+    <div class="container" style="margin-top: 4rem;">
         <div class="row no-gutters">
             <?php
             // JSON string containing the key-value pair
@@ -415,6 +421,7 @@
                 $defaultValue = current($hoursPriceArray); // Get the value (e.g., "200")
             }
             ?>
+            <form action="" method="post" enctype="multipart/form-data"></form>
             <div class="col-md-5 pr-2">
                 <div class="card">
                     <div class="demo">
@@ -422,8 +429,7 @@
                             @foreach ($items->images as $item)
                                 <li data-thumb="{{ asset('storage/app/public/product') . '/' . $item ?? '', asset('public/assets/admin/img/160x160/img2.jpg'), 'product/' }}"
                                     style="width: 100%;">
-                                    <img
-                                        src="{{ asset('storage/app/public/product') . '/' . $item ?? '', asset('public/assets/admin/img/160x160/img2.jpg'), 'product/' }}">
+                                    <img src="{{ asset('storage/app/public/product') . '/' . $item ?? '', asset('public/assets/admin/img/160x160/img2.jpg'), 'product/' }}">
                                 </li>
                             @endforeach
                         </ul>
@@ -435,9 +441,10 @@
                 <div class="product-details">
                     <div class="product-title">
                         <h4>{{ $items->name }}</h4>
+                        <input type="hidden" value="{{ $items->name }}" name="">
                         <div class="icons">
-                            <i class="fa-regular fa-heart"></i>
-                            <i class="fa-solid fa-share-nodes"></i>
+                            {{-- <i class="fa-regular fa-heart"></i>
+                            <i class="fa-solid fa-share-nodes"></i> --}}
                         </div>
                     </div>
                     <div class="d-flex flex-row align-items-center">
@@ -468,11 +475,18 @@
                         <div class="price">
                             <i class="fa-solid fa-indian-rupee-sign"></i>
                             <p class="mb-0" id="totalPrice">{{ $defaultValue }}</p>
+                            <input type="hidden" id="totalPriceInput"  value="{{ $defaultValue }}" name="">
                         </div>
                     </div>
-                    <a href="{{ route('user.payment', $items->slug) }}">
-                        <button type="submit" class="btn">Book Now</button>
-                    </a>
+                    @if(auth()->check())
+                        <a href="{{ route('user.payment', $items->slug) }}">
+                            <button type="submit" class="btn">Book Now</button>
+                        </a>
+                    @else
+                        <a href="{{ route('login', ['tab' => 'customer']) }}">
+                            <button type="submit" class="btn">Book Now</button>
+                        </a>
+                    @endif
                 </div>
 
             </div>
@@ -492,6 +506,14 @@
 
     <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('completeKycBtn').addEventListener('click', function() {
+                // Redirect to the user profile page for completing KYC
+                window.location.href = "{{ route('userprofile') }}";
+            });
+        });
+    </script>
     <script>
         const items = document.querySelectorAll('.item');
 
@@ -592,6 +614,7 @@
 
             // Display the calculated total price on the page
             $('#totalPrice').text(totalPrice.toFixed(2)); // Display total price rounded to 2 decimal places
+            $('#totalPriceInput').val(totalPrice.toFixed(2)); // Display total price rounded to 2 decimal places
         }
 
         // Event listener for date range selection

@@ -4,7 +4,9 @@
     <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet'>
     <link rel='stylesheet' href='https://sachinchoolur.github.io/lightslider/dist/css/lightslider.css'>
     <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js'></script>
-
+    {{-- Date --}}
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
 
     {{-- <style>
         * {
@@ -47,10 +49,22 @@
         }
     </style> --}}
     <style>
+        body {
+            font-family: "Montserrat", sans-serif;
+        }
+
         .card {
             background-color: #fff;
             padding: 14px;
             border: none
+        }
+
+        .lSAction>.lSPrev {
+            background-color: black;
+        }
+
+        .lSAction>.lSNext {
+            background-color: black;
         }
 
         #lightSlider li {}
@@ -278,100 +292,177 @@
             padding: 0.3rem 0.3rem 0.2rem
         }
 
-        /* modal */
-        body {
-            font-family: "Montserrat", sans-serif;
+        /* product details */
+        .product-details {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 15px 25px;
         }
 
-        .modal-header {
-            border:none;
+        .product-title {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
-        .modal-footer {
-            border: none;
-        }
-
-        .modal-body p {
-            font-size: 18px;
+        .product-title h4 {
+            font-size: 20px;
             font-weight: 700;
         }
 
-        .thanks {
-            background-color: black;
+        .icons {
+            display: flex;
+            gap: 20px;
+            font-size: 20px;
+        }
+
+        .rating {
+            font-size: 12px;
+            font-weight: 500;
+            margin-left: 6px;
+        }
+
+        .rent {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 12px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid gray;
+        }
+
+        .total-price {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 12px;
+        }
+
+        .total-price p {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .rent p {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .price {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .desp p {
+            margin-top: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .date-range {
+            width: 70%;
+        }
+
+        #demo {
+            padding: 8px 15px;
+            margin-top: 15px;
+            text-align: center;
+            background: #FFA500;
             color: white;
-            padding: 8px 20px;
-            width: 150px;
-            border-radius: 12px;
+            border: none;
+            outline: none;
+            border-radius: 8px;
             font-size: 13px;
             font-weight: 600;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            background-color: #003360;
+            color: white;
+            font-size: 12px;
+            font-weight: 500;
+            border: none;
+            outline: none;
+            border-radius: 8px;
+            margin-top: 20px;
         }
     </style>
 @endsection
 @section('content')
-    <div class="container mt-5  mb-3">
-        <div class="row no-gutters ">
-            <div class="col-md-5 pr-2">
-                <div class="card">
-                    <div class="demo">
-                        <ul id="lightSlider">
-                            @foreach ($items->images as $item)
-                                <li data-thumb="{{  asset('storage/app/public/product') . '/' . $item ?? '', asset('public/assets/admin/img/160x160/img2.jpg'), 'product/' }}"   >
-                                    <img src="{{  asset('storage/app/public/product') . '/' . $item ?? '', asset('public/assets/admin/img/160x160/img2.jpg'), 'product/' }}">
-                                </li>
-                            @endforeach
-                        </ul>
+    <div class="container mt-5 mb-3">
+        <div class="row ">
+            <?php
+            // JSON string containing the key-value pair
+            $jsonString = $items['hours_price'];
+
+            // Decode the JSON string into an associative array
+            $hoursPriceArray = json_decode($jsonString, true);
+
+            // Initialize variables to store key and value
+            $defaultKey = '';
+            $defaultValue = '';
+
+            // Check if decoding was successful and $hoursPriceArray is not empty
+            if ($hoursPriceArray && is_array($hoursPriceArray)) {
+                // Extract key and value from the associative array
+                $defaultKey = key($hoursPriceArray); // Get the key (e.g., "12")
+                $defaultValue = current($hoursPriceArray); // Get the value (e.g., "200")
+            }
+            ?>
+            <div class="col-lg-8 ">
+                <div class="row border mx-lg-2 rounded">
+                    <div class="col-lg-5">
+                        <img src="{{ asset('storage/app/public/product') . '/' . $items['image'] ?? '', asset('public/assets/admin/img/160x160/img2.jpg'), 'product/' }}" class="mt-5" width="100%">
+                    </div>
+                    <div class="col-lg-7">
+                        <h4 >{{ $items->name }}</h4>
+                        <input type="hidden" value="{{ $items->name }}" name="">
+                        <div class="date-range" style="width: 100%;">
+                            <input type="text" id="demo" name="datefilter" value="" class="shadow" />
+                        </div>
+                        <div class="d-flex flex-column justify-content-between align-items-start">
+                            <h5 class="mt-4">Address :</h5>
+                            <div>
+                                @if (session('user_location'))
+                                    <div class="location ">
+                                        {{-- <i class="fa-solid fa-location-dot"></i> --}}
+                                        <span id="userLocation">{{ Str::limit(session('user_location')) }}</span>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <h4>Total</h3>
+                            <div class="price">
+                                <i class="fa-solid fa-indian-rupee-sign"></i>
+                                <p class="mb-0" id="totalPrice">{{ $defaultValue }}</p>
+                                <input type="hidden" id="totalPriceInput"  value="{{ $defaultValue }}" name="">
+                            </div>
+                        </div>
+                        {{-- @if (session('user_location'))
+                            <div class="location mt-5">
+                                <i class="fa-solid fa-location-dot"></i>
+                                <span id="userLocation">{{ Str::limit(session('user_location'), 20) }}</span>
+                            </div>
+                        @endif --}}
+
                     </div>
                 </div>
-
             </div>
-            <div class="col-md-7 px-lg-5  mt-3">
-                <div class="border rounded-3 d-flex justify-content-between p-3  shadow">
-                    <div>
-                        <p>Security deposit</p>
-                        <p>Security deposit</p>
-                        <p>Security deposit</p>
-                    </div>
-                   <div>
-                        <p>Rs.4000</p>
-                        <p>Rs.4000</p>
-                        <p>Rs.4000</p>
-                   </div>
-                </div>
-                <h3 class="mt-4">Make a Payment</h3>
-                <div class="border p-5 rounded-3 shadow mt-4">
-                    <div class="row">
-                        <div class="col">
-                            <img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/phonepe-logo-icon.png" alt="" style="width: 50px;margin-left:20px;" class="">
-                            <div class="form-check form-check-inline mt-3">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                                <label class="form-check-label " for="inlineRadio1">Pone Pay</label>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <img src="https://cdn1.iconfinder.com/data/icons/logos-brands-in-colors/436/Google_Pay_GPay_Logo-512.png" alt="" style="width: 60px;">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                                <label class="form-check-label" for="inlineRadio1">Gpay</label>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <img src="https://w7.pngwing.com/pngs/173/994/png-transparent-paytm-social-icons-color-icon-thumbnail.png" alt=""  style="width: 50px;margin-left:10px;">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                                <label class="form-check-label" for="inlineRadio1">Paytm </label>
-                            </div>
-                        </div>
-                    </div>
-
-
-                </div>
-                <div class="mt-4 text-center">
-                    <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModal">Confirm</button>
+            <div class="col-lg-4 mt-5 mt-lg-0 border rounded">
+                <div class="p-3">
+                    jdsjfidfijds
                 </div>
             </div>
+           
         </div>
     </div>
-
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -396,6 +487,19 @@
     <script type='text/javascript' src=''></script>
     <script type='text/javascript' src=''></script>
     <script type='text/Javascript'></script>
+    {{-- Date --}}
+    {{-- <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script> --}}
+
+    <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('completeKycBtn').addEventListener('click', function() {
+                // Redirect to the user profile page for completing KYC
+                window.location.href = "{{ route('userprofile') }}";
+            });
+        });
+    </script>
     <script>
         const items = document.querySelectorAll('.item');
 
@@ -428,6 +532,90 @@
             loop: true,
             slideMargin: 0,
             thumbItem: 4
+        });
+    </script>
+    <script>
+        let spinNumberOutput = document.querySelector('.spinNumberOutput')
+        let regularPrice = document.querySelector('.regularPrice')
+        let quantityOutput = document.querySelector('.quantityOutput')
+        let plusButton = document.querySelector('.incrimentButton')
+        let minusButton = document.querySelector('.decrimentButton')
+
+        spinNumberOutput.value = 1;
+        quantityOutput.innerHTML = regularPrice.innerHTML * spinNumberOutput.value
+
+        plusButton.addEventListener('click', function() {
+            spinNumberOutput.value++
+            console.log(quantityOutput.innerHTML = regularPrice.innerHTML * spinNumberOutput.value)
+        })
+
+        minusButton.addEventListener('click', function() {
+
+            if (spinNumberOutput.value > 1) {
+                spinNumberOutput.value--
+                console.log(quantityOutput.innerHTML = regularPrice.innerHTML * spinNumberOutput.value)
+
+            }
+        })
+    </script>
+    {{-- Date Range --}}
+    <script>
+        $('#demo').daterangepicker({
+            "showISOWeekNumbers": true,
+            "timePicker": true,
+            "autoUpdateInput": true,
+            "locale": {
+                "cancelLabel": 'Clear',
+                "format": "MMMM DD, YYYY @ h:mm A",
+                "separator": " - ",
+                "applyLabel": "Apply",
+                "cancelLabel": "Cancel",
+                "fromLabel": "From",
+                "toLabel": "To",
+                "customRangeLabel": "Custom",
+                "weekLabel": "W",
+                "daysOfWeek": ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+                "monthNames": [
+                    "January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"
+                ],
+                "firstDay": 1
+            },
+            "linkedCalendars": true,
+            "showCustomRangeLabel": false,
+            "startDate": moment().startOf('hour'), // Set initial start date to current time (hour precision)
+            "endDate": moment().startOf('hour').add(1,
+            'hour'), // Set initial end date to one hour from current time
+            "opens": "center"
+        });
+
+        // Function to calculate and update total price based on date range selection
+        function updateTotalPrice(startDate, endDate, pricePerHour) {
+            // Calculate the difference in hours between start date and end date
+            const hours = moment.duration(endDate.diff(startDate)).asHours();
+
+            // Calculate total price by multiplying hours with price per hour
+            const totalPrice = hours * pricePerHour;
+            console.log("total",totalPrice)
+
+            // Display the calculated total price on the page
+            $('#totalPrice').text(totalPrice.toFixed(2)); // Display total price rounded to 2 decimal places
+            $('#totalPriceInput').val(totalPrice.toFixed(2)); // Display total price rounded to 2 decimal places
+        }
+
+        // Event listener for date range selection
+        $('#demo').on('apply.daterangepicker', function(ev, picker) {
+            // Retrieve the selected start date and end date from the picker
+            const startDate = picker.startDate;
+            const endDate = picker.endDate;
+
+            // Retrieve the price per hour (convert $defaultValue to a numeric value)
+            const pricePerHour = parseFloat("{{ $defaultValue }}");
+
+            console.log("DD",pricePerHour)
+
+            // Update the total price based on the selected date range and price per hour
+            updateTotalPrice(startDate, endDate, pricePerHour);
         });
     </script>
 @endsection

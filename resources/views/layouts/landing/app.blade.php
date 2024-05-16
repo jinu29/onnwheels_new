@@ -13,6 +13,10 @@ $landing_site_direction = session()->get('landing_site_direction');
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
+    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> --}}
 
     <title>@yield('title')</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
@@ -37,6 +41,10 @@ $landing_site_direction = session()->get('landing_site_direction');
         integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    {{-- Bootstrap --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
     <!-- Slick Carousel -->
     <link rel="stylesheet" type="text/css"
         href="https://cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css" />
@@ -58,6 +66,12 @@ $landing_site_direction = session()->get('landing_site_direction');
             color: white;
             background-color: #003360;
             border: none;
+        }
+
+        .header--btn:hover {
+            color: white;
+            background-color: #003360;
+            text-decoration: none;
         }
 
         .footer {
@@ -189,7 +203,12 @@ $landing_site_direction = session()->get('landing_site_direction');
         }
 
         .sign-up {
-            background-color: orange
+            background-color: #F89520;
+        }
+
+        .sign-up:hover {
+            background-color: #F89520;
+            color: white;
         }
     </style>
 
@@ -272,7 +291,7 @@ $landing_site_direction = session()->get('landing_site_direction');
                             </div>
                             <div class="user-details">
                                 <div class="dropdown-menu" id="dropdown-menu">
-                                    <a href="{{ route('userprofile') }}">Profile</a>
+                                    <a href="{{ route('profile') }}">Profile</a>
                                     <div class="menu-divider"></div> <!-- Divider -->
                                     <a href="{{ route('user.logout') }}">Logout</a>
                                 </div>
@@ -281,7 +300,7 @@ $landing_site_direction = session()->get('landing_site_direction');
                     @else
                         @if (isset($toggle_dm_registration) || isset($toggle_store_registration))
                             <div class="dropdown--btn-hover position-relative d-flex" style="gap: 10px;">
-                                <a class="dropdown--btn header--btn text-capitalize d-flex align-items-center"
+                                <a class="dropdown--btn header--btn text-capitalize d-flex align-items-center login"
                                     href="{{ route('login', ['tab' => 'customer']) }}">
                                     <span class="me-1">{{ translate('Login') }}</span>
                                     {{-- <svg width="12" height="7" viewBox="0 0 12 7" fill="none"
@@ -339,15 +358,17 @@ $landing_site_direction = session()->get('landing_site_direction');
                     </div>
                     <div class="phone mb-2 d-flex align-items-center mt-4" style="gap: 10px;">
                         <i class="fa-solid fa-location-dot" style="font-size: 19px;"></i>
-                        <p class="mb-0">16,abc <br>123layout</p>
+                        <p class="mb-0">{{ \App\CentralLogics\Helpers::get_settings('address') }}</p>
                     </div>
                     <div class="phone mb-2 d-flex align-items-center mt-4" style="gap: 10px;">
                         <i class="fa-solid fa-phone" style="font-size: 19px;"></i>
-                        <p class="mb-0">9686201100</p>
+                        <a
+                            href="tel:{{ \App\CentralLogics\Helpers::get_settings('phone') }}">{{ \App\CentralLogics\Helpers::get_settings('phone') }}</a>
                     </div>
                     <div class="mail mb-2 d-flex align-items-center mt-4" style="gap: 10px;">
                         <i class="fa-regular fa-envelope" style="font-size: 19px;"></i>
-                        <p class="mb-0">pradeep.stallin@gmail.com</p>
+                        <a
+                            href="Malto:{{ \App\CentralLogics\Helpers::get_settings('email_address') }}">{{ \App\CentralLogics\Helpers::get_settings('email_address') }}</a>
                     </div>
                     <div class="social-icons mt-4">
                         <a href="#">
@@ -440,11 +461,12 @@ $landing_site_direction = session()->get('landing_site_direction');
         crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
+    {{-- Bootstrap --}}
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+        integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous">
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
-        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+        integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous">
     </script>
     {{-- Jquery --}}
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
@@ -652,8 +674,16 @@ $landing_site_direction = session()->get('landing_site_direction');
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
         crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
+    </script>
 
-
+    {{-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> --}}
 </body>
 
 </html>
