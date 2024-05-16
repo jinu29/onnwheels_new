@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `addon_settings` (
   KEY `payment_settings_id_index` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.addon_settings: ~48 rows (approximately)
+-- Dumping data for table test.addon_settings: ~47 rows (approximately)
 INSERT INTO `addon_settings` (`id`, `key_name`, `live_values`, `test_values`, `settings_type`, `mode`, `is_active`, `created_at`, `updated_at`, `additional_data`) VALUES
 	('070c6bbd-d777-11ed-96f4-0c7a158e4469', 'twilio', '{"gateway":"twilio","mode":"live","status":0,"sid":"","messaging_service_sid":"","token":"","from":"","otp_template":""}', '{"gateway":"twilio","mode":"live","status":0,"sid":"","messaging_service_sid":"","token":"","from":"","otp_template":""}', 'sms_config', 'live', 0, NULL, '2024-05-03 18:32:27', NULL),
 	('070c766c-d777-11ed-96f4-0c7a158e4469', '2factor', '{"gateway":"2factor","mode":"live","status":0,"api_key":""}', '{"gateway":"2factor","mode":"live","status":0,"api_key":""}', 'sms_config', 'live', 0, NULL, '2024-05-03 18:32:27', NULL),
@@ -80,7 +80,7 @@ INSERT INTO `addon_settings` (`id`, `key_name`, `live_values`, `test_values`, `s
 	('a3313755-c95d-11ed-b1db-0c7a158e4469', 'iyzi_pay', '{"gateway":"iyzi_pay","mode":"test","status":"0","api_key": "","secret_key": "","base_url": ""}', '{"gateway":"iyzi_pay","mode":"test","status":"0","api_key": "","secret_key": "","base_url": ""}', 'payment_config', 'test', 0, NULL, NULL, NULL),
 	('a76c8993-d299-11ed-b485-0c7a158e4469', 'momo', '{"gateway":"momo","mode":"live","status":"0","api_key":"","api_user":"","subscription_key":""}', '{"gateway":"momo","mode":"live","status":"0","api_key":"","api_user":"","subscription_key":""}', 'payment_config', 'test', 0, NULL, '2023-04-08 22:39:19', NULL),
 	('a8608119-cc76-11ed-9bca-0c7a158e4469', 'moncash', '{"gateway":"moncash","mode":"test","status":"0","client_id":"","secret_key": ""}\n', '{"gateway":"moncash","mode":"test","status":"0","client_id":"","secret_key": ""}\n', 'payment_config', 'test', 0, NULL, NULL, NULL),
-	('ad5af1c1-d6a2-11ed-962c-0c7a158e4469', 'razor_pay', '{"gateway":"razor_pay","mode":"live","status":"0","api_key":null,"api_secret":null}', '{"gateway":"razor_pay","mode":"live","status":"0","api_key":null,"api_secret":null}', 'payment_config', 'live', 0, NULL, NULL, '{"gateway_title":"Razor pay","gateway_image":null}'),
+	('ad5af1c1-d6a2-11ed-962c-0c7a158e4469', 'razor_pay', '{"gateway":"razor_pay","mode":"test","status":1,"api_key":"rzp_test_XZKJkxZxNQpGQd","api_secret":"dHu6evz9RzBILKhWQObaodoj"}', '{"gateway":"razor_pay","mode":"test","status":1,"api_key":"rzp_test_XZKJkxZxNQpGQd","api_secret":"dHu6evz9RzBILKhWQObaodoj"}', 'payment_config', 'test', 1, NULL, '2024-05-08 00:28:39', '{"gateway_title":"Razor pay","gateway_image":"2024-05-08-663b5adfc95c5.png"}'),
 	('ad5b02a0-d6a2-11ed-962c-0c7a158e4469', 'senang_pay', '{"gateway":"senang_pay","mode":"live","status":"1","callback_url":null,"secret_key":null,"merchant_id":null}', '{"gateway":"senang_pay","mode":"live","status":"1","callback_url":null,"secret_key":null,"merchant_id":null}', 'payment_config', 'live', 0, NULL, NULL, '{"gateway_title":"Senang pay","gateway_image":null}'),
 	('b0fb3df5-c9cc-4d32-973a-45c2d5741f91', 'fast2sms', '{"gateway":"fast2sms","mode":"live","status":"1","api_key":"FzlT7qiGUub1PfaRXW6wemo5sxvtdQ9SA0YgJjkypHrInOV2DEWX8drMcfHVFLSzCsmjlwo2GYD7h4J6"}', '{"gateway":"fast2sms","mode":"live","status":"1","api_key":"FzlT7qiGUub1PfaRXW6wemo5sxvtdQ9SA0YgJjkypHrInOV2DEWX8drMcfHVFLSzCsmjlwo2GYD7h4J6"}', 'sms_config', 'live', 1, NULL, '2024-05-03 18:32:27', NULL),
 	('b6c333f6-d8e9-11ed-8249-0c7a158e4469', 'akandit_sms', '{"gateway":"akandit_sms","mode":"live","status":0,"username":"","password":"","otp_template":""}', '{"gateway":"akandit_sms","mode":"live","status":0,"username":"","password":"","otp_template":""}', 'sms_config', 'live', 0, NULL, '2024-05-03 18:32:27', NULL),
@@ -150,7 +150,7 @@ CREATE TABLE IF NOT EXISTS `admin_features` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.admin_features: ~1 rows (approximately)
+-- Dumping data for table test.admin_features: ~0 rows (approximately)
 INSERT INTO `admin_features` (`id`, `title`, `sub_title`, `image`, `status`, `created_at`, `updated_at`) VALUES
 	(1, 'Demo Feature Title', 'Demo Feature  Sub Title', '2023-08-16-64dcaa268d2d0.png', 1, '2023-08-15 23:51:18', '2023-08-15 23:51:18');
 
@@ -182,7 +182,7 @@ CREATE TABLE IF NOT EXISTS `admin_roles` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.admin_roles: ~1 rows (approximately)
+-- Dumping data for table test.admin_roles: ~0 rows (approximately)
 INSERT INTO `admin_roles` (`id`, `name`, `modules`, `status`, `created_at`, `updated_at`) VALUES
 	(1, 'Master admin', NULL, 1, NULL, NULL);
 
@@ -197,7 +197,7 @@ CREATE TABLE IF NOT EXISTS `admin_special_criterias` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.admin_special_criterias: ~1 rows (approximately)
+-- Dumping data for table test.admin_special_criterias: ~0 rows (approximately)
 INSERT INTO `admin_special_criterias` (`id`, `title`, `image`, `status`, `created_at`, `updated_at`) VALUES
 	(1, 'Demo Title', '2023-08-16-64dcaaa5b0d37.png', 1, '2023-08-15 23:53:25', '2023-08-15 23:53:25');
 
@@ -215,7 +215,7 @@ CREATE TABLE IF NOT EXISTS `admin_testimonials` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.admin_testimonials: ~1 rows (approximately)
+-- Dumping data for table test.admin_testimonials: ~0 rows (approximately)
 INSERT INTO `admin_testimonials` (`id`, `name`, `designation`, `review`, `reviewer_image`, `company_image`, `status`, `created_at`, `updated_at`) VALUES
 	(1, 'John Doe', 'CTO', 'Very good service.', '2023-08-16-64dcaae2e5bc0.png', '2023-08-16-64dcaae2eae2a.png', 1, '2023-08-15 23:54:26', '2023-08-15 23:54:26');
 
@@ -275,9 +275,9 @@ CREATE TABLE IF NOT EXISTS `business_settings` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=141 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=142 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.business_settings: ~138 rows (approximately)
+-- Dumping data for table test.business_settings: ~137 rows (approximately)
 INSERT INTO `business_settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES
 	(1, 'cash_on_delivery', '{"status":null}', '2021-07-01 15:51:17', '2024-05-01 18:47:18'),
 	(2, 'stripe', '{"status":"0","api_key":null,"published_key":null}', '2021-05-11 03:57:02', '2022-03-23 04:22:00'),
@@ -741,7 +741,7 @@ CREATE TABLE IF NOT EXISTS `data_settings` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.data_settings: ~88 rows (approximately)
+-- Dumping data for table test.data_settings: ~87 rows (approximately)
 INSERT INTO `data_settings` (`id`, `key`, `value`, `type`, `created_at`, `updated_at`) VALUES
 	(1, 'admin_login_url', 'admin', 'login_admin', '2023-06-11 14:34:59', '2023-06-11 14:34:59'),
 	(2, 'admin_employee_login_url', 'admin-employee', 'login_admin_employee', '2023-06-11 14:34:59', '2023-06-11 14:34:59'),
@@ -892,9 +892,11 @@ CREATE TABLE IF NOT EXISTS `delivery_men` (
   `vehicle_id` bigint unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `delivery_men_phone_unique` (`phone`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table test.delivery_men: ~0 rows (approximately)
+INSERT INTO `delivery_men` (`id`, `f_name`, `l_name`, `phone`, `email`, `identity_number`, `identity_type`, `identity_image`, `image`, `password`, `auth_token`, `fcm_token`, `zone_id`, `created_at`, `updated_at`, `status`, `active`, `earning`, `current_orders`, `type`, `store_id`, `application_status`, `order_count`, `assigned_order_count`, `vehicle_id`) VALUES
+	(1, 'Demo', 'Driver', '+919655804621', 'portforwarding03@gmail.com', 'DH-2338678', 'driving_license', '["2024-05-08-663b4575313a1.png"]', '2024-05-08-663b45752a1df.png', '$2y$10$J7sFnWHLId3sIQl528GtVu2hZXomLMeds.KOXFlxB02wHOi7bKf4m', NULL, NULL, 2, '2024-05-07 22:57:17', '2024-05-07 22:57:17', 1, 0, 0, 0, 'zone_wise', NULL, 'approved', 0, 0, 1);
 
 -- Dumping structure for table test.disbursements
 CREATE TABLE IF NOT EXISTS `disbursements` (
@@ -990,9 +992,11 @@ CREATE TABLE IF NOT EXISTS `d_m_vehicles` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table test.d_m_vehicles: ~0 rows (approximately)
+INSERT INTO `d_m_vehicles` (`id`, `type`, `starting_coverage_area`, `maximum_coverage_area`, `extra_charges`, `status`, `created_at`, `updated_at`) VALUES
+	(1, 'Bike', 1.00, 100.00, 100.00, 1, '2024-05-07 22:44:09', '2024-05-07 22:44:09');
 
 -- Dumping structure for table test.email_templates
 CREATE TABLE IF NOT EXISTS `email_templates` (
@@ -1165,7 +1169,7 @@ CREATE TABLE IF NOT EXISTS `flutter_special_criterias` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.flutter_special_criterias: ~1 rows (approximately)
+-- Dumping data for table test.flutter_special_criterias: ~0 rows (approximately)
 INSERT INTO `flutter_special_criterias` (`id`, `title`, `image`, `status`, `created_at`, `updated_at`) VALUES
 	(1, 'Demo Feature Title', '2023-08-16-64dcae4ca0594.png', 1, '2023-08-16 00:09:00', '2023-08-16 00:09:00');
 
@@ -1219,19 +1223,22 @@ CREATE TABLE IF NOT EXISTS `items` (
   `organic` tinyint(1) NOT NULL DEFAULT '0',
   `maximum_cart_quantity` int DEFAULT NULL,
   `is_approved` tinyint(1) NOT NULL DEFAULT '1',
+  `hours_price` json DEFAULT NULL,
+  `distance_price` json DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `items_module_id_foreign` (`module_id`),
   CONSTRAINT `items_module_id_foreign` FOREIGN KEY (`module_id`) REFERENCES `modules` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.items: ~6 rows (approximately)
-INSERT INTO `items` (`id`, `name`, `description`, `image`, `category_id`, `category_ids`, `variations`, `add_ons`, `attributes`, `choice_options`, `price`, `tax`, `tax_type`, `discount`, `discount_type`, `available_time_starts`, `available_time_ends`, `veg`, `status`, `store_id`, `created_at`, `updated_at`, `order_count`, `avg_rating`, `rating_count`, `rating`, `module_id`, `stock`, `unit_id`, `images`, `food_variations`, `slug`, `recommended`, `organic`, `maximum_cart_quantity`, `is_approved`) VALUES
-	(2, 'Test Bike', 'qwertyuiasdfghjk', '2024-05-03-6634742957e7e.png', 2, '[{"id":"1","position":1},{"id":"2","position":2}]', '[]', '[]', '[]', '[]', 1000.00, 0.00, 'percent', 20.00, 'percent', '00:00:00', '23:59:59', 0, 1, 2, '2024-05-02 18:50:41', '2024-05-02 23:30:17', 0, 0.00000000000000, 0, NULL, 1, 1, NULL, '["2024-05-03-6634742955938.png"]', '[]', 'test-bike', 0, 0, 1, 1),
-	(3, 'Hero', 'asdfghjk', '2024-05-03-6634a7e6799c8.png', 2, '[{"id":"1","position":1},{"id":"2","position":2}]', '[]', '[]', '[]', '[]', 2000.00, 0.00, 'percent', 18.00, 'percent', '00:00:00', '23:59:59', 0, 1, 2, '2024-05-02 22:14:05', '2024-05-02 23:30:18', 0, 0.00000000000000, 0, NULL, 1, 1, NULL, '["2024-05-03-6634a3d5c5bfc.png","2024-05-03-6634a7e6753fc.png"]', '[]', 'hero', 0, 0, 1, 1),
-	(4, 'KTM', 'test KTM', '2024-05-03-6634a80c85a78.png', 5, '[{"id":"5","position":1}]', '[]', '[]', '[]', '[]', 5000.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 2, '2024-05-02 22:30:18', '2024-05-02 23:30:19', 0, 0.00000000000000, 0, NULL, 1, 10, NULL, '["2024-05-03-6634a7a238697.png","2024-05-03-6634a80c804d5.png"]', '[]', 'ktm', 0, 0, 1, 1),
-	(5, 'Aprilia', 'qwertyuiop', '2024-05-03-6634aa94da9f8.png', 6, '[{"id":"6","position":1}]', '[]', '[]', '[]', '[]', 8500.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 2, '2024-05-02 22:42:52', '2024-05-02 23:30:19', 0, 0.00000000000000, 0, NULL, 1, 1, NULL, '["2024-05-03-6634aa94d1a88.png"]', '[]', 'aprilia', 0, 0, 1, 1),
-	(6, 'Hero Splendor+', 'qwertyjjbvcx vb', '2024-05-03-6634aaeee859a.png', 6, '[{"id":"6","position":1}]', '[]', '[]', '[]', '[]', 850.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 2, '2024-05-02 22:44:22', '2024-05-02 23:30:11', 0, 0.00000000000000, 0, NULL, 1, 1, NULL, '["2024-05-03-6634aaeee3cf7.png"]', '[]', 'hero-splendor', 0, 0, 0, 1),
-	(7, '2023 Ducati', 'wertghj', '2024-05-03-6634ab4cb3b5c.png', 7, '[{"id":"7","position":1}]', '[]', '[]', '[]', '[]', 550.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 1, '2024-05-02 22:45:56', '2024-05-02 23:30:11', 0, 0.00000000000000, 0, NULL, 1, 1, NULL, '["2024-05-03-6634ab4caf64d.png"]', '[]', '2023-ducati', 0, 0, 1, 1);
+-- Dumping data for table test.items: ~7 rows (approximately)
+INSERT INTO `items` (`id`, `name`, `description`, `image`, `category_id`, `category_ids`, `variations`, `add_ons`, `attributes`, `choice_options`, `price`, `tax`, `tax_type`, `discount`, `discount_type`, `available_time_starts`, `available_time_ends`, `veg`, `status`, `store_id`, `created_at`, `updated_at`, `order_count`, `avg_rating`, `rating_count`, `rating`, `module_id`, `stock`, `unit_id`, `images`, `food_variations`, `slug`, `recommended`, `organic`, `maximum_cart_quantity`, `is_approved`, `hours_price`, `distance_price`) VALUES
+	(19, 'CBR 600 R', 'The CBR600RR is a high-performance sport bike manufactured by Honda. It\'s renowned for its lightweight chassis, sharp handling, and powerful inline-four engine. This motorcycle is popular among riders who appreciate its track-focused design and agility, making it a favorite for both street riding and racing enthusiasts.', '2024-05-09-663c6254d8a46.png', 5, '[{"id":"5","position":1}]', '[]', '[]', '[]', '[]', 500.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 2, '2024-05-08 13:42:44', '2024-05-08 13:42:44', 0, 0.00000000000000, 0, NULL, 1, 10, NULL, '["2024-05-09-663c6254d33b8.png","2024-05-09-663c6254d847f.png"]', '[]', 'cbr-600-r', 0, 0, 1, 1, '"{\\"1\\":\\"500\\"}"', '"{\\"\\":null}"'),
+	(20, 'Royal Enfield Classic 350', 'The Royal Enfield Classic 350 is an iconic motorcycle known for its retro styling and timeless appeal. It features a classic design reminiscent of vintage British motorcycles with modern reliability. The bike is powered by a 346cc single-cylinder engine, delivering a smooth and torquey performance suitable for city commuting and leisurely rides.', '2024-05-09-663c630f80f5f.png', 5, '[{"id":"5","position":1}]', '[]', '[]', '[]', '[]', 150.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 2, '2024-05-08 13:45:51', '2024-05-08 13:45:51', 0, 0.00000000000000, 0, NULL, 1, 15, NULL, '["2024-05-09-663c630f7b3e1.png","2024-05-09-663c630f80370.png"]', '[]', 'royal-enfield-classic-350', 0, 0, 1, 1, '"{\\"1\\":\\"150\\"}"', '"{\\"\\":null}"'),
+	(21, 'Bajaj Pulsar NS200', 'The Bajaj Pulsar NS200 is a popular naked sportbike known for its striking design and agile performance. It features a 199.5cc liquid-cooled single-cylinder engine that delivers around 24 horsepower, paired with a six-speed gearbox for smooth acceleration and flexibility. The NS200 stands out with its aggressive styling, highlighted by sharp lines, a muscular fuel tank, and a distinctive front headlamp design.', '2024-05-09-663c74837b263.png', 5, '[{"id":"5","position":1}]', '[]', '[]', '[]', '[]', 250.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 2, '2024-05-08 15:00:19', '2024-05-08 15:00:19', 0, 0.00000000000000, 0, NULL, 1, 10, NULL, '["2024-05-09-663c7483747b2.png","2024-05-09-663c74837a926.png"]', '[]', 'bajaj-pulsar-ns200', 0, 0, 1, 1, '"{\\"1\\":\\"150\\"}"', '"{\\"\\":null}"'),
+	(22, 'Apache RTR 160', 'The Apache RTR 160 is powered by a 159.7cc single-cylinder, air-cooled engine (with oil cooler in some variants), delivering good power and torque. It\'s known for its refinement and linear power delivery.', '2024-05-09-663c757c7b315.png', 5, '[{"id":"5","position":1}]', '[]', '[]', '[]', '[]', 250.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 2, '2024-05-08 15:04:28', '2024-05-08 15:04:28', 0, 0.00000000000000, 0, NULL, 1, 10, NULL, '["2024-05-09-663c757c77495.png","2024-05-09-663c757c7a16c.png"]', '[]', 'apache-rtr-160', 0, 0, 1, 1, '"{\\"1\\":\\"250\\"}"', '"{\\"\\":null}"'),
+	(23, 'Hero MotoCorp', 'Hero MotoCorp was originally founded as Hero Cycles in 1956 in Ludhiana, India. In 1984, Hero collaborated with Honda of Japan to establish Hero Honda Motors Limited, which became one of the most successful joint ventures in India\'s automotive industry. In 2011, Hero MotoCorp was formed after the split from Honda, and it continues to be a dominant player in the Indian two-wheeler market.', '2024-05-09-663c761101aad.png', 5, '[{"id":"5","position":1}]', '[]', '[]', '[]', '[]', 200.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 2, '2024-05-08 15:06:57', '2024-05-08 15:06:57', 0, 0.00000000000000, 0, NULL, 1, 15, NULL, '["2024-05-09-663c7610f1a42.png","2024-05-09-663c761101636.png"]', '[]', 'hero-motocorp', 0, 0, 1, 1, '"{\\"1\\":\\"200\\"}"', '"{\\"\\":null}"'),
+	(24, 'Kawasaki Ninja', 'The Ninja brand was introduced in the 1980s and quickly gained popularity for its high-performance sport bikes. Over the years, Kawasaki has continuously updated and expanded the Ninja lineup, offering a range of models catering to different riding styles and skill levels.', '2024-05-09-663c7941924c0.png', 5, '[{"id":"5","position":1}]', '[]', '[]', '[]', '[]', 260.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 2, '2024-05-08 15:20:33', '2024-05-08 15:20:33', 0, 0.00000000000000, 0, NULL, 1, 10, NULL, '["2024-05-09-663c7941904b0.png","2024-05-09-663c7941921b6.png"]', '[]', 'kawasaki-ninja', 0, 0, 1, 1, '"{\\"1\\":\\"260\\"}"', '"{\\"\\":null}"'),
+	(25, 'Honda SP 125', 'The SP 125 is powered by a 124cc, single-cylinder, fuel-injected engine. This engine is known for its smooth power delivery, good low-end torque, and fuel efficiency. It meets BS6 emission norms, ensuring cleaner and greener performance.', '2024-05-09-663c7afbbdcef.png', 5, '[{"id":"5","position":1}]', '[]', '[]', '[]', '[]', 320.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 2, '2024-05-08 15:27:55', '2024-05-08 15:27:55', 0, 0.00000000000000, 0, NULL, 1, 10, NULL, '["2024-05-09-663c7afbbbe5f.png","2024-05-09-663c7afbbd772.png"]', '[]', 'honda-sp-125', 0, 0, 1, 1, '"{\\"1\\":\\"320\\"}"', '"{\\"\\":null}"');
 
 -- Dumping structure for table test.item_campaigns
 CREATE TABLE IF NOT EXISTS `item_campaigns` (
@@ -1342,7 +1349,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=136 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.migrations: ~133 rows (approximately)
+-- Dumping data for table test.migrations: ~132 rows (approximately)
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 	(1, '2016_06_01_000001_create_oauth_auth_codes_table', 30),
 	(2, '2016_06_01_000002_create_oauth_access_tokens_table', 30),
@@ -1495,9 +1502,9 @@ CREATE TABLE IF NOT EXISTS `modules` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.modules: ~1 rows (approximately)
+-- Dumping data for table test.modules: ~0 rows (approximately)
 INSERT INTO `modules` (`id`, `module_name`, `module_type`, `thumbnail`, `status`, `stores_count`, `created_at`, `updated_at`, `icon`, `theme_id`, `description`, `all_zone_service`) VALUES
-	(1, 'onnwheels', 'rental', '2024-05-02-66334f7a09b9d.png', 1, 2, '2023-08-15 23:31:17', '2024-05-01 22:01:54', '2024-05-02-66334f7a08dc2.png', 1, '<p>Demo module description.</p>', 0);
+	(1, 'onnwheels', 'rental', '2024-05-02-66334f7a09b9d.png', 1, 5, '2023-08-15 23:31:17', '2024-05-09 21:23:04', '2024-05-02-66334f7a08dc2.png', 1, '<p>Demo module description.</p>', 0);
 
 -- Dumping structure for table test.module_types
 CREATE TABLE IF NOT EXISTS `module_types` (
@@ -1551,11 +1558,12 @@ CREATE TABLE IF NOT EXISTS `module_zone` (
   `maximum_cod_order_amount` double(23,2) DEFAULT NULL,
   `maximum_shipping_charge` double(23,2) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.module_zone: ~1 rows (approximately)
+-- Dumping data for table test.module_zone: ~0 rows (approximately)
 INSERT INTO `module_zone` (`id`, `module_id`, `zone_id`, `per_km_shipping_charge`, `minimum_shipping_charge`, `maximum_cod_order_amount`, `maximum_shipping_charge`) VALUES
-	(1, 1, 1, 10.00, 10.00, 10.00, 10.00);
+	(1, 1, 1, 10.00, 10.00, 10.00, 10.00),
+	(2, 1, 2, 100.00, 40.00, 2000.00, 200.00);
 
 -- Dumping structure for table test.newsletters
 CREATE TABLE IF NOT EXISTS `newsletters` (
@@ -1666,13 +1674,33 @@ CREATE TABLE IF NOT EXISTS `oauth_access_tokens` (
   KEY `oauth_access_tokens_user_id_index` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.oauth_access_tokens: ~5 rows (approximately)
+-- Dumping data for table test.oauth_access_tokens: ~22 rows (approximately)
 INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes`, `revoked`, `created_at`, `updated_at`, `expires_at`) VALUES
+	('072cb62032eb247cbe5d588139acc4d88a4405b34ee6b0c4ed53011e657423ef9e9f34066806c64f', 26, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-10 20:39:10', '2024-05-10 20:39:10', '2025-05-11 02:09:10'),
 	('19945962d133f6fa14f0d2347a0eb60f98e15619ae107303edd27b264634ed4f5b48549757230e8f', 25, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-06 00:50:02', '2024-05-06 00:50:02', '2025-05-06 06:20:02'),
+	('2051f4ac3ca0836d7e60b8d2cba902deb1bd3ab257e77d1f35e1a0e912e738b13f04e7597d47cb59', 26, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-10 21:13:45', '2024-05-10 21:13:45', '2025-05-11 02:43:45'),
+	('253753c00f92df0f6ef4af4d424c55bed61bfea7bb04f78d0952cecdac43b5c10b7407be2a49750b', 26, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-10 20:32:10', '2024-05-10 20:32:10', '2025-05-11 02:02:10'),
+	('2b0dad1e0b67faa210a92c674fbb7f66a05256dbfc256d353312837cf160e1b0845db5bf308d871e', 26, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-10 20:36:59', '2024-05-10 20:36:59', '2025-05-11 02:06:59'),
+	('3ddd41531a438b1e4aa16a98ae21b89fcc913cf5d23cf2b77c0fe9c33373383bd070012c9dfe9c5b', 26, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-10 20:37:48', '2024-05-10 20:37:48', '2025-05-11 02:07:48'),
 	('4d34ea2a1d79b087ba5718b865199ef398af9e0380fb5e0361bab8c17998ac44f4c2cdbc9f19b1e5', 25, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-06 00:51:28', '2024-05-06 00:51:28', '2025-05-06 06:21:28'),
+	('502c420379b243f1e8f57b1f39dcbf03c722beeb3509415d9d24cbe462040e8fe0eebab953b6c089', 26, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-10 20:34:03', '2024-05-10 20:34:03', '2025-05-11 02:04:03'),
+	('607a68605ee9b7772316a6b46a19d8a0bdd18048c9a5a72703bedc7b3f3e5eedc149e6fc98e4c0d8', 26, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-10 20:45:23', '2024-05-10 20:45:23', '2025-05-11 02:15:23'),
+	('6241e6b462c696a147559e8975f19cfb6ea49ef177b9d59a558f2b9a15b2bff29a3c6db017049437', 26, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-10 20:36:06', '2024-05-10 20:36:06', '2025-05-11 02:06:06'),
+	('624392519ee4032b2c216c993f11cfd26dde258b37d64ff9f8081fa2a1ab53231a9b94f9ba86a446', 26, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-10 20:43:28', '2024-05-10 20:43:28', '2025-05-11 02:13:28'),
+	('6eab738f5371f0094fbce27228bd6289285bdfa51bfe35c590b175ff5739312629c741e0fac1e8db', 26, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-10 21:14:28', '2024-05-10 21:14:28', '2025-05-11 02:44:28'),
+	('6fb40da8759d81aad1de12db7379fc4d251c8788b85c26ddad6d157c23b3ea954c9f629aa4c6c941', 26, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-10 20:42:39', '2024-05-10 20:42:39', '2025-05-11 02:12:39'),
+	('75016fe79d273ee59de181c67771ab970c132a723349d35a7610f0430b03b770a56163d9c3862a90', 26, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-10 21:16:24', '2024-05-10 21:16:24', '2025-05-11 02:46:24'),
 	('762fd2fe0fce720b1cdc15d2cdd0b86bb25ce27f8d3eb4c8652529840625bb715cfc935eb22e70ed', 24, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-05 22:36:21', '2024-05-05 22:36:21', '2025-05-06 04:06:21'),
+	('7e8108b2256addb1393e019592c1eb268bf5879db0910213857e07387caea9b49e8b4f854d8c0cca', 26, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-10 20:23:51', '2024-05-10 20:23:51', '2025-05-11 01:53:51'),
 	('88d8dc679b2b002c9d500cd3f6647277b5fdb6a98710a8b90e6f52fd91b87504068e8b8d0f86a481', 25, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-06 02:24:57', '2024-05-06 02:24:57', '2025-05-06 07:54:57'),
-	('b8579a28b56ac5a6a8b377a75e50fdcc451281e402b5487e4a1d9c281ab04158ddd73d6b0ecbbccb', 24, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-05 23:34:58', '2024-05-05 23:34:58', '2025-05-06 05:04:58');
+	('b8579a28b56ac5a6a8b377a75e50fdcc451281e402b5487e4a1d9c281ab04158ddd73d6b0ecbbccb', 24, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-05 23:34:58', '2024-05-05 23:34:58', '2025-05-06 05:04:58'),
+	('cf2071271dbc9211f09d2b2259a5c90374dca2f5e3370b34156534972326c98fccb98adfe1099dd1', 26, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-10 21:12:06', '2024-05-10 21:12:06', '2025-05-11 02:42:06'),
+	('d285c84c52237a6dc24ce971637f720284fec4d3a545657d7101f52787b7e793b631f59b324fd985', 26, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-10 20:20:38', '2024-05-10 20:20:39', '2025-05-11 01:50:38'),
+	('d79570ed4cef8fc6c46451699084ee2084fa74f53b230027049583b2308382281346404730aec7ac', 26, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-10 20:33:55', '2024-05-10 20:33:55', '2025-05-11 02:03:55'),
+	('e1c83a702d7203bdd20179221723b4c508006d5076565e767f96d8e76d6da5010be33f654231f6e4', 24, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-08 18:54:03', '2024-05-08 18:54:03', '2025-05-09 00:24:03'),
+	('e3886611dd1722454e9ff7d45707bfa56f73a6123e9198ddce882bc3c27e4e86a110e4e31a913277', 26, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-10 20:34:21', '2024-05-10 20:34:21', '2025-05-11 02:04:21'),
+	('f06de702ae06a2d71ab6a41de19cfc6c91d2c72c56f017ed31754d1fa1112c966d77036b484770e9', 26, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-10 20:20:56', '2024-05-10 20:20:56', '2025-05-11 01:50:56'),
+	('f32467cde78a08136baae42ff7915ac40ac30b68558eec31f1eb4be4773e4a838e3d1ce33ebb9503', 26, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-10 20:39:35', '2024-05-10 20:39:35', '2025-05-11 02:09:35');
 
 -- Dumping structure for table test.oauth_auth_codes
 CREATE TABLE IF NOT EXISTS `oauth_auth_codes` (
@@ -1843,9 +1871,18 @@ CREATE TABLE IF NOT EXISTS `orders` (
   KEY `zone_id` (`zone_id`),
   KEY `orders_module_id_foreign` (`module_id`),
   CONSTRAINT `orders_module_id_foreign` FOREIGN KEY (`module_id`) REFERENCES `modules` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=100009 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.orders: ~0 rows (approximately)
+-- Dumping data for table test.orders: ~8 rows (approximately)
+INSERT INTO `orders` (`id`, `user_id`, `order_amount`, `coupon_discount_amount`, `coupon_discount_title`, `payment_status`, `order_status`, `total_tax_amount`, `payment_method`, `transaction_reference`, `delivery_address_id`, `delivery_man_id`, `coupon_code`, `order_note`, `order_type`, `checked`, `store_id`, `created_at`, `updated_at`, `delivery_charge`, `schedule_at`, `callback`, `otp`, `pending`, `accepted`, `confirmed`, `processing`, `handover`, `picked_up`, `delivered`, `canceled`, `refund_requested`, `refunded`, `delivery_address`, `scheduled`, `store_discount_amount`, `original_delivery_charge`, `failed`, `adjusment`, `edited`, `delivery_time`, `zone_id`, `module_id`, `order_attachment`, `parcel_category_id`, `receiver_details`, `charge_payer`, `distance`, `dm_tips`, `free_delivery_by`, `refund_request_canceled`, `prescription_order`, `tax_status`, `dm_vehicle_id`, `cancellation_reason`, `canceled_by`, `coupon_created_by`, `discount_on_product_by`, `processing_time`, `unavailable_item_note`, `cutlery`, `delivery_instruction`, `tax_percentage`, `additional_charge`, `order_proof`, `partially_paid_amount`, `is_guest`, `flash_admin_discount_amount`, `flash_store_discount_amount`) VALUES
+	(100001, 26, 300.00, 0.00, '', 'unpaid', 'pending', 0.00, 'cash_on_delivery', NULL, NULL, NULL, NULL, NULL, 'delivery', 1, 2, '2024-05-10 22:40:39', '2024-05-10 22:47:01', 300.00, '2024-05-10 22:40:39', NULL, '8226', '2024-05-10 22:40:39', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{"contact_person_name":"Alice","contact_person_number":"123-456-7890","contact_person_email":"akhil@example.com","address_type":"Delivery","address":"123 Main St","floor":"","road":"","house":"","longitude":"76.9917","latitude":"11.0053"}', 0, 0.00, 300.00, NULL, 0.00, 0, NULL, 2, 1, NULL, 1, NULL, 'sender', 5.600, 0.00, NULL, NULL, 0, 'excluded', 1, NULL, NULL, NULL, 'vendor', NULL, NULL, 0, NULL, 12.000, 0.000, NULL, 0.000, 0, 0.000, 0.000),
+	(100002, 26, 300.00, 0.00, '', 'unpaid', 'pending', 0.00, 'cash_on_delivery', NULL, NULL, NULL, NULL, NULL, 'delivery', 1, 2, '2024-05-10 22:50:10', '2024-05-10 22:50:47', 300.00, '2024-05-10 22:50:10', NULL, '2645', '2024-05-10 22:50:10', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{"contact_person_name":"Alice","contact_person_number":"123-456-7890","contact_person_email":"akhil@example.com","address_type":"Delivery","address":"123 Main St","floor":"","road":"","house":"","longitude":"76.9917","latitude":"11.0053"}', 0, 0.00, 300.00, NULL, 0.00, 0, NULL, 2, 1, NULL, 1, NULL, 'sender', 5.600, 0.00, NULL, NULL, 0, 'excluded', 1, NULL, NULL, NULL, 'vendor', NULL, NULL, 0, NULL, 12.000, 0.000, NULL, 0.000, 0, 0.000, 0.000),
+	(100003, 26, 300.00, 0.00, '', 'unpaid', 'pending', 0.00, 'cash_on_delivery', NULL, NULL, NULL, NULL, NULL, 'delivery', 0, 2, '2024-05-10 22:55:05', '2024-05-10 22:55:05', 300.00, '2024-05-10 22:55:05', NULL, '3786', '2024-05-10 22:55:05', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{"contact_person_name":"Alice","contact_person_number":"123-456-7890","contact_person_email":"akhil@example.com","address_type":"Delivery","address":"123 Main St","floor":"","road":"","house":"","longitude":"76.9917","latitude":"11.0053"}', 0, 0.00, 300.00, NULL, 0.00, 0, NULL, 2, 1, NULL, 1, NULL, 'sender', 5.600, 0.00, NULL, NULL, 0, 'excluded', 1, NULL, NULL, NULL, 'vendor', NULL, NULL, 0, NULL, 12.000, 0.000, NULL, 0.000, 0, 0.000, 0.000),
+	(100004, 26, 300.00, 0.00, '', 'unpaid', 'pending', 0.00, 'cash_on_delivery', NULL, NULL, NULL, NULL, NULL, 'delivery', 0, 2, '2024-05-10 22:55:42', '2024-05-10 22:55:42', 300.00, '2024-05-10 22:55:42', NULL, '7726', '2024-05-10 22:55:42', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{"contact_person_name":"Alice","contact_person_number":"123-456-7890","contact_person_email":"akhil@example.com","address_type":"Delivery","address":"123 Main St","floor":"","road":"","house":"","longitude":"76.9917","latitude":"11.0053"}', 0, 0.00, 300.00, NULL, 0.00, 0, NULL, 2, 1, NULL, 1, NULL, 'sender', 5.600, 0.00, NULL, NULL, 0, 'excluded', 1, NULL, NULL, NULL, 'vendor', NULL, NULL, 0, NULL, 12.000, 0.000, NULL, 0.000, 0, 0.000, 0.000),
+	(100005, 26, 300.00, 0.00, '', 'unpaid', 'pending', 0.00, 'cash_on_delivery', NULL, NULL, NULL, NULL, NULL, 'delivery', 0, 2, '2024-05-10 22:59:38', '2024-05-10 22:59:38', 300.00, '2024-05-10 22:59:38', NULL, '1084', '2024-05-10 22:59:38', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{"contact_person_name":"Alice","contact_person_number":"123-456-7890","contact_person_email":"akhil@example.com","address_type":"Delivery","address":"123 Main St","floor":"","road":"","house":"","longitude":"76.9917","latitude":"11.0053"}', 0, 0.00, 300.00, NULL, 0.00, 0, NULL, 2, 1, NULL, 1, NULL, 'sender', 5.600, 0.00, NULL, NULL, 0, 'excluded', 1, NULL, NULL, NULL, 'vendor', NULL, NULL, 0, NULL, 12.000, 0.000, NULL, 0.000, 0, 0.000, 0.000),
+	(100006, 26, 300.00, 0.00, '', 'unpaid', 'pending', 0.00, 'cash_on_delivery', NULL, NULL, NULL, NULL, NULL, 'delivery', 0, 2, '2024-05-10 23:03:47', '2024-05-10 23:03:47', 300.00, '2024-05-10 23:03:47', NULL, '5416', '2024-05-10 23:03:47', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{"contact_person_name":"Alice","contact_person_number":"123-456-7890","contact_person_email":"akhil@example.com","address_type":"Delivery","address":"123 Main St","floor":"","road":"","house":"","longitude":"76.9917","latitude":"11.0053"}', 0, 0.00, 300.00, NULL, 0.00, 0, NULL, 2, 1, NULL, 1, NULL, 'sender', 5.600, 0.00, NULL, NULL, 0, 'excluded', 1, NULL, NULL, NULL, 'vendor', NULL, NULL, 0, NULL, 12.000, 0.000, NULL, 0.000, 0, 0.000, 0.000),
+	(100007, 26, 300.00, 0.00, '', 'unpaid', 'pending', 0.00, 'cash_on_delivery', NULL, NULL, NULL, NULL, NULL, 'delivery', 0, 2, '2024-05-10 23:04:31', '2024-05-10 23:04:31', 300.00, '2024-05-10 23:04:31', NULL, '2672', '2024-05-10 23:04:31', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{"contact_person_name":"Alice","contact_person_number":"123-456-7890","contact_person_email":"akhil@example.com","address_type":"Delivery","address":"123 Main St","floor":"","road":"","house":"","longitude":"76.9917","latitude":"11.0053"}', 0, 0.00, 300.00, NULL, 0.00, 0, NULL, 2, 1, NULL, 1, NULL, 'sender', 5.600, 0.00, NULL, NULL, 0, 'excluded', 1, NULL, NULL, NULL, 'vendor', NULL, NULL, 0, NULL, 12.000, 0.000, NULL, 0.000, 0, 0.000, 0.000),
+	(100008, 26, 300.00, 0.00, '', 'unpaid', 'pending', 0.00, 'cash_on_delivery', NULL, NULL, NULL, NULL, NULL, 'delivery', 0, 2, '2024-05-10 23:05:09', '2024-05-10 23:05:09', 300.00, '2024-05-10 23:05:09', NULL, '8392', '2024-05-10 23:05:09', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{"contact_person_name":"Alice","contact_person_number":"123-456-7890","contact_person_email":"akhil@example.com","address_type":"Delivery","address":"123 Main St","floor":"","road":"","house":"","longitude":"76.9917","latitude":"11.0053"}', 0, 0.00, 300.00, NULL, 0.00, 0, NULL, 2, 1, NULL, 1, NULL, 'sender', 5.600, 0.00, NULL, NULL, 0, 'excluded', 1, NULL, NULL, NULL, 'vendor', NULL, NULL, 0, NULL, 12.000, 0.000, NULL, 0.000, 0, 0.000, 0.000);
 
 -- Dumping structure for table test.order_cancel_reasons
 CREATE TABLE IF NOT EXISTS `order_cancel_reasons` (
@@ -1894,10 +1931,14 @@ CREATE TABLE IF NOT EXISTS `order_details` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `item_campaign_id` bigint unsigned DEFAULT NULL,
   `total_add_on_price` decimal(24,2) NOT NULL DEFAULT '0.00',
+  `start_date` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `end_date` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.order_details: ~0 rows (approximately)
+-- Dumping data for table test.order_details: ~1 rows (approximately)
+INSERT INTO `order_details` (`id`, `item_id`, `order_id`, `price`, `item_details`, `variation`, `add_ons`, `discount_on_item`, `discount_type`, `quantity`, `tax_amount`, `variant`, `created_at`, `updated_at`, `item_campaign_id`, `total_add_on_price`, `start_date`, `end_date`) VALUES
+	(77, 19, 90, 500.00, NULL, NULL, NULL, NULL, 'amount', 1, 1.00, NULL, '2024-05-16 01:15:04', '2024-05-16 01:15:04', NULL, 0.00, '2023-01-01', '2023-12-31');
 
 -- Dumping structure for table test.order_payments
 CREATE TABLE IF NOT EXISTS `order_payments` (
@@ -1923,9 +1964,18 @@ CREATE TABLE IF NOT EXISTS `order_references` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.order_references: ~0 rows (approximately)
+-- Dumping data for table test.order_references: ~7 rows (approximately)
+INSERT INTO `order_references` (`id`, `order_id`, `is_reviewed`, `is_review_canceled`, `created_at`, `updated_at`) VALUES
+	(1, 100001, 0, 0, '2024-05-10 22:40:39', '2024-05-10 22:40:39'),
+	(2, 100002, 0, 0, '2024-05-10 22:50:10', '2024-05-10 22:50:10'),
+	(3, 100003, 0, 0, '2024-05-10 22:55:05', '2024-05-10 22:55:05'),
+	(4, 100004, 0, 0, '2024-05-10 22:55:42', '2024-05-10 22:55:42'),
+	(5, 100005, 0, 0, '2024-05-10 22:59:38', '2024-05-10 22:59:38'),
+	(6, 100006, 0, 0, '2024-05-10 23:03:47', '2024-05-10 23:03:47'),
+	(7, 100007, 0, 0, '2024-05-10 23:04:31', '2024-05-10 23:04:31'),
+	(8, 100008, 0, 0, '2024-05-10 23:05:09', '2024-05-10 23:05:09');
 
 -- Dumping structure for table test.order_transactions
 CREATE TABLE IF NOT EXISTS `order_transactions` (
@@ -2061,13 +2111,14 @@ CREATE TABLE IF NOT EXISTS `phone_verifications` (
   `temp_block_time` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `phone_verifications_phone_unique` (`phone`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.phone_verifications: ~3 rows (approximately)
+-- Dumping data for table test.phone_verifications: ~4 rows (approximately)
 INSERT INTO `phone_verifications` (`id`, `phone`, `token`, `created_at`, `updated_at`, `otp_hit_count`, `is_blocked`, `is_temp_blocked`, `temp_block_time`) VALUES
 	(4, '9655800621', '7110', '2024-05-04 02:20:14', '2024-05-04 02:20:14', 0, 0, 0, NULL),
-	(6, '9655804621', '8816', '2024-05-05 23:34:40', '2024-05-05 23:34:40', 0, 0, 0, NULL),
-	(8, '9597755160', '8203', '2024-05-06 02:24:34', '2024-05-06 02:24:34', 0, 0, 0, NULL);
+	(6, '9655804621', '5259', '2024-05-08 18:53:26', '2024-05-08 18:53:26', 0, 0, 0, NULL),
+	(8, '9597755160', '8203', '2024-05-06 02:24:34', '2024-05-06 02:24:34', 0, 0, 0, NULL),
+	(9, '9655804620', '9055', '2024-05-10 20:20:39', '2024-05-10 20:20:39', 0, 0, 0, NULL);
 
 -- Dumping structure for table test.provide_d_m_earnings
 CREATE TABLE IF NOT EXISTS `provide_d_m_earnings` (
@@ -2097,7 +2148,7 @@ CREATE TABLE IF NOT EXISTS `react_testimonials` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.react_testimonials: ~1 rows (approximately)
+-- Dumping data for table test.react_testimonials: ~0 rows (approximately)
 INSERT INTO `react_testimonials` (`id`, `name`, `designation`, `review`, `reviewer_image`, `company_image`, `status`, `created_at`, `updated_at`) VALUES
 	(1, 'John Doe', 'CTO', 'Very good Service.', '2023-08-16-64dcad86217a2.png', 'def.png', 1, '2023-08-16 00:05:42', '2023-08-16 00:05:42');
 
@@ -2234,12 +2285,15 @@ CREATE TABLE IF NOT EXISTS `stores` (
   UNIQUE KEY `restaurants_phone_unique` (`phone`),
   KEY `stores_module_id_foreign` (`module_id`),
   CONSTRAINT `stores_module_id_foreign` FOREIGN KEY (`module_id`) REFERENCES `modules` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.stores: ~2 rows (approximately)
+-- Dumping data for table test.stores: ~5 rows (approximately)
 INSERT INTO `stores` (`id`, `name`, `phone`, `email`, `logo`, `latitude`, `longitude`, `address`, `footer_text`, `minimum_order`, `comission`, `schedule_order`, `status`, `vendor_id`, `created_at`, `updated_at`, `free_delivery`, `rating`, `cover_photo`, `delivery`, `take_away`, `item_section`, `tax`, `zone_id`, `reviews_section`, `active`, `off_day`, `gst`, `self_delivery_system`, `pos_system`, `minimum_shipping_charge`, `delivery_time`, `veg`, `non_veg`, `order_count`, `total_order`, `module_id`, `order_place_to_schedule_interval`, `featured`, `per_km_shipping_charge`, `prescription_order`, `slug`, `maximum_shipping_charge`, `cutlery`, `meta_title`, `meta_description`, `meta_image`, `announcement`, `announcement_message`) VALUES
 	(1, 'Demo Store', '+101511111111', 'demo.store@gmail.com', '2023-08-16-64dca8ad238c4.png', '23.81695886557418', '90.36934144046135', 'House, road', NULL, 0.00, NULL, 0, 1, 1, '2023-08-15 23:45:01', '2023-08-15 23:45:19', 0, NULL, '2023-08-16-64dca8ad263f6.png', 1, 1, 1, 5.00, 1, 1, 1, ' ', NULL, 0, 0, 0.00, '30-40 min', 1, 1, 0, 0, 1, 0, 1, 0.000, 0, 'demo-store', NULL, 0, NULL, NULL, NULL, 0, NULL),
-	(2, 'Mekala', '+918989787878', 'mekala@gmail.com', '2024-05-02-66332617be7fe.png', '11.007064012118711', '76.99151128898258', 'sadsad', NULL, 0.00, NULL, 0, 1, 2, '2024-05-01 19:05:19', '2024-05-01 19:05:19', 0, NULL, '2024-05-02-66332617c18d0.png', 1, 1, 1, 12.00, 2, 1, 1, ' ', NULL, 0, 0, 0.00, '20-40 min', 1, 1, 0, 0, 1, 0, 0, 0.000, 0, 'mekala', NULL, 0, NULL, NULL, NULL, 0, NULL);
+	(2, 'Mekala', '+918989787878', 'mekala@gmail.com', '2024-05-02-66332617be7fe.png', '11.007064012118711', '76.99151128898258', 'sadsad', NULL, 0.00, NULL, 0, 1, 2, '2024-05-01 19:05:19', '2024-05-10 23:05:09', 0, NULL, '2024-05-02-66332617c18d0.png', 1, 1, 1, 12.00, 2, 1, 1, ' ', NULL, 0, 0, 0.00, '20-40 min', 1, 1, 0, 8, 1, 0, 0, 0.000, 0, 'mekala', NULL, 0, NULL, NULL, NULL, 0, NULL),
+	(3, 'Kiruthika', '+919384955593', 'kiruthika@gmail.com', '2024-05-08-663b291a9d99e.png', '11.00437789209159', '76.99087068631663', 'puliyakulam, coimbatore', NULL, 0.00, NULL, 0, 1, 3, '2024-05-07 20:56:18', '2024-05-07 20:56:18', 0, NULL, '2024-05-08-663b291aa788e.png', 1, 1, 1, 20.00, 2, 1, 1, ' ', NULL, 0, 0, 0.00, '30-40 min', 1, 1, 0, 0, 1, 0, 0, 0.000, 0, 'kiruthika', NULL, 0, NULL, NULL, NULL, 0, NULL),
+	(4, 'John', '1234567890', 'johndoe@example.com', 'def.png', '11.0053', '76.9917', 'John', NULL, 0.00, NULL, 0, 0, 4, '2024-05-09 21:22:32', '2024-05-09 21:22:32', 0, NULL, 'def.png', 1, 1, 1, 10.50, 1, 1, 1, ' ', NULL, 0, 0, 0.00, '30-60 hours', 1, 1, 0, 0, 1, 0, 0, 0.000, 0, 'john', NULL, 0, NULL, NULL, NULL, 0, NULL),
+	(5, 'John', '1230567890', 'johndsoe@example.com', 'def.png', '11.0053', '76.9917', 'John', NULL, 0.00, NULL, 0, 0, 5, '2024-05-09 21:23:04', '2024-05-09 21:23:04', 0, NULL, 'def.png', 1, 1, 1, 10.50, 1, 1, 1, ' ', NULL, 0, 0, 0.00, '30-60 hours', 1, 1, 0, 0, 1, 0, 0, 0.000, 0, 'john-2', NULL, 0, NULL, NULL, NULL, 0, NULL);
 
 -- Dumping structure for table test.store_configs
 CREATE TABLE IF NOT EXISTS `store_configs` (
@@ -2279,9 +2333,12 @@ CREATE TABLE IF NOT EXISTS `store_wallets` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table test.store_wallets: ~0 rows (approximately)
+INSERT INTO `store_wallets` (`id`, `vendor_id`, `total_earning`, `total_withdrawn`, `pending_withdraw`, `collected_cash`, `created_at`, `updated_at`) VALUES
+	(1, 2, 0.00, 0.00, 0.00, 0.00, '2024-05-07 17:30:34', '2024-05-07 17:30:34'),
+	(2, 3, 0.00, 0.00, 0.00, 0.00, '2024-05-07 21:52:30', '2024-05-07 21:52:30');
 
 -- Dumping structure for table test.tags
 CREATE TABLE IF NOT EXISTS `tags` (
@@ -2369,9 +2426,9 @@ CREATE TABLE IF NOT EXISTS `translations` (
   PRIMARY KEY (`id`),
   KEY `translations_translationable_id_index` (`translationable_id`),
   KEY `translations_locale_index` (`locale`)
-) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.translations: ~49 rows (approximately)
+-- Dumping data for table test.translations: ~50 rows (approximately)
 INSERT INTO `translations` (`id`, `translationable_type`, `translationable_id`, `locale`, `key`, `value`, `created_at`, `updated_at`) VALUES
 	(1, 'App\\Models\\Module', 1, 'en', 'module_name', 'onnwheels', NULL, NULL),
 	(2, 'App\\Models\\Module', 1, 'en', 'description', '<p>Demo module description.</p>', NULL, NULL),
@@ -2421,7 +2478,11 @@ INSERT INTO `translations` (`id`, `translationable_type`, `translationable_id`, 
 	(53, 'App\\Models\\Item', 7, 'en', 'name', '2023 Ducati', NULL, NULL),
 	(54, 'App\\Models\\Item', 7, 'en', 'description', 'wertghj', NULL, NULL),
 	(55, 'App\\Models\\Category', 9, 'en', 'name', 'Honda', NULL, NULL),
-	(56, 'App\\Models\\Category', 10, 'en', 'name', 'Hero', NULL, NULL);
+	(56, 'App\\Models\\Category', 10, 'en', 'name', 'Hero', NULL, NULL),
+	(57, 'App\\Models\\Store', 3, 'en', 'name', 'Kiruthika', NULL, NULL),
+	(58, 'App\\Models\\Store', 3, 'en', 'address', 'puliyakulam, coimbatore', NULL, NULL),
+	(59, 'App\\Models\\DMVehicle', 1, 'en', 'type', 'Bike', NULL, NULL),
+	(60, 'App\\Models\\Zone', 3, 'en', 'name', 'singanallur', NULL, NULL);
 
 -- Dumping structure for table test.units
 CREATE TABLE IF NOT EXISTS `units` (
@@ -2433,6 +2494,24 @@ CREATE TABLE IF NOT EXISTS `units` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table test.units: ~0 rows (approximately)
+
+-- Dumping structure for table test.userkycs
+CREATE TABLE IF NOT EXISTS `userkycs` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint unsigned NOT NULL,
+  `aadhar` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `pan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `license_front` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `license_back` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_verified` tinyint(1) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `userkycs_user_id_foreign` (`user_id`),
+  CONSTRAINT `userkycs_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table test.userkycs: ~0 rows (approximately)
 
 -- Dumping structure for table test.users
 CREATE TABLE IF NOT EXISTS `users` (
@@ -2467,12 +2546,14 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `users_phone_unique` (`phone`),
   UNIQUE KEY `users_ref_code_unique` (`ref_code`),
   KEY `users_zone_id_index` (`zone_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.users: ~2 rows (approximately)
+-- Dumping data for table test.users: ~4 rows (approximately)
 INSERT INTO `users` (`id`, `f_name`, `l_name`, `phone`, `email`, `image`, `is_phone_verified`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `interest`, `cm_firebase_token`, `status`, `order_count`, `login_medium`, `social_id`, `zone_id`, `wallet_balance`, `loyalty_point`, `ref_code`, `current_language_key`, `ref_by`, `temp_token`, `latitude`, `longitude`) VALUES
 	(24, 'John', 'Doe', '9655804621', '3mo8rts@example.com', NULL, 1, NULL, '$2y$10$YVJ4d0zGDhhruMHt5tvIB.1N9ht7J45TgRRjDo6gemEOq5vPQ2SZa', NULL, '2024-05-05 22:16:19', '2024-05-06 00:19:35', NULL, NULL, 1, 0, NULL, NULL, NULL, 0.000, 0.000, 'KPZNDPJKUG', 'en', NULL, NULL, 11.0027796, 76.9936588),
-	(25, 'John', 'Doe', '9597755160', 'jana@example.com', NULL, 1, NULL, '$2y$10$R2unxKgJ02Ef1UxCJ5WVieuCR3es1TDhAOoFmHU12ZPYsr4rPUDk2', NULL, '2024-05-06 00:50:02', '2024-05-06 00:50:35', NULL, NULL, 1, 0, NULL, NULL, NULL, 0.000, 0.000, 'PEVB9OOB55', 'en', NULL, NULL, NULL, NULL);
+	(25, 'John', 'Doe', '9597755160', 'jana@example.com', NULL, 1, NULL, '$2y$10$R2unxKgJ02Ef1UxCJ5WVieuCR3es1TDhAOoFmHU12ZPYsr4rPUDk2', NULL, '2024-05-06 00:50:02', '2024-05-06 00:50:35', NULL, NULL, 1, 0, NULL, NULL, NULL, 0.000, 0.000, 'PEVB9OOB55', 'en', NULL, NULL, NULL, NULL),
+	(26, 'akhil', NULL, '9655804620', 'akhil@example.com', NULL, 0, NULL, '$2y$10$Xghhj/SkTqdsAXxlcW1UeunruMCJ3bjWo4K9ZTGBv6A.xhw3L8V9y', NULL, '2024-05-10 20:20:37', '2024-05-10 22:40:39', NULL, NULL, 1, 0, NULL, NULL, 2, 0.000, 0.000, '1VOKB7JCEY', 'en', NULL, NULL, 11.0027796, 76.9936588),
+	(27, 'Keerthi', NULL, '9384955593', 'kiruthika4301@gmail.com', NULL, 1, NULL, '$2y$10$5uJSaGvTObokZuh4BZASj.C33Z3IFZyT26gOpSXnzlvmxgBK2gEkq', NULL, '2024-05-15 19:34:32', '2024-05-15 19:34:47', NULL, NULL, 1, 0, NULL, NULL, NULL, 0.000, 0.000, 'BV2OITVIFU', 'en', NULL, NULL, NULL, NULL);
 
 -- Dumping structure for table test.user_infos
 CREATE TABLE IF NOT EXISTS `user_infos` (
@@ -2531,12 +2612,15 @@ CREATE TABLE IF NOT EXISTS `vendors` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `vendors_phone_unique` (`phone`),
   UNIQUE KEY `vendors_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.vendors: ~2 rows (approximately)
+-- Dumping data for table test.vendors: ~5 rows (approximately)
 INSERT INTO `vendors` (`id`, `f_name`, `l_name`, `phone`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `bank_name`, `branch`, `holder_name`, `account_no`, `image`, `status`, `firebase_token`, `auth_token`) VALUES
 	(1, 'Demo', 'Store', '+101511111111', 'demo.store@gmail.com', NULL, '$2y$10$Rtm/6/dNJwwRZcfUAjCNdezs3xCwTN1oTW/2mqrRBZkGqHHZAqcuW', NULL, '2023-08-15 23:45:01', '2023-08-15 23:45:01', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL),
-	(2, 'mekala', 'nagaraj', '+918989787878', 'mekala@gmail.com', NULL, '$2y$10$hqmNDsBj4mGsmYtC6/t.pu7TCpmqU9kRMAP/SPhRspEYBM/1jJn2K', NULL, '2024-05-01 19:05:19', '2024-05-01 19:05:19', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL);
+	(2, 'mekala', 'nagaraj', '+918989787878', 'mekala@gmail.com', NULL, '$2y$10$hqmNDsBj4mGsmYtC6/t.pu7TCpmqU9kRMAP/SPhRspEYBM/1jJn2K', NULL, '2024-05-01 19:05:19', '2024-05-01 19:05:19', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL),
+	(3, 'kiruthika', 'kiruthika', '+919384955593', 'kiruthika@gmail.com', NULL, '$2y$10$O0cmE0DW2a4fsYiv2n1Dsu55gETBFLsPiy3ACcMgmeWPEGvtNlsJy', NULL, '2024-05-07 20:56:18', '2024-05-07 20:56:18', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL),
+	(4, 'John', 'Doe', '1234567890', 'johndoe@example.com', NULL, '$2y$10$N87i9o0pr1hfCPyhYGrFuOSn9cy1OxenMByBYQbY1ZzD/prwEJJdS', NULL, '2024-05-09 21:22:32', '2024-05-09 21:22:32', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(5, 'John', 'Doe', '1230567890', 'johndsoe@example.com', NULL, '$2y$10$jaPxvkNcv.fGBnOvH2VUAek8qNGhsCPu9pcGtBgXZLekmvL.CQHle', NULL, '2024-05-09 21:23:04', '2024-05-09 21:23:04', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- Dumping structure for table test.vendor_employees
 CREATE TABLE IF NOT EXISTS `vendor_employees` (
@@ -2694,12 +2778,13 @@ CREATE TABLE IF NOT EXISTS `zones` (
   `offline_payment` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `zones_name_unique` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table test.zones: ~2 rows (approximately)
 INSERT INTO `zones` (`id`, `name`, `coordinates`, `status`, `created_at`, `updated_at`, `store_wise_topic`, `customer_wise_topic`, `deliveryman_wise_topic`, `cash_on_delivery`, `digital_payment`, `increased_delivery_fee`, `increased_delivery_fee_status`, `increase_delivery_charge_message`, `offline_payment`) VALUES
 	(1, 'Coimbatore', _binary 0x0000000001030000000100000006000000b707c0da03385340418596aff63c2640c007c05a0f34534088953835a5f82540ec07c0da704353408631af7d70b82540d207c05ac24453401a08364af1142640c007c05a4f3f5340427ddf31343a2640b707c0da03385340418596aff63c2640, 1, '2023-08-15 23:35:04', '2024-05-07 01:33:20', 'zone_1_store', 'zone_1_customer', 'zone_1_delivery_man', 0, 0, 0.00, 0, NULL, 0),
-	(2, 'Puliyakulam', _binary 0x0000000001030000000100000008000000dffade555e3f5340b79ee0732704264008fbde05453f5340b80ead8dc0022640d9fadef1493f5340ca6a966d20022640e8fade4d843f53401f1d07f4a6012640f9fade21a13f53408da1716396012640cdfadea1b73f53406d6bbea3d6022640cafade49973f53407b836b5185042640dffade555e3f5340b79ee07327042640, 1, '2024-05-01 19:02:38', '2024-05-01 19:02:38', 'zone_2_store', 'zone_2_customer', 'zone_2_delivery_man', 0, 0, 0.00, 0, NULL, 0);
+	(2, 'Puliyakulam', _binary 0x0000000001030000000100000008000000dffade555e3f5340b79ee0732704264008fbde05453f5340b80ead8dc0022640d9fadef1493f5340ca6a966d20022640e8fade4d843f53401f1d07f4a6012640f9fade21a13f53408da1716396012640cdfadea1b73f53406d6bbea3d6022640cafade49973f53407b836b5185042640dffade555e3f5340b79ee07327042640, 1, '2024-05-01 19:02:38', '2024-05-10 22:34:03', 'zone_2_store', 'zone_2_customer', 'zone_2_delivery_man', 0, 1, 0.00, 0, NULL, 0),
+	(3, 'singanallur', _binary 0x0000000001030000000100000008000000075b45b2d641534082fb174a77012640375b4502c341534086dfe92856012640415b45eaad415340df1fae618f002640485b458ab3415340842d5db0deff2540075b45b2d64153402c34f10939ff25400a5b459214425340dfb6818331002640395b45e200425340da18ca1240012640075b45b2d641534082fb174a77012640, 1, '2024-05-08 20:08:05', '2024-05-08 20:08:05', 'zone_3_store', 'zone_3_customer', 'zone_3_delivery_man', 0, 0, 0.00, 0, NULL, 0);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
