@@ -10,7 +10,6 @@ use Laravel\Passport\Database\Factories\ClientFactory;
 class Client extends Model
 {
     use HasFactory;
-    use ResolvesInheritedScopes;
 
     /**
      * The database table used by the model.
@@ -42,7 +41,6 @@ class Client extends Model
      */
     protected $casts = [
         'grant_types' => 'array',
-        'scopes' => 'array',
         'personal_access_client' => 'bool',
         'password_client' => 'bool',
         'revoked' => 'bool',
@@ -65,7 +63,7 @@ class Client extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            if (Passport::clientUuids()) {
+            if (config('passport.client_uuids')) {
                 $model->{$model->getKeyName()} = $model->{$model->getKeyName()} ?: (string) Str::orderedUuid();
             }
         });
@@ -103,37 +101,6 @@ class Client extends Model
     public function tokens()
     {
         return $this->hasMany(Passport::tokenModel(), 'client_id');
-    }
-
-    /**
-     * Get the grant types the client can use.
-     *
-     * @return array|null
-     */
-    public function getGrantTypesAttribute()
-    {
-        return $this->attributes['grant_types'] ?? null;
-    }
-
-    /**
-     * Get the scopes for the client.
-     *
-     * @return array|null
-     */
-    public function getScopesAttribute()
-    {
-        return $this->attributes['scopes'] ?? null;
-    }
-
-    /**
-     * Set the scopes for the client.
-     *
-     * @param  array|null  $scopes
-     * @return void
-     */
-    public function setScopesAttribute(?array $scopes)
-    {
-        $this->attributes['scopes'] = $scopes;
     }
 
     /**
@@ -184,31 +151,6 @@ class Client extends Model
      */
     public function skipsAuthorization()
     {
-        return false;
-    }
-
-    /**
-     * Determine whether the client has the given scope.
-     *
-     * @param  string  $scope
-     * @return bool
-     */
-    public function hasScope($scope)
-    {
-        if (! is_array($this->scopes)) {
-            return true;
-        }
-
-        $scopes = Passport::$withInheritedScopes
-            ? $this->resolveInheritedScopes($scope)
-            : [$scope];
-
-        foreach ($scopes as $scope) {
-            if (in_array($scope, $this->scopes)) {
-                return true;
-            }
-        }
-
         return false;
     }
 

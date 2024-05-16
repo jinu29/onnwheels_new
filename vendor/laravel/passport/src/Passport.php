@@ -22,13 +22,6 @@ class Passport
     public static $implicitGrantEnabled = false;
 
     /**
-     * Indicates if the password grant type is enabled.
-     *
-     * @var bool|null
-     */
-    public static $passwordGrantEnabled = true;
-
-    /**
      * The default scope.
      *
      * @var string

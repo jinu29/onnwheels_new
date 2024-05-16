@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('userkycs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained(); 
+            $table->foreignId('user_id')->constrained();
             $table->bigInteger('aadhar')->nullable();
             $table->string('pan')->nullable();
             $table->string('license_front')->nullable();

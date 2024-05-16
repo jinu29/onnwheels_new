@@ -10,6 +10,7 @@ use App\Library\Payer;
 use App\Traits\Payment;
 use App\Library\Receiver;
 use App\Library\Payment as PaymentInfo;
+use App\Services\RazorpayService;
 
 class PaymentController extends Controller
 {
@@ -17,6 +18,7 @@ class PaymentController extends Controller
         if (is_dir('App\Traits') && trait_exists('App\Traits\Payment')) {
             $this->extendWithPaymentGatewayTrait();
         }
+        $this->razorpay = $razorpay;
     }
 
     private function extendWithPaymentGatewayTrait()
@@ -153,6 +155,17 @@ class PaymentController extends Controller
             return redirect($order->callback . '&status=fail');
         }
         return response()->json(['message' => 'Payment failed'], 403);
+    }
+
+    public function createOrder(Request $request)
+    {
+        $amount = $request->input('amount');
+        $currency = $request->input('currency', 'INR');
+        $receipt = $request->input('receipt', uniqid());
+
+        $order = $this->razorpay->createOrder($amount, $currency, $receipt);
+
+        return response()->json($order);
     }
 
 }

@@ -538,7 +538,7 @@
         $('#datatableFilterSidebar, .hs-unfold-overlay').show(500);
     });
 
-    
+
     document.getElementById('filter-button-off').addEventListener('click', function() {
         $('#datatableFilterSidebar, .hs-unfold-overlay').hide(500);
     });
