@@ -398,6 +398,10 @@
             color: white;
         }
 
+        /* Address */
+        .address {
+            margin-top: 15px;
+        }
     </style>
 @endsection
 @section('content')
@@ -429,7 +433,8 @@
                             @foreach ($items->images as $item)
                                 <li data-thumb="{{ asset('storage/app/public/product') . '/' . $item ?? '', asset('public/assets/admin/img/160x160/img2.jpg'), 'product/' }}"
                                     style="width: 100%;">
-                                    <img src="{{ asset('storage/app/public/product') . '/' . $item ?? '', asset('public/assets/admin/img/160x160/img2.jpg'), 'product/' }}">
+                                    <img
+                                        src="{{ asset('storage/app/public/product') . '/' . $item ?? '', asset('public/assets/admin/img/160x160/img2.jpg'), 'product/' }}">
                                 </li>
                             @endforeach
                         </ul>
@@ -470,15 +475,18 @@
                     <div class="date-range">
                         <input type="text" id="demo" name="datefilter" value="" class="shadow" />
                     </div>
+
+                   
+
                     <div class="total-price">
                         <p class="mb-0">Total Price:</p>
                         <div class="price">
                             <i class="fa-solid fa-indian-rupee-sign"></i>
                             <p class="mb-0" id="totalPrice">{{ $defaultValue }}</p>
-                            <input type="hidden" id="totalPriceInput"  value="{{ $defaultValue }}" name="">
+                            <input type="hidden" id="totalPriceInput" value="{{ $defaultValue }}" name="">
                         </div>
                     </div>
-                    @if(auth()->check())
+                    @if (auth()->check())
                         <a href="{{ route('user.payment', $items->slug) }}">
                             <button type="submit" class="btn">Book Now</button>
                         </a>
@@ -510,7 +518,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('completeKycBtn').addEventListener('click', function() {
                 // Redirect to the user profile page for completing KYC
-                window.location.href = "{{ route('userprofile') }}";
+                window.location.href = "{{ route('profile') }}";
             });
         });
     </script>
@@ -599,7 +607,7 @@
             "showCustomRangeLabel": false,
             "startDate": moment().startOf('hour'), // Set initial start date to current time (hour precision)
             "endDate": moment().startOf('hour').add(1,
-            'hour'), // Set initial end date to one hour from current time
+                'hour'), // Set initial end date to one hour from current time
             "opens": "center"
         });
 
@@ -610,7 +618,11 @@
 
             // Calculate total price by multiplying hours with price per hour
             const totalPrice = hours * pricePerHour;
-            console.log("total",totalPrice)
+            console.log("total", totalPrice)
+
+            localStorage.setItem('startDate', startDate.format("YYYY-MM-DD HH:mm:ss"));
+            localStorage.setItem('endDate', endDate.format("YYYY-MM-DD HH:mm:ss"));
+            localStorage.setItem('totalPrice', totalPrice.toFixed(2));
 
             // Display the calculated total price on the page
             $('#totalPrice').text(totalPrice.toFixed(2)); // Display total price rounded to 2 decimal places
@@ -626,7 +638,9 @@
             // Retrieve the price per hour (convert $defaultValue to a numeric value)
             const pricePerHour = parseFloat("{{ $defaultValue }}");
 
-            console.log("DD",pricePerHour)
+
+
+            console.log("DD", pricePerHour)
 
             // Update the total price based on the selected date range and price per hour
             updateTotalPrice(startDate, endDate, pricePerHour);

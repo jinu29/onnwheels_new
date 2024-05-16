@@ -392,90 +392,178 @@
             border-radius: 8px;
             margin-top: 20px;
         }
+
+        .title h4 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .box p {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .box h5 {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .amt {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .payment {
+            padding: 8px 15px;
+            width: 100%;
+            background-color: #F89520;
+            color: black;
+            font-size: 15px;
+            font-weight: 600;
+            margin-top: 10px;
+            border: none;
+            outline: none;
+            border-radius: 8px;
+        }
     </style>
 @endsection
 @section('content')
-    <div class="container mt-5 mb-3">
+    <div class="container mb-3" style="margin-top:5rem;">
         <div class="row ">
-            <?php
-            // JSON string containing the key-value pair
-            $jsonString = $items['hours_price'];
+            <form action="{{ route('product_detail_store') }}" method="POST">
+                @csrf
+                <?php
+                // JSON string containing the key-value pair
+                $jsonString = $items['hours_price'];
 
-            // Decode the JSON string into an associative array
-            $hoursPriceArray = json_decode($jsonString, true);
+                // Decode the JSON string into an associative array
+                $hoursPriceArray = json_decode($jsonString, true);
 
-            // Initialize variables to store key and value
-            $defaultKey = '';
-            $defaultValue = '';
+                // Initialize variables to store key and value
+                $defaultKey = '';
+                $defaultValue = '';
 
-            // Check if decoding was successful and $hoursPriceArray is not empty
-            if ($hoursPriceArray && is_array($hoursPriceArray)) {
-                // Extract key and value from the associative array
-                $defaultKey = key($hoursPriceArray); // Get the key (e.g., "12")
-                $defaultValue = current($hoursPriceArray); // Get the value (e.g., "200")
-            }
-            ?>
-            <div class="col-lg-8 ">
-                <div class="row border mx-lg-2 rounded">
-                    <div class="col-lg-5">
-                        <img src="{{ asset('storage/app/public/product') . '/' . $items['image'] ?? '', asset('public/assets/admin/img/160x160/img2.jpg'), 'product/' }}" class="mt-5" width="100%">
-                    </div>
-                    <div class="col-lg-7">
-                        <h4 >{{ $items->name }}</h4>
-                        <input type="hidden" value="{{ $items->name }}" name="">
-                        <div class="date-range" style="width: 100%;">
-                            <input type="text" id="demo" name="datefilter" value="" class="shadow" />
+                // Check if decoding was successful and $hoursPriceArray is not empty
+                if ($hoursPriceArray && is_array($hoursPriceArray)) {
+                    // Extract key and value from the associative array
+                    $defaultKey = key($hoursPriceArray); // Get the key (e.g., "12")
+                    $defaultValue = current($hoursPriceArray); // Get the value (e.g., "200")
+                }
+                ?>
+                {{-- <script src="https://checkout.razorpay.com/v1/checkout.js"
+                data-key="{{env('RAZORPAY_KEY')}}" data-amount="10 INR" data-b=""
+                ></script> --}}
+                <div class="col-lg-8 ">
+                    <div class="row border mx-lg-2 rounded d-flex align-items-center">
+                        <div class="col-lg-5 p-4">
+                            <img src="{{ asset('storage/app/public/product') . '/' . $items['image'] ?? '', asset('public/assets/admin/img/160x160/img2.jpg'), 'product/' }}"
+                                class="mt-5" width="100%">
                         </div>
-                        <div class="d-flex flex-column justify-content-between align-items-start">
-                            <h5 class="mt-4">Address :</h5>
-                            <div>
-                                @if (session('user_location'))
-                                    <div class="location ">
-                                        {{-- <i class="fa-solid fa-location-dot"></i> --}}
-                                        <span id="userLocation">{{ Str::limit(session('user_location')) }}</span>
+                        <div class="col-lg-7">
+                            {{-- <input type="text" name="userid"> --}}
+                            <h4>{{ $items->name }}</h4>
+                            <input type="hidden" value="{{ $items->name }}" name="item_details">
+                            <input type="hidden" value="{{ $items->id }}" id="itemIdInput" name="item_id">
+                            {{-- <div class="date-range" style="width: 100%;">
+                                <input type="text" id="demo" name="datefilter" value="" class="shadow" />
+                            </div> --}}
+                            <div class="date d-flex align-items-center justify-content-between">
+                                <p id="startdate" class="mb-0"></p>
+                                <input type="hidden" value="default_value" id="inputStartDate" name="start_date">
+                                <p class="mb-0">to</p>
+                                <p id="enddate" class="mb-0"></p>
+                                <input type="hidden" value="" id="inputEndDate" name="end_date">
+                            </div>
+                            <div class="d-flex flex-column justify-content-between align-items-start">
+                                <h5 class="mt-4">Address :</h5>
+                                <div>
+                                    @if (session('user_location'))
+                                        <div class="location ">
+                                            {{-- <i class="fa-solid fa-location-dot"></i> --}}
+                                            <span id="userLocation">{{ Str::limit(session('user_location')) }}</span>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <h4>Total</h3>
+                                    <div class="price">
+                                        <i class="fa-solid fa-indian-rupee-sign"></i>
+                                        <p class="mb-0" id="totalPriceDisplay"></p>
+                                        <input type="hidden" id="totalPriceInput" name="order_amount" readonly>
                                     </div>
-                                @endif
                             </div>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <h4>Total</h3>
-                            <div class="price">
-                                <i class="fa-solid fa-indian-rupee-sign"></i>
-                                <p class="mb-0" id="totalPrice">{{ $defaultValue }}</p>
-                                <input type="hidden" id="totalPriceInput"  value="{{ $defaultValue }}" name="">
-                            </div>
-                        </div>
-                        {{-- @if (session('user_location'))
-                            <div class="location mt-5">
-                                <i class="fa-solid fa-location-dot"></i>
-                                <span id="userLocation">{{ Str::limit(session('user_location'), 20) }}</span>
-                            </div>
-                        @endif --}}
+                            {{-- @if (session('user_location'))
+                                <div class="location mt-5">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                    <span id="userLocation">{{ Str::limit(session('user_location'), 20) }}</span>
+                                </div>
+                            @endif --}}
 
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4 mt-5 mt-lg-0 border rounded">
-                <div class="p-3">
-                    jdsjfidfijds
+                <div class="col-lg-4 mt-5 mt-lg-0 border rounded">
+                    <div class="p-3">
+                        <div class="title">
+                            <h4>Checkout</h4>
+                        </div>
+                        <div class="box">
+                            <p>Booking Fee</p>
+                            <div class="amt">
+                                <i class="fa-solid fa-indian-rupee-sign"></i>
+                                <p id="amtTotalPriceDisplay"></p>
+                            </div>
+                        </div>
+                        <div class="box">
+                            <p>SGST (18%)</p>
+                            <div class="amt">
+                                <i class="fa-solid fa-indian-rupee-sign"></i>
+                                <p></p>
+                            </div>
+                        </div>
+                        <div class="box">
+                            <p>GST (18%)</p>
+                            <div class="amt">
+                                <i class="fa-solid fa-indian-rupee-sign"></i>
+                                <p></p>
+                            </div>
+                        </div>
+                        <div class="box">
+                            <h5>Total Payable Amount</h5>
+                            <div class="amt">
+                                <i class="fa-solid fa-indian-rupee-sign"></i>
+                                <h5></h5>
+                            </div>
+                        </div>
+                        {{-- <button >Pay</button> --}}
+                        <button type="button" id="rzp-button1" class="payment">Make Payment</button>
+                    </div>
                 </div>
-            </div>
-           
+            </form>
         </div>
     </div>
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-body d-flex flex-column align-items-center">
-              <img src="/public/assets/landing/image/modal_img.jpg" alt="" style="width:300px;">
-              <p>Your Booking has been Accepted</p>
+            <div class="modal-content">
+                <div class="modal-body d-flex flex-column align-items-center">
+                    <img src="/public/assets/landing/image/modal_img.jpg" alt="" style="width:300px;">
+                    <p>Your Booking has been Accepted</p>
+                </div>
+                <div class="modal-footer d-flex align-items-center justify-content-center">
+                    <a href="{{ route('home') }}">
+                        <button type="button" class="thanks">Thank You</button>
+                    </a>
+                </div>
             </div>
-            <div class="modal-footer d-flex align-items-center justify-content-center">
-                <a href="{{route('home')}}">
-                    <button type="button" class="thanks">Thank You</button>
-                </a>
-            </div>
-          </div>
         </div>
     </div>
 @endsection
@@ -488,134 +576,158 @@
     <script type='text/javascript' src=''></script>
     <script type='text/Javascript'></script>
     {{-- Date --}}
-    {{-- <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script> --}}
+    <script>
+        $(document).ready(function() {
+            // Calculate or retrieve the total price here
+            var totalPrice = localStorage.getItem('totalPrice');
+            $('#totalPriceDisplay').text($('#totalPriceDisplay').text() + ' ' + totalPrice);
+            $('#totalPriceDisplay').text(totalPrice);
+            $('#totalPriceInput').val(totalPrice);
+            $('#amtTotalPriceDisplay').text(totalPrice);
 
+            // Start date
+            var startdate = localStorage.getItem('startDate');
+            $('#startdate').text($('#startdate').text() + ' ' + startdate);
+            var formattedStartDate = moment(startdate, "YYYY-MM-DD HH:mm:ss").format("MMMM DD, YYYY  h:mm A");
+            $('#startdate').text(formattedStartDate);
+            $('#inputStartDate').val(formattedStartDate);
+
+            // End date
+            var enddate = localStorage.getItem('endDate');
+            $('#enddate').text($('#enddate').text() + ' ' + enddate);
+            var formattedEndDate = moment(enddate, "YYYY-MM-DD HH:mm:ss").format("MMMM DD, YYYY  h:mm A");
+            $('#enddate').text(formattedEndDate);
+            $('#inputEndDate').val(formattedEndDate);
+
+        });
+    </script>
     <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('completeKycBtn').addEventListener('click', function() {
                 // Redirect to the user profile page for completing KYC
-                window.location.href = "{{ route('userprofile') }}";
+                window.location.href = "{{ route('profile') }}";
             });
         });
     </script>
-    <script>
-        const items = document.querySelectorAll('.item');
 
-        function insertViewTransitionName() {
-            items.forEach((item, i) => {
-                item.style.viewTransitionName = `item-${i++}`;
+
+
+
+    {{-- Payment --}}
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#rzp-button1').click(function(e) {
+                e.preventDefault();
+
+                var orderAmount = $('#totalPriceInput').val();
+                var itemId = $('#itemIdInput').val();
+
+                var options = {
+                    "key": "rzp_test_XZKJkxZxNQpGQd",
+                    "amount": orderAmount * 100,
+                    "currency": "INR",
+                    "name": "Onnwheels",
+                    "description": "Test Transaction",
+                    "image": "https://example.com/your_logo",
+                    "handler": function(response) {
+                        // console.log("hi", response)
+
+                        var orderData = {
+                            order_amount: orderAmount,
+                            item_id: itemId,
+                            payment_status: "Paid",
+                            start_date: "2023-01-01",
+                            end_date: "2023-12-31",
+                            transaction_reference: response.razorpay_payment_id,
+                            _token: '{{ csrf_token() }}'
+                        };
+
+                        $.ajax({
+                            url: '/product_detail_store',
+                            method: 'POST',
+                            data: orderData,
+                            success: function(response) {
+                                if (response.success) {
+                                    // Payment stored successfully, initiate Razorpay payment
+                                    window.location.href =
+                                    '/thank_you'; // Replace with your desired URL
+                                } else {
+                                    alert('Failed to store order details.');
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                console.error('An error occurred:', error);
+                                alert(
+                                    'An error occurred while processing your request.'
+                                );
+                            },
+                            error: function(xhr, status, error) {
+                                console.error('An error occurred while storing order:',
+                                    error);
+                                // markOrderAsUnpaid(orderData);
+                                alert('Failed to process payment. Please try again.');
+                            }
+                        });
+
+
+                    },
+                    "prefill": {
+                        "name": "Gaurav Kumar",
+                        "email": "gaurav.kumar@example.com",
+                        "contact": "9000090000"
+                    },
+                    "notes": {
+                        "address": "Razorpay Corporate Office"
+                    },
+                    "theme": {
+                        "color": "#3399cc"
+                    }
+                };
+
+
+                var rzp1 = new Razorpay(options);
+                rzp1.open();
+
             });
-        }
 
-        function animateItem(e) {
-            const hero = document.querySelector('li[data-pos="1"]');
-            const target = e.target;
-            [hero.dataset.pos, target.dataset.pos] = [target.dataset.pos, hero.dataset.pos];
-        }
+            function initiateRazorpay(orderAmount) {
+                var options = {
+                    "key": "rzp_test_XZKJkxZxNQpGQd", // Enter the Key ID generated from the Dashboard
+                    "amount": orderAmount * 100, // Convert amount to paise (if in INR)
+                    "currency": "INR",
+                    "name": "Onnwheels",
+                    "description": "Test Transaction",
+                    "image": "https://example.com/your_logo",
+                    "handler": function(response) {
+                        console.log("hi", response)
+                        // Handle successful payment
+                        alert('Payment ID: ' + response.razorpay_payment_id);
+                        alert('Order ID: ' + response.razorpay_order_id);
+                        alert('Signature: ' + response.razorpay_signature);
 
-        function init(e) {
-            if (!e.target.matches('li')) return;
-            insertViewTransitionName();
-            !document.startViewTransition ?
-                animateItem(e) :
-                document.startViewTransition(() => animateItem(e));
-        }
+                        // Redirect user to a new page after successful payment (example)
+                        window.location.href = '/thank_you'; // Replace with your desired URL
+                    },
+                    "prefill": {
+                        "name": "Gaurav Kumar",
+                        "email": "gaurav.kumar@example.com",
+                        "contact": "9000090000"
+                    },
+                    "notes": {
+                        "address": "Razorpay Corporate Office"
+                    },
+                    "theme": {
+                        "color": "#3399cc"
+                    }
+                };
 
-        window.addEventListener('click', init, false);
-    </script>
-    <script>
-        $('#lightSlider').lightSlider({
-            gallery: true,
-            item: 1,
-            loop: true,
-            slideMargin: 0,
-            thumbItem: 4
-        });
-    </script>
-    <script>
-        let spinNumberOutput = document.querySelector('.spinNumberOutput')
-        let regularPrice = document.querySelector('.regularPrice')
-        let quantityOutput = document.querySelector('.quantityOutput')
-        let plusButton = document.querySelector('.incrimentButton')
-        let minusButton = document.querySelector('.decrimentButton')
-
-        spinNumberOutput.value = 1;
-        quantityOutput.innerHTML = regularPrice.innerHTML * spinNumberOutput.value
-
-        plusButton.addEventListener('click', function() {
-            spinNumberOutput.value++
-            console.log(quantityOutput.innerHTML = regularPrice.innerHTML * spinNumberOutput.value)
-        })
-
-        minusButton.addEventListener('click', function() {
-
-            if (spinNumberOutput.value > 1) {
-                spinNumberOutput.value--
-                console.log(quantityOutput.innerHTML = regularPrice.innerHTML * spinNumberOutput.value)
-
+                var rzp1 = new Razorpay(options);
+                rzp1.open();
             }
-        })
-    </script>
-    {{-- Date Range --}}
-    <script>
-        $('#demo').daterangepicker({
-            "showISOWeekNumbers": true,
-            "timePicker": true,
-            "autoUpdateInput": true,
-            "locale": {
-                "cancelLabel": 'Clear',
-                "format": "MMMM DD, YYYY @ h:mm A",
-                "separator": " - ",
-                "applyLabel": "Apply",
-                "cancelLabel": "Cancel",
-                "fromLabel": "From",
-                "toLabel": "To",
-                "customRangeLabel": "Custom",
-                "weekLabel": "W",
-                "daysOfWeek": ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
-                "monthNames": [
-                    "January", "February", "March", "April", "May", "June",
-                    "July", "August", "September", "October", "November", "December"
-                ],
-                "firstDay": 1
-            },
-            "linkedCalendars": true,
-            "showCustomRangeLabel": false,
-            "startDate": moment().startOf('hour'), // Set initial start date to current time (hour precision)
-            "endDate": moment().startOf('hour').add(1,
-            'hour'), // Set initial end date to one hour from current time
-            "opens": "center"
-        });
-
-        // Function to calculate and update total price based on date range selection
-        function updateTotalPrice(startDate, endDate, pricePerHour) {
-            // Calculate the difference in hours between start date and end date
-            const hours = moment.duration(endDate.diff(startDate)).asHours();
-
-            // Calculate total price by multiplying hours with price per hour
-            const totalPrice = hours * pricePerHour;
-            console.log("total",totalPrice)
-
-            // Display the calculated total price on the page
-            $('#totalPrice').text(totalPrice.toFixed(2)); // Display total price rounded to 2 decimal places
-            $('#totalPriceInput').val(totalPrice.toFixed(2)); // Display total price rounded to 2 decimal places
-        }
-
-        // Event listener for date range selection
-        $('#demo').on('apply.daterangepicker', function(ev, picker) {
-            // Retrieve the selected start date and end date from the picker
-            const startDate = picker.startDate;
-            const endDate = picker.endDate;
-
-            // Retrieve the price per hour (convert $defaultValue to a numeric value)
-            const pricePerHour = parseFloat("{{ $defaultValue }}");
-
-            console.log("DD",pricePerHour)
-
-            // Update the total price based on the selected date range and price per hour
-            updateTotalPrice(startDate, endDate, pricePerHour);
         });
     </script>
 @endsection

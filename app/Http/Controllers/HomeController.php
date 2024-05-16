@@ -14,9 +14,16 @@ use App\Models\Category;
 use App\Models\User;
 use App\Models\DataSetting;
 use App\Models\Item;
+use App\Models\Order;
+use App\Models\OrderDetail;
 use Brian2694\Toastr\Facades\Toastr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
-
+use Exception;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
+use Razorpay\Api\Api;
+use Session;
 class HomeController extends Controller
 {
     /**
@@ -36,24 +43,24 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $datas =  DataSetting::with('translations')->where('type','admin_landing_page')->get();
+        $datas =  DataSetting::with('translations')->where('type', 'admin_landing_page')->get();
         $data = [];
         foreach ($datas as $key => $value) {
-            if(count($value->translations)>0){
+            if (count($value->translations) > 0) {
                 $cred = [
                     $value->key => $value->translations[0]['value'],
                 ];
-                array_push($data,$cred);
-            }else{
+                array_push($data, $cred);
+            } else {
                 $cred = [
                     $value->key => $value->value,
                 ];
-                array_push($data,$cred);
+                array_push($data, $cred);
             }
         }
         $settings = [];
-        foreach($data as $single_data){
-            foreach($single_data as $key=>$single_value){
+        foreach ($data as $single_data) {
+            foreach ($single_data as $key => $single_value) {
                 $settings[$key] = $single_value;
             }
         }
@@ -68,45 +75,45 @@ class HomeController extends Controller
         $testimonials = AdminTestimonial::get();
 
         $landing_data = [
-            'fixed_header_title'=>(isset($settings['fixed_header_title']) )  ? $settings['fixed_header_title'] : null ,
-            'fixed_header_sub_title'=>(isset($settings['fixed_header_sub_title']) )  ? $settings['fixed_header_sub_title'] : null ,
-            'fixed_module_title'=>(isset($settings['fixed_module_title']) )  ? $settings['fixed_module_title'] : null ,
-            'fixed_module_sub_title'=>(isset($settings['fixed_module_sub_title']) )  ? $settings['fixed_module_sub_title'] : null ,
-            'fixed_referal_title'=>(isset($settings['fixed_referal_title']) )  ? $settings['fixed_referal_title'] : null ,
-            'fixed_referal_sub_title'=>(isset($settings['fixed_referal_sub_title']) )  ? $settings['fixed_referal_sub_title'] : null ,
-            'fixed_newsletter_title'=>(isset($settings['fixed_newsletter_title']) )  ? $settings['fixed_newsletter_title'] : null ,
-            'fixed_newsletter_sub_title'=>(isset($settings['fixed_newsletter_sub_title']) )  ? $settings['fixed_newsletter_sub_title'] : null ,
-            'fixed_footer_article_title'=>(isset($settings['fixed_footer_article_title']) )  ? $settings['fixed_footer_article_title'] : null ,
-            'feature_title'=>(isset($settings['feature_title']) )  ? $settings['feature_title'] : null ,
-            'feature_short_description'=>(isset($settings['feature_short_description']) )  ? $settings['feature_short_description'] : null ,
-            'earning_title'=>(isset($settings['earning_title']) )  ? $settings['earning_title'] : null ,
-            'earning_sub_title'=>(isset($settings['earning_sub_title']) )  ? $settings['earning_sub_title'] : null ,
-            'earning_seller_image'=>(isset($settings['earning_seller_image']) )  ? $settings['earning_seller_image'] : null ,
-            'earning_delivery_image'=>(isset($settings['earning_delivery_image']) )  ? $settings['earning_delivery_image'] : null ,
-            'why_choose_title'=>(isset($settings['why_choose_title']) )  ? $settings['why_choose_title'] : null ,
-            'download_user_app_title'=>(isset($settings['download_user_app_title']) )  ? $settings['download_user_app_title'] : null ,
-            'download_user_app_sub_title'=>(isset($settings['download_user_app_sub_title']) )  ? $settings['download_user_app_sub_title'] : null ,
-            'download_user_app_image'=>(isset($settings['download_user_app_image']) )  ? $settings['download_user_app_image'] : null ,
-            'testimonial_title'=>(isset($settings['testimonial_title']) )  ? $settings['testimonial_title'] : null ,
-            'contact_us_title'=>(isset($settings['contact_us_title']) )  ? $settings['contact_us_title'] : null ,
-            'contact_us_sub_title'=>(isset($settings['contact_us_sub_title']) )  ? $settings['contact_us_sub_title'] : null ,
-            'contact_us_image'=>(isset($settings['contact_us_image']) )  ? $settings['contact_us_image'] : null ,
-            'opening_time'=> $opening_time ? $opening_time->value : null,
-            'closing_time'=> $closing_time ? $closing_time->value : null,
-            'opening_day'=> $opening_day ? $opening_day->value : null,
-            'closing_day'=> $closing_day ? $closing_day->value : null,
-            'promotional_banners'=>(isset($promotional_banners) )  ? $promotional_banners : null ,
-            'features'=>(isset($features) )  ? $features : [] ,
-            'criterias'=>(isset($criterias) )  ? $criterias : null ,
-            'testimonials'=>(isset($testimonials) )  ? $testimonials : null ,
+            'fixed_header_title' => (isset($settings['fixed_header_title']))  ? $settings['fixed_header_title'] : null,
+            'fixed_header_sub_title' => (isset($settings['fixed_header_sub_title']))  ? $settings['fixed_header_sub_title'] : null,
+            'fixed_module_title' => (isset($settings['fixed_module_title']))  ? $settings['fixed_module_title'] : null,
+            'fixed_module_sub_title' => (isset($settings['fixed_module_sub_title']))  ? $settings['fixed_module_sub_title'] : null,
+            'fixed_referal_title' => (isset($settings['fixed_referal_title']))  ? $settings['fixed_referal_title'] : null,
+            'fixed_referal_sub_title' => (isset($settings['fixed_referal_sub_title']))  ? $settings['fixed_referal_sub_title'] : null,
+            'fixed_newsletter_title' => (isset($settings['fixed_newsletter_title']))  ? $settings['fixed_newsletter_title'] : null,
+            'fixed_newsletter_sub_title' => (isset($settings['fixed_newsletter_sub_title']))  ? $settings['fixed_newsletter_sub_title'] : null,
+            'fixed_footer_article_title' => (isset($settings['fixed_footer_article_title']))  ? $settings['fixed_footer_article_title'] : null,
+            'feature_title' => (isset($settings['feature_title']))  ? $settings['feature_title'] : null,
+            'feature_short_description' => (isset($settings['feature_short_description']))  ? $settings['feature_short_description'] : null,
+            'earning_title' => (isset($settings['earning_title']))  ? $settings['earning_title'] : null,
+            'earning_sub_title' => (isset($settings['earning_sub_title']))  ? $settings['earning_sub_title'] : null,
+            'earning_seller_image' => (isset($settings['earning_seller_image']))  ? $settings['earning_seller_image'] : null,
+            'earning_delivery_image' => (isset($settings['earning_delivery_image']))  ? $settings['earning_delivery_image'] : null,
+            'why_choose_title' => (isset($settings['why_choose_title']))  ? $settings['why_choose_title'] : null,
+            'download_user_app_title' => (isset($settings['download_user_app_title']))  ? $settings['download_user_app_title'] : null,
+            'download_user_app_sub_title' => (isset($settings['download_user_app_sub_title']))  ? $settings['download_user_app_sub_title'] : null,
+            'download_user_app_image' => (isset($settings['download_user_app_image']))  ? $settings['download_user_app_image'] : null,
+            'testimonial_title' => (isset($settings['testimonial_title']))  ? $settings['testimonial_title'] : null,
+            'contact_us_title' => (isset($settings['contact_us_title']))  ? $settings['contact_us_title'] : null,
+            'contact_us_sub_title' => (isset($settings['contact_us_sub_title']))  ? $settings['contact_us_sub_title'] : null,
+            'contact_us_image' => (isset($settings['contact_us_image']))  ? $settings['contact_us_image'] : null,
+            'opening_time' => $opening_time ? $opening_time->value : null,
+            'closing_time' => $closing_time ? $closing_time->value : null,
+            'opening_day' => $opening_day ? $opening_day->value : null,
+            'closing_day' => $closing_day ? $closing_day->value : null,
+            'promotional_banners' => (isset($promotional_banners))  ? $promotional_banners : null,
+            'features' => (isset($features))  ? $features : [],
+            'criterias' => (isset($criterias))  ? $criterias : null,
+            'testimonials' => (isset($testimonials))  ? $testimonials : null,
 
 
 
-            'counter_section'=> (isset($settings['counter_section']) )  ? json_decode($settings['counter_section'], true) : null ,
-            'seller_app_earning_links'=> (isset($settings['seller_app_earning_links']) )  ? json_decode($settings['seller_app_earning_links'], true) : null ,
-            'dm_app_earning_links'=> (isset($settings['dm_app_earning_links']) )  ? json_decode($settings['dm_app_earning_links'], true) : null ,
-            'download_user_app_links'=> (isset($settings['download_user_app_links']) )  ? json_decode($settings['download_user_app_links'], true) : null ,
-            'fixed_link'=> (isset($settings['fixed_link']) )  ? json_decode($settings['fixed_link'], true) : null ,
+            'counter_section' => (isset($settings['counter_section']))  ? json_decode($settings['counter_section'], true) : null,
+            'seller_app_earning_links' => (isset($settings['seller_app_earning_links']))  ? json_decode($settings['seller_app_earning_links'], true) : null,
+            'dm_app_earning_links' => (isset($settings['dm_app_earning_links']))  ? json_decode($settings['dm_app_earning_links'], true) : null,
+            'download_user_app_links' => (isset($settings['download_user_app_links']))  ? json_decode($settings['download_user_app_links'], true) : null,
+            'fixed_link' => (isset($settings['fixed_link']))  ? json_decode($settings['fixed_link'], true) : null,
         ];
 
 
@@ -114,18 +121,18 @@ class HomeController extends Controller
         $landing_integration_type = Helpers::get_business_data('landing_integration_type');
         $redirect_url = Helpers::get_business_data('landing_page_custom_url');
 
-        if(isset($config) && $config){
-            $review = AdminTestimonial::where('status',1)->get();
-            $category = Category::where('status',1)->where('featured',1)->get();
+        if (isset($config) && $config) {
+            $review = AdminTestimonial::where('status', 1)->get();
+            $category = Category::where('status', 1)->where('featured', 1)->get();
 
-            $item = Item::where('status',1)->get();
+            $item = Item::where('status', 1)->get();
 
-            return view('home',compact('landing_data','item','category','review'));
-        }elseif($landing_integration_type == 'file_upload' && File::exists('resources/views/layouts/landing/custom/index.blade.php')){
+            return view('home', compact('landing_data', 'item', 'category', 'review'));
+        } elseif ($landing_integration_type == 'file_upload' && File::exists('resources/views/layouts/landing/custom/index.blade.php')) {
             return view('layouts.landing.custom.index');
-        }elseif($landing_integration_type == 'url'){
+        } elseif ($landing_integration_type == 'url') {
             return redirect($redirect_url);
-        }else{
+        } else {
             abort(404);
         }
     }
@@ -136,9 +143,9 @@ class HomeController extends Controller
     {
         $data = self::get_settings('terms_and_conditions');
         if ($request->expectsJson()) {
-            if($request->hasHeader('X-localization')){
+            if ($request->hasHeader('X-localization')) {
                 $current_language = $request->header('X-localization');
-                $data = self::get_settings_localization('terms_and_conditions',$current_language);
+                $data = self::get_settings_localization('terms_and_conditions', $current_language);
                 return response()->json($data);
             }
             return response()->json($data);
@@ -147,13 +154,13 @@ class HomeController extends Controller
         $landing_integration_type = Helpers::get_business_data('landing_integration_type');
         $redirect_url = Helpers::get_business_data('landing_page_custom_url');
 
-        if(isset($config) && $config){
+        if (isset($config) && $config) {
             return view('terms-and-conditions', compact('data'));
-        }elseif($landing_integration_type == 'file_upload' && File::exists('resources/views/layouts/landing/custom/index.blade.php')){
+        } elseif ($landing_integration_type == 'file_upload' && File::exists('resources/views/layouts/landing/custom/index.blade.php')) {
             return view('layouts.landing.custom.index');
-        }elseif($landing_integration_type == 'url'){
+        } elseif ($landing_integration_type == 'url') {
             return redirect($redirect_url);
-        }else{
+        } else {
             abort(404);
         }
     }
@@ -163,9 +170,9 @@ class HomeController extends Controller
         $data = self::get_settings('about_us');
         $data_title = self::get_settings('about_title');
         if ($request->expectsJson()) {
-            if($request->hasHeader('X-localization')){
+            if ($request->hasHeader('X-localization')) {
                 $current_language = $request->header('X-localization');
-                $data = self::get_settings_localization('about_us',$current_language);
+                $data = self::get_settings_localization('about_us', $current_language);
                 return response()->json($data);
             }
             return response()->json($data);
@@ -174,13 +181,13 @@ class HomeController extends Controller
         $landing_integration_type = Helpers::get_business_data('landing_integration_type');
         $redirect_url = Helpers::get_business_data('landing_page_custom_url');
 
-        if(isset($config) && $config){
-            return view('about-us', compact('data','data_title'));
-        }elseif($landing_integration_type == 'file_upload' && File::exists('resources/views/layouts/landing/custom/index.blade.php')){
+        if (isset($config) && $config) {
+            return view('about-us', compact('data', 'data_title'));
+        } elseif ($landing_integration_type == 'file_upload' && File::exists('resources/views/layouts/landing/custom/index.blade.php')) {
             return view('layouts.landing.custom.index');
-        }elseif($landing_integration_type == 'url'){
+        } elseif ($landing_integration_type == 'url') {
             return redirect($redirect_url);
-        }else{
+        } else {
             abort(404);
         }
     }
@@ -191,13 +198,13 @@ class HomeController extends Controller
         $landing_integration_type = Helpers::get_business_data('landing_integration_type');
         $redirect_url = Helpers::get_business_data('landing_page_custom_url');
 
-        if(isset($config) && $config){
+        if (isset($config) && $config) {
             return view('contact-us');
-        }elseif($landing_integration_type == 'file_upload' && File::exists('resources/views/layouts/landing/custom/index.blade.php')){
+        } elseif ($landing_integration_type == 'file_upload' && File::exists('resources/views/layouts/landing/custom/index.blade.php')) {
             return view('layouts.landing.custom.index');
-        }elseif($landing_integration_type == 'url'){
+        } elseif ($landing_integration_type == 'url') {
             return redirect($redirect_url);
-        }else{
+        } else {
             abort(404);
         }
     }
@@ -226,9 +233,9 @@ class HomeController extends Controller
     {
         $data = self::get_settings('privacy_policy');
         if ($request->expectsJson()) {
-            if($request->hasHeader('X-localization')){
+            if ($request->hasHeader('X-localization')) {
                 $current_language = $request->header('X-localization');
-                $data = self::get_settings_localization('privacy_policy',$current_language);
+                $data = self::get_settings_localization('privacy_policy', $current_language);
                 return response()->json($data);
             }
             return response()->json($data);
@@ -237,13 +244,13 @@ class HomeController extends Controller
         $landing_integration_type = Helpers::get_business_data('landing_integration_type');
         $redirect_url = Helpers::get_business_data('landing_page_custom_url');
 
-        if(isset($config) && $config){
-            return view('privacy-policy',compact('data'));
-        }elseif($landing_integration_type == 'file_upload' && File::exists('resources/views/layouts/landing/custom/index.blade.php')){
+        if (isset($config) && $config) {
+            return view('privacy-policy', compact('data'));
+        } elseif ($landing_integration_type == 'file_upload' && File::exists('resources/views/layouts/landing/custom/index.blade.php')) {
             return view('layouts.landing.custom.index');
-        }elseif($landing_integration_type == 'url'){
+        } elseif ($landing_integration_type == 'url') {
             return redirect($redirect_url);
-        }else{
+        } else {
             abort(404);
         }
     }
@@ -253,25 +260,25 @@ class HomeController extends Controller
         $data = self::get_settings('refund_policy');
         $status = self::get_settings_status('refund_policy_status');
         if ($request->expectsJson()) {
-            if($request->hasHeader('X-localization')){
+            if ($request->hasHeader('X-localization')) {
                 $current_language = $request->header('X-localization');
-                $data = self::get_settings_localization('refund_policy',$current_language);
+                $data = self::get_settings_localization('refund_policy', $current_language);
                 return response()->json($data);
             }
             return response()->json($data);
         }
-        abort_if($status == 0 ,404);
+        abort_if($status == 0, 404);
         $config = Helpers::get_business_settings('landing_page');
         $landing_integration_type = Helpers::get_business_data('landing_integration_type');
         $redirect_url = Helpers::get_business_data('landing_page_custom_url');
 
-        if(isset($config) && $config){
-            return view('refund',compact('data'));
-        }elseif($landing_integration_type == 'file_upload' && File::exists('resources/views/layouts/landing/custom/index.blade.php')){
+        if (isset($config) && $config) {
+            return view('refund', compact('data'));
+        } elseif ($landing_integration_type == 'file_upload' && File::exists('resources/views/layouts/landing/custom/index.blade.php')) {
             return view('layouts.landing.custom.index');
-        }elseif($landing_integration_type == 'url'){
+        } elseif ($landing_integration_type == 'url') {
             return redirect($redirect_url);
-        }else{
+        } else {
             abort(404);
         }
     }
@@ -281,25 +288,25 @@ class HomeController extends Controller
         $data = self::get_settings('shipping_policy');
         $status = self::get_settings_status('shipping_policy_status');
         if ($request->expectsJson()) {
-            if($request->hasHeader('X-localization')){
+            if ($request->hasHeader('X-localization')) {
                 $current_language = $request->header('X-localization');
-                $data = self::get_settings_localization('shipping_policy',$current_language);
+                $data = self::get_settings_localization('shipping_policy', $current_language);
                 return response()->json($data);
             }
             return response()->json($data);
         }
-        abort_if($status == 0 ,404);
+        abort_if($status == 0, 404);
         $config = Helpers::get_business_settings('landing_page');
         $landing_integration_type = Helpers::get_business_data('landing_integration_type');
         $redirect_url = Helpers::get_business_data('landing_page_custom_url');
 
-        if(isset($config) && $config){
-            return view('shipping-policy',compact('data'));
-        }elseif($landing_integration_type == 'file_upload' && File::exists('resources/views/layouts/landing/custom/index.blade.php')){
+        if (isset($config) && $config) {
+            return view('shipping-policy', compact('data'));
+        } elseif ($landing_integration_type == 'file_upload' && File::exists('resources/views/layouts/landing/custom/index.blade.php')) {
             return view('layouts.landing.custom.index');
-        }elseif($landing_integration_type == 'url'){
+        } elseif ($landing_integration_type == 'url') {
             return redirect($redirect_url);
-        }else{
+        } else {
             abort(404);
         }
     }
@@ -309,25 +316,25 @@ class HomeController extends Controller
         $data = self::get_settings('cancellation_policy');
         $status = self::get_settings_status('cancellation_policy_status');
         if ($request->expectsJson()) {
-            if($request->hasHeader('X-localization')){
+            if ($request->hasHeader('X-localization')) {
                 $current_language = $request->header('X-localization');
-                $data = self::get_settings_localization('cancellation_policy',$current_language);
+                $data = self::get_settings_localization('cancellation_policy', $current_language);
                 return response()->json($data);
             }
             return response()->json($data);
         }
-        abort_if($status == 0 ,404);
+        abort_if($status == 0, 404);
         $config = Helpers::get_business_settings('landing_page');
         $landing_integration_type = Helpers::get_business_data('landing_integration_type');
         $redirect_url = Helpers::get_business_data('landing_page_custom_url');
 
-        if(isset($config) && $config){
-            return view('cancelation',compact('data'));
-        }elseif($landing_integration_type == 'file_upload' && File::exists('resources/views/layouts/landing/custom/index.blade.php')){
+        if (isset($config) && $config) {
+            return view('cancelation', compact('data'));
+        } elseif ($landing_integration_type == 'file_upload' && File::exists('resources/views/layouts/landing/custom/index.blade.php')) {
             return view('layouts.landing.custom.index');
-        }elseif($landing_integration_type == 'url'){
+        } elseif ($landing_integration_type == 'url') {
             return redirect($redirect_url);
-        }else{
+        } else {
             abort(404);
         }
     }
@@ -336,19 +343,19 @@ class HomeController extends Controller
     {
         $config = null;
         $data = DataSetting::where(['key' => $name])->first();
-        return $data?$data->value:'';
+        return $data ? $data->value : '';
     }
 
-    public static function get_settings_localization($name,$lang)
+    public static function get_settings_localization($name, $lang)
     {
         $config = null;
         $data = DataSetting::withoutGlobalScope('translate')->with(['translations' => function ($query) use ($lang) {
             return $query->where('locale', $lang);
         }])->where(['key' => $name])->first();
-        if($data && count($data->translations)>0){
+        if ($data && count($data->translations) > 0) {
             $data = $data->translations[0]['value'];
-        }else{
-            $data = $data ? $data->value: '';
+        } else {
+            $data = $data ? $data->value : '';
         }
         return $data;
     }
@@ -376,26 +383,22 @@ class HomeController extends Controller
         return redirect()->back();
     }
 
-    public function product_detail ($slug)
+    public function product_detail($slug)
     {
         $items = Item::where('slug', $slug)->first();
 
-        if($items != null)
-        {
+        if ($items != null) {
             return view('product.product_detail', compact('items'));
         }
     }
 
-    public function product_detail_store ()
-    {
-        
-    }
+
 
     // public function payment($slug)
     // {
     //     // $userWithKyc = User::with('userkyc')->find($userId);
     //     $userkey=Userkey::findOrFail
-        
+
     //     $items = Item::where('slug', $slug)->first();
     //     if($items != null){
     //         return view ('payment',compact('items'));
@@ -405,22 +408,28 @@ class HomeController extends Controller
     public function payment($slug)
     {
         $user =  auth()->id(); // Retrieve the authenticated user's ID
-    
+
         if ($user) {
             $userKyc = User::with('userkyc')->find($user);
-    
+            // if($userKyc->is_verified == null){
             if ($userKyc && $userKyc->userkyc->is_verified == 1) {
                 $items = Item::where('slug', $slug)->first();
-    
+
                 if ($items) {
                     return view('payment', compact('items'));
                 }
             } elseif ($userKyc && $userKyc->userkyc->is_verified == 0) {
-                return view('userprofile',compact('user'));
+                return view('profile', compact('user'));
             }
+            // }
+
         }
     }
-    public function product($category_id) {
+
+
+
+    public function product($category_id)
+    {
         $products = Item::where('category_id', $category_id)->get();
         // Assuming you have a Category model and want to retrieve the category name
         $category = Category::findOrFail($category_id);
@@ -431,7 +440,7 @@ class HomeController extends Controller
     public function all_category()
     {
         $category = Category::all();
-        return view('all_category',compact('category'));
+        return view('all_category', compact('category'));
     }
 
     public function safety()
@@ -441,7 +450,69 @@ class HomeController extends Controller
 
     public function rental_bike()
     {
-        $item = Item::where('status',1)->get();
-        return view('rental_bike',compact('item'));
+        $item = Item::where('status', 1)->get();
+        return view('rental_bike', compact('item'));
     }
+
+
+    // public function product_detail_store(Request $request)
+    // {
+    //     try {
+    //         $order = new Order();
+    //         $order->user_id = Auth::user()->id;
+    //         $order->order_amount = $request->input('order_amount');
+    //         $order->save();
+
+    //         if ($order->user_id == Auth::user()->id){
+    //             Log::info("Inside");
+    //             $orderDetail = new OrderDetail();
+    //             $orderDetail->order_id = $order->id;
+    //             $orderDetail->item_id = $request->input('item_id');
+    //             $orderDetail->price = $request->order_amount;
+    //             // $orderDetail->item_details = $request->item_details;
+    //             $orderDetail->start_date = $request->start_date;
+    //             $orderDetail->end_date = $request->end_date;
+    //             $orderDetail->save();
+    //         }
+
+    //         return redirect()->back();
+    //     } catch (Exception $e) {
+    //         return back()->withInput()->withErrors(['error' => 'An error occurred while processing your request.']);
+    //     }
+    // }
+
+
+
+    public function product_detail_store(Request $request)
+    {
+        try {
+            // Create the order
+            $order = new Order();
+            $order->user_id = Auth::user()->id;
+            $order->order_amount = $request->input('order_amount');
+            $order->payment_status =$request->payment_status;
+            $order->transaction_reference = $request->input('transaction_reference');
+            $order->save();
+
+            // Create the order detail if the order is successfully created
+            if ($order->user_id == Auth::user()->id) {
+                Log::info("Inside");
+                $orderDetail = new OrderDetail();
+                $orderDetail->order_id = $order->id;
+                $orderDetail->item_id = $request->input('item_id');
+                $orderDetail->price = $request->input('order_amount');
+                $orderDetail->start_date = $request->input('start_date');
+                $orderDetail->end_date = $request->input('end_date');
+                $orderDetail->save();
+            }
+
+            return response()->json(['success' => true]);
+
+        } catch (Exception $e) {
+            return response()->json(['success' => false, 'error' => 'An error occurred while processing your request.']);
+        }
+    }
+
+
+
 }
