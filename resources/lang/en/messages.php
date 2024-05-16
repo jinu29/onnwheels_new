@@ -3909,4 +3909,11 @@
   'Authenticator Key' => 'Authenticator Key',
   'User Code' => 'User Code',
   'Security deposit' => 'Security deposit',
+  'Bike' => 'Bike',
+  'Bikes' => 'Bikes',
+  'Booking' => 'Booking',
+  'attribute_added_successfully' => 'Attribute added successfully',
+  'Products ' => 'Products ',
+  'Products' => 'Products',
+  'update_successfull' => 'Update successfull',
 );

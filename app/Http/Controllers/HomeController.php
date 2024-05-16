@@ -16,6 +16,7 @@ use App\Models\DataSetting;
 use App\Models\Item;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -379,17 +380,14 @@ class HomeController extends Controller
     public function product_detail ($slug)
     {
         $items = Item::where('slug', $slug)->first();
+        $product = Item::all();
 
         if($items != null)
         {
-            return view('product.product_detail', compact('items'));
+            return view('product.product_detail', compact('items','product'));
         }
     }
 
-    public function product_detail_store ()
-    {
-        
-    }
 
     // public function payment($slug)
     // {
@@ -416,7 +414,7 @@ class HomeController extends Controller
                     return view('payment', compact('items'));
                 }
             } elseif ($userKyc && $userKyc->userkyc->is_verified == 0) {
-                return view('userprofile',compact('user'));
+                return view('profile',compact('user'));
             }
         }
     }
@@ -443,5 +441,31 @@ class HomeController extends Controller
     {
         $item = Item::where('status',1)->get();
         return view('rental_bike',compact('item'));
+    }
+
+    public function product_detail_store(Request $request)
+    {
+        try {
+            $order = new Order();
+            $order->user_id = Auth::user()->id;
+            $order->order_amount = $request->input('order_amount');
+            $order->save();
+
+            if ($order->user_id == Auth::user()->id){
+                Log::info("Inside");
+                $orderDetail = new OrderDetail();
+                $orderDetail->order_id = $order->id;
+                $orderDetail->item_id = $request->input('item_id');
+                $orderDetail->price = $request->order_amount;
+                // $orderDetail->item_details = $request->item_details;
+                $orderDetail->start_date = $request->start_date;
+                $orderDetail->end_date = $request->end_date;
+                $orderDetail->save();
+            }
+
+            return redirect()->back();
+        } catch (Exception $e) {
+            return back()->withInput()->withErrors(['error' => 'An error occurred while processing your request.']);
+        }
     }
 }

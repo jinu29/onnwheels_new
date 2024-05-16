@@ -7,6 +7,10 @@
     {{-- Date --}}
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+    {{--payment--}}
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    {{-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"> --}}
 
     {{-- <style>
         * {
@@ -392,90 +396,175 @@
             border-radius: 8px;
             margin-top: 20px;
         }
+
+        .title h4 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .box p {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .box h5 {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .amt {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .payment {
+            padding: 8px 15px;
+            width: 100%;
+            background-color: #F89520;
+            color: black;
+            font-size: 15px;
+            font-weight: 600;
+            margin-top: 10px;
+            border: none;
+            outline: none;
+            border-radius: 8px;
+        }
     </style>
 @endsection
 @section('content')
-    <div class="container mt-5 mb-3">
+    <div class="container mb-3" style="margin-top:5rem;">
         <div class="row ">
-            <?php
-            // JSON string containing the key-value pair
-            $jsonString = $items['hours_price'];
+            <form action="{{ route('product_detail_store') }}" method="POST">
+                @csrf
+                <?php
+                // JSON string containing the key-value pair
+                $jsonString = $items['hours_price'];
 
-            // Decode the JSON string into an associative array
-            $hoursPriceArray = json_decode($jsonString, true);
+                // Decode the JSON string into an associative array
+                $hoursPriceArray = json_decode($jsonString, true);
 
-            // Initialize variables to store key and value
-            $defaultKey = '';
-            $defaultValue = '';
+                // Initialize variables to store key and value
+                $defaultKey = '';
+                $defaultValue = '';
 
-            // Check if decoding was successful and $hoursPriceArray is not empty
-            if ($hoursPriceArray && is_array($hoursPriceArray)) {
-                // Extract key and value from the associative array
-                $defaultKey = key($hoursPriceArray); // Get the key (e.g., "12")
-                $defaultValue = current($hoursPriceArray); // Get the value (e.g., "200")
-            }
-            ?>
-            <div class="col-lg-8 ">
-                <div class="row border mx-lg-2 rounded">
-                    <div class="col-lg-5">
-                        <img src="{{ asset('storage/app/public/product') . '/' . $items['image'] ?? '', asset('public/assets/admin/img/160x160/img2.jpg'), 'product/' }}" class="mt-5" width="100%">
-                    </div>
-                    <div class="col-lg-7">
-                        <h4 >{{ $items->name }}</h4>
-                        <input type="hidden" value="{{ $items->name }}" name="">
-                        <div class="date-range" style="width: 100%;">
-                            <input type="text" id="demo" name="datefilter" value="" class="shadow" />
+                // Check if decoding was successful and $hoursPriceArray is not empty
+                if ($hoursPriceArray && is_array($hoursPriceArray)) {
+                    // Extract key and value from the associative array
+                    $defaultKey = key($hoursPriceArray); // Get the key (e.g., "12")
+                    $defaultValue = current($hoursPriceArray); // Get the value (e.g., "200")
+                }
+                ?>
+                <div class="col-lg-8 ">
+                    <div class="row border mx-lg-2 rounded d-flex align-items-center">
+                        <div class="col-lg-5 p-4">
+                            <img src="{{ asset('storage/app/public/product') . '/' . $items['image'] ?? '', asset('public/assets/admin/img/160x160/img2.jpg'), 'product/' }}"
+                                class="mt-5" width="100%">
                         </div>
-                        <div class="d-flex flex-column justify-content-between align-items-start">
-                            <h5 class="mt-4">Address :</h5>
-                            <div>
-                                @if (session('user_location'))
-                                    <div class="location ">
-                                        {{-- <i class="fa-solid fa-location-dot"></i> --}}
-                                        <span id="userLocation">{{ Str::limit(session('user_location')) }}</span>
+                        <div class="col-lg-7">
+                            {{-- <input type="text" name="userid"> --}}
+                            <h4>{{ $items->name }}</h4>
+                            <input type="hidden" value="{{ $items->name }}" name="item_details">
+                            <input type="hidden" value="{{ $items->id }}" name="item_id">
+                            {{-- <div class="date-range" style="width: 100%;">
+                                <input type="text" id="demo" name="datefilter" value="" class="shadow" />
+                            </div> --}}
+                            <div class="date d-flex align-items-center justify-content-between">
+                                <p id="startdate" class="mb-0"></p>
+                                <input type="hidden" value="default_value" id="inputStartDate" name="start_date">
+                                <p class="mb-0">to</p>
+                                <p id="enddate" class="mb-0"></p>
+                                <input type="hidden" value="" id="inputEndDate" name="end_date">
+                            </div>
+                            <div class="d-flex flex-column justify-content-between align-items-start">
+                                <h5 class="mt-4">Address :</h5>
+                                <div>
+                                    @if (session('user_location'))
+                                        <div class="location ">
+                                            {{-- <i class="fa-solid fa-location-dot"></i> --}}
+                                            <span id="userLocation">{{ Str::limit(session('user_location')) }}</span>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <h4>Total</h3>
+                                    <div class="price">
+                                        <i class="fa-solid fa-indian-rupee-sign"></i>
+                                        <p class="mb-0" id="totalPriceDisplay"></p>
+                                        <input type="hidden" id="totalPriceInput" name="order_amount" readonly>
                                     </div>
-                                @endif
                             </div>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <h4>Total</h3>
-                            <div class="price">
-                                <i class="fa-solid fa-indian-rupee-sign"></i>
-                                <p class="mb-0" id="totalPrice">{{ $defaultValue }}</p>
-                                <input type="hidden" id="totalPriceInput"  value="{{ $defaultValue }}" name="">
-                            </div>
-                        </div>
-                        {{-- @if (session('user_location'))
-                            <div class="location mt-5">
-                                <i class="fa-solid fa-location-dot"></i>
-                                <span id="userLocation">{{ Str::limit(session('user_location'), 20) }}</span>
-                            </div>
-                        @endif --}}
+                            {{-- @if (session('user_location'))
+                                <div class="location mt-5">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                    <span id="userLocation">{{ Str::limit(session('user_location'), 20) }}</span>
+                                </div>
+                            @endif --}}
 
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4 mt-5 mt-lg-0 border rounded">
-                <div class="p-3">
-                    jdsjfidfijds
+                <div class="col-lg-4 mt-5 mt-lg-0 border rounded">
+                    <div class="p-3">
+                        <div class="title">
+                            <h4>Checkout</h4>
+                        </div>
+                        <div class="box">
+                            <p>Booking Fee</p>
+                            <div class="amt">
+                                <i class="fa-solid fa-indian-rupee-sign"></i>
+                                <p id="amtTotalPriceDisplay"></p>
+                            </div>
+                        </div>
+                        <div class="box">
+                            <p>SGST (18%)</p>
+                            <div class="amt">
+                                <i class="fa-solid fa-indian-rupee-sign"></i>
+                                <p></p>
+                            </div>
+                        </div>
+                        <div class="box">
+                            <p>GST (18%)</p>
+                            <div class="amt">
+                                <i class="fa-solid fa-indian-rupee-sign"></i>
+                                <p></p>
+                            </div>
+                        </div>
+                        <div class="box">
+                            <h5>Total Payable Amount</h5>
+                            <div class="amt">
+                                <i class="fa-solid fa-indian-rupee-sign"></i>
+                                <h5></h5>
+                            </div>
+                        </div>
+                        <button type="submit" id="rzp-button1"  class="payment">Make Payment</button>
+                        {{-- <button id="rzp-button1" class = "btn btn-outline-dark btn-lg" ><i class="fas fa-money-bill"></i> Pay with Razorpay</button> --}}
+                    </div>
                 </div>
-            </div>
-           
+            </form>
         </div>
     </div>
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-body d-flex flex-column align-items-center">
-              <img src="/public/assets/landing/image/modal_img.jpg" alt="" style="width:300px;">
-              <p>Your Booking has been Accepted</p>
+            <div class="modal-content">
+                <div class="modal-body d-flex flex-column align-items-center">
+                    <img src="/public/assets/landing/image/modal_img.jpg" alt="" style="width:300px;">
+                    <p>Your Booking has been Accepted</p>
+                </div>
+                <div class="modal-footer d-flex align-items-center justify-content-center">
+                    <a href="{{ route('home') }}">
+                        <button type="button" class="thanks">Thank You</button>
+                    </a>
+                </div>
             </div>
-            <div class="modal-footer d-flex align-items-center justify-content-center">
-                <a href="{{route('home')}}">
-                    <button type="button" class="thanks">Thank You</button>
-                </a>
-            </div>
-          </div>
         </div>
     </div>
 @endsection
@@ -489,14 +578,38 @@
     <script type='text/Javascript'></script>
     {{-- Date --}}
     {{-- <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script> --}}
+    <script>
+        $(document).ready(function() {
+            // Calculate or retrieve the total price here
+            var totalPrice = localStorage.getItem('totalPrice');
+            $('#totalPriceDisplay').text($('#totalPriceDisplay').text() + ' ' + totalPrice);
+            $('#totalPriceDisplay').text(totalPrice);
+            $('#totalPriceInput').val(totalPrice);
+            $('#amtTotalPriceDisplay').text(totalPrice);
 
+            // Start date
+            var startdate = localStorage.getItem('startDate');
+            $('#startdate').text($('#startdate').text() + ' ' + startdate);
+            var formattedStartDate = moment(startdate, "YYYY-MM-DD HH:mm:ss").format("MMMM DD, YYYY  h:mm A");
+            $('#startdate').text(formattedStartDate);
+            $('#inputStartDate').val(formattedStartDate);
+
+            // End date
+            var enddate = localStorage.getItem('endDate');
+            $('#enddate').text($('#enddate').text() + ' ' + enddate);
+            var formattedEndDate = moment(enddate, "YYYY-MM-DD HH:mm:ss").format("MMMM DD, YYYY  h:mm A");
+            $('#enddate').text(formattedEndDate);
+            $('#inputEndDate').val(formattedEndDate);
+
+        });
+    </script>
     <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('completeKycBtn').addEventListener('click', function() {
                 // Redirect to the user profile page for completing KYC
-                window.location.href = "{{ route('userprofile') }}";
+                window.location.href = "{{ route('profile') }}";
             });
         });
     </script>
@@ -505,7 +618,7 @@
 
         function insertViewTransitionName() {
             items.forEach((item, i) => {
-                item.style.viewTransitionName = `item-${i++}`;
+                item.style.viewTransitionName = item-${i++};
             });
         }
 
@@ -596,11 +709,15 @@
 
             // Calculate total price by multiplying hours with price per hour
             const totalPrice = hours * pricePerHour;
-            console.log("total",totalPrice)
 
             // Display the calculated total price on the page
             $('#totalPrice').text(totalPrice.toFixed(2)); // Display total price rounded to 2 decimal places
-            $('#totalPriceInput').val(totalPrice.toFixed(2)); // Display total price rounded to 2 decimal places
+            $('#totalPriceInput').val(totalPrice.toFixed(2)); // Set total price input value
+
+            // Store start date, end date, and total price in localStorage
+            localStorage.setItem('startDate', startDate.format("YYYY-MM-DD hh:mm A")); // 12-hour format with AM/PM
+            localStorage.setItem('endDate', endDate.format("YYYY-MM-DD hh:mm A")); // 12-hour format with AM/PM
+            localStorage.setItem('totalPrice', totalPrice.toFixed(2));
         }
 
         // Event listener for date range selection
@@ -612,10 +729,50 @@
             // Retrieve the price per hour (convert $defaultValue to a numeric value)
             const pricePerHour = parseFloat("{{ $defaultValue }}");
 
-            console.log("DD",pricePerHour)
-
             // Update the total price based on the selected date range and price per hour
             updateTotalPrice(startDate, endDate, pricePerHour);
         });
+
+        // Retrieve stored start date and end date from localStorage on page load
+        $(document).ready(function() {
+            const storedStartDate = localStorage.getItem('startDate');
+            const storedEndDate = localStorage.getItem('endDate');
+
+            if (storedStartDate && storedEndDate) {
+                // Display stored start date and end date in 12-hour format with AM/PM
+                $('#startdate').text(moment(storedStartDate, "YYYY-MM-DD hh:mm A").format("MMMM DD, YYYY  h:mm A"));
+                $('#enddate').text(moment(storedEndDate, "YYYY-MM-DD hh:mm A").format("MMMM DD, YYYY  h:mm A"));
+            }
+        });
     </script>
+
+    {{--Payment --}}
+    <script>
+        let options = {
+        key: "API Key To Be Entered Here", //Paste your API key here before clicking on the Pay Button.
+        name: "Razorpay Testing",
+        amount : "100",
+        currency : "INR",
+        description: "Test Description",
+        handler: function (response) {
+        alert(response.razorpay_payment_id)
+            },
+        prefill: {
+            "contact" : '+919999999999',
+            "email" : "test@test.com"
+        },
+
+        notes: {
+        address : "hello world"
+        }
+    }
+
+    var rzp1 = new Razorpay(options);
+
+    document.getElementById('rzp-button1').onclick = function(e){
+        rzp1.open();
+        e.preventDefault();
+    }
+    </script>
+
 @endsection
