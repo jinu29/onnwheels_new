@@ -3897,4 +3897,13 @@
   'Faield to send sms' => 'Faield to send sms',
   'safety' => 'Safety',
   'rental_bike' => 'Rental bike',
+  'application_placed_successfully' => 'Application placed successfully',
+  'successfully_updated' => 'Successfully updated',
+  'store_not_found' => 'Store not found',
+  'store_is_closed_at_order_time' => 'Store is closed at order time',
+  'The cash on delivery field is required when none of digital payment / offline payment are present.' => 'The cash on delivery field is required when none of digital payment / offline payment are present.',
+  'The digital payment field is required when none of cash on delivery / offline payment are present.' => 'The digital payment field is required when none of cash on delivery / offline payment are present.',
+  'The offline payment field is required when none of cash on delivery / digital payment are present.' => 'The offline payment field is required when none of cash on delivery / digital payment are present.',
+  'amount_crossed_maximum_cod_order_amount' => 'Amount crossed maximum cod order amount',
+  'Email_does_not_exists' => 'Email does not exists',
 );

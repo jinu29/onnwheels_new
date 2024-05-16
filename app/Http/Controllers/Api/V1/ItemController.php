@@ -236,13 +236,14 @@ class ItemController extends Controller
 
         $key = explode(' ', $request['name']);
 
+
         $limit = $request['limit'] ?? 10;
         $offset = $request['offset'] ?? 1;
 
         $type = $request->query('type', 'all');
 
-        $items = Item::active()->type($type)
 
+        $items = Item::active()->type($type)
             ->when($request->category_id, function ($query) use ($request) {
                 $query->whereHas('category', function ($q) use ($request) {
                     return $q->whereId($request->category_id)->orWhere('parent_id', $request->category_id);
@@ -254,13 +255,16 @@ class ItemController extends Controller
             ->whereHas('module.zones', function ($query) use ($zone_id) {
                 $query->whereIn('zones.id', json_decode($zone_id, true));
             })
-            ->whereHas('store', function ($query) use ($zone_id) {
-                $query->when(config('module.current_module_data'), function ($query) {
-                    $query->where('module_id', config('module.current_module_data')['id'])->whereHas('zone.modules', function ($query) {
-                        $query->where('modules.id', config('module.current_module_data')['id']);
-                    });
-                })->whereIn('zone_id', json_decode($zone_id, true));
-            })
+            // ->whereHas('store', function ($query) use ($zone_id) {
+            //     $query->when(config('module.current_module_data'), function ($query) {
+            //         $query->where('module_id', config('module.current_module_data')['id'])->whereHas('zone.modules', function ($query) {
+            //             $query->where('modules.id', config('module.current_module_data')['id']);
+            //         });
+            //     })->whereIn('zone_id', json_decode($zone_id, true));
+
+            //     // dd($query);
+
+            // })
             ->where(function ($q) use ($key) {
                 foreach ($key as $value) {
                     $q->orWhere('name', 'like', "%{$value}%");
@@ -279,10 +283,13 @@ class ItemController extends Controller
                         };
                     });
                 });
-            })->select(['name', 'image'])
-
+            })->select(['name', 'image', 'id'])
             ->paginate($limit, ['*'], 'page', $offset);
+        
 
+            // dd($items);
+
+            
         $data = [
             'total_size' => $items->total(),
             'limit' => $limit,

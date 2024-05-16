@@ -529,8 +529,8 @@ class CustomerAuthController extends Controller
             return response()->json(['errors' => [['code' => 'auth-002', 'message' => translate('messages.Email_or_phone_required')]]], 403);
         }
 
-        if (Auth::attempt($credentials)) {
-            $user = Auth::user();
+        if (auth()->attempt($credentials)) {
+            $user = auth()->user();
             $token = $user->createToken('RestaurantCustomerAuth')->accessToken;
             if (!$user->status) {
                 return response()->json(['errors' => [['code' => 'auth-003', 'message' => translate('messages.your_account_is_blocked')]]], 403);
@@ -551,7 +551,8 @@ class CustomerAuthController extends Controller
 
                 Cart::where('user_id', $request->guest_id)->update(['user_id' => $user->id, 'is_guest' => 0]);
             }
-            return response()->json(['token' => $token, 'is_phone_verified' => $user->is_phone_verified], 200);
+
+            return response()->json(['token' => $token, 'is_phone_verified' => $user->is_phone_verified, 'user' => $user], 200);
         } else {
             return response()->json(['errors' => [['code' => 'auth-001', 'message' => translate('messages.Unauthorized')]]], 401);
         }

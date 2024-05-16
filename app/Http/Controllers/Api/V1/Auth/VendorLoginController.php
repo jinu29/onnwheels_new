@@ -144,12 +144,7 @@ class VendorLoginController extends Controller
             }
         }
 
-        $data = json_decode($request->translations, true);
-
-        if (count($data) < 1) {
-            $validator->getMessageBag()->add('translations', translate('messages.Name and description in english is required'));
-        }
-
+      
         if ($validator->fails()) {
             return response()->json(['errors' => Helpers::error_processor($validator)], 403);
         }
@@ -163,12 +158,12 @@ class VendorLoginController extends Controller
         $vendor->save();
 
         $store = new Store;
-        $store->name = $data[0]['value'];
+        $store->name = $request->f_name;
         $store->phone = $request->phone;
         $store->email = $request->email;
         $store->logo = Helpers::upload('store/', 'png', $request->file('logo'));
         $store->cover_photo = Helpers::upload('store/cover/', 'png', $request->file('cover_photo'));
-        $store->address = $data[1]['value'];
+        $store->address = $request->f_name;
         $store->latitude = $request->latitude;
         $store->longitude = $request->longitude;
         $store->vendor_id = $vendor->id;
@@ -184,11 +179,11 @@ class VendorLoginController extends Controller
             StoreLogic::insert_schedule($store->id);
         }
      
-        foreach ($data as $key=>$i) {
-            $data[$key]['translationable_type'] = 'App\Models\Store';
-            $data[$key]['translationable_id'] = $store->id;
-        }
-        Translation::insert($data);
+        // foreach ($data as $key=>$i) {
+        //     $data[$key]['translationable_type'] = 'App\Models\Store';
+        //     $data[$key]['translationable_id'] = $store->id;
+        // }
+        // Translation::insert($data);
 
         try{
             $admin= Admin::where('role_id', 1)->first();

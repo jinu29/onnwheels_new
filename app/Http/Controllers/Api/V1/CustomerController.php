@@ -193,7 +193,6 @@ class CustomerController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'f_name' => 'required',
-            'l_name' => 'required',
             'email' => 'required|unique:users,email,'.$request->user()->id,
             'password' => ['nullable', Password::min(8)],
         ], [
@@ -206,6 +205,7 @@ class CustomerController extends Controller
         }
 
         $image = $request->file('image');
+        $image = $request->input('data');
 
         if ($request->has('image')) {
             $imageName = Helpers::update('profile/', $request->user()->image, 'png', $request->file('image'));

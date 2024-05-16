@@ -115,15 +115,16 @@ class UpdateUserLocationListener
     // Helper function to execute JavaScript code
     private function executeJsCode($js_code)
     {
-        echo "<script>{$js_code}</script>";
+        return "<script>{$js_code}</script>";
     }
 
     // Function to update location in localStorage
     private function updateLocationInLocalStorage($latitude, $longitude)
     {
-        echo "<script>
-                localStorage.setItem('latitude', {$latitude});
-                localStorage.setItem('longitude', {$longitude});
-            </script>";
+        return "<script>
+            localStorage.setItem('latitude', {$latitude});
+            localStorage.setItem('longitude', {$longitude});
+        </script>";
     }
+
 }

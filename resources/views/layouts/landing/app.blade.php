@@ -46,7 +46,6 @@ $landing_site_direction = session()->get('landing_site_direction');
 
 
     <style>
-
         body {
             font-family: "Montserrat", sans-serif;
             background-color: white;
@@ -192,7 +191,6 @@ $landing_site_direction = session()->get('landing_site_direction');
         .sign-up {
             background-color: orange
         }
-
     </style>
 
     @yield('css')
@@ -224,11 +222,11 @@ $landing_site_direction = session()->get('landing_site_direction');
                                 class="{{ Request::is('/') ? 'active' : '' }}"><span>{{ translate('messages.home') }}</span></a>
                         </li>
                         <li>
-                            <a href="{{route('rental_bike')}}"
+                            <a href="{{ route('rental_bike') }}"
                                 class="{{ Request::is('Rental Bike') ? 'active' : '' }}"><span>{{ translate('messages.Rental Bike') }}</span></a>
                         </li>
                         <li>
-                            <a href="{{route('safety')}}"
+                            <a href="{{ route('safety') }}"
                                 class="{{ Request::is('Safety') ? 'active' : '' }}"><span>{{ translate('messages.Safety') }}</span></a>
                         </li>
                         <li>
@@ -268,12 +266,13 @@ $landing_site_direction = session()->get('landing_site_direction');
                     @if (Auth::check())
                         <div class="user-avatar-container" id="user-avatar-container">
                             <div class="user-avatar d-flex align-items-center" id="user-avatar">
-                                <img src="/public/Images/user-avatar.png" width="40" alt="User Avatar" style="height: 40px;">
+                                <img src="/public/Images/user-avatar.png" width="40" alt="User Avatar"
+                                    style="height: 40px;">
                                 <span class="user-name">{{ Auth::user()->f_name }}</span>
                             </div>
                             <div class="user-details">
                                 <div class="dropdown-menu" id="dropdown-menu">
-                                    <a href="{{route ('userprofile')}}">Profile</a>
+                                    <a href="{{ route('userprofile') }}">Profile</a>
                                     <div class="menu-divider"></div> <!-- Divider -->
                                     <a href="{{ route('user.logout') }}">Logout</a>
                                 </div>
@@ -448,7 +447,8 @@ $landing_site_direction = session()->get('landing_site_direction');
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous">
     </script>
     {{-- Jquery --}}
-    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
     {!! Toastr::message() !!}
     @if ($errors->any())
         <script>
