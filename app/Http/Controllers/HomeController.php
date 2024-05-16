@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use Razorpay\Api\Api;
 use Session;
+
 class HomeController extends Controller
 {
     /**
@@ -386,6 +387,7 @@ class HomeController extends Controller
     public function product_detail($slug)
     {
         $items = Item::where('slug', $slug)->first();
+        $product = Item::all();
 
         if ($items != null) {
             return view('product.product_detail', compact('items'));
@@ -455,33 +457,7 @@ class HomeController extends Controller
     }
 
 
-    // public function product_detail_store(Request $request)
-    // {
-    //     try {
-    //         $order = new Order();
-    //         $order->user_id = Auth::user()->id;
-    //         $order->order_amount = $request->input('order_amount');
-    //         $order->save();
-
-    //         if ($order->user_id == Auth::user()->id){
-    //             Log::info("Inside");
-    //             $orderDetail = new OrderDetail();
-    //             $orderDetail->order_id = $order->id;
-    //             $orderDetail->item_id = $request->input('item_id');
-    //             $orderDetail->price = $request->order_amount;
-    //             // $orderDetail->item_details = $request->item_details;
-    //             $orderDetail->start_date = $request->start_date;
-    //             $orderDetail->end_date = $request->end_date;
-    //             $orderDetail->save();
-    //         }
-
-    //         return redirect()->back();
-    //     } catch (Exception $e) {
-    //         return back()->withInput()->withErrors(['error' => 'An error occurred while processing your request.']);
-    //     }
-    // }
-
-
+ 
 
     public function product_detail_store(Request $request)
     {

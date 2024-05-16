@@ -7,6 +7,10 @@
     {{-- Date --}}
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+    {{--payment--}}
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    {{-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"> --}}
 
     {{-- <style>
         * {
@@ -729,5 +733,47 @@
                 rzp1.open();
             }
         });
+
+        // Retrieve stored start date and end date from localStorage on page load
+        $(document).ready(function() {
+            const storedStartDate = localStorage.getItem('startDate');
+            const storedEndDate = localStorage.getItem('endDate');
+
+            if (storedStartDate && storedEndDate) {
+                // Display stored start date and end date in 12-hour format with AM/PM
+                $('#startdate').text(moment(storedStartDate, "YYYY-MM-DD hh:mm A").format("MMMM DD, YYYY  h:mm A"));
+                $('#enddate').text(moment(storedEndDate, "YYYY-MM-DD hh:mm A").format("MMMM DD, YYYY  h:mm A"));
+            }
+        });
     </script>
+
+    {{--Payment --}}
+    <script>
+        let options = {
+        key: "API Key To Be Entered Here", //Paste your API key here before clicking on the Pay Button.
+        name: "Razorpay Testing",
+        amount : "100",
+        currency : "INR",
+        description: "Test Description",
+        handler: function (response) {
+        alert(response.razorpay_payment_id)
+            },
+        prefill: {
+            "contact" : '+919999999999',
+            "email" : "test@test.com"
+        },
+
+        notes: {
+        address : "hello world"
+        }
+    }
+
+    var rzp1 = new Razorpay(options);
+
+    document.getElementById('rzp-button1').onclick = function(e){
+        rzp1.open();
+        e.preventDefault();
+    }
+    </script>
+
 @endsection

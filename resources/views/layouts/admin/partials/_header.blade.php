@@ -136,7 +136,7 @@
                             @endif
                         </a>
                     </li>
-                    <li class="nav-item max-sm-m-0">
+                    {{-- <li class="nav-item max-sm-m-0">
                         <div class="hs-unfold">
                             <div>
                                 @php($local = session()->has('local') ? session('local') : null)
@@ -169,7 +169,7 @@
                                 @endif
                             </div>
                         </div>
-                    </li>
+                    </li> --}}
                     @php($mod = \App\Models\Module::find(Config::get('module.current_module_id')))
                     <li class="nav-item __nav-item">
                         <a href="{{ route('admin.dashboard') }}" class="__nav-link module--nav-icon" id="tourb-0"
@@ -183,7 +183,7 @@
                                 <img src="{{ asset('/public/assets/admin/img/new-img/module-icon.svg') }}"
                                     alt="public/img">
                             @endif
-                            <span class="text-white">{{ $mod ? $mod->module_name : translate('modules') }}</span>
+                            <span class="text-white">Dashboard</span>
 
                         </a>
 

@@ -3940,4 +3940,11 @@
   'delivery_status' => 'Delivery status',
   'Customer Not found!' => 'Customer Not found!',
   'push_notification_faild' => 'Push notification faild',
+  'Bike' => 'Bike',
+  'Bikes' => 'Bikes',
+  'Booking' => 'Booking',
+  'attribute_added_successfully' => 'Attribute added successfully',
+  'Products ' => 'Products ',
+  'Products' => 'Products',
+  'update_successfull' => 'Update successfull',
 );

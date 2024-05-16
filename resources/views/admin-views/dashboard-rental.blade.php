@@ -64,7 +64,7 @@
                     <div class="col-sm-6 col-lg-3">
                         <div class="__dashboard-card-2">
                             <img src="{{asset('/public/assets/admin/img/dashboard/stats/products.svg')}}" alt="dashboard/stats">
-                            <h6 class="name">{{ translate('messages.products') }}</h6>
+                            <h6 class="name">{{ translate('messages.Bikes') }}</h6>
                             <h3 class="count">{{ $data['total_items'] }}</h3>
                                     <div class="subtxt">{{ $data['new_items'] }} {{ translate('newly added') }}</div>
                         </div>
@@ -72,7 +72,7 @@
                     <div class="col-sm-6 col-lg-3">
                         <div class="__dashboard-card-2">
                             <img src="{{asset('/public/assets/admin/img/dashboard/stats/orders.svg')}}" alt="dashboard/stats">
-                            <h6 class="name">{{ translate('messages.orders') }}</h6>
+                            <h6 class="name">{{ translate('messages.Booking') }}</h6>
                             <h3 class="count">{{ $data['total_orders'] }}</h3>
                                     <div class="subtxt">{{ $data['new_orders'] }} {{ translate('newly added') }}</div>
                         </div>

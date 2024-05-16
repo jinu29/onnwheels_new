@@ -11,6 +11,10 @@
             border-radius: 15px;
         }
 
+        a {
+            text-decoration: none;
+        }
+
         .user-details a {
             text-decoration: none;
             align-self: flex-start;
@@ -428,19 +432,19 @@
                                 <h2 id="heading">Document Verification</h2>
                                 <p>Fill all form field to go to next step</p>
                                 <div id="msform">
-                                        <!-- progressbar -->
-                                        <ul id="progressbar">
-                                            <li class="active" id="account"><strong>Document Details & Aadhar</strong></li>
+                                    <!-- progressbar -->
+                                    <ul id="progressbar">
+                                            <li class="active" id="account"><strong>Document Details</strong></li>
                                             <li id="personal"><strong>Aadhar Card</strong></li>
                                             <li id="payment"><strong>PAN Card</strong></li>
                                             <li id="confirm"><strong>License</strong></li>
                                             <li id="confirm"><strong>Finish</strong></li>
-                                        </ul>
-                                        <div class="progress">
+                                    </ul>
+                                    <div class="progress">
                                             <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div> <br> <!-- fieldsets -->
+                                    </div> <br> <!-- fieldsets -->
 
-                                        <fieldset>
+                                    <fieldset>
                                             <div class="form-card">
                                                 <div class="row">
                                                     <div class="col-7">
@@ -458,12 +462,10 @@
                                                     <p>Ensure to upload pictures of original documents only</p>
                                                     <p>Learner license is not applicable for renting a vehicle with us</p>
                                                 </div>
-
-                                                {{-- <label class="fieldlabels">Email: *</label> <input type="email" name="email" placeholder="Email Id" /> <label class="fieldlabels">Username: *</label> <input type="text" name="uname" placeholder="UserName" /> <label class="fieldlabels">Password: *</label> <input type="password" name="pwd" placeholder="Password" /> <label class="fieldlabels">Confirm Password: *</label> <input type="password" name="cpwd" placeholder="Confirm Password" /> --}}
                                             </div> <input type="button" name="next" class="next action-button" value="Next" />
-                                        </fieldset>
+                                    </fieldset>
 
-                                        <fieldset>
+                                    <fieldset>
                                             <div class="form-card">
                                                 <div class="row">
                                                     <div class="col-7">
@@ -481,25 +483,35 @@
                                                 </div>
                                             </div>
                                             <input type="button" name="next" class="next action-button" value="Next" /> <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
-                                        </fieldset>
+                                    </fieldset>
 
                                         <fieldset>
-                                            <div class="form-card">
-                                                <div class="row">
-                                                    <div class="col-7">
+                                            <form action="">
+                                                <div class="form-card">
+                                                    <div class="row">
+                                                        <div class="col-7">
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <h2 class="steps">Step 3 - 4</h2>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-5">
-                                                        <h2 class="steps">Step 3 - 4</h2>
+                                                    <div class="pan">
+                                                        <div class="group">
+                                                            <input type="text" name="pan" id="card_number" required>
+                                                            <span class="bar"></span>
+                                                            <label for="">Enter PAN Number</label>
+                                                            <div id="successMessage" style="display: none; margin-top:5px; color:green; font-size:10px; font-weight:700;"></div>
+                                                            <div id="errorMessage" style="display: none; margin-top:5px; color:red; font-size:10px; font-weight:700;"></div>
+                                                        </div>
+                                                        <div class="spinner-border mt-3" role="status" style="display: none;" id="spinner">
+                                                            <span class="sr-only">Loading...</span>
+                                                        </div>
+                                                        <div style="margin-top: 1rem;">
+                                                            <button type="button" id="verifyBtn" class="btn btn-primary">Verify</button>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="pan">
-                                                    <div class="group">
-                                                        <input type="text" name="aadhar" id="card_number" required>
-                                                        <span class="bar"></span>
-                                                        <label for="">Enter PAN Number</label>
-                                                    </div>
-                                                </div>
-                                            </div> <input type="button" name="next" class="next action-button" value="Submit" /> <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                                                </div> <input type="button" name="next" class="next action-button" value="Next" /> <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                                            </form>
                                         </fieldset>
 
                                         <fieldset>
@@ -543,7 +555,7 @@
                                                 </div>
                                             </div>
                                         </fieldset>
-                                    </div>
+                                </div>
                     </div>
                 </div>
             </div>
@@ -669,5 +681,55 @@
             }
         });
 
+        // Verification process
+        // PAN
+        $(document).ready(function() {
+            $('#verifyBtn').click(function() {
+                var panNumber = $('#pan_number').val();
+
+                // Show spinner
+                $('#spinner').show();
+
+                // Perform AJAX request
+                $.ajax({
+                    url: "{{ route('verification.pan-verify') }}",
+                    type: "POST",
+                    data: {
+                        pan_number: panNumber,
+                        purpose: 1,
+                        purpose_desc: "onboarding",
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(response) {
+                        // Hide spinner
+                        $('#spinner').hide();
+                        if(response.message == "PAN verification successful"){
+                            $('#errorMessage').hide();
+                            $('#successMessage').text(response.message).show();
+                            $('.next').show();
+                        }
+                        else{
+                            $('#successMessage').hide();
+                            $('.next').hide();
+                            $('#errorMessage').text(response.message).show();
+                        }
+                        // Handle successful response
+                        console.log(response.message);
+                    //  $('#successMessage').text(response.message).show();
+
+                        // Show the "Next Step" button
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        // Hide spinner
+                        $('#spinner').hide();
+
+                        // Handle error response
+                        console.error(xhr.responseText);
+                        $('#errorMessage').text(xhr.responseText).show();
+                        // Here you can handle the error response as per your requirements
+                    }
+                });
+            });
+        });
     </script>
 @endsection
