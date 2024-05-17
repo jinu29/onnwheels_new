@@ -1,23 +1,29 @@
 @extends('layouts.landing.app')
 @section('content')
-  <div class="modal" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
+{{-- <div class="modal">
+    <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Modal title</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <p>Modal body text goes here.</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary">Save changes</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          </div>
+            <div class="modal-body d-flex flex-column align-items-center">
+                <img src="/public/assets/landing/image/modal_img.jpg" alt="" style="width:300px;">
+                <p>Your Booking has been Accepted</p>
+            </div>
+            <div class="modal-footer d-flex align-items-center justify-content-center">
+                <a href="{{ route('home') }}">
+                    <button type="button" class="thanks">Thank You</button>
+                </a>
+            </div>
         </div>
-      </div>
-  </div>
-  {{-- <h1>Hllo</h1> --}}
+    </div>
+</div> --}}
+<div class="container my-5 text-center">
+    <div class="text-center">
+        <img src="/public/assets/landing/image/modal_img.jpg" alt="" style="width:300px;">
+    </div>
+    <p >Your Booking has been Accepted</p>
+    <div class="d-flex align-items-center justify-content-center boder-0">
+        <a href="{{ route('home') }}">
+            <button type="button" class="btn btn-primary" style="background-color: black; border:none;">Thank You</button>
+        </a>
+    </div>
+</div>
 @endsection

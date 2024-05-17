@@ -180,6 +180,30 @@
         letter-spacing: 1.2px;
     }
 
+    .app {
+        padding: 20px 0;
+        background-color: #E6A43B;
+        margin-top: 3rem;
+    }
+
+    .app-details {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .app-details h5 {
+        font-size: 19px;
+        font-weight: 700;
+    }
+
+    .app-details h3 {
+        font-size: 35px;
+        font-weight: 700;
+        line-height: 35px;
+        width: 45rem;
+    }
+
     @media (max-width:991px) {
 
         .banner {
@@ -348,9 +372,17 @@
             </div>
         </div>
     </div>
+{{--
+    <div class="container-fluid ">
+        <div class="title d-flex justify-content-between">
+            <h3 class="section-title">Category</h3>
+
+            <a href="{{route('all_category')}}" style="text-decoration: none;" class="view">View All</a>
+        </div>
+    </div> --}}
 
     <!--Category-->
-    <div class="container mt-5">
+    <div class="container-fluid mt-5 px-lg-5">
         <div class="title d-flex justify-content-between">
             <h3 class="section-title">Category</h3>
 
@@ -376,7 +408,7 @@
     <!-- Best Rental Bikes -->
 
     @if (count($item) > 0)
-    <div class="container my-5 mt-5">
+    <div class="container-fluid mt-5 px-lg-5">
         <div class="title d-flex justify-content-between">
             <h3 class="section-title">Best Rental Bikes</h3>
             <a href="{{route('rental_bike')}}" class="view">View All</a>
@@ -487,7 +519,7 @@
     <!--Reviews -->
 
     @if (count($review) > 0)
-        <div class="container reviews-container">
+        <div class="container-fluid mt-5 px-lg-5">
             <div class="title d-flex justify-content-between">
                 <h3 class="section-title">Customer Reviews</h3>
             </div>
@@ -519,7 +551,17 @@
             </div>
         </div>
     @endif
+
+    <div class="app">
+        <div class="container">
+            <div class="app-details">
+                <h5>Unlock your adventure. Rent a Bike with ease.</h5>
+                <h3>Download our new app and book your first Bike today</h3>
+            </div>
+        </div>
+    </div>
 @endsection
+
 @section('scripts')
 <script>
     // Script for Scooty Slick
