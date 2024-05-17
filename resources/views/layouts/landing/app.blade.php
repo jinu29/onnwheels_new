@@ -65,6 +65,7 @@ $landing_site_direction = session()->get('landing_site_direction');
             width: 60%;
             height: 5px;
             background-color: #f29425;
+            margin-top: 8px;
         }
 
         .social-icons img {
@@ -110,7 +111,10 @@ $landing_site_direction = session()->get('landing_site_direction');
             font-weight: 500;
             padding-bottom: 12px;
             cursor: pointer;
+        }
 
+        .footer h5 {
+            color: white;
         }
 
         .footer a {

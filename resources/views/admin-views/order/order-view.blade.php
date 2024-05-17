@@ -22,8 +22,7 @@
                                 alt="">
                         </span>
                         <span>
-                            {{ translate('order_details') }} <span
-                                class="badge badge-soft-dark rounded-circle ml-1">{{ $order->details->count() }}</span>
+                            {{ translate('order_details') }} <span class="badge badge-soft-dark rounded-circle ml-1">{{ $order->details->count() }}</span>
                         </span>
                     </h1>
                 </div>

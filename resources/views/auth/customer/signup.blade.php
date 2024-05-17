@@ -117,6 +117,14 @@ $log_email_succ = session()->get('log_email_succ');
                         <!-- End Form Group -->
 
                         <button type="submit" class="btn btn-lg btn-block btn--primary mt-4">Signup</button>
+
+                        <div class="d-flex mt-3">
+                            <p class="mr-2">Already have an account?</p>
+                            <a class=""
+                               href="{{ route('login', ['tab' => 'customer']) }}">
+                                <span class="me-1" style="font-weight: 700;">{{ translate('Login') }}</span>
+                            </a>
+                        </div>
                     </form>
                     <!-- End Form -->
 

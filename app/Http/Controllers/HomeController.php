@@ -16,6 +16,7 @@ use App\Models\DataSetting;
 use App\Models\Item;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\OrderPayment;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -386,7 +387,7 @@ class HomeController extends Controller
 
     public function product_detail($slug)
     {
-        
+
         $items = Item::where('slug', $slug)->first();
         $product = Item::all();
 
@@ -458,7 +459,7 @@ class HomeController extends Controller
     }
 
 
- 
+
 
     public function product_detail_store(Request $request)
     {
@@ -470,6 +471,8 @@ class HomeController extends Controller
             $order->payment_status =$request->payment_status;
             $order->transaction_reference = $request->input('transaction_reference');
             $order->save();
+
+            $orders=
 
             // Create the order detail if the order is successfully created
             if ($order->user_id == Auth::user()->id) {
@@ -483,11 +486,19 @@ class HomeController extends Controller
                 $orderDetail->save();
             }
 
+
+
+
             return response()->json(['success' => true]);
 
         } catch (Exception $e) {
             return response()->json(['success' => false, 'error' => 'An error occurred while processing your request.']);
         }
+    }
+
+    public function thank_you()
+    {
+        return view('thankyou');
     }
 
 

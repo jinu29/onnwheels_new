@@ -148,9 +148,17 @@
                     @endif
 
                     <button type="submit" class="btn btn-lg btn-block btn--primary mt-xxl-3">{{translate('messages.login')}}</button>
+
+                    <div class="d-flex mt-3">
+                        <p class="mr-2">Dont have an account?</p>
+                        <a class=""
+                           href="{{ route('user.signup') }}">
+                            <span class="me-1" style="font-weight: 700;">{{ translate('Signup') }}</span>
+                        </a>
+                    </div>
                 </form>
                 <!-- End Form -->
-             
+
             </div>
             <!-- End Card -->
 

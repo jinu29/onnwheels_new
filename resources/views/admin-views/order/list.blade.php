@@ -253,7 +253,7 @@
                         <tbody>
                             @foreach ($orders as $key=>$order)
                             <tr>
-                                <th scope="row">{{$key+1}}</th>
+                                <td >{{$key+1}}</td>
                                 <td>
                                     <div>
                                         <div>

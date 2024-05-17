@@ -6,7 +6,7 @@
     body {
         background-color: white;
     }
-/* ----------------------------------- */
+    /* ----------------------------------- */
     .banner {
         width: 100%;
         /* height: 530px; */
@@ -196,14 +196,21 @@
         justify-content: space-between;
     }
 
+    .app-details {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
     .app-details h5 {
-        font-size: 23px;
-        font-weight: 800;
+        font-size: 19px;
+        font-weight: 700;
     }
 
     .app-details h3 {
         font-size: 45px;
-        font-weight: 800;
+        font-weight: 700;
+        line-height: 55px;
         width: 45rem;
     }
 
@@ -300,7 +307,7 @@
             top: 55px;
             left: -5px;
         }
-        
+
         .img-two {
             position: absolute;
             left: 85px;
@@ -324,7 +331,7 @@
             font-size: 15px;
             font-weight: 700;
         }
-        
+
         .service-details p {
             color: #525252;
             font-size: 14px;
@@ -336,7 +343,7 @@
             font-size: 15px;
             font-weight: 800;
         }
-        
+
         .app-details h3 {
             font-size: 18px;
             font-weight: 800;
@@ -344,7 +351,7 @@
         }
 
     }
-   
+
 </style>
 @endsection
 
@@ -475,7 +482,7 @@
                 <h5>Unlock your adventure. Rent a Bike with ease.</h5>
                 <h3>Download our new app and book your first Bike today</h3>
                 <div class="store-image">
-                    
+
                 </div>
             </div>
             <div class="app-image">

@@ -8,7 +8,6 @@
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
     {{--payment--}}
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     {{-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"> --}}
 
@@ -462,9 +461,7 @@
                     $defaultValue = current($hoursPriceArray); // Get the value (e.g., "200")
                 }
                 ?>
-                {{-- <script src="https://checkout.razorpay.com/v1/checkout.js"
-                data-key="{{env('RAZORPAY_KEY')}}" data-amount="10 INR" data-b=""
-                ></script> --}}
+
                 <div class="col-lg-8 ">
                     <div class="row border mx-lg-2 rounded d-flex align-items-center">
                         <div class="col-lg-5 p-4">
@@ -698,40 +695,6 @@
 
             });
 
-            function initiateRazorpay(orderAmount) {
-                var options = {
-                    "key": "rzp_test_XZKJkxZxNQpGQd", // Enter the Key ID generated from the Dashboard
-                    "amount": orderAmount * 100, // Convert amount to paise (if in INR)
-                    "currency": "INR",
-                    "name": "Onnwheels",
-                    "description": "Test Transaction",
-                    "image": "https://example.com/your_logo",
-                    "handler": function(response) {
-                        console.log("hi", response)
-                        // Handle successful payment
-                        alert('Payment ID: ' + response.razorpay_payment_id);
-                        alert('Order ID: ' + response.razorpay_order_id);
-                        alert('Signature: ' + response.razorpay_signature);
-
-                        // Redirect user to a new page after successful payment (example)
-                        window.location.href = '/thank_you'; // Replace with your desired URL
-                    },
-                    "prefill": {
-                        "name": "Gaurav Kumar",
-                        "email": "gaurav.kumar@example.com",
-                        "contact": "9000090000"
-                    },
-                    "notes": {
-                        "address": "Razorpay Corporate Office"
-                    },
-                    "theme": {
-                        "color": "#3399cc"
-                    }
-                };
-
-                var rzp1 = new Razorpay(options);
-                rzp1.open();
-            }
         });
 
         // Retrieve stored start date and end date from localStorage on page load
@@ -747,33 +710,6 @@
         });
     </script>
 
-    {{--Payment --}}
-    <script>
-        let options = {
-        key: "API Key To Be Entered Here", //Paste your API key here before clicking on the Pay Button.
-        name: "Razorpay Testing",
-        amount : "100",
-        currency : "INR",
-        description: "Test Description",
-        handler: function (response) {
-        alert(response.razorpay_payment_id)
-            },
-        prefill: {
-            "contact" : '+919999999999',
-            "email" : "test@test.com"
-        },
-
-        notes: {
-        address : "hello world"
-        }
-    }
-
-    var rzp1 = new Razorpay(options);
-
-    document.getElementById('rzp-button1').onclick = function(e){
-        rzp1.open();
-        e.preventDefault();
-    }
-    </script>
+ 
 
 @endsection
