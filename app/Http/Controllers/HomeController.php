@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OrderConfirmationMail;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 use App\CentralLogics\Helpers;
@@ -44,7 +45,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $datas =  DataSetting::with('translations')->where('type', 'admin_landing_page')->get();
+        $datas = DataSetting::with('translations')->where('type', 'admin_landing_page')->get();
         $data = [];
         foreach ($datas as $key => $value) {
             if (count($value->translations) > 0) {
@@ -76,45 +77,45 @@ class HomeController extends Controller
         $testimonials = AdminTestimonial::get();
 
         $landing_data = [
-            'fixed_header_title' => (isset($settings['fixed_header_title']))  ? $settings['fixed_header_title'] : null,
-            'fixed_header_sub_title' => (isset($settings['fixed_header_sub_title']))  ? $settings['fixed_header_sub_title'] : null,
-            'fixed_module_title' => (isset($settings['fixed_module_title']))  ? $settings['fixed_module_title'] : null,
-            'fixed_module_sub_title' => (isset($settings['fixed_module_sub_title']))  ? $settings['fixed_module_sub_title'] : null,
-            'fixed_referal_title' => (isset($settings['fixed_referal_title']))  ? $settings['fixed_referal_title'] : null,
-            'fixed_referal_sub_title' => (isset($settings['fixed_referal_sub_title']))  ? $settings['fixed_referal_sub_title'] : null,
-            'fixed_newsletter_title' => (isset($settings['fixed_newsletter_title']))  ? $settings['fixed_newsletter_title'] : null,
-            'fixed_newsletter_sub_title' => (isset($settings['fixed_newsletter_sub_title']))  ? $settings['fixed_newsletter_sub_title'] : null,
-            'fixed_footer_article_title' => (isset($settings['fixed_footer_article_title']))  ? $settings['fixed_footer_article_title'] : null,
-            'feature_title' => (isset($settings['feature_title']))  ? $settings['feature_title'] : null,
-            'feature_short_description' => (isset($settings['feature_short_description']))  ? $settings['feature_short_description'] : null,
-            'earning_title' => (isset($settings['earning_title']))  ? $settings['earning_title'] : null,
-            'earning_sub_title' => (isset($settings['earning_sub_title']))  ? $settings['earning_sub_title'] : null,
-            'earning_seller_image' => (isset($settings['earning_seller_image']))  ? $settings['earning_seller_image'] : null,
-            'earning_delivery_image' => (isset($settings['earning_delivery_image']))  ? $settings['earning_delivery_image'] : null,
-            'why_choose_title' => (isset($settings['why_choose_title']))  ? $settings['why_choose_title'] : null,
-            'download_user_app_title' => (isset($settings['download_user_app_title']))  ? $settings['download_user_app_title'] : null,
-            'download_user_app_sub_title' => (isset($settings['download_user_app_sub_title']))  ? $settings['download_user_app_sub_title'] : null,
-            'download_user_app_image' => (isset($settings['download_user_app_image']))  ? $settings['download_user_app_image'] : null,
-            'testimonial_title' => (isset($settings['testimonial_title']))  ? $settings['testimonial_title'] : null,
-            'contact_us_title' => (isset($settings['contact_us_title']))  ? $settings['contact_us_title'] : null,
-            'contact_us_sub_title' => (isset($settings['contact_us_sub_title']))  ? $settings['contact_us_sub_title'] : null,
-            'contact_us_image' => (isset($settings['contact_us_image']))  ? $settings['contact_us_image'] : null,
+            'fixed_header_title' => (isset($settings['fixed_header_title'])) ? $settings['fixed_header_title'] : null,
+            'fixed_header_sub_title' => (isset($settings['fixed_header_sub_title'])) ? $settings['fixed_header_sub_title'] : null,
+            'fixed_module_title' => (isset($settings['fixed_module_title'])) ? $settings['fixed_module_title'] : null,
+            'fixed_module_sub_title' => (isset($settings['fixed_module_sub_title'])) ? $settings['fixed_module_sub_title'] : null,
+            'fixed_referal_title' => (isset($settings['fixed_referal_title'])) ? $settings['fixed_referal_title'] : null,
+            'fixed_referal_sub_title' => (isset($settings['fixed_referal_sub_title'])) ? $settings['fixed_referal_sub_title'] : null,
+            'fixed_newsletter_title' => (isset($settings['fixed_newsletter_title'])) ? $settings['fixed_newsletter_title'] : null,
+            'fixed_newsletter_sub_title' => (isset($settings['fixed_newsletter_sub_title'])) ? $settings['fixed_newsletter_sub_title'] : null,
+            'fixed_footer_article_title' => (isset($settings['fixed_footer_article_title'])) ? $settings['fixed_footer_article_title'] : null,
+            'feature_title' => (isset($settings['feature_title'])) ? $settings['feature_title'] : null,
+            'feature_short_description' => (isset($settings['feature_short_description'])) ? $settings['feature_short_description'] : null,
+            'earning_title' => (isset($settings['earning_title'])) ? $settings['earning_title'] : null,
+            'earning_sub_title' => (isset($settings['earning_sub_title'])) ? $settings['earning_sub_title'] : null,
+            'earning_seller_image' => (isset($settings['earning_seller_image'])) ? $settings['earning_seller_image'] : null,
+            'earning_delivery_image' => (isset($settings['earning_delivery_image'])) ? $settings['earning_delivery_image'] : null,
+            'why_choose_title' => (isset($settings['why_choose_title'])) ? $settings['why_choose_title'] : null,
+            'download_user_app_title' => (isset($settings['download_user_app_title'])) ? $settings['download_user_app_title'] : null,
+            'download_user_app_sub_title' => (isset($settings['download_user_app_sub_title'])) ? $settings['download_user_app_sub_title'] : null,
+            'download_user_app_image' => (isset($settings['download_user_app_image'])) ? $settings['download_user_app_image'] : null,
+            'testimonial_title' => (isset($settings['testimonial_title'])) ? $settings['testimonial_title'] : null,
+            'contact_us_title' => (isset($settings['contact_us_title'])) ? $settings['contact_us_title'] : null,
+            'contact_us_sub_title' => (isset($settings['contact_us_sub_title'])) ? $settings['contact_us_sub_title'] : null,
+            'contact_us_image' => (isset($settings['contact_us_image'])) ? $settings['contact_us_image'] : null,
             'opening_time' => $opening_time ? $opening_time->value : null,
             'closing_time' => $closing_time ? $closing_time->value : null,
             'opening_day' => $opening_day ? $opening_day->value : null,
             'closing_day' => $closing_day ? $closing_day->value : null,
-            'promotional_banners' => (isset($promotional_banners))  ? $promotional_banners : null,
-            'features' => (isset($features))  ? $features : [],
-            'criterias' => (isset($criterias))  ? $criterias : null,
-            'testimonials' => (isset($testimonials))  ? $testimonials : null,
+            'promotional_banners' => (isset($promotional_banners)) ? $promotional_banners : null,
+            'features' => (isset($features)) ? $features : [],
+            'criterias' => (isset($criterias)) ? $criterias : null,
+            'testimonials' => (isset($testimonials)) ? $testimonials : null,
 
 
 
-            'counter_section' => (isset($settings['counter_section']))  ? json_decode($settings['counter_section'], true) : null,
-            'seller_app_earning_links' => (isset($settings['seller_app_earning_links']))  ? json_decode($settings['seller_app_earning_links'], true) : null,
-            'dm_app_earning_links' => (isset($settings['dm_app_earning_links']))  ? json_decode($settings['dm_app_earning_links'], true) : null,
-            'download_user_app_links' => (isset($settings['download_user_app_links']))  ? json_decode($settings['download_user_app_links'], true) : null,
-            'fixed_link' => (isset($settings['fixed_link']))  ? json_decode($settings['fixed_link'], true) : null,
+            'counter_section' => (isset($settings['counter_section'])) ? json_decode($settings['counter_section'], true) : null,
+            'seller_app_earning_links' => (isset($settings['seller_app_earning_links'])) ? json_decode($settings['seller_app_earning_links'], true) : null,
+            'dm_app_earning_links' => (isset($settings['dm_app_earning_links'])) ? json_decode($settings['dm_app_earning_links'], true) : null,
+            'download_user_app_links' => (isset($settings['download_user_app_links'])) ? json_decode($settings['download_user_app_links'], true) : null,
+            'fixed_link' => (isset($settings['fixed_link'])) ? json_decode($settings['fixed_link'], true) : null,
         ];
 
 
@@ -350,9 +351,11 @@ class HomeController extends Controller
     public static function get_settings_localization($name, $lang)
     {
         $config = null;
-        $data = DataSetting::withoutGlobalScope('translate')->with(['translations' => function ($query) use ($lang) {
-            return $query->where('locale', $lang);
-        }])->where(['key' => $name])->first();
+        $data = DataSetting::withoutGlobalScope('translate')->with([
+            'translations' => function ($query) use ($lang) {
+                return $query->where('locale', $lang);
+            }
+        ])->where(['key' => $name])->first();
         if ($data && count($data->translations) > 0) {
             $data = $data->translations[0]['value'];
         } else {
@@ -386,12 +389,12 @@ class HomeController extends Controller
 
     public function product_detail($slug)
     {
-        
+
         $items = Item::where('slug', $slug)->first();
         $product = Item::all();
 
         if ($items != null) {
-            return view('product.product_detail', compact('items','product'));
+            return view('product.product_detail', compact('items', 'product'));
         }
     }
 
@@ -410,7 +413,7 @@ class HomeController extends Controller
     // }
     public function payment($slug)
     {
-        $user =  auth()->id(); // Retrieve the authenticated user's ID
+        $user = auth()->id(); // Retrieve the authenticated user's ID
 
         if ($user) {
             $userKyc = User::with('userkyc')->find($user);
@@ -457,9 +460,6 @@ class HomeController extends Controller
         return view('rental_bike', compact('item'));
     }
 
-
- 
-
     public function product_detail_store(Request $request)
     {
         try {
@@ -470,7 +470,7 @@ class HomeController extends Controller
             $order->payment_status =$request->payment_status;
             $order->transaction_reference = $request->input('transaction_reference');
             $order->save();
-
+ 
             // Create the order detail if the order is successfully created
             if ($order->user_id == Auth::user()->id) {
                 Log::info("Inside");
@@ -482,14 +482,11 @@ class HomeController extends Controller
                 $orderDetail->end_date = $request->input('end_date');
                 $orderDetail->save();
             }
-
+            $order = Order::findOrFail($request->order_id);
             return response()->json(['success' => true]);
-
+ 
         } catch (Exception $e) {
             return response()->json(['success' => false, 'error' => 'An error occurred while processing your request.']);
         }
     }
-
-
-
 }

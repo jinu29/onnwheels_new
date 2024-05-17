@@ -164,15 +164,9 @@
         line-height: 20px;
     }
 
-    .reviews-container {
-        margin-top: 3rem;
-    }
 
-    .reviews {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-    }
+
+
 
     .reviews img {
         width: 70px;
@@ -392,7 +386,7 @@
             <div class="card text-center">
                 <div class="card-body p-2 d-flex flex-column text-center">
                     <a href="{{route('product.product_detail',$items->slug)}}">
-                        <img class="avatar avatar-lg mr-3 onerror-image" src="{{ \App\CentralLogics\Helpers::onerror_image_helper( $items['image'] ?? '', asset('storage/app/public/product').'/'.$items['image'] ?? '', asset('public/assets/admin/img/160x160/img2.jpg'),'product/') }}" data-onerror-image="{{asset('public/assets/admin/img/160x160/img2.jpg')}}" alt="{{$items->name}} image">
+                        <img class="avatar avatar-lg mr-3 onerror-image" src="{{ \App\CentralLogics\Helpers::onerror_image_helper( $items['image'] ?? '', asset('storage/app/public/product').'/'.$items['image'] ?? '', asset('public/assets/admin/img/160x160/img1.jpg'),'product/') }}" data-onerror-image="{{asset('public/assets/admin/img/160x160/img2.jpg')}}" alt="{{$items->name}} image">
                     </a>
                     <div class="card-details d-flex flex-column p-1 mt-1 text-center" style="gap: 12px;">
                         <i class="fa-regular fa-heart"></i>
@@ -499,7 +493,7 @@
             </div>
             <div class="reviews w-100 my-3">
                 @foreach ($review as $reviews)
-                    <div class="card  bg-white border">
+                    <div class="card  bg-white border text-center">
                         <div class="card-body p-2 d-flex flex-column align-items-center">
                             <img
                             src="{{ \App\CentralLogics\Helpers::onerror_image_helper(

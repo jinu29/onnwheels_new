@@ -485,7 +485,7 @@
                                             <input type="button" name="next" class="next action-button" value="Next" /> <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
                                     </fieldset>
 
-                                        <fieldset>
+                                    <fieldset>
                                             <form action="">
                                                 <div class="form-card">
                                                     <div class="row">
@@ -512,9 +512,9 @@
                                                     </div>
                                                 </div> <input type="button" name="next" class="next action-button" value="Next" /> <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
                                             </form>
-                                        </fieldset>
+                                    </fieldset>
 
-                                        <fieldset>
+                                    <fieldset>
                                             <div class="form-card">
                                                 <div class="row">
                                                     <div class="col-7">
@@ -540,9 +540,9 @@
                                                     </div>
                                                 </div>
                                             </div> <input type="button" name="next" class="next action-button" value="Submit" /> <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
-                                        </fieldset>
+                                    </fieldset>
 
-                                        <fieldset>
+                                    <fieldset>
                                             <div class="form-card">
                                                 <h2 class="purple-text text-center"><strong>SUCCESS !</strong></h2> <br>
                                                 <div class="row justify-content-center">
@@ -554,7 +554,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </fieldset>
+                                    </fieldset>
                                 </div>
                     </div>
                 </div>

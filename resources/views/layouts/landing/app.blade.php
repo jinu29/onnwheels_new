@@ -140,6 +140,12 @@ $landing_site_direction = session()->get('landing_site_direction');
             font-weight: 600;
         }
 
+        .navbar-bottom-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
 
         .user-avatar-container {
             position: relative;
@@ -256,7 +262,7 @@ $landing_site_direction = session()->get('landing_site_direction');
                         <span></span>
                     </div>
                     @if (session('user_location'))
-                        <div class="location">
+                        <div class="location mr-2">
                             <i class="fa-solid fa-location-dot"></i>
                             <span id="userLocation">{{ Str::limit(session('user_location'), 20) }}</span>
                         </div>
@@ -272,6 +278,7 @@ $landing_site_direction = session()->get('landing_site_direction');
                             <div class="user-details">
                                 <div class="dropdown-menu" id="dropdown-menu">
                                     <a href="{{ route('profile') }}">Profile</a>
+                                    <a href="#">My Rides</a>
                                     <div class="menu-divider"></div> <!-- Divider -->
                                     <a href="{{ route('user.logout') }}">Logout</a>
                                 </div>
