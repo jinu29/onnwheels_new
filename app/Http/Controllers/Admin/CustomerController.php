@@ -296,11 +296,24 @@ class CustomerController extends Controller
         return view('admin-views.customer.customer-kyc', compact('user_kyc'));
     }
 
-    public function user_kyc_status_update(Request $request)
-    {
-        $kyc = Userkyc::findOrFail($request->type);
-        $kyc->is_verified = $request->value;
+    public function kyc_status_rejected_store(Request $request){
+
+        $kyc = Userkyc::findOrFail($request->id);
+        // $kyc->user_id = $request->user_id;
+        $kyc->is_reject = $request->is_reject;
+        $kyc->status = $request->status;
         $kyc->save();
-        return '1';
+        return back();
+    }
+
+    // public function user_kyc_delete(){
+
+    // }
+
+    public function  user_kyc_delete($id)
+    {
+        // dd($id);
+        Userkyc::destroy($id);
+        return redirect()->back()->with('success','Document Deleted Successfully');
     }
 }

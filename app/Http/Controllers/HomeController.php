@@ -455,8 +455,6 @@ class HomeController extends Controller
                         $items = Item::where('slug', $slug)->first();
 
                         if ($items) {
-                            // Send email notification
-                            Mail::to($user->email)->send(new MailableClass($user));
                             return view('payment', compact('items'));
                         }
                     } elseif ($user->userkyc->is_verified == 0) {

@@ -445,6 +445,27 @@
                     </div>
                     {{-- <button class="edit-image">Edit Image</button> --}}
                     <h4 class="username">{{ Auth::user()->f_name }}</h4>
+
+                    {{-- @if ( $user_kyc->is_verified == 0)
+                     <p>pending</p>
+                     @else{}
+
+                    @endif --}}
+                    @if ($user_kyc != null)
+                    @if ($user_kyc->is_verified == 0){
+                        <p>pending</p>
+                    }
+
+                    @elseif ($user_kyc->is_verified == 1){
+                        <p>Approved</p>
+                    }@elseif ($user_kyc->is_verified == 2){
+                        <p>Reject</p>
+                    }
+
+                    @endif
+                    @endif
+
+
                     <div class="details">
                         <div class="box">
                             <i class="fa-solid fa-phone"></i>

@@ -1,4 +1,56 @@
 @extends('layouts.admin.app')
+@section('css')
+    <style>
+        #image-viewer {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            padding-top: 100px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.9);
+        }
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+        }
+        .modal-content {
+            animation-name: zoom;
+            animation-duration: 0.6s;
+        }
+        @keyframes zoom {
+            from {transform:scale(0)}
+            to {transform:scale(1)}
+        }
+        #image-viewer .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        #image-viewer .close:hover,
+        #image-viewer .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        @media only screen and (max-width: 700px){
+            .modal-content {
+                width: 100%;
+            }
+        }
+    </style>
+@endsection
 @section('title', translate('Customer KYC'))
 
 @push('css_or_js')
@@ -29,7 +81,8 @@
                             <th scope="col">Pan</th>
                             <th>License Front</th>
                             <th>License Back</th>
-                            <th scope="col">Status</th>
+                            <th scope="col">Active</th>
+                            <th scope="col">Inactive</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -42,29 +95,59 @@
                                 <td>
                                     {{ $kyc->userkyc->pan ?? 'N/A' }}
                                 </td>
-                                <td>
+                                <td class="images">
                                     @if ($kyc->userkyc)
                                         @if ($kyc->userkyc->license_front)
-                                            <img src="{{ asset('/uploades/user/kyc' . $kyc->userkyc['license_front']) }}"
-                                             alt="License Front">
+                                            <img src="{{ asset('public' . $kyc->userkyc['license_front']) }}" alt="License Front" type="button" class="btn btn-primary boder-0" data-toggle="modal" data-target="#exampleModal{{$kyc->id}}" style="width:120px;background:transparent;">
+                                            <div class="modal fade" id="exampleModal{{$kyc->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                      </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <img src="{{ asset('public' . $kyc->userkyc['license_front']) }}" alt="License Front" style="width:220px;">
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                            </div>
                                         @else
-                                            <img src="{{ asset('public/assets/admin/img/160x160/img2.jpg') }}" alt="Default Image">
+                                            <img src="{{ asset('public/assets/admin/img/160x160/img2.jpg') }}"
+                                                alt="Default Image">
                                         @endif
-                                    @else
-                                    <img src="{{ asset('public/assets/admin/img/160x160/img2.jpg') }}" width="100" alt="Default Image">
-                                    @endif
-                                </td>
-                                <td>
-                                    @if ($kyc->userkyc)
-                                        <img src="{{ asset('/uploades/user/kyc' . $kyc->userkyc['license_back']) }}" alt="License Front">
                                     @else
                                         <p>N/A</p>
                                     @endif
                                 </td>
                                 <td>
+                                    @if ($kyc->userkyc)
+                                        <img src="{{ asset('public' . $kyc->userkyc['license_back']) }}" alt="License Back" type="button" class="btn btn-primary boder-0" data-toggle="modal" data-target="#exampleModal{{$kyc->id}}" style="width:120px;background:transparent;">
+                                        <div class="modal fade" id="exampleModal{{$kyc->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                              <div class="modal-content">
+                                                <div class="modal-header">
+                                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                  </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <img src="{{ asset('public' . $kyc->userkyc['license_back']) }}" alt="License Front" style="width:220px;">
+                                                </div>
+                                              </div>
+                                            </div>
+                                        </div>
+                                    @else
+                                        <p>N/A</p>
+                                    @endif
+                                </td>
+
+                                <td>
                                     <span class="switch switch-sm">
 
-                                        <label class="toggle-switch toggle-switch-sm ml-xl-4" for="stocksCheckbox{{ $kyc->id }}">
+                                        <label class="toggle-switch toggle-switch-sm ml-xl-4"
+                                            for="stocksCheckbox{{ $kyc->id }}">
                                             <input type="checkbox"
                                                 data-url="{{ route('admin.customer.user_kyc_status', [$kyc->id, optional($kyc->userkyc)->is_verified ? 0 : 1]) }}"
                                                 data-message="{{ optional($kyc->userkyc)->is_verified ? translate('messages.you_want_to_block_this_customer') : translate('messages.you_want_to_unblock_this_customer') }}"
@@ -75,23 +158,62 @@
                                                 <span class="toggle-switch-indicator"></span>
                                             </span>
                                         </label>
-
-
                                     </span>
                                 </td>
                                 <td>
-                                    <div class="d-flex">
-                                        <a class="btn action-btn btn--primary btn-outline-primary mr-2" href="#"
-                                            title="{{ translate('messages.edit_item') }}"><i class="tio-invisible"></i>
-                                        </a>
-                                        <a class="btn  action-btn btn--danger btn-outline-danger form-alert" href="#"
+                                    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
+                                        data-target="#rejectModal{{ $kyc->id }}">
+                                        Reject
+                                    </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="rejectModal{{ $kyc->id }}" tabindex="-1"
+                                        role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <form
+                                                    action="{{ route('admin.users.customer.kyc_status_rejected_store') }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLongTitle">Reason For
+                                                            Rejection</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <input type="hidden" name="id"
+                                                            value="{{ $kyc->userkyc->id ?? '' }}">
+                                                        <textarea class="form-control" name="status" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Close</button>
+                                                        <button type="submit" value="2" name="is_reject"
+                                                            class="btn btn-primary">Reject</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    @if ($kyc->userkyc)
+                                        <a class="btn  action-btn btn--danger btn-outline-danger form-alert"
+                                            href="{{ route('admin.users.customer.user_kyc_delete', ['id' => ($kyc->userkyc->id)]) }}"
                                             data-id=""
                                             data-message="{{ translate('messages.Want_to_delete_this_item') }}"
                                             title="{{ translate('messages.delete_item') }}"><i
                                                 class="tio-delete-outlined"></i>
                                         </a>
-                                    </div>
+                                    @else
+                                        <p>N/A</p>
+                                    @endif
                                 </td>
+
                             </tr>
                         @endforeach
 
@@ -101,6 +223,21 @@
         </div>
     </div>
 @endsection
+
+@section('script')
+    <script>
+        $(".images img").click(function(){
+            $("#full-image").attr("src", $(this).attr("src"));
+            $('#image-viewer').show();
+            });
+
+            $("#image-viewer .close").click(function(){
+            $('#image-viewer').hide();
+        });
+    </script>
+@endsection
+
+
 {{-- @section('script')
     <script type="text/javascript">
         function updateSettings(el, type){

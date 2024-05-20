@@ -890,6 +890,8 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
                 Route::post('search', 'CustomerController@search')->name('search');
                 Route::get('status/{customer}/{status}file-manager', 'CustomerController@status')->name('status');
                 Route::get('is_verified/{user_kyc}/{user_kyc_status}file-manager', 'CustomerController@kyc_status_update')->name('kyc_status');
+                Route::post('/kyc-status-rejected-store','CustomerController@kyc_status_rejected_store')->name('kyc_status_rejected_store');
+                Route::get('user_kyc_delete/{id}','CustomerController@user_kyc_delete')->name('user_kyc_delete');
                 // Route::post('/is_verified/update-status', 'CustomerController@kyc_status_update')->name('user_kyc_status_update');
 
             });
