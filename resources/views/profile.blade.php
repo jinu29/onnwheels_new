@@ -11,6 +11,23 @@
             border-radius: 15px;
         }
 
+        .profile {
+            padding: 15px 25px;
+            border: 1px solid black;
+            border-radius: 15px;
+        }
+
+        .profile h2 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .profile p {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
         a {
             text-decoration: none;
         }
@@ -21,8 +38,10 @@
         }
 
         .profile-btn {
+            width: 100%;
             display: flex;
             align-items: center;
+            justify-content: flex-start;
             gap: 10px;
             color: #566577;
             cursor: pointer;
@@ -35,6 +54,7 @@
         .profile-btn p {
             font-size: 14px;
             font-weight: 600;
+            margin-top: 0;
         }
 
         .user-image {
@@ -82,14 +102,19 @@
         .box {
             display: flex;
             align-items: center;
-            justify-content: flex-start;
             gap: 10px;
             margin: 12px 0;
+            color: black;
+        }
+
+        .box i {
+            font-size: 20px;
         }
 
         .box p {
             font-size: 14px;
             font-weight: 600;
+            margin-top: 0;
         }
 
         .kyc {
@@ -244,9 +269,9 @@
             content: "\f00c"
         }
 
-        #progressbar #license-upload:before {
+        #progressbar #license:before {
             font-family: FontAwesome;
-            content: "\f00c"
+            content: "\f2c2"
         }
 
         #progressbar li:before {
@@ -403,11 +428,11 @@
 
 @section('content')
 
-    <div class="container" style="margin-top: 2rem; margin-bottom: 2rem;">
+    <div class="container-fluid px-5" style="margin-top: 2rem; margin-bottom: 2rem;">
         <div class="row">
             <div class="col-3">
                 <div class="profile-user-details">
-                    <a href="#">
+                    <a href="#" class="profile-btn">
                         <div class="profile-btn">
                             <i class="fa-solid fa-arrow-left"></i>
                             <p class="mb-0">Profile</p>
@@ -418,21 +443,21 @@
                             <img src="/public/assets/landing/image/user.svg" alt="User">
                         </div>
                     </div>
-                    <button class="edit-image">Edit Image</button>
-                    <h4 class="username">Kiruthika</h4>
+                    {{-- <button class="edit-image">Edit Image</button> --}}
+                    <h4 class="username">{{ Auth::user()->f_name }}</h4>
                     <div class="details">
                         <div class="box">
                             <i class="fa-solid fa-phone"></i>
-                            <p>9994325896</p>
+                            <p class="mb-0">{{ Auth::user()->phone }}</p>
                         </div>
                         <div class="box">
                             <i class="fa-solid fa-envelope"></i>
-                            <p>9994325896</p>
+                            <p class="mb-0">{{ Auth::user()->email }}</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-9">
+            {{-- <div class="col-9">
                 <div class="kyc">
                     <div class="card px-0 pt-4 pb-0">
                         <h2 id="heading">Document Verification</h2>
@@ -448,7 +473,8 @@
                             </ul>
                             <div class="progress">
                                     <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div> <br> <!-- fieldsets -->
+                            </div> <br>
+                            <!-- fieldsets -->
 
                             <fieldset>
                                     <div class="form-card">
@@ -468,7 +494,8 @@
                                             <p>Ensure to upload pictures of original documents only</p>
                                             <p>Learner license is not applicable for renting a vehicle with us</p>
                                         </div>
-                                    </div> <input type="button" name="next" class="next action-button" value="Next" />
+                                    </div>
+                                    <input type="button" name="next" class="next action-button" value="Next" />
                             </fieldset>
 
                             <fieldset>
@@ -532,7 +559,7 @@
                                         </div>
                                         <div class="pan">
                                             <div class="group">
-                                                <input type="text" name="pan" id="card_number" required>
+                                                <input type="text" name="pan" id="license-upload" required>
                                                 <span class="bar"></span>
                                                 <label for="">Enter PAN Number</label>
                                                 <div id="successMessage" style="display: none; margin-top:5px; color:green; font-size:10px; font-weight:700;"></div>
@@ -565,12 +592,223 @@
                         </div>
                     </div>
                 </div>
+            </div> --}}
+
+            <div class="col-lg-9">
+                <div class="container-fluid profile">
+                    <div class="card px-0 pt-4 pb-0 mb-3">
+                        <h2 id="heading">DOCUMENT VERIFICATION</h2>
+                        <p>Fill all form field to go to next step</p>
+                        <form action="{{route('profile.store')}}" method="POST" id="msform"  enctype="multipart/form-data" >
+                            @csrf
+                            <!-- progressbar -->
+                            <ul id="progressbar">
+                                <li class="active" id="account"><strong>Document Details</strong></li>
+                                <li id="personal"><strong>Aadhar Card</strong></li>
+                                <li id="payment"><strong>PAN Card</strong></li>
+                                <li id="license"><strong>License</strong></li>
+                                <li id="confirm"><strong>Finish</strong></li>
+                            </ul>
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div> <br>
+                            <!-- fieldsets -->
+
+                            <!--Document Content-->
+                            <fieldset>
+                                <div class="form-card">
+                                    <div class="row">
+                                        <div class="col-7">
+                                        </div>
+                                        <div class="col-5">
+                                            <h2 class="steps">Step 1 - 5</h2>
+                                        </div>
+                                    </div>
+                                    <div class="desp" style="width: 100%; margin-top:1rem; color: black;">
+                                        <p>Kindly upload the following documents:</p>
+                                        <ol>
+                                            <li>Driving License</li>
+                                            <li>Identification Proof</li>
+                                        </ol>
+                                        <p>Ensure to upload pictures of original documents only</p>
+                                        <p>Learner license is not applicable for renting a vehicle with us</p>
+                                    </div>
+                                </div>
+                                <input type="button" name="next" class="next action-button" value="Next" />
+                            </fieldset>
+
+                            <!--Aadhar-->
+                            <fieldset>
+                                <div class="form-card">
+                                    <div class="row">
+                                        <div class="col-7">
+                                        </div>
+                                        <div class="col-5">
+                                            <h2 class="steps">Step 2 - 5</h2>
+                                        </div>
+                                    </div>
+                                    <div class="aadhar">
+                                        <div class="group">
+                                            <input type="text" name="aadhar" id="card_number" required>
+                                            <span class="bar"></span>
+                                            <label for="">Enter Aadhar Number</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="button" name="next" class="next action-button" value="Next" /> <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                            </fieldset>
+
+                            <!--Pan-->
+                            <fieldset>
+                                <div class="form-card">
+                                    <div class="row">
+                                        <div class="col-7">
+                                        </div>
+                                        <div class="col-5">
+                                            <h2 class="steps">Step 3 - 5</h2>
+                                        </div>
+                                    </div>
+                                    <div class="pan">
+                                        <div class="group">
+                                            <input type="text" name="pan" id="pan_number" required>
+                                            <span class="bar"></span>
+                                            <label for="">Enter PAN Number</label>
+                                            <div id="successMessage" style="display: none; margin-top:5px; color:green; font-size:10px; font-weight:700;"></div>
+                                            <div id="errorMessage" style="display: none; margin-top:5px; color:red; font-size:10px; font-weight:700;"></div>
+                                        </div>
+                                        <div class="spinner-border mt-3" role="status" style="display: none;" id="spinner">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                        <div style="margin-top: 1rem;">
+                                            <button type="button" id="verifyBtn" class="btn btn-primary">Verify</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="button" name="next" class="next action-button" value="Next" /> <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                            </fieldset>
+                            <!--License-->
+                            <fieldset>
+                                <div class="form-card">
+                                    <div class="row">
+                                        <div class="col-7">
+                                        </div>
+                                        <div class="col-5">
+                                            <h2 class="steps">Step 4 - 5</h2>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <input type="file" name="license_front" accept="image/*"> <label class="fieldlabels">License Front</label>
+                                        </div>
+                                        <div class="col">
+                                            <input type="file" name="license_back" accept="image/*"> <label class="fieldlabels">License Back</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="submit" name="next" class="next action-button" value="Submit" />
+                                <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                            </fieldset>
+                            <!--Finish-->
+                            <fieldset>
+                                <div class="form-card">
+                                    <div class="row">
+                                        <div class="col-7">
+                                            <h2 class="fs-title">Finish:</h2>
+                                        </div>
+                                        <div class="col-5">
+                                            <h2 class="steps">Step 4 - 4</h2>
+                                        </div>
+                                    </div> <br><br>
+                                    <h2 class="purple-text text-center"><strong>SUCCESS !</strong></h2> <br>
+                                    <div class="row justify-content-center">
+                                        <div class="col-3"> <img src="https://i.imgur.com/GwStPmg.png" class="fit-image"> </div>
+                                    </div> <br><br>
+                                    <div class="row justify-content-center">
+                                        <div class="col-7 text-center">
+                                            <h5 class="purple-text text-center">You Have Successfully Signed Up</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 @endsection
 @section('scripts')
+
+    {{-- Aadhar Input Field --}}
     <script>
+        const cardNumber = document.querySelector('#card_number');
+        cardNumber.addEventListener('input', function (e) {
+        // Remove any non-digit characters
+        this.value = this.value.replace(/\D/g, '');
+
+        // Format the input as groups of 4 digits with a space
+        this.value = this.value.replace(/(\d{4})(?=\d)/g, '$1 ');
+
+        // Limit the input to 12 characters
+            if (this.value.length > 14) {
+                this.value = this.value.slice(0, 14);
+            }
+        });
+    </script>
+
+    {{-- PAN --}}
+    {{-- <script>
+        $(document).ready(function() {
+            $('#verifyBtn').click(function() {
+                var panNumber = $('#pan_number').val();
+
+                // Show spinner
+                $('#spinner').show();
+
+                // Perform AJAX request
+                $.ajax({
+                    url: "{{ route('verification.pan-verify') }}",
+                    type: "POST",
+                    data: {
+                        pan_number: panNumber,
+                        purpose: 1,
+                        purpose_desc: "onboarding",
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(response) {
+                        // Hide spinner
+                        $('#spinner').hide();
+                        if(response.message == "PAN verification successful"){
+                            $('#errorMessage').hide();
+                            $('#successMessage').text(response.message).show();
+                            $('.next').show();
+                        }
+                        else{
+                            $('#successMessage').hide();
+                            $('.next').hide();
+                            $('#errorMessage').text(response.message).show();
+                        }
+                        // Handle successful response
+                        console.log(response.message);
+                    //  $('#successMessage').text(response.message).show();
+
+                        // Show the "Next Step" button
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        // Hide spinner
+                        $('#spinner').hide();
+
+                        // Handle error response
+                        console.error(xhr.responseText);
+                        $('#errorMessage').text(xhr.responseText).show();
+                        // Here you can handle the error response as per your requirements
+                    }
+                });
+            });
+        });
+    </script> --}}
+
+    {{-- <script>
         $(document).ready(function(){
 
         var current_fs, next_fs, previous_fs; //fieldsets
@@ -723,6 +961,134 @@
                         // Handle successful response
                         console.log(response.message);
                     //  $('#successMessage').text(response.message).show();
+
+                        // Show the "Next Step" button
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        // Hide spinner
+                        $('#spinner').hide();
+
+                        // Handle error response
+                        console.error(xhr.responseText);
+                        $('#errorMessage').text(xhr.responseText).show();
+                        // Here you can handle the error response as per your requirements
+                    }
+                });
+            });
+        });
+    </script> --}}
+    <script>
+        $(document).ready(function(){
+
+        var current_fs, next_fs, previous_fs; //fieldsets
+        var opacity;
+        var current = 1;
+        var steps = $("fieldset").length;
+
+        setProgressBar(current);
+
+        $(".next").click(function(){
+
+        current_fs = $(this).parent();
+        next_fs = $(this).parent().next();
+
+        //Add Class Active
+        $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+
+        //show the next fieldset
+        next_fs.show();
+        //hide the current fieldset with style
+        current_fs.animate({opacity: 0}, {
+        step: function(now) {
+        // for making fielset appear animation
+        opacity = 1 - now;
+
+        current_fs.css({
+        'display': 'none',
+        'position': 'relative'
+        });
+        next_fs.css({'opacity': opacity});
+        },
+        duration: 500
+        });
+        setProgressBar(++current);
+        });
+
+        $(".previous").click(function(){
+
+        current_fs = $(this).parent();
+        previous_fs = $(this).parent().prev();
+
+        //Remove class active
+        $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
+
+        //show the previous fieldset
+        previous_fs.show();
+
+        //hide the current fieldset with style
+        current_fs.animate({opacity: 0}, {
+        step: function(now) {
+        // for making fielset appear animation
+        opacity = 1 - now;
+
+        current_fs.css({
+        'display': 'none',
+        'position': 'relative'
+        });
+        previous_fs.css({'opacity': opacity});
+        },
+        duration: 500
+        });
+        setProgressBar(--current);
+        });
+
+        function setProgressBar(curStep){
+        var percent = parseFloat(100 / steps) * curStep;
+        percent = percent.toFixed();
+        $(".progress-bar")
+        .css("width",percent+"%")
+        }
+
+        $(".submit").click(function(){
+        return false;
+        })
+
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#verifyBtn').click(function() {
+                var panNumber = $('#pan_number').val();
+
+                // Show spinner
+                $('#spinner').show();
+
+                // Perform AJAX request
+                $.ajax({
+                    url: "{{ route('verification.pan-verify') }}",
+                    type: "POST",
+                    data: {
+                        pan_number: panNumber,
+                        purpose: 1,
+                        purpose_desc: "onboarding",
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(response) {
+                        // Hide spinner
+                        $('#spinner').hide();
+                        if(response.message == "PAN verification successful"){
+                            $('#errorMessage').hide();
+                            $('#successMessage').text(response.message).show();
+                            $('.next').show();
+                        }
+                        else{
+                            $('#successMessage').hide();
+                            $('.next').hide();
+                            $('#errorMessage').text(response.message).show();
+                        }
+                        // Handle successful response
+                        console.log(response.message);
+                      //  $('#successMessage').text(response.message).show();
 
                         // Show the "Next Step" button
                     },

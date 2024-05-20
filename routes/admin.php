@@ -762,6 +762,8 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::get('view/{user_id}', 'CustomerController@view')->name('view');
             Route::post('search', 'CustomerController@search')->name('search');
             Route::get('status/{customer}/{status}', 'CustomerController@status')->name('status');
+            Route::get('/is_verified/{user_kyc}/{is_verified}', 'CustomerController@kyc_status_update')->name('user_kyc_status');
+
         });
 
 
@@ -882,9 +884,14 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
 
             Route::group(['prefix' => 'customer', 'as' => 'customer.', 'middleware' => ['module:customer_management']], function () {
                 Route::get('list', 'CustomerController@customer_list')->name('list');
+                Route::get('user_kyc', 'CustomerController@user_kyc')->name('customer-kyc');
+
                 Route::get('view/{user_id}', 'CustomerController@view')->name('view');
                 Route::post('search', 'CustomerController@search')->name('search');
                 Route::get('status/{customer}/{status}file-manager', 'CustomerController@status')->name('status');
+                Route::get('is_verified/{user_kyc}/{user_kyc_status}file-manager', 'CustomerController@kyc_status_update')->name('kyc_status');
+                // Route::post('/is_verified/update-status', 'CustomerController@kyc_status_update')->name('user_kyc_status_update');
+
             });
             Route::group(['prefix' => 'contact', 'as' => 'contact.', 'middleware' => ['module:customer_management']], function () {
                 Route::get('contact-list', 'ContactController@list')->name('contact-list');

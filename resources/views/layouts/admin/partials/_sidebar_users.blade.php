@@ -116,6 +116,14 @@
                     <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                 </li>
                 <!-- Custommer -->
+                <li class="navbar-vertical-aside-has-menu {{ (Request::is('admin/users/customer/user_kyc')) ? 'active' : '' }}">
+                    <a class="js-navbar-vertical-aside-menu-link nav-link" href="{{route('admin.users.customer.customer-kyc')}}" title="{{ translate('messages.customers') }}">
+                        <i class="tio-receipt nav-icon"></i>
+                        <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                            {{ translate('messages.customers kyc') }}
+                        </span>
+                    </a>
+                </li>
 
                 <li class="navbar-vertical-aside-has-menu {{ (Request::is('admin/users/customer/list') || Request::is('admin/users/customer/view*')) ? 'active' : '' }}">
                     <a class="js-navbar-vertical-aside-menu-link nav-link" href="{{ route('admin.users.customer.list') }}" title="{{ translate('messages.customers') }}">

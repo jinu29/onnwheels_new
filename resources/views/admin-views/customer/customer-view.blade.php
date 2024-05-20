@@ -62,6 +62,27 @@
                 </div>
             </div>
         </div>
+        @if ($user_kyc->user_id != null)
+            <div class="card mb-3">
+                <div class="card-body">
+                <h5 class="card-title">User Kyc</h5>
+                <p class="card-text">
+                    <div class="">
+                        <p>Aadhar Number : {{$user_kyc->aadhar}}</p>
+                        <p>Pan Number : {{$user_kyc->pan}}</p>
+
+                    </div>
+                </p>
+                <label class="toggle-switch toggle-switch-sm" for="stocksCheckbox{{$user_kyc->id}}">
+                    <input type="checkbox" class="toggle-switch-input redirect-url" data-url="{{route('profile.store',[$user_kyc['id'],$user_kyc->is_verified?0:1])}}" id="stocksCheckbox{{$user_kyc->id}}" {{$user_kyc->is_verified?'checked':''}}>
+                    <span class="toggle-switch-label mx-auto">
+                        <span class="toggle-switch-indicator"></span>
+                    </span>
+                </label>
+                </div>
+            </div>
+        @endif
+
 
         <div class="row" id="printableArea">
             <div class="col-lg-8 mb-3 mb-lg-0">

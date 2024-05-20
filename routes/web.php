@@ -231,6 +231,7 @@ Route::get('user-logout', [AuthController::class, 'logout'])->name('user.logout'
 
 // UserProfile Route
 Route::get('profile', [UserController::class , 'profile'])->name('profile');
+Route::post('user-kyc/store',[UserController::class,'userkyc_store'])->name('profile.store');
 Route::post('user/{id}', [AuthController::class ,'update'])->name('user.update');
 
 //Social login

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contact;
+use App\Mail\OrderConfirmationMail;
 use Illuminate\Http\Request;
 use App\CentralLogics\Helpers;
 use App\Models\AdminFeature;
@@ -22,6 +23,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Exception;
 use Illuminate\Support\Facades\Log;
+use App\Mail;
 use Illuminate\Support\Facades\Http;
 use Razorpay\Api\Api;
 use Session;
@@ -392,7 +394,7 @@ class HomeController extends Controller
         $product = Item::all();
 
         if ($items != null) {
-            return view('product.product_detail', compact('items','product'));
+            return view('product.product_detail', compact('items', 'product'));
         }
     }
 
@@ -408,26 +410,66 @@ class HomeController extends Controller
     //         return view ('payment',compact('items'));
     //     }
 
+
+
     // }
+    // public function payment($slug)
+    // {
+    //     $user =  auth()->id(); // Retrieve the authenticated user's ID
+
+    //     if ($user) {
+
+    //         $userKyc = User::with('userkyc')->find($user);
+    //         // dd($userKyc->userkyc);
+    //         if($userKyc){
+    //             if($userKyc->userkyc != null){
+    //                 if ($userKyc->userkyc->is_verified == 1) {
+    //                     $items = Item::where('slug', $slug)->first();
+
+    //                     if ($items) {
+    //                         return view('payment', compact('items'));
+    //                     }
+    //                 } elseif ($userKyc && $userKyc->userkyc->is_verified == 0) {
+    //                     return view('profile', compact('user'));
+    //                 }
+    //             }
+    //             else{
+    //                 return view('profile', compact('user'));
+    //             }
+    //         }
+
+    //     }
+    // }
+
+
     public function payment($slug)
     {
-        $user =  auth()->id(); // Retrieve the authenticated user's ID
+        $userId = auth()->id(); // Retrieve the authenticated user's ID
 
-        if ($user) {
-            $userKyc = User::with('userkyc')->find($user);
-            // if($userKyc->is_verified == null){
-            if ($userKyc && $userKyc->userkyc->is_verified == 1) {
-                $items = Item::where('slug', $slug)->first();
+        if ($userId) {
+            $user = User::with('userkyc')->find($userId);
 
-                if ($items) {
-                    return view('payment', compact('items'));
+            if ($user) {
+                if ($user->userkyc != null) {
+                    if ($user->userkyc->is_verified == 1) {
+                        $items = Item::where('slug', $slug)->first();
+
+                        if ($items) {
+                            // Send email notification
+                            Mail::to($user->email)->send(new MailableClass($user));
+                            return view('payment', compact('items'));
+                        }
+                    } elseif ($user->userkyc->is_verified == 0) {
+                        return view('profile', compact('user'));
+                    }
+                } else {
+                    return view('profile', compact('user'));
                 }
-            } elseif ($userKyc && $userKyc->userkyc->is_verified == 0) {
-                return view('profile', compact('user'));
             }
-            // }
-
         }
+
+        // Add a fallback return if no conditions are met
+        return redirect()->route('home')->with('error', 'User not authenticated or KYC not found');
     }
 
 
@@ -459,8 +501,6 @@ class HomeController extends Controller
     }
 
 
-
-
     public function product_detail_store(Request $request)
     {
         try {
@@ -468,11 +508,9 @@ class HomeController extends Controller
             $order = new Order();
             $order->user_id = Auth::user()->id;
             $order->order_amount = $request->input('order_amount');
-            $order->payment_status =$request->payment_status;
+            $order->payment_status = strtolower($request->payment_status);
             $order->transaction_reference = $request->input('transaction_reference');
             $order->save();
-
-            $orders=
 
             // Create the order detail if the order is successfully created
             if ($order->user_id == Auth::user()->id) {
@@ -484,12 +522,20 @@ class HomeController extends Controller
                 $orderDetail->start_date = $request->input('start_date');
                 $orderDetail->end_date = $request->input('end_date');
                 $orderDetail->save();
+
+                if (isset($order->transaction_reference)) {
+                    $order_payment = new OrderPayment();
+                    $order_payment->order_id = $order->id;
+                    $order_payment->transaction_ref = $request->input('transaction_reference');
+                    $order_payment->amount = $request->input('order_amount');
+                    $order_payment->payment_status = $request->payment_status;
+                    $order_payment->payment_method = "Razorpay";
+                    $order_payment->save();
+                }
+                // Mail::to(Auth::users()->email)->send(new OrderConfirmationMail($order));
             }
 
-
-
-
-            return response()->json(['success' => true]);
+        return response()->json(['success' => true]);
 
         } catch (Exception $e) {
             return response()->json(['success' => false, 'error' => 'An error occurred while processing your request.']);
@@ -500,7 +546,4 @@ class HomeController extends Controller
     {
         return view('thankyou');
     }
-
-
-
 }

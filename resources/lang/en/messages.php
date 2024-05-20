@@ -3947,4 +3947,11 @@
   'Products ' => 'Products ',
   'Products' => 'Products',
   'update_successfull' => 'Update successfull',
+  'customers kyc' => 'Customers kyc',
+  'Customer KYC' => 'Customer KYC',
+  'customers KYC' => 'Customers KYC',
+  'push_notification_failed' => 'Push notification failed',
+  'The is verified field is required.' => 'The is verified field is required.',
+  'update_failed' => 'Update failed',
+  'user_kyc_not_found' => 'User kyc not found',
 );
