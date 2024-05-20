@@ -252,3 +252,4 @@ Route::post('/product_detail_store', [HomeController::class, 'product_detail_Sto
 Route::post('/create-order', [PaymentController::class, 'createOrder']);
 
 Route::get('thank_you', [HomeController::class, 'thank_you'])->name('thank_you');
+

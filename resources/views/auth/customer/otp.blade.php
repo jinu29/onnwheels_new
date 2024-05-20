@@ -91,7 +91,10 @@
                             <input type="hidden" name="phone" value="{{ $phone ?? null }}">
 
                         </div>
-
+                        @if(Session::has('error'))
+                       <p style="color: red; font-size:12px;font-weight:500;">{{ session('error') }}</p>
+                    @endif
+                    
                         <button type="submit" class="btn btn-lg btn-block btn--primary mt-4">Verify</button>
                     </form>
                 </div>
@@ -116,6 +119,16 @@
             @endforeach
         </script>
     @endif
+    @if(Session::has('success'))
+    <script>
+         toastr.error('{{ session('success') }}', Error, {
+                    CloseButton: true,
+                    ProgressBar: true
+                });
+  
+    </script>
+@endif
+
     {{-- @if ($log_email_succ)
         @php(session()->forget('log_email_succ'))
         <script>

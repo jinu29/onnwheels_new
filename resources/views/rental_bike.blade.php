@@ -82,12 +82,92 @@
         align-self: center;
         border-radius: 8px;
     }
+    
+    /* Accordion */
+    .tab input {
+        position: absolute;
+        opacity: 0;
+        z-index: -1;
+    }
+
+    .tab__content {
+        max-height: 0;
+        overflow: hidden;
+        transition: all 0.35s;
+        padding: 10px 15px;
+    }
+    .tab input:checked ~ .tab__content {
+        max-height: 10rem;
+    }   
+
+    .accordion {
+        border: 1px solid #003360;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    .tab__label,
+    .tab__close {
+        display: flex;
+        color: white;
+        background: #003360;
+        cursor: pointer;
+    }
+    .tab__label {
+    justify-content: space-between;
+    padding: 1rem;
+    }
+    .tab__label::after {
+    content: "\276F";
+    width: 1em;
+    height: 1em;
+    text-align: center;
+    transform: rotate(90deg);
+    margin-top: 3px;
+    }
+    
+    .tab input:checked + .tab__label::after {
+    transform: rotate(270deg);
+    }
+    
+    .tab__close {
+    justify-content: flex-end;
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+    }
+
+    .category {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+    }
+    
 </style>
 @endsection
 @section('content')
     <div class="container mt-5">
         <div class="row">
-            @foreach ( $item as $items )
+            <div class="col-3">
+                <section class="accordion">
+                    <div class="tab">
+                      <input type="checkbox" name="accordion-1" id="cb1" checked>
+                      <label for="cb1" class="tab__label mb-0">Checkbox</label>
+                      <div class="tab__content">
+                        <div class="category">
+                            <i class="fa-solid fa-chevron-right"></i>
+                            <p class="p-0 mb-0 mt-0">Mileage Bikes</p>
+                        </div>
+                        <div class="category">
+                            <i class="fa-solid fa-chevron-right"></i>
+                            <p class="p-0 mb-0 mt-0">Mileage Bikes</p>
+                        </div>
+                      </div>
+                    </div>
+                </section>
+            </div>
+            <div class="col-9 d-flex" style="flex-wrap: wrap">
+                @foreach ( $item as $items )
                 <div class="col-lg-3 col-6">
                     <div class="card text-center mb-3">
                         <div class="card-body p-2 d-flex flex-column text-center">
@@ -124,7 +204,8 @@
                         </div>
                     </div>
                 </div>
-            @endforeach
+                @endforeach
+            </div>
         </div>
     </div>
 @endsection

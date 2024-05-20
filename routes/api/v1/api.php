@@ -307,7 +307,7 @@ Route::group(['namespace' => 'Api\V1', 'middleware' => 'localization'], function
 
             Route::group(['prefix' => 'wish-list'], function () {
                 Route::get('/', 'WishlistController@wish_list');
-                Route::post('add', 'WishlistController@add_to_wishlist');
+                Route::post('add', 'WishlistController@add_to_wishlist')->name('add_to_wishlist');
                 Route::delete('remove', 'WishlistController@remove_from_wishlist');
             });
 

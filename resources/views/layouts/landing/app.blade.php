@@ -359,7 +359,7 @@ $landing_site_direction = session()->get('landing_site_direction');
                     <div class="mail mb-2 d-flex align-items-center mt-4" style="gap: 10px;">
                         <i class="fa-regular fa-envelope" style="font-size: 19px;"></i>
                         <a
-                            href="Malto:{{ \App\CentralLogics\Helpers::get_settings('email_address') }}">{{ \App\CentralLogics\Helpers::get_settings('email_address') }}</a>
+                            href="mailto:{{ \App\CentralLogics\Helpers::get_settings('email_address') }}">{{ \App\CentralLogics\Helpers::get_settings('email_address') }}</a>
                     </div>
                     <div class="social-icons mt-4">
                         <a href="#">

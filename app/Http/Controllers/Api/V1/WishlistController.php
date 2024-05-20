@@ -10,8 +10,44 @@ use Illuminate\Support\Facades\Validator;
 
 class WishlistController extends Controller
 {
+    // public function add_to_wishlist(Request $request)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'item_id' => 'required_without:store_id',
+    //         'store_id' => 'required_without:item_id',
+    //     ]);
+
+    //     if ($validator->fails()) {
+    //         return response()->json(['errors' => Helpers::error_processor($validator)], 403);
+    //     }
+    //     if ($request->item_id && $request->store_id) {
+    //         $errors = [];
+    //         array_push($errors, ['code' => 'data', 'message' => translate('messages.can_not_add_both_food_and_restaurant_at_same_time')]);
+    //         return response()->json([
+    //             'errors' => $errors
+    //         ], 403);
+    //     }
+    //     $wishlist = Wishlist::where('user_id', $request->user()->id)->where('item_id', $request->item_id)->where('store_id', $request->store_id)->first();
+    //     if (empty($wishlist)) {
+    //         $wishlist = new Wishlist;
+    //         $wishlist->user_id = $request->user()->id;
+    //         $wishlist->item_id = $request->item_id;
+    //         $wishlist->store_id = $request->store_id;
+    //         $wishlist->save();
+    //         return response()->json(['message' => translate('messages.added_successfully')], 200);
+    //     }
+
+    //     return response()->json(['message' => translate('messages.already_in_wishlist')], 409);
+    // }
+
     public function add_to_wishlist(Request $request)
     {
+        if (!auth()->check()) {
+            return response()->json(['message' => 'User not authenticated'], 401);
+        }
+
+        $user = auth()->user();
+
         $validator = Validator::make($request->all(), [
             'item_id' => 'required_without:store_id',
             'store_id' => 'required_without:item_id',
@@ -20,17 +56,21 @@ class WishlistController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => Helpers::error_processor($validator)], 403);
         }
+
         if ($request->item_id && $request->store_id) {
             $errors = [];
             array_push($errors, ['code' => 'data', 'message' => translate('messages.can_not_add_both_food_and_restaurant_at_same_time')]);
-            return response()->json([
-                'errors' => $errors
-            ], 403);
+            return response()->json(['errors' => $errors], 403);
         }
-        $wishlist = Wishlist::where('user_id', $request->user()->id)->where('item_id', $request->item_id)->where('store_id', $request->store_id)->first();
+
+        $wishlist = Wishlist::where('user_id', $user->id)
+                            ->where('item_id', $request->item_id)
+                            ->where('store_id', $request->store_id)
+                            ->first();
+
         if (empty($wishlist)) {
             $wishlist = new Wishlist;
-            $wishlist->user_id = $request->user()->id;
+            $wishlist->user_id = $user->id;
             $wishlist->item_id = $request->item_id;
             $wishlist->store_id = $request->store_id;
             $wishlist->save();
@@ -40,32 +80,6 @@ class WishlistController extends Controller
         return response()->json(['message' => translate('messages.already_in_wishlist')], 409);
     }
 
-    public function remove_from_wishlist(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'item_id' => 'required_without:store_id',
-            'store_id' => 'required_without:item_id',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => Helpers::error_processor($validator)], 403);
-        }
-
-        $wishlist = Wishlist::when($request->item_id, function($query)use($request){
-            return $query->where('item_id', $request->item_id);
-        })
-        ->when($request->store_id, function($query)use($request){
-            return $query->where('store_id', $request->store_id);
-        })
-        ->where('user_id', $request->user()->id)->first();
-
-        if ($wishlist) {
-            $wishlist->delete();
-            return response()->json(['message' => translate('messages.successfully_removed')], 200);
-
-        }
-        return response()->json(['message' => translate('messages.not_found')], 404);
-    }
 
     public function wish_list(Request $request)
     {

@@ -474,9 +474,9 @@ class HomeController extends Controller
             $order->payment_status =$request->payment_status;
             $order->transaction_reference = $request->input('transaction_reference');
             $order->save();
-
-            $orders=
-
+ 
+ 
+ 
             // Create the order detail if the order is successfully created
             if ($order->user_id == Auth::user()->id) {
                 Log::info("Inside");
@@ -487,11 +487,12 @@ class HomeController extends Controller
                 $orderDetail->start_date = $request->input('start_date');
                 $orderDetail->end_date = $request->input('end_date');
                 $orderDetail->save();
+
+                Mail::to(Auth::users()->email)->send(new OrderConfirmationMail($order));
             }
+ 
 
-
-
-
+ 
             return response()->json(['success' => true]);
  
         } catch (Exception $e) {
@@ -503,7 +504,6 @@ class HomeController extends Controller
     {
         return view('thankyou');
     }
-
 
 
 }

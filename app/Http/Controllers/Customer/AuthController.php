@@ -292,7 +292,7 @@ class AuthController extends Controller
                     );
                 }
 
-                return redirect()->back()->with('error', translate('messages.phone_number_and_otp_not_matched'));
+                return redirect()->back()->with('error', translate('messages.Invalid_OTP'));
             }
         }
 

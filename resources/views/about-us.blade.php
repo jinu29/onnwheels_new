@@ -167,8 +167,18 @@
 
     .service {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         gap: 20px;
+    }
+
+    .service img {
+        width: 80px;
+    }
+
+    .service-details {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
     }
 
     .service-details h6 {
@@ -305,25 +315,21 @@
         .img-one {
             position: absolute;
             top: 55px;
-            left: -5px;
+            left: 10px;
         }
 
         .img-two {
             position: absolute;
-            left: 85px;
+            left: 98px;
             top: 80px;
         }
 
         .service-bike-img {
-            top: 50%;
+            top: 35%;
         }
 
         .services-list {
             margin-top: 8rem;
-        }
-
-        .service-bike-img img {
-            width: 100%;
         }
 
         .service-details h6 {
@@ -388,7 +394,7 @@
                         <h3>Unleash your journey: The Drivewise Advantage</h3>
                     </div>
                     <p>Immerse yourself in a world of possibilities with our extensive range of vehicles. From sleek sedans to rugged SUVs and luxurious convertibles, we have the perfect wheels to match your style, preferences, and the demands of your adventure.</p>
-                    <a class="advantage-btn" href="#">
+                    <a class="advantage-btn" href="{{ route('rental_bike') }}">
                         <button class="explore">Explore the possibilities</button>
                     </a>
                 </div>
@@ -419,7 +425,7 @@
                         <h3>Beyond Rentals, Building Memories</h3>
                     </div>
                     <p>We are more than just a car rental service. We strive to be your travel companion, providing recommendations, tips, and local insights to help you create unforgettable memories. Count on us to make your journey not only comfortable but also enriching and unforgettable.</p>
-                    <a class="advantage-btn" href="#">
+                    <a class="advantage-btn" href="{{ route('rental_bike') }}">
                         <button class="explore">Book your Bike today</button>
                     </a>
                 </div>

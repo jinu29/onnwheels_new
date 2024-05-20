@@ -828,11 +828,10 @@
                     <div class="desp">
                         <p>{{ $items->description }}</p>
                     </div>
+                    
                     <div class="date-range">
-                        <input type="text" id="demo" name="datefilter" value="" class="shadow" />
+                        <input type="text" id="demo" name="datefilter" value="" class="shadow"/>
                     </div>
-
-                   
 
                     <div class="total-price">
                         <p class="mb-0">Total Price:</p>

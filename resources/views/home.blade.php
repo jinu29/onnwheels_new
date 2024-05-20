@@ -59,10 +59,16 @@
         border-radius: 20px;
     }
 
-    .fa-heart {
+    .heart-btn {
         position: absolute;
         top: 10px;
         right: 10px;
+        background: transparent;
+        border: none;
+        outline: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .new {
@@ -189,19 +195,32 @@
     .app-details {
         display: flex;
         flex-direction: column;
-        gap: 15px;
+        gap: 10px;
     }
 
     .app-details h5 {
-        font-size: 19px;
+        font-size: 35px;
         font-weight: 700;
     }
 
     .app-details h3 {
-        font-size: 35px;
-        font-weight: 700;
-        line-height: 35px;
-        width: 45rem;
+        font-size: 20px;
+        font-weight: 600;
+        width: 30rem;
+    }
+
+    .fa-heart {
+    cursor: pointer;
+}
+
+    .fa-heart.clicked {
+        color: red;
+    }
+
+    .btn-primary {
+        background: transparent;
+        border: none;
+        outline: none;
     }
 
     @media (max-width:991px) {
@@ -308,6 +327,26 @@
 
         .reviews-container {
             padding: 0 25px;
+        }
+
+        .app-details {
+            text-align: center;
+        }
+        
+        .app-details h5 {
+            font-size: 21px;
+        }
+
+        .app-details h3 {
+            width: 100%;
+            font-size: 18px;
+        }
+
+        .copyrights-container {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            gap: 15px;
         }
 
     }
@@ -421,7 +460,13 @@
                         <img class="avatar avatar-lg mr-3 onerror-image" src="{{ \App\CentralLogics\Helpers::onerror_image_helper( $items['image'] ?? '', asset('storage/app/public/product').'/'.$items['image'] ?? '', asset('public/assets/admin/img/160x160/img1.jpg'),'product/') }}" data-onerror-image="{{asset('public/assets/admin/img/160x160/img2.jpg')}}" alt="{{$items->name}} image">
                     </a>
                     <div class="card-details d-flex flex-column p-1 mt-1 text-center" style="gap: 12px;">
-                        <i class="fa-regular fa-heart"></i>
+                            <button type="submit" class="heart-btn">
+                                <i id="heart-icon" class="fa-solid fa-heart"></i>
+                            </button>
+                        @else
+                        <p>Please <a href="{{ route('login', ['tab' => 'customer']) }}">login</a> to add items to your wishlist.</p>
+                        @endauth
+
                         @if ($items->discount != 0)
                         <p class="new">{{$items->discount}} %</p>
                         @endif
@@ -555,8 +600,12 @@
     <div class="app">
         <div class="container">
             <div class="app-details">
-                <h5>Unlock your adventure. Rent a Bike with ease.</h5>
-                <h3>Download our new app and book your first Bike today</h3>
+                <h5>Download Onn Wheels App</h5>
+                <h3>We have incredible offers, discounts & much more in our app.</h3>
+                <div class="images">
+                    <img src="/public/assets/landing/image/play.png" alt="Playstore" style="width: 100px;">
+                    <img src="/public/assets/landing/image/app.png" alt="" style="width: 100px;">
+                </div>
             </div>
         </div>
     </div>
@@ -592,7 +641,7 @@
 
     });
 
-// Script for Blog Slick
+    // Script for Blog Slick
     $(document).ready(function(){
 
         $('.blogs').slick({
@@ -620,7 +669,7 @@
 
     });
 
-// Slick for Reviews
+    // Slick for Reviews
     $(document).ready(function(){
 
         $('.reviews').slick({
@@ -676,6 +725,16 @@
 
     });
 
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var heartIcon = document.getElementById('heart-icon');
+        
+        heartIcon.addEventListener('click', function() {
+            heartIcon.classList.toggle('clicked');
+        });
     });
 </script>
 @endsection

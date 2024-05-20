@@ -112,7 +112,7 @@
                                     </div>
 
 
-                                    <form action="{{route('admin.users.contact.contact-send-mail',$contact->id)}}" method="post">
+                                    <form action="{{route('admin.users.contact.contact-send-mail',  $contact->id)}}" method="post">
                                         @csrf
                                         <div class="form-group mt-2">
                                             <div class="row">

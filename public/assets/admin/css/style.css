@@ -6343,13 +6343,12 @@ strong {
     justify-content: space-between;
 }
 
-.auth-wrapper * {
-    font-family: "Roboto", sans-serif;
+.auth-wrapper-left {
+    width: 50%;
 }
 
 .auth-wrapper-right {
-    width: 100%;
-    max-width: 660px;
+    width: 50%;
     background: #fff;
     min-height: 100vh;
     display: flex;
@@ -6449,15 +6448,14 @@ strong {
         font-size: 24px;
     }
 }
-.auth-wrapper-left {
+/* .auth-wrapper-left {
     width: 0;
     flex-grow: 1;
-    background: url(./images/auth-bg.png) no-repeat center left/cover;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-}
+} */
 
 .auth-wrapper-left .auth-left-cont {
     -webkit-margin-start: auto;

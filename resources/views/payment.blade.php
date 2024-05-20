@@ -623,10 +623,10 @@
         $(document).ready(function() {
             $('#rzp-button1').click(function(e) {
                 e.preventDefault();
-
+ 
                 var orderAmount = $('#totalPriceInput').val();
                 var itemId = $('#itemIdInput').val();
-
+ 
                 var options = {
                     "key": "rzp_test_XZKJkxZxNQpGQd",
                     "amount": orderAmount * 100,
@@ -636,7 +636,7 @@
                     "image": "https://example.com/your_logo",
                     "handler": function(response) {
                         // console.log("hi", response)
-
+ 
                         var orderData = {
                             order_amount: orderAmount,
                             item_id: itemId,
@@ -646,7 +646,7 @@
                             transaction_reference: response.razorpay_payment_id,
                             _token: '{{ csrf_token() }}'
                         };
-
+ 
                         $.ajax({
                             url: '/product_detail_store',
                             method: 'POST',
@@ -673,8 +673,8 @@
                                 alert('Failed to process payment. Please try again.');
                             }
                         });
-
-
+ 
+ 
                     },
                     "prefill": {
                         "name": "Gaurav Kumar",
@@ -688,20 +688,20 @@
                         "color": "#3399cc"
                     }
                 };
-
-
+ 
+ 
                 var rzp1 = new Razorpay(options);
                 rzp1.open();
-
+ 
             });
-
+ 
         });
-
+ 
         // Retrieve stored start date and end date from localStorage on page load
         $(document).ready(function() {
             const storedStartDate = localStorage.getItem('startDate');
             const storedEndDate = localStorage.getItem('endDate');
-
+ 
             if (storedStartDate && storedEndDate) {
                 // Display stored start date and end date in 12-hour format with AM/PM
                 $('#startdate').text(moment(storedStartDate, "YYYY-MM-DD hh:mm A").format("MMMM DD, YYYY  h:mm A"));
@@ -709,6 +709,7 @@
             }
         });
     </script>
+
 
  
 

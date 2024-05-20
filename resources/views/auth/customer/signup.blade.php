@@ -28,6 +28,17 @@ $log_email_succ = session()->get('log_email_succ');
         .form-group {
             margin-bottom: 1rem;
         }
+        
+        .auth-wrapper-left {
+            background-image: url(/public/assets/landing/image/login.png);
+            width: 50%;
+            background-repeat: no-repeat;
+        }
+
+        .auth-wrapper-right {
+            width: 50%; 
+        }
+
     </style>
 
 </head>
@@ -39,16 +50,11 @@ $log_email_succ = session()->get('log_email_succ');
             <div class="auth-wrapper-left">
                 <div class="auth-left-cont">
                     @php($store_logo = \App\Models\BusinessSetting::where(['key' => 'logo'])->first()->value)
-                    <img class="onerror-image" data-onerror-image="{{ asset('/public/assets/admin/img/favicon.png') }}"
-                        src="{{ \App\CentralLogics\Helpers::onerror_image_helper($store_logo, asset('storage/app/public/business/') . '/' . $store_logo, asset('/public/assets/admin/img/favicon.png'), 'business/') }}"
-                        alt="public/img">
-                    <h2 class="title">{{ translate('Your') }} <span
-                            class="d-block">{{ translate('All Service') }}</span> <strong
-                            class="text--039D55">{{ translate('in one field') }}....</strong></h2>
+                    
                 </div>
             </div>
-            <div class="auth-wrapper-right">
 
+            <div class="auth-wrapper-right">
                 <!-- Card -->
                 <div class="auth-wrapper-form">
                     <!-- Form -->
@@ -82,8 +88,7 @@ $log_email_succ = session()->get('log_email_succ');
                         <div class="js-form-message form-group">
                             <label class="input-label text-capitalize" for="signupName">Phone Number</label>
 
-                            <input type="tel" class="form-control form-control-lg" name="phone" id="signupName"
-                                tabindex="1" placeholder="Enter your Number">
+                            <input type="number" class="form-control form-control-lg" name="phone" id="numberInput" tabindex="1" placeholder="Enter your Number">
                         </div>
                         <!-- End Form Group -->
 
@@ -130,7 +135,6 @@ $log_email_succ = session()->get('log_email_succ');
 
                 </div>
                 <!-- End Card -->
-
             </div>
         </div>
     </main>
@@ -369,6 +373,23 @@ $log_email_succ = session()->get('log_email_succ');
         document.getElementById("form-id").addEventListener("submit", function(event) {
             if (!checkPasswordMatch()) {
                 event.preventDefault(); // Prevent form submission if passwords don't match
+            }
+        });
+    </script>
+
+    // 10 Number input
+    <script>
+        const numberInput = document.getElementById('numberInput');
+
+        numberInput.addEventListener('input', function (e) {
+            // Remove non-digit characters
+            const sanitizedValue = this.value.replace(/\D/g, '');
+
+            // If the sanitized value exceeds 10 digits, slice it to 10 digits
+            if (sanitizedValue.length > 10) {
+                this.value = sanitizedValue.slice(0, 10);
+            } else {
+                this.value = sanitizedValue;
             }
         });
     </script>
