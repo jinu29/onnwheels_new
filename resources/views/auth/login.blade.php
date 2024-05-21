@@ -212,7 +212,7 @@
             <form class="" action="{{ route('vendor-reset-password') }}" method="post">
                 @csrf
 
-                <input type="email" name="email" id="" class="form-control" placeholder="{{ translate('messages.plesae_enter_your_registerd_email') }}" required>
+                <input type="email" name="email" id="" class="form-control" placeholder="{{ translate('messages.please_enter_your_registerd_email') }}" required>
                 <button type="submit" class="btn btn-lg btn-block btn--primary mt-3">{{ translate('messages.Send Mail') }}</button>
             </form>
         </div>

@@ -3955,4 +3955,5 @@
   'update_failed' => 'Update failed',
   'user_kyc_not_found' => 'User kyc not found',
   'Razorpay' => 'Razorpay',
+  'please_enter_your_registerd_email' => 'Please enter your registerd email',
 );
