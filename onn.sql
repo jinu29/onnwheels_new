@@ -1840,7 +1840,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `edited` tinyint(1) NOT NULL DEFAULT '0',
   `delivery_time` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `zone_id` bigint unsigned DEFAULT NULL,
-  `module_id` bigint unsigned NOT NULL,
+  `module_id` bigint unsigned NOT NULL DEFAULT '1',
   `order_attachment` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `parcel_category_id` bigint unsigned DEFAULT NULL,
   `receiver_details` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
@@ -1871,9 +1871,9 @@ CREATE TABLE IF NOT EXISTS `orders` (
   KEY `zone_id` (`zone_id`),
   KEY `orders_module_id_foreign` (`module_id`),
   CONSTRAINT `orders_module_id_foreign` FOREIGN KEY (`module_id`) REFERENCES `modules` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=100009 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=100012 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.orders: ~8 rows (approximately)
+-- Dumping data for table test.orders: ~11 rows (approximately)
 INSERT INTO `orders` (`id`, `user_id`, `order_amount`, `coupon_discount_amount`, `coupon_discount_title`, `payment_status`, `order_status`, `total_tax_amount`, `payment_method`, `transaction_reference`, `delivery_address_id`, `delivery_man_id`, `coupon_code`, `order_note`, `order_type`, `checked`, `store_id`, `created_at`, `updated_at`, `delivery_charge`, `schedule_at`, `callback`, `otp`, `pending`, `accepted`, `confirmed`, `processing`, `handover`, `picked_up`, `delivered`, `canceled`, `refund_requested`, `refunded`, `delivery_address`, `scheduled`, `store_discount_amount`, `original_delivery_charge`, `failed`, `adjusment`, `edited`, `delivery_time`, `zone_id`, `module_id`, `order_attachment`, `parcel_category_id`, `receiver_details`, `charge_payer`, `distance`, `dm_tips`, `free_delivery_by`, `refund_request_canceled`, `prescription_order`, `tax_status`, `dm_vehicle_id`, `cancellation_reason`, `canceled_by`, `coupon_created_by`, `discount_on_product_by`, `processing_time`, `unavailable_item_note`, `cutlery`, `delivery_instruction`, `tax_percentage`, `additional_charge`, `order_proof`, `partially_paid_amount`, `is_guest`, `flash_admin_discount_amount`, `flash_store_discount_amount`) VALUES
 	(100001, 26, 300.00, 0.00, '', 'unpaid', 'pending', 0.00, 'cash_on_delivery', NULL, NULL, NULL, NULL, NULL, 'delivery', 1, 2, '2024-05-10 22:40:39', '2024-05-10 22:47:01', 300.00, '2024-05-10 22:40:39', NULL, '8226', '2024-05-10 22:40:39', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{"contact_person_name":"Alice","contact_person_number":"123-456-7890","contact_person_email":"akhil@example.com","address_type":"Delivery","address":"123 Main St","floor":"","road":"","house":"","longitude":"76.9917","latitude":"11.0053"}', 0, 0.00, 300.00, NULL, 0.00, 0, NULL, 2, 1, NULL, 1, NULL, 'sender', 5.600, 0.00, NULL, NULL, 0, 'excluded', 1, NULL, NULL, NULL, 'vendor', NULL, NULL, 0, NULL, 12.000, 0.000, NULL, 0.000, 0, 0.000, 0.000),
 	(100002, 26, 300.00, 0.00, '', 'unpaid', 'pending', 0.00, 'cash_on_delivery', NULL, NULL, NULL, NULL, NULL, 'delivery', 1, 2, '2024-05-10 22:50:10', '2024-05-10 22:50:47', 300.00, '2024-05-10 22:50:10', NULL, '2645', '2024-05-10 22:50:10', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{"contact_person_name":"Alice","contact_person_number":"123-456-7890","contact_person_email":"akhil@example.com","address_type":"Delivery","address":"123 Main St","floor":"","road":"","house":"","longitude":"76.9917","latitude":"11.0053"}', 0, 0.00, 300.00, NULL, 0.00, 0, NULL, 2, 1, NULL, 1, NULL, 'sender', 5.600, 0.00, NULL, NULL, 0, 'excluded', 1, NULL, NULL, NULL, 'vendor', NULL, NULL, 0, NULL, 12.000, 0.000, NULL, 0.000, 0, 0.000, 0.000),
@@ -1882,7 +1882,10 @@ INSERT INTO `orders` (`id`, `user_id`, `order_amount`, `coupon_discount_amount`,
 	(100005, 26, 300.00, 0.00, '', 'unpaid', 'pending', 0.00, 'cash_on_delivery', NULL, NULL, NULL, NULL, NULL, 'delivery', 0, 2, '2024-05-10 22:59:38', '2024-05-10 22:59:38', 300.00, '2024-05-10 22:59:38', NULL, '1084', '2024-05-10 22:59:38', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{"contact_person_name":"Alice","contact_person_number":"123-456-7890","contact_person_email":"akhil@example.com","address_type":"Delivery","address":"123 Main St","floor":"","road":"","house":"","longitude":"76.9917","latitude":"11.0053"}', 0, 0.00, 300.00, NULL, 0.00, 0, NULL, 2, 1, NULL, 1, NULL, 'sender', 5.600, 0.00, NULL, NULL, 0, 'excluded', 1, NULL, NULL, NULL, 'vendor', NULL, NULL, 0, NULL, 12.000, 0.000, NULL, 0.000, 0, 0.000, 0.000),
 	(100006, 26, 300.00, 0.00, '', 'unpaid', 'pending', 0.00, 'cash_on_delivery', NULL, NULL, NULL, NULL, NULL, 'delivery', 0, 2, '2024-05-10 23:03:47', '2024-05-10 23:03:47', 300.00, '2024-05-10 23:03:47', NULL, '5416', '2024-05-10 23:03:47', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{"contact_person_name":"Alice","contact_person_number":"123-456-7890","contact_person_email":"akhil@example.com","address_type":"Delivery","address":"123 Main St","floor":"","road":"","house":"","longitude":"76.9917","latitude":"11.0053"}', 0, 0.00, 300.00, NULL, 0.00, 0, NULL, 2, 1, NULL, 1, NULL, 'sender', 5.600, 0.00, NULL, NULL, 0, 'excluded', 1, NULL, NULL, NULL, 'vendor', NULL, NULL, 0, NULL, 12.000, 0.000, NULL, 0.000, 0, 0.000, 0.000),
 	(100007, 26, 300.00, 0.00, '', 'unpaid', 'pending', 0.00, 'cash_on_delivery', NULL, NULL, NULL, NULL, NULL, 'delivery', 0, 2, '2024-05-10 23:04:31', '2024-05-10 23:04:31', 300.00, '2024-05-10 23:04:31', NULL, '2672', '2024-05-10 23:04:31', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{"contact_person_name":"Alice","contact_person_number":"123-456-7890","contact_person_email":"akhil@example.com","address_type":"Delivery","address":"123 Main St","floor":"","road":"","house":"","longitude":"76.9917","latitude":"11.0053"}', 0, 0.00, 300.00, NULL, 0.00, 0, NULL, 2, 1, NULL, 1, NULL, 'sender', 5.600, 0.00, NULL, NULL, 0, 'excluded', 1, NULL, NULL, NULL, 'vendor', NULL, NULL, 0, NULL, 12.000, 0.000, NULL, 0.000, 0, 0.000, 0.000),
-	(100008, 26, 300.00, 0.00, '', 'unpaid', 'pending', 0.00, 'cash_on_delivery', NULL, NULL, NULL, NULL, NULL, 'delivery', 0, 2, '2024-05-10 23:05:09', '2024-05-10 23:05:09', 300.00, '2024-05-10 23:05:09', NULL, '8392', '2024-05-10 23:05:09', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{"contact_person_name":"Alice","contact_person_number":"123-456-7890","contact_person_email":"akhil@example.com","address_type":"Delivery","address":"123 Main St","floor":"","road":"","house":"","longitude":"76.9917","latitude":"11.0053"}', 0, 0.00, 300.00, NULL, 0.00, 0, NULL, 2, 1, NULL, 1, NULL, 'sender', 5.600, 0.00, NULL, NULL, 0, 'excluded', 1, NULL, NULL, NULL, 'vendor', NULL, NULL, 0, NULL, 12.000, 0.000, NULL, 0.000, 0, 0.000, 0.000);
+	(100008, 26, 300.00, 0.00, '', 'unpaid', 'pending', 0.00, 'cash_on_delivery', NULL, NULL, NULL, NULL, NULL, 'delivery', 0, 2, '2024-05-10 23:05:09', '2024-05-10 23:05:09', 300.00, '2024-05-10 23:05:09', NULL, '8392', '2024-05-10 23:05:09', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{"contact_person_name":"Alice","contact_person_number":"123-456-7890","contact_person_email":"akhil@example.com","address_type":"Delivery","address":"123 Main St","floor":"","road":"","house":"","longitude":"76.9917","latitude":"11.0053"}', 0, 0.00, 300.00, NULL, 0.00, 0, NULL, 2, 1, NULL, 1, NULL, 'sender', 5.600, 0.00, NULL, NULL, 0, 'excluded', 1, NULL, NULL, NULL, 'vendor', NULL, NULL, 0, NULL, 12.000, 0.000, NULL, 0.000, 0, 0.000, 0.000),
+	(100009, 27, 2000.00, 0.00, NULL, 'paid', 'pending', 0.00, NULL, 'pay_OD6Nl1lx3HB8AM', NULL, NULL, NULL, NULL, 'delivery', 0, NULL, '2024-05-20 23:25:09', '2024-05-20 23:25:09', 0.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0.00, 0.00, NULL, 0.00, 0, NULL, NULL, 1, NULL, NULL, NULL, NULL, 0.000, 0.00, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 'vendor', NULL, NULL, 0, NULL, NULL, 0.000, NULL, 0.000, 0, 0.000, 0.000),
+	(100010, 27, 3750.00, 0.00, NULL, 'paid', 'pending', 0.00, NULL, 'pay_OD87DQeLavfH2D', NULL, NULL, NULL, NULL, 'delivery', 0, NULL, '2024-05-21 01:06:52', '2024-05-21 01:06:52', 0.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0.00, 0.00, NULL, 0.00, 0, NULL, NULL, 1, NULL, NULL, NULL, NULL, 0.000, 0.00, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 'vendor', NULL, NULL, 0, NULL, NULL, 0.000, NULL, 0.000, 0, 0.000, 0.000),
+	(100011, 27, 1000.00, 0.00, NULL, 'paid', 'pending', 0.00, NULL, 'pay_OD8bcHpNtwWO7C', NULL, NULL, NULL, NULL, 'delivery', 0, NULL, '2024-05-21 01:35:39', '2024-05-21 01:35:39', 0.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'LuLu Hypermarket Coimbatore, Avinashi Road, GM Nagar, Pudur, Pappanaickenpalayam, Tamil Nadu, India', 0, 0.00, 0.00, NULL, 0.00, 0, NULL, NULL, 1, NULL, NULL, NULL, NULL, 0.000, 0.00, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 'vendor', NULL, NULL, 0, NULL, NULL, 0.000, NULL, 0.000, 0, 0.000, 0.000);
 
 -- Dumping structure for table test.order_cancel_reasons
 CREATE TABLE IF NOT EXISTS `order_cancel_reasons` (
@@ -1934,11 +1937,14 @@ CREATE TABLE IF NOT EXISTS `order_details` (
   `start_date` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `end_date` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.order_details: ~1 rows (approximately)
+-- Dumping data for table test.order_details: ~4 rows (approximately)
 INSERT INTO `order_details` (`id`, `item_id`, `order_id`, `price`, `item_details`, `variation`, `add_ons`, `discount_on_item`, `discount_type`, `quantity`, `tax_amount`, `variant`, `created_at`, `updated_at`, `item_campaign_id`, `total_add_on_price`, `start_date`, `end_date`) VALUES
-	(77, 19, 90, 500.00, NULL, NULL, NULL, NULL, 'amount', 1, 1.00, NULL, '2024-05-16 01:15:04', '2024-05-16 01:15:04', NULL, 0.00, '2023-01-01', '2023-12-31');
+	(77, 19, 90, 500.00, NULL, NULL, NULL, NULL, 'amount', 1, 1.00, NULL, '2024-05-16 01:15:04', '2024-05-16 01:15:04', NULL, 0.00, '2023-01-01', '2023-12-31'),
+	(78, 19, 100009, 2000.00, NULL, NULL, NULL, NULL, 'amount', 1, 1.00, NULL, '2024-05-20 23:25:09', '2024-05-20 23:25:09', NULL, 0.00, 'May 21, 2024  6:00 PM', 'May 21, 2024  10:00 PM'),
+	(79, 21, 100010, 3750.00, NULL, NULL, NULL, NULL, 'amount', 1, 1.00, NULL, '2024-05-21 01:06:52', '2024-05-21 01:06:52', NULL, 0.00, 'May 21, 2024  5:00 PM', 'May 22, 2024  6:00 PM'),
+	(80, 19, 100011, 1000.00, NULL, NULL, NULL, NULL, 'amount', 1, 1.00, NULL, '2024-05-21 01:35:39', '2024-05-21 01:35:39', NULL, 0.00, 'May 21, 2024  7:00 PM', 'May 21, 2024  9:00 PM');
 
 -- Dumping structure for table test.order_payments
 CREATE TABLE IF NOT EXISTS `order_payments` (
@@ -1951,9 +1957,13 @@ CREATE TABLE IF NOT EXISTS `order_payments` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table test.order_payments: ~0 rows (approximately)
+INSERT INTO `order_payments` (`id`, `order_id`, `transaction_ref`, `amount`, `payment_status`, `payment_method`, `created_at`, `updated_at`) VALUES
+	(1, 100009, 'pay_OD6Nl1lx3HB8AM', 2000.00, 'Paid', 'Razorpay', '2024-05-20 23:25:09', '2024-05-20 23:25:09'),
+	(2, 100010, 'pay_OD87DQeLavfH2D', 3750.00, 'Paid', 'Razorpay', '2024-05-21 01:06:52', '2024-05-21 01:06:52'),
+	(3, 100011, 'pay_OD8bcHpNtwWO7C', 1000.00, 'Paid', 'Razorpay', '2024-05-21 01:35:39', '2024-05-21 01:35:39');
 
 -- Dumping structure for table test.order_references
 CREATE TABLE IF NOT EXISTS `order_references` (
@@ -1964,7 +1974,7 @@ CREATE TABLE IF NOT EXISTS `order_references` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table test.order_references: ~7 rows (approximately)
 INSERT INTO `order_references` (`id`, `order_id`, `is_reviewed`, `is_review_canceled`, `created_at`, `updated_at`) VALUES
@@ -1975,7 +1985,10 @@ INSERT INTO `order_references` (`id`, `order_id`, `is_reviewed`, `is_review_canc
 	(5, 100005, 0, 0, '2024-05-10 22:59:38', '2024-05-10 22:59:38'),
 	(6, 100006, 0, 0, '2024-05-10 23:03:47', '2024-05-10 23:03:47'),
 	(7, 100007, 0, 0, '2024-05-10 23:04:31', '2024-05-10 23:04:31'),
-	(8, 100008, 0, 0, '2024-05-10 23:05:09', '2024-05-10 23:05:09');
+	(8, 100008, 0, 0, '2024-05-10 23:05:09', '2024-05-10 23:05:09'),
+	(9, 100009, 0, 0, '2024-05-20 23:25:09', '2024-05-20 23:25:09'),
+	(10, 100010, 0, 0, '2024-05-21 01:06:52', '2024-05-21 01:06:52'),
+	(11, 100011, 0, 0, '2024-05-21 01:35:39', '2024-05-21 01:35:39');
 
 -- Dumping structure for table test.order_transactions
 CREATE TABLE IF NOT EXISTS `order_transactions` (
@@ -2509,9 +2522,11 @@ CREATE TABLE IF NOT EXISTS `userkycs` (
   PRIMARY KEY (`id`),
   KEY `userkycs_user_id_foreign` (`user_id`),
   CONSTRAINT `userkycs_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table test.userkycs: ~0 rows (approximately)
+INSERT INTO `userkycs` (`id`, `user_id`, `aadhar`, `pan`, `license_front`, `license_back`, `is_verified`, `created_at`, `updated_at`) VALUES
+	(6, 27, '1234 5678 9000', 'HXOPK3749G', '/uploads/user/kyc/1716265928_front.jpg', '/uploads/user/kyc/1716265928_back.png', 1, '2024-05-20 18:02:08', '2024-05-20 18:03:30');
 
 -- Dumping structure for table test.users
 CREATE TABLE IF NOT EXISTS `users` (
@@ -2553,7 +2568,7 @@ INSERT INTO `users` (`id`, `f_name`, `l_name`, `phone`, `email`, `image`, `is_ph
 	(24, 'John', 'Doe', '9655804621', '3mo8rts@example.com', NULL, 1, NULL, '$2y$10$YVJ4d0zGDhhruMHt5tvIB.1N9ht7J45TgRRjDo6gemEOq5vPQ2SZa', NULL, '2024-05-05 22:16:19', '2024-05-06 00:19:35', NULL, NULL, 1, 0, NULL, NULL, NULL, 0.000, 0.000, 'KPZNDPJKUG', 'en', NULL, NULL, 11.0027796, 76.9936588),
 	(25, 'John', 'Doe', '9597755160', 'jana@example.com', NULL, 1, NULL, '$2y$10$R2unxKgJ02Ef1UxCJ5WVieuCR3es1TDhAOoFmHU12ZPYsr4rPUDk2', NULL, '2024-05-06 00:50:02', '2024-05-06 00:50:35', NULL, NULL, 1, 0, NULL, NULL, NULL, 0.000, 0.000, 'PEVB9OOB55', 'en', NULL, NULL, NULL, NULL),
 	(26, 'akhil', NULL, '9655804620', 'akhil@example.com', NULL, 0, NULL, '$2y$10$Xghhj/SkTqdsAXxlcW1UeunruMCJ3bjWo4K9ZTGBv6A.xhw3L8V9y', NULL, '2024-05-10 20:20:37', '2024-05-10 22:40:39', NULL, NULL, 1, 0, NULL, NULL, 2, 0.000, 0.000, '1VOKB7JCEY', 'en', NULL, NULL, 11.0027796, 76.9936588),
-	(27, 'Keerthi', NULL, '9384955593', 'kiruthika4301@gmail.com', NULL, 1, NULL, '$2y$10$5uJSaGvTObokZuh4BZASj.C33Z3IFZyT26gOpSXnzlvmxgBK2gEkq', NULL, '2024-05-15 19:34:32', '2024-05-15 19:34:47', NULL, NULL, 1, 0, NULL, NULL, NULL, 0.000, 0.000, 'BV2OITVIFU', 'en', NULL, NULL, NULL, NULL);
+	(27, 'Keerthi', NULL, '9384955593', 'kiruthika4301@gmail.com', NULL, 1, NULL, '$2y$10$5uJSaGvTObokZuh4BZASj.C33Z3IFZyT26gOpSXnzlvmxgBK2gEkq', NULL, '2024-05-15 19:34:32', '2024-05-21 00:46:02', NULL, NULL, 1, 0, NULL, NULL, NULL, 0.000, 0.000, 'BV2OITVIFU', 'en', NULL, NULL, 11.0042343, 76.9988557);
 
 -- Dumping structure for table test.user_infos
 CREATE TABLE IF NOT EXISTS `user_infos` (

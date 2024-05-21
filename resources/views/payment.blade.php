@@ -7,7 +7,7 @@
     {{-- Date --}}
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
-    {{--payment--}}
+    {{-- payment --}}
     {{-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"> --}}
 
@@ -440,116 +440,102 @@
 @endsection
 @section('content')
     <div class="container mb-3" style="margin-top:5rem;">
-        <div class="row ">
-            <form action="{{ route('product_detail_store') }}" method="POST">
-                @csrf
-                <?php
-                // JSON string containing the key-value pair
-                $jsonString = $items['hours_price'];
+        <div class="row">
+            <?php
+            // JSON string containing the key-value pair
+            $jsonString = $items['hours_price'];
+            
+            // Decode the JSON string into an associative array
+            $hoursPriceArray = json_decode($jsonString, true);
+            
+            // Initialize variables to store key and value
+            $defaultKey = '';
+            $defaultValue = '';
+            
+            // Check if decoding was successful and $hoursPriceArray is not empty
+            if ($hoursPriceArray && is_array($hoursPriceArray)) {
+                // Extract key and value from the associative array
+                $defaultKey = key($hoursPriceArray); // Get the key (e.g., "12")
+                $defaultValue = current($hoursPriceArray); // Get the value (e.g., "200")
+            }
+            ?>
 
-                // Decode the JSON string into an associative array
-                $hoursPriceArray = json_decode($jsonString, true);
-
-                // Initialize variables to store key and value
-                $defaultKey = '';
-                $defaultValue = '';
-
-                // Check if decoding was successful and $hoursPriceArray is not empty
-                if ($hoursPriceArray && is_array($hoursPriceArray)) {
-                    // Extract key and value from the associative array
-                    $defaultKey = key($hoursPriceArray); // Get the key (e.g., "12")
-                    $defaultValue = current($hoursPriceArray); // Get the value (e.g., "200")
-                }
-                ?>
-
-                <div class="col-lg-8 ">
-                    <div class="row border mx-lg-2 rounded d-flex align-items-center">
-                        <div class="col-lg-5 p-4">
-                            <img src="{{ asset('storage/app/public/product') . '/' . $items['image'] ?? '', asset('public/assets/admin/img/160x160/img2.jpg'), 'product/' }}"
-                                class="mt-5" width="100%">
+            <div class="col-lg-8">
+                <div class="row border mx-lg-2 rounded d-flex align-items-center">
+                    <div class="col-lg-5 p-4">
+                        <img src="{{ asset('storage/app/public/product') . '/' . $items['image'] ?? '', asset('public/assets/admin/img/160x160/img2.jpg'), 'product/' }}"
+                            class="mt-5" width="100%">
+                    </div>
+                    <div class="col-lg-7">
+                        <h4>{{ $items->name }}</h4>
+                        <input type="hidden" value="{{ $items->name }}" name="item_details">
+                        <input type="hidden" value="{{ $items->id }}" id="itemIdInput" name="item_id">
+                        <div class="date d-flex align-items-center justify-content-between">
+                            <p id="startdate" class="mb-0"></p>
+                            <input type="hidden" value="default_value" id="inputStartDate" name="start_date">
+                            <p class="mb-0">to</p>
+                            <p id="enddate" class="mb-0"></p>
+                            <input type="hidden" value="" id="inputEndDate" name="end_date">
                         </div>
-                        <div class="col-lg-7">
-                            {{-- <input type="text" name="userid"> --}}
-                            <h4>{{ $items->name }}</h4>
-                            <input type="hidden" value="{{ $items->name }}" name="item_details">
-                            <input type="hidden" value="{{ $items->id }}" id="itemIdInput" name="item_id">
-                            {{-- <div class="date-range" style="width: 100%;">
-                                <input type="text" id="demo" name="datefilter" value="" class="shadow" />
-                            </div> --}}
-                            <div class="date d-flex align-items-center justify-content-between">
-                                <p id="startdate" class="mb-0"></p>
-                                <input type="hidden" value="default_value" id="inputStartDate" name="start_date">
-                                <p class="mb-0">to</p>
-                                <p id="enddate" class="mb-0"></p>
-                                <input type="hidden" value="" id="inputEndDate" name="end_date">
-                            </div>
-                            <div class="d-flex flex-column justify-content-between align-items-start">
-                                <h5 class="mt-4">Address :</h5>
-                                <div>
-                                    @if (session('user_location'))
-                                        <div class="location ">
-                                            {{-- <i class="fa-solid fa-location-dot"></i> --}}
-                                            <span id="userLocation">{{ Str::limit(session('user_location')) }}</span>
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <h4>Total</h3>
-                                    <div class="price">
-                                        <i class="fa-solid fa-indian-rupee-sign"></i>
-                                        <p class="mb-0" id="totalPriceDisplay"></p>
-                                        <input type="hidden" id="totalPriceInput" name="order_amount" readonly>
-                                    </div>
-                            </div>
-                            {{-- @if (session('user_location'))
-                                <div class="location mt-5">
-                                    <i class="fa-solid fa-location-dot"></i>
-                                    <span id="userLocation">{{ Str::limit(session('user_location'), 20) }}</span>
-                                </div>
-                            @endif --}}
+                        <div class="d-flex flex-column justify-content-between align-items-start">
+                            <h5 class="mt-4">Address :</h5>
+                            <!-- Search input for the address -->
+                            <input id="address-input" type="text" placeholder="Enter an address"
+                                class="form-control mt-2">
 
+                            <!-- Add a container for the map -->
+                            <div id="map" style="width: 100%; height: 400px; margin-top: 20px;"></div>
+                            <input type="hidden" id="latitude" name="latitude">
+                            <input type="hidden" id="longitude" name="longitude">
+                        </div>
+                        <div class="d-flex justify-content-between" style="margin-top: 20px;">
+                            <h4>Total</h4>
+                            <div class="price">
+                                <i class="fa-solid fa-indian-rupee-sign"></i>
+                                <p class="mb-0" id="totalPriceDisplay"></p>
+                                <input type="hidden" id="totalPriceInput" name="order_amount" readonly>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 mt-5 mt-lg-0 border rounded">
-                    <div class="p-3">
-                        <div class="title">
-                            <h4>Checkout</h4>
-                        </div>
-                        <div class="box">
-                            <p>Booking Fee</p>
-                            <div class="amt">
-                                <i class="fa-solid fa-indian-rupee-sign"></i>
-                                <p id="amtTotalPriceDisplay"></p>
-                            </div>
-                        </div>
-                        <div class="box">
-                            <p>SGST (18%)</p>
-                            <div class="amt">
-                                <i class="fa-solid fa-indian-rupee-sign"></i>
-                                <p></p>
-                            </div>
-                        </div>
-                        <div class="box">
-                            <p>GST (18%)</p>
-                            <div class="amt">
-                                <i class="fa-solid fa-indian-rupee-sign"></i>
-                                <p></p>
-                            </div>
-                        </div>
-                        <div class="box">
-                            <h5>Total Payable Amount</h5>
-                            <div class="amt">
-                                <i class="fa-solid fa-indian-rupee-sign"></i>
-                                <h5></h5>
-                            </div>
-                        </div>
-                        {{-- <button >Pay</button> --}}
-                        <button type="button" id="rzp-button1" class="payment">Make Payment</button>
+            </div>
+            <div class="col-lg-4 mt-5 mt-lg-0 border rounded">
+                <div class="p-3">
+                    <div class="title">
+                        <h4>Checkout</h4>
                     </div>
+                    <div class="box">
+                        <p>Booking Fee</p>
+                        <div class="amt">
+                            <i class="fa-solid fa-indian-rupee-sign"></i>
+                            <p id="amtTotalPriceDisplay"></p>
+                        </div>
+                    </div>
+                    {{-- <div class="box">
+                        <p>SGST (18%)</p>
+                        <div class="amt">
+                            <i class="fa-solid fa-indian-rupee-sign"></i>
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <p>GST (18%)</p>
+                        <div class="amt">
+                            <i class="fa-solid fa-indian-rupee-sign"></i>
+                            <p></p>
+                        </div>
+                    </div> --}}
+                    <div class="box">
+                        <h5>Total Payable Amount</h5>
+                        <div class="amt">
+                            <i class="fa-solid fa-indian-rupee-sign"></i>
+                            <h5 id="totalunitprice"></h5>
+                        </div>
+                    </div>
+                    <button type="button" id="rzp-button1" class="payment">Make Payment</button>
                 </div>
-            </form>
+            </div>
+
         </div>
     </div>
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -568,6 +554,7 @@
         </div>
     </div>
 @endsection
+
 @section('scripts')
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js'></script>
     <script src='https://sachinchoolur.github.io/lightslider/dist/js/lightslider.js'></script>
@@ -576,6 +563,82 @@
     <script type='text/javascript' src=''></script>
     <script type='text/javascript' src=''></script>
     <script type='text/Javascript'></script>
+
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key={{ \App\Models\BusinessSetting::where('key', 'map_api_key')->first()->value }}&libraries=places&callback=initialize">
+    </script>
+    <script>
+        let map;
+        let marker;
+        let geocoder;
+
+        function initialize() {
+            // Initialize the map
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 15,
+                center: {
+                    lat: -34.397,
+                    lng: 150.644
+                }
+            });
+
+            // Initialize the geocoder
+            geocoder = new google.maps.Geocoder();
+
+            // Initialize the marker
+            marker = new google.maps.Marker({
+                map: map
+            });
+
+            // Set the initial location if available
+            const userLocation = document.getElementById('userLocation') ? document.getElementById('userLocation')
+                .innerText : null;
+            if (userLocation) {
+                geocodeAddress(userLocation);
+            }
+
+            // Initialize the autocomplete input
+            const input = document.getElementById('address-input');
+            const autocomplete = new google.maps.places.Autocomplete(input);
+            autocomplete.bindTo('bounds', map);
+
+            // Add listener for place changes
+            autocomplete.addListener('place_changed', function() {
+                const place = autocomplete.getPlace();
+                if (!place.geometry) {
+                    window.alert("No details available for input: '" + place.name + "'");
+                    return;
+                }
+
+                // Set the map view and marker to the selected place
+                map.setCenter(place.geometry.location);
+                map.setZoom(15);
+                marker.setPosition(place.geometry.location);
+
+                // Set latitude and longitude to hidden fields
+                document.getElementById('latitude').value = place.geometry.location.lat();
+                document.getElementById('longitude').value = place.geometry.location.lng();
+            });
+        }
+
+        function geocodeAddress(address) {
+            geocoder.geocode({
+                'address': address
+            }, function(results, status) {
+                if (status === 'OK') {
+                    map.setCenter(results[0].geometry.location);
+                    marker.setPosition(results[0].geometry.location);
+
+                    // Set latitude and longitude to hidden fields
+                    document.getElementById('latitude').value = results[0].geometry.location.lat();
+                    document.getElementById('longitude').value = results[0].geometry.location.lng();
+                } else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                }
+            });
+        }
+    </script>
+
     {{-- Date --}}
     <script>
         $(document).ready(function() {
@@ -585,6 +648,7 @@
             $('#totalPriceDisplay').text(totalPrice);
             $('#totalPriceInput').val(totalPrice);
             $('#amtTotalPriceDisplay').text(totalPrice);
+            $('#totalunitprice').text(totalPrice);
 
             // Start date
             var startdate = localStorage.getItem('startDate');
@@ -623,39 +687,69 @@
         $(document).ready(function() {
             $('#rzp-button1').click(function(e) {
                 e.preventDefault();
+                const address = document.getElementById('address-input').value;
+                if (!address) {
+
+                    Swal.fire({
+                        title: 'Please enter an address',
+                        text: '',
+                        type: 'warning',
+                        showCancelButton: true,
+                        cancelButtonColor: 'default',
+                        confirmButtonColor: '#FC6A57',
+                        reverseButtons: true
+                    })
+                    return;
+                }
+
+                const storedStartDate = localStorage.getItem('startDate');
+                const storedEndDate = localStorage.getItem('endDate');
+
+                if (storedStartDate && storedEndDate) {
+                    // Display stored start date and end date in 12-hour format with AM/PM
+                    var startDate = moment(storedStartDate, "YYYY-MM-DD hh:mm A").format(
+                        "MMMM DD, YYYY  h:mm A");
+                    var endDate = moment(storedEndDate, "YYYY-MM-DD hh:mm A").format(
+                        "MMMM DD, YYYY  h:mm A");
+                }
 
                 var orderAmount = $('#totalPriceInput').val();
                 var itemId = $('#itemIdInput').val();
 
                 var options = {
-                    "key": "rzp_test_XZKJkxZxNQpGQd",
+                    "key": "{{ Config::get('razor.razor_key') }}",
                     "amount": orderAmount * 100,
                     "currency": "INR",
                     "name": "Onnwheels",
                     "description": "Test Transaction",
                     "image": "https://example.com/your_logo",
                     "handler": function(response) {
-                        // console.log("hi", response)
+                        console.log("hi", response)
 
                         var orderData = {
                             order_amount: orderAmount,
+                            address: address,
                             item_id: itemId,
                             payment_status: "Paid",
-                            start_date: "2023-01-01",
-                            end_date: "2023-12-31",
+                            start_date: startDate,
+                            end_date: endDate,
                             transaction_reference: response.razorpay_payment_id,
                             _token: '{{ csrf_token() }}'
                         };
 
+                        console.log("payload", orderData)
+
                         $.ajax({
-                            url: '/product_detail_store',
+                            url: '{{ route('create-order') }}',
                             method: 'POST',
                             data: orderData,
                             success: function(response) {
+                                console.log("data", response)
                                 if (response.success) {
+                                    console.log("data", response)
                                     // Payment stored successfully, initiate Razorpay payment
                                     window.location.href =
-                                    '/thank_you'; // Replace with your desired URL
+                                        '/thank_you'; // Replace with your desired URL
                                 } else {
                                     alert('Failed to store order details.');
                                 }
@@ -666,12 +760,6 @@
                                     'An error occurred while processing your request.'
                                 );
                             },
-                            error: function(xhr, status, error) {
-                                console.error('An error occurred while storing order:',
-                                    error);
-                                // markOrderAsUnpaid(orderData);
-                                alert('Failed to process payment. Please try again.');
-                            }
                         });
 
 
@@ -709,7 +797,4 @@
             }
         });
     </script>
-
- 
-
 @endsection

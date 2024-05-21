@@ -507,6 +507,7 @@
                                 }
                             }
                             $details = $order->details;
+
                             if ($editing) {
                                 $details = session('order_cart');
                             } else {
@@ -535,6 +536,7 @@
                                                 if (!$editing) {
                                                     $detail->item = json_decode($detail->item_details, true);
                                                 }
+                                                // dd($detail);
                                                 ?>
 
                                                 <tr>
@@ -561,7 +563,8 @@
                                                                 </div>
                                                             @else
                                                                 <a class="avatar avatar-xl mr-3"
-                                                                    href="{{ route('admin.item.view', [$detail->item['id'],'module_id' => $order->module_id]) }}">
+                                                                href="{{ route('admin.item.view', [isset($detail->item) ? $detail->item['id'] : '', 'module_id' => $order->module_id]) }}"
+                                                                >
                                                                     <img class="img-fluid rounded aspect-ratio-1 onerror-image"
                                                                     src="{{\App\CentralLogics\Helpers::onerror_image_helper($detail->item['image'], asset('storage/app/public/product/').'/'. $detail->item['image'], asset('public/assets/admin/img/160x160/img2.jpg') , 'product/') }}"
                                                                         data-onerror-image="{{ asset('public/assets/admin/img/160x160/img2.jpg') }}"

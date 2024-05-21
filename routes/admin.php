@@ -1017,7 +1017,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::group(['prefix' => 'dm-disbursement', 'as' => 'dm-disbursement.', 'middleware' => ['module:account']], function () {
                 Route::get('list', 'DeliveryManDisbursementController@list')->name('list');
                 Route::get('details/{id}', 'DeliveryManDisbursementController@view')->name('view');
-                Route::get('export/{id}/{type?}', 'DeliveryManDisbursementController@export')->name('export');
+                Route::get('export/{id}/{type?}', 'DeliveryMzanDisbursementController@export')->name('export');
                 Route::get('status', 'DeliveryManDisbursementController@status')->name('status');
                 Route::get('change-status/{id}/{status}', 'DeliveryManDisbursementController@statusById')->name('change-status');
                 Route::get('export/{id}/{type?}', 'DeliveryManDisbursementController@export')->name('export');

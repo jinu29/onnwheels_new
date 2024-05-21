@@ -247,7 +247,7 @@ Route::post('kyc/{id}', [KycController::class ,'update'])->name('kyc.update');
 Route::post('/kyc', [KycController::class,'kyc_verify'])->name('kyc_verify');
 
 // Product detail storage
-Route::post('product_detail_store', [HomeController::class, 'product_detail_Store'])->name('product_detail_store');
+Route::post('product_detail_store', [HomeController::class, 'create_order_store'])->name('create-order');
 
 //payment
 Route::post('/create-order', [PaymentController::class, 'createOrder']);

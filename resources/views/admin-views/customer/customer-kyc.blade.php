@@ -11,23 +11,32 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgb(0,0,0);
-            background-color: rgba(0,0,0,0.9);
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.9);
         }
+
         .modal-content {
             margin: auto;
             display: block;
             width: 80%;
             max-width: 700px;
         }
+
         .modal-content {
             animation-name: zoom;
             animation-duration: 0.6s;
         }
+
         @keyframes zoom {
-            from {transform:scale(0)}
-            to {transform:scale(1)}
+            from {
+                transform: scale(0)
+            }
+
+            to {
+                transform: scale(1)
+            }
         }
+
         #image-viewer .close {
             position: absolute;
             top: 15px;
@@ -37,6 +46,7 @@
             font-weight: bold;
             transition: 0.3s;
         }
+
         #image-viewer .close:hover,
         #image-viewer .close:focus {
             color: #bbb;
@@ -44,7 +54,7 @@
             cursor: pointer;
         }
 
-        @media only screen and (max-width: 700px){
+        @media only screen and (max-width: 700px) {
             .modal-content {
                 width: 100%;
             }
@@ -98,19 +108,26 @@
                                 <td class="images">
                                     @if ($kyc->userkyc)
                                         @if ($kyc->userkyc->license_front)
-                                            <img src="{{ asset('public' . $kyc->userkyc['license_front']) }}" alt="License Front" type="button" class="btn btn-primary boder-0" data-toggle="modal" data-target="#exampleModal{{$kyc->id}}" style="width:120px;background:transparent;">
-                                            <div class="modal fade" id="exampleModal{{$kyc->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <img src="{{ asset('public' . $kyc->userkyc['license_front']) }}"
+                                                alt="License Front" type="button" 
+                                                data-toggle="modal" data-target="#exampleModal{{ $kyc->id }}"
+                                                style="width: 100px; height: 100px; object-fit: contain; ">
+
+                                            <div class="modal fade" id="exampleModal{{ $kyc->id }}" tabindex="-1"
+                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog">
-                                                  <div class="modal-content">
-                                                    <div class="modal-header">
-                                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                      </button>
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <img src="{{ asset('public' . $kyc->userkyc['license_front']) }}"
+                                                                alt="License Front"  style="width:220px; height: 300px; object-fit: contain">
+                                                        </div>
                                                     </div>
-                                                    <div class="modal-body">
-                                                        <img src="{{ asset('public' . $kyc->userkyc['license_front']) }}" alt="License Front" style="width:220px;">
-                                                    </div>
-                                                  </div>
                                                 </div>
                                             </div>
                                         @else
@@ -121,27 +138,41 @@
                                         <p>N/A</p>
                                     @endif
                                 </td>
+
                                 <td>
                                     @if ($kyc->userkyc)
-                                        <img src="{{ asset('public' . $kyc->userkyc['license_back']) }}" alt="License Back" type="button" class="btn btn-primary boder-0" data-toggle="modal" data-target="#exampleModal{{$kyc->id}}" style="width:120px;background:transparent;">
-                                        <div class="modal fade" id="exampleModal{{$kyc->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        @php
+                                            $timestamp = time();
+                                            $licenseBackUrl =
+                                                asset('public' . $kyc->userkyc['license_back']) . '?t=' . $timestamp;
+                                        @endphp
+                                        <img src="{{ $licenseBackUrl }}" alt="License Back" type="button"
+                                            class="" data-toggle="modal"
+                                            data-target="#exampleModal1{{ $kyc->id }}"
+                                            style="width: 100px; height: 100px; object-fit: contain; ">
+
+                                        <div class="modal fade" id="exampleModal1{{ $kyc->id }}" tabindex="-1"
+                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog">
-                                              <div class="modal-content">
-                                                <div class="modal-header">
-                                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                  </button>
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <img src="{{ $licenseBackUrl }}" alt="License Back"
+                                                            style="width:220px; height: 300px; object-fit: contain">
+                                                    </div>
                                                 </div>
-                                                <div class="modal-body">
-                                                    <img src="{{ asset('public' . $kyc->userkyc['license_back']) }}" alt="License Front" style="width:220px;">
-                                                </div>
-                                              </div>
                                             </div>
                                         </div>
                                     @else
                                         <p>N/A</p>
                                     @endif
                                 </td>
+
 
                                 <td>
                                     <span class="switch switch-sm">
@@ -203,7 +234,7 @@
                                 <td>
                                     @if ($kyc->userkyc)
                                         <a class="btn  action-btn btn--danger btn-outline-danger form-alert"
-                                            href="{{ route('admin.users.customer.user_kyc_delete', ['id' => ($kyc->userkyc->id)]) }}"
+                                            href="{{ route('admin.users.customer.user_kyc_delete', ['id' => $kyc->userkyc->id]) }}"
                                             data-id=""
                                             data-message="{{ translate('messages.Want_to_delete_this_item') }}"
                                             title="{{ translate('messages.delete_item') }}"><i
@@ -224,53 +255,21 @@
     </div>
 @endsection
 
+
 @section('script')
     <script>
-        $(".images img").click(function(){
+        $(".images img").click(function() {
             $("#full-image").attr("src", $(this).attr("src"));
             $('#image-viewer').show();
-            });
+        });
 
-            $("#image-viewer .close").click(function(){
+        $("#image-viewer .close").click(function() {
             $('#image-viewer').hide();
         });
     </script>
 @endsection
 
 
-{{-- @section('script')
-    <script type="text/javascript">
-        function updateSettings(el, type){
-
-            if($(el).is(':checked')){
-                var value = 1;
-            }
-            else{
-                var value = 0;
-            }
-            $.post('{{ route('admin.users.customer.user_kyc_status_update') }}', {_token:'{{ csrf_token() }}', type:type, value:value}, function(data){
-                if(data == '1'){
-                    Swal.fire({
-                        position: "top-right",
-                        icon: "success",
-                        title: "Brand Updated Succesfully",
-                        showConfirmButton: false,
-                        timer: 2500
-                    });
-                }
-                else{
-                    Swal.fire({
-                        position: "top-right",
-                        icon: "error",
-                        title: "Something Went Wrong",
-                        showConfirmButton: false,
-                        timer: 2500
-                    });
-                }
-            });
-        }
-    </script>
-@endsection --}}
 
 @push('script_2')
     <script src="{{ asset('public/assets/admin') }}/js/view-pages/customer-list.js"></script>

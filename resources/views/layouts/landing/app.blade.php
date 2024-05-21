@@ -440,6 +440,7 @@ $landing_site_direction = session()->get('landing_site_direction');
     <script src="{{ asset('public/assets/landing/js/owl.min.js') }}"></script>
     <script src="{{ asset('public/assets/landing/js/main.js') }}"></script>
     <script src="{{ asset('public/assets/admin') }}/js/toastr.js"></script>
+    <script src="{{asset('public/assets/admin')}}/js/sweet_alert.js"></script>
 
     {{-- Bootstrap --}}
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

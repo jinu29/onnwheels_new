@@ -3954,4 +3954,5 @@
   'The is verified field is required.' => 'The is verified field is required.',
   'update_failed' => 'Update failed',
   'user_kyc_not_found' => 'User kyc not found',
+  'Razorpay' => 'Razorpay',
 );
