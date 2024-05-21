@@ -209,7 +209,7 @@
             <h4>
                 {{ translate('messages.Send_Mail_to_Your_Email') }} ?
             </h4>
-            <form class="" action="{{ route('vendor-reset-password') }}" method="post">
+            <form class="" action="{{ route('reset-password') }}" method="get">
                 @csrf
 
                 <input type="email" name="email" id="" class="form-control" placeholder="{{ translate('messages.please_enter_your_registerd_email') }}" required>
