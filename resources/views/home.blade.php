@@ -168,12 +168,6 @@
         margin-top: 3rem;
     }
 
-    /* .reviews {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-    } */
-
     .reviews img {
         width: 70px;
         height: 70px;
@@ -529,9 +523,9 @@
             <div class="title d-flex justify-content-between">
                 <h3 class="section-title">Customer Reviews</h3>
             </div>
-            <div class="reviews w-100 my-3">
+            <div class="reviews my-3 w-100">
                 @foreach ($review as $reviews)
-                    <div class="card  bg-white border">
+                    <div class="card  bg-white border text-center">
                         <div class="card-body p-2 d-flex flex-column align-items-center">
                             <img
                             src="{{ \App\CentralLogics\Helpers::onerror_image_helper(

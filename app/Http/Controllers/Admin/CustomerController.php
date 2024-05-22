@@ -195,7 +195,8 @@ class CustomerController extends Controller
         })
             ->limit(8)
             ->get([DB::raw('id, CONCAT(f_name, " ", l_name, " (", phone ,")") as text')]);
-        if ($request->all) $data[] = (object)['id' => false, 'text' => translate('messages.all')];
+        if ($request->all)
+            $data[] = (object) ['id' => false, 'text' => translate('messages.all')];
 
 
         return response()->json($data);
@@ -292,11 +293,15 @@ class CustomerController extends Controller
 
     public function user_kyc()
     {
-        $user_kyc = User::with('userkyc')->get();
+        $user_kyc = User::whereHas('userkyc', function ($query) {
+            $query->where('is_reject', '!=', 2);
+        })->with('userkyc')->get();        
+
         return view('admin-views.customer.customer-kyc', compact('user_kyc'));
     }
 
-    public function kyc_status_rejected_store(Request $request){
+    public function kyc_status_rejected_store(Request $request)
+    {
 
         $kyc = Userkyc::findOrFail($request->id);
         // $kyc->user_id = $request->user_id;
@@ -310,10 +315,10 @@ class CustomerController extends Controller
 
     // }
 
-    public function  user_kyc_delete($id)
+    public function user_kyc_delete($id)
     {
         // dd($id);
         Userkyc::destroy($id);
-        return redirect()->back()->with('success','Document Deleted Successfully');
+        return redirect()->back()->with('success', 'Document Deleted Successfully');
     }
 }

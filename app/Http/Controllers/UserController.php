@@ -19,8 +19,10 @@ class UserController extends Controller
     // }
 
     public function profile() {
-        $user_kyc = Userkyc::where('user_id')->first();
-        return view('profile',compact('user_kyc'));
+        $userId = auth()->id();
+        $user = User::with('userkyc')->find($userId);
+
+        return view('profile',compact('user'));
     }
 
     // public function userkyc_store (Request $request ,$id){
@@ -80,6 +82,7 @@ class UserController extends Controller
         }
 
         $user_kyc->is_verified = "0";
+        $user_kyc->is_reject = "0";
 
         $user_kyc->save();
 
