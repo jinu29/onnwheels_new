@@ -36,8 +36,8 @@ $log_email_succ = session()->get('log_email_succ');
     <!-- ========== MAIN CONTENT ========== -->
     <main id="content" role="main" class="main">
         <div class="auth-wrapper">
-            <div class="auth-wrapper-left">
-                <div class="auth-left-cont">
+            <div class="auth-wrapper-left" style="background-image: url(/public/assets/landing/image/login.png); background-size:cover; height:100vh;">
+                {{-- <div class="auth-left-cont">
                     @php($store_logo = \App\Models\BusinessSetting::where(['key' => 'logo'])->first()->value)
                     <img class="onerror-image" data-onerror-image="{{ asset('/public/assets/admin/img/favicon.png') }}"
                         src="{{ \App\CentralLogics\Helpers::onerror_image_helper($store_logo, asset('storage/app/public/business/') . '/' . $store_logo, asset('/public/assets/admin/img/favicon.png'), 'business/') }}"
@@ -45,7 +45,7 @@ $log_email_succ = session()->get('log_email_succ');
                     <h2 class="title">{{ translate('Your') }} <span
                             class="d-block">{{ translate('All Service') }}</span> <strong
                             class="text--039D55">{{ translate('in one field') }}....</strong></h2>
-                </div>
+                </div> --}}
             </div>
             <div class="auth-wrapper-right">
 
@@ -354,7 +354,6 @@ $log_email_succ = session()->get('log_email_succ');
             '<script src="{{ asset('public//assets/admin') }}/vendor/babel-polyfill/polyfill.min.js"><\/script>');
     </script>
 
-    // Script for password and confirm password
     <script>
         function checkPasswordMatch() {
             var password = document.getElementById("signupPassword").value;

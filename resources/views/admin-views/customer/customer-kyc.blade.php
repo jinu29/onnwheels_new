@@ -181,7 +181,7 @@
                                             for="stocksCheckbox{{ $kyc->id }}">
                                             <input type="checkbox"
                                                 data-url="{{ route('admin.customer.user_kyc_status', [$kyc->id, optional($kyc->userkyc)->is_verified ? 0 : 1]) }}"
-                                                data-message="{{ optional($kyc->userkyc)->is_verified ? translate('messages.you_want_to_block_this_customer') : translate('messages.you_want_to_unblock_this_customer') }}"
+                                                data-message="{{ optional($kyc->userkyc)->is_verified ? translate('messages.To_enable_the_verification') : translate('messages.To_enable_the_verification') }}"
                                                 class="toggle-switch-input kyc_status_change_alert"
                                                 id="stocksCheckbox{{ $kyc->id }}"
                                                 {{ optional($kyc->userkyc)->is_verified == 1 ? 'checked' : '' }}>
