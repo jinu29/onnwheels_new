@@ -3957,4 +3957,6 @@
   'Razorpay' => 'Razorpay',
   'please_enter_your_registerd_email' => 'Please enter your registerd email',
   'Failed_to_send_mail' => 'Failed to send mail',
+  'The company image field is required.' => 'The company image field is required.',
+  'The designation field is required.' => 'The designation field is required.',
 );

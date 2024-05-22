@@ -168,11 +168,11 @@
         margin-top: 3rem;
     }
 
-    .reviews {
+    /* .reviews {
         width: 100%;
         display: flex;
         justify-content: space-between;
-    }
+    } */
 
     .reviews img {
         width: 70px;

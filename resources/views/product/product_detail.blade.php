@@ -754,6 +754,7 @@
 @section('content')
     <div class="container" style="margin-top: 4rem;">
         <div class="row no-gutters">
+
             <?php
             // JSON string containing the key-value pair
             $jsonString = $items['hours_price'];
@@ -761,17 +762,28 @@
             // Decode the JSON string into an associative array
             $hoursPriceArray = json_decode($jsonString, true);
             
-            // Initialize variables to store key and value
+            // Initialize variables to store key, value, and days
             $defaultKey = '';
             $defaultValue = '';
+            $days = 0;
             
             // Check if decoding was successful and $hoursPriceArray is not empty
             if ($hoursPriceArray && is_array($hoursPriceArray)) {
                 // Extract key and value from the associative array
                 $defaultKey = key($hoursPriceArray); // Get the key (e.g., "12")
                 $defaultValue = current($hoursPriceArray); // Get the value (e.g., "200")
+                $days = $defaultKey / 24; // Convert hours to days
+            }
+            
+            if ($items['distance_price']) {
+                $jsonString = $items['distance_price'];
+            
+                $distancePriceArray = json_decode($jsonString, true);
+                $distance = key($distancePriceArray);
+                $distancePrice = current($distancePriceArray);
             }
             ?>
+
             <form id="bookingForm"
                 action="{{ auth()->check() ? route('user.payment', $items->slug) : route('login', ['tab' => 'customer']) }}"
                 method="get" enctype="multipart/form-data">
@@ -811,18 +823,39 @@
                             <span class="rating">5.0</span>
                         </div>
                         <div class="rent">
-                            <p class="mb-0">Rent {{ $defaultKey }} Hour:</p>
+                            <p class="mb-0">Rent {{ round($days, 2) }} Days:</p>
                             <div class="price">
                                 <i class="fa-solid fa-indian-rupee-sign"></i>
                                 <p class="mb-0">{{ $defaultValue }}</p>
                             </div>
+                            |
+                            @if (
+                                $items['distance_price'] &&
+                                    collect(json_decode($items['distance_price'], true))->filter()->count() > 0)
+                                <p class="mb-0">{{ $distance }} KM : </p>
+                                <div class="price">
+                                    <i class="fa-solid fa-indian-rupee-sign"></i>
+                                    <p class="mb-0">{{ $distancePrice }}</p>
+                                </div>
+                            @endif
                         </div>
+
+
                         <div class="desp">
                             <p>{{ $items->description }}</p>
                         </div>
                         <div class="date-range">
                             <input type="text" id="demo" name="datefilter" value="" class="shadow" readonly />
+
+                            @if (
+                                $items['distance_price'] &&
+                                    collect(json_decode($items['distance_price'], true))->filter()->count() > 0)
+                                <label style="margin-top: 10px;" for="distanceInput">Enter Distance (KM):</label>
+                                <input type="number" id="distanceInput" name="distanceInput" min="{{ $distance }}"
+                                    value="{{ $distance }}" />
+                            @endif
                         </div>
+
 
                         <div class="total-price">
                             <p class="mb-0">Total Price:</p>
@@ -878,7 +911,8 @@
                         <div class="stars-box">
                             <i class="star fa fa-star" title="1 star" data-message="Poor" data-value="1"></i>
                             <i class="star fa fa-star" title="2 stars" data-message="Too bad" data-value="2"></i>
-                            <i class="star fa fa-star" title="3 stars" data-message="Average quality" data-value="3"></i>
+                            <i class="star fa fa-star" title="3 stars" data-message="Average quality"
+                                data-value="3"></i>
                             <i class="star fa fa-star" title="4 stars" data-message="Nice" data-value="4"></i>
                             <i class="star fa fa-star" title="5 stars" data-message="very good qality"
                                 data-value="5"></i>
@@ -951,6 +985,14 @@
 @endsection
 
 @section('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script>
+        let days = {{ round($days, 2) }};
+        let formattedDays = moment.duration(days, 'days').humanize();
+        document.querySelector('.rent p.mb-0').innerText = `Rent ${formattedDays}`;
+    </script>
+
+
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js'></script>
     <script src='https://sachinchoolur.github.io/lightslider/dist/js/lightslider.js'></script>
     <script type='text/javascript' src='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js'>
@@ -959,8 +1001,6 @@
     <script type='text/javascript' src=''></script>
     <script type='text/Javascript'></script>
     {{-- Date --}}
-    {{-- <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script> --}}
-
     <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
     <script>
@@ -1029,11 +1069,47 @@
             }
         })
     </script>
+
+    <script>
+        document.getElementById('distanceInput').addEventListener('input', function() {
+            var distance = parseFloat(this.value) || 0; // Get the distance input, default to 0 if invalid
+            var distancePrice = parseFloat('{{ $distancePrice }}'); // Get the distance price from PHP
+            var defaultPrice = parseFloat('{{ $defaultValue }}'); // Get the default price from PHP
+
+            // Calculate the total price
+            var totalPrice = defaultPrice + (distance * distancePrice);
+
+            // Update the total price in the UI
+            document.getElementById('totalPrice').innerText = totalPrice.toFixed(2);
+            document.getElementById('totalPriceInput').value = totalPrice.toFixed(2);
+        });
+    </script>
+
+
+    <script>
+        document.getElementById('distanceInput').addEventListener('input', function() {
+            var distance = parseFloat(this.value) || 0; // Get the distance input, default to 0 if invalid
+            var distancePrice = parseFloat('{{ $distancePrice }}'); // Get the distance price from PHP
+            var defaultPrice = parseFloat('{{ $defaultValue }}'); // Get the default price from PHP
+
+            // Calculate the total price
+            var totalPrice = distance * distancePrice;
+            localStorage.setItem('totalPrice', totalPrice.toFixed(2));
+            localStorage.setItem('distance', distance);
+
+            // Update the total price in the UI
+            document.getElementById('totalPrice').innerText = totalPrice.toFixed(2);
+            document.getElementById('totalPriceInput').value = totalPrice.toFixed(2);
+        });
+    </script>
+
     {{-- Date Range --}}
     <script>
         localStorage.removeItem('startDate');
         localStorage.removeItem('endDate');
         localStorage.removeItem('totalPrice');
+        localStorage.removeItem('distance');
+
         $('#demo').daterangepicker({
             "showISOWeekNumbers": true,
             "timePicker": true,
@@ -1060,7 +1136,8 @@
             "startDate": moment().startOf('hour'), // Set initial start date to current time (hour precision)
             "endDate": moment().startOf('hour').add(1,
                 'hour'), // Set initial end date to one hour from current time
-            "opens": "center"
+            "opens": "center",
+            "minDate": moment().startOf('hour') // Disable past dates and hours
         });
 
         // Function to calculate and update total price based on date range selection
@@ -1103,26 +1180,28 @@
         document.getElementById('bookingForm').addEventListener('submit', function(event) {
             const startDate = localStorage.getItem('startDate');
             const endDate = localStorage.getItem('endDate');
+            const totalDistancePrice = localStorage.getItem('totalPrice');
 
-            if (!startDate || !endDate) {
-                event.preventDefault(); // Prevent form submission
+            console.log("f", totalDistancePrice)
+            if (totalDistancePrice === null) {
+                if (!startDate || !endDate || totalDistancePrice === null) {
+                    event.preventDefault(); // Prevent form submission
 
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Please select a date and time range before booking.',
-                    type: 'warning',
-                    showCancelButton: true,
-                    cancelButtonColor: 'default',
-                    confirmButtonColor: '#FC6A57',
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Please select a date and time range before booking.',
+                        type: 'warning',
+                        showCancelButton: true,
+                        cancelButtonColor: 'default',
+                        confirmButtonColor: '#FC6A57',
 
-                    reverseButtons: true
-                })
+                        reverseButtons: true
+                    })
+                }
             }
-        });
 
-        // Disable the "Book Now" button by default
-        // document.getElementById('bookNowButton').disabled = true;
+        });
     </script>
 
     <!--review-->

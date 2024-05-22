@@ -408,7 +408,8 @@ class HomeController extends Controller
             $user = User::with('userkyc')->find($userId);
 
             if ($user) {
-                if ($user->userkyc != null) {
+                // Check if user KYC data exists
+                if ($user->userkyc) {
                     if ($user->userkyc->is_verified == 1) {
                         $items = Item::where('slug', $slug)->first();
 
@@ -419,7 +420,8 @@ class HomeController extends Controller
                         return view('profile', compact('user'));
                     }
                 } else {
-                    return view('profile', compact('user'));
+                    // Redirect to profile page if user KYC data is missing
+                    return redirect()->route('profile')->with('error', 'User KYC data not found.');
                 }
             }
         }
@@ -427,6 +429,7 @@ class HomeController extends Controller
         // Add a fallback return if no conditions are met
         return redirect()->route('home')->with('error', 'User not authenticated or KYC not found');
     }
+
 
 
 
@@ -466,6 +469,7 @@ class HomeController extends Controller
             $order = new Order();
             $order->user_id = Auth::user()->id;
             $order->delivery_address = $request->input('address');
+            $order->store_id = $request->input('store_id');
             $order->order_amount = $request->input('order_amount');
             $order->payment_status = strtolower($request->payment_status);
             $order->transaction_reference = $request->input('transaction_reference');
@@ -479,6 +483,7 @@ class HomeController extends Controller
                 $orderDetail->order_id = $order->id;
                 $orderDetail->item_id = $request->input('item_id');
                 $orderDetail->price = $request->input('order_amount');
+                $orderDetail->distance = $request->input('distance');
                 $orderDetail->start_date = $request->input('start_date');
                 $orderDetail->end_date = $request->input('end_date');
                 $orderDetail->save();

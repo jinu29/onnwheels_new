@@ -470,12 +470,16 @@
                         <h4>{{ $items->name }}</h4>
                         <input type="hidden" value="{{ $items->name }}" name="item_details">
                         <input type="hidden" value="{{ $items->id }}" id="itemIdInput" name="item_id">
+                        <input type="hidden" value="{{ $items->store_id }}" id="itemStoreIdInput" name="store_id">
                         <div class="date d-flex align-items-center justify-content-between">
                             <p id="startdate" class="mb-0"></p>
                             <input type="hidden" value="default_value" id="inputStartDate" name="start_date">
                             <p class="mb-0">to</p>
                             <p id="enddate" class="mb-0"></p>
                             <input type="hidden" value="" id="inputEndDate" name="end_date">
+
+                            <p id="distance" class="mb-0"></p>
+
                         </div>
                         <div class="d-flex flex-column justify-content-between align-items-start">
                             <h5 class="mt-4">Address :</h5>
@@ -651,18 +655,29 @@
             $('#totalunitprice').text(totalPrice);
 
             // Start date
-            var startdate = localStorage.getItem('startDate');
-            $('#startdate').text($('#startdate').text() + ' ' + startdate);
-            var formattedStartDate = moment(startdate, "YYYY-MM-DD HH:mm:ss").format("MMMM DD, YYYY  h:mm A");
-            $('#startdate').text(formattedStartDate);
-            $('#inputStartDate').val(formattedStartDate);
+            var distance = localStorage.getItem('distance');
+            if (distance !== null) {
+                // If distance is present, hide start date and end date
+                $('#startdate').hide();
+                $('#enddate').hide();
+                $('#distance').text(distance + " KM").show();
+                $('#inputStartDate').val(''); // Clear start date value
+                $('#inputEndDate').val(''); // Clear end date value
+            } else {
+                // If distance data is not present, show start date and end date
+                $('#startdate').show();
+                $('#enddate').show();
+                $('#distance').hide(); // Hide distance
+                var startDate = localStorage.getItem('startDate');
+                var formattedStartDate = moment(startDate, "YYYY-MM-DD HH:mm:ss").format("MMMM DD, YYYY  h:mm A");
+                $('#startdate').text(formattedStartDate);
+                $('#inputStartDate').val(formattedStartDate);
 
-            // End date
-            var enddate = localStorage.getItem('endDate');
-            $('#enddate').text($('#enddate').text() + ' ' + enddate);
-            var formattedEndDate = moment(enddate, "YYYY-MM-DD HH:mm:ss").format("MMMM DD, YYYY  h:mm A");
-            $('#enddate').text(formattedEndDate);
-            $('#inputEndDate').val(formattedEndDate);
+                var endDate = localStorage.getItem('endDate');
+                var formattedEndDate = moment(endDate, "YYYY-MM-DD HH:mm:ss").format("MMMM DD, YYYY  h:mm A");
+                $('#enddate').text(formattedEndDate);
+                $('#inputEndDate').val(formattedEndDate);
+            }
 
         });
     </script>
@@ -715,6 +730,7 @@
 
                 var orderAmount = $('#totalPriceInput').val();
                 var itemId = $('#itemIdInput').val();
+                var storeId = $('#itemStoreIdInput').val();
 
                 var options = {
                     "key": "{{ Config::get('razor.razor_key') }}",
@@ -728,7 +744,9 @@
 
                         var orderData = {
                             order_amount: orderAmount,
+                            distance: localStorage.getItem('distance') ?? null,
                             address: address,
+                            store_id: storeId,
                             item_id: itemId,
                             payment_status: "Paid",
                             start_date: startDate,
