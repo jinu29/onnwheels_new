@@ -257,4 +257,4 @@ Route::get('thank_you', [HomeController::class, 'thank_you'])->name('thank_you')
 
 Route::get('rides', [HomeController::class, 'rides'])->name('rides');
 
-Route::post('search', [])
+// Route::post('search', [])
