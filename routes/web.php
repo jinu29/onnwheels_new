@@ -254,3 +254,7 @@ Route::post('product_detail_store', [HomeController::class, 'create_order_store'
 Route::post('/create-order', [PaymentController::class, 'createOrder']);
 
 Route::get('thank_you', [HomeController::class, 'thank_you'])->name('thank_you');
+
+Route::get('rides', [HomeController::class, 'rides'])->name('rides');
+
+Route::post('search', [])

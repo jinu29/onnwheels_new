@@ -165,6 +165,8 @@ class PaymentController extends Controller
 
         $order = $this->razorpay->createOrder($amount, $currency, $receipt);
 
+        
+
         return response()->json($order);
     }
 

@@ -455,7 +455,7 @@
 
     <div class="container-fluid px-5" style="margin-top: 2rem; margin-bottom: 2rem;">
         <div class="row">
-            <div class="col-3">
+            <div class="col-lg-3 col-md-12 col-12 mt-3">
                 <div class="profile-user-details">
                     <a href="#" class="profile-btn">
                         <div class="profile-btn">
@@ -470,7 +470,7 @@
                     </div>
                     {{-- <button class="edit-image">Edit Image</button> --}}
                     @if($user->userkyc && $user->userkyc->is_verified == 1)
-                        <div class="profile-name">
+                        <div class="profile-name mt-3">
                             <h4 class="username">{{ Auth::user()->f_name }}</h4>
                             <i class="fa-solid fa-circle-check"></i>
                         </div>
@@ -627,7 +627,7 @@
                 </div>
             </div> --}}
             @if ($user->userkyc === null)
-                <div class="col-lg-9">
+                <div class="col-lg-9 col-md-12 col-12 mt-4">
                     <div class="container-fluid profile">
                         <div class="card px-0 pt-4 pb-0 mb-3">
                             <h2 id="heading">DOCUMENT VERIFICATION</h2>
@@ -772,7 +772,7 @@
                     </div>
                 </div>
             @elseif ($user->userkyc && $user->userkyc->is_verified == 0 && $user->userkyc->is_reject == 0)
-                <div class="col-lg-9">
+                <div class="col-lg-9 col-md-12 col-12 mt-4">
                     <div class="container-fluid profile">
                         <div class="card px-0 pt-4 pb-0 mb-3">
                             <h2 id="heading">DOCUMENT VERIFICATION</h2>
@@ -786,7 +786,7 @@
                     </div>
                 </div>
             @elseif ($user->userkyc && $user->userkyc->is_verified == 1)
-                <div class="col-lg-9">
+                <div class="col-lg-9 col-md-12 col-12 mt-4">
                     <div class="container-fluid profile">
                         <div class="card px-0 pt-4 pb-0 mb-3">
                             <h2 id="heading">DOCUMENT VERIFICATION</h2>
@@ -800,7 +800,7 @@
                     </div>
                 </div>
             @elseif ($user->userkyc && $user->userkyc->is_reject == 2)
-                <div class="col-lg-9">
+                <div class="col-lg-9 col-md-12 col-12 mt-4">
                     <div class="container-fluid profile">
                         <div class="card px-0 pt-4 pb-0 mb-3">
                             <h2 id="heading">DOCUMENT VERIFICATION</h2>
@@ -949,7 +949,7 @@
                     </div>
                 </div>
             @else
-                <div class="col-lg-9">
+                <div class="col-lg-9 col-md-12 col-12 mt-4">
                     <div class="container-fluid profile">
                         <div class="card px-0 pt-4 pb-0 mb-3">
                             <h2 id="heading">DOCUMENT VERIFICATION</h2>
@@ -1268,108 +1268,6 @@
 
         });
     </script>
-
-    {{-- <script>
-        $(document).ready(function() {
-            $('#verifyBtn').click(function() {
-                var panNumber = $('#pan_number').val();
-
-                // Show spinner
-                $('#spinner').show();
-
-                // Perform AJAX request
-                $.ajax({
-                    url: "{{ route('verification.pan-verify') }}",
-                    type: "POST",
-                    data: {
-                        pan_number: panNumber,
-                        purpose: 1,
-                        purpose_desc: "onboarding",
-                        _token: "{{ csrf_token() }}"
-                    },
-                    success: function(response) {
-                        // Hide spinner
-                        $('#spinner').hide();
-                        if(response.message == "PAN verification successful"){
-                            $('#errorMessage').hide();
-                            $('#successMessage').text(response.message).show();
-                            $('.next').show();
-                        }
-                        else{
-                            $('#successMessage').hide();
-                            $('.next').hide();
-                            $('#errorMessage').text(response.message).show();
-                        }
-                        // Handle successful response
-                        console.log(response.message);
-                      //  $('#successMessage').text(response.message).show();
-
-                        // Show the "Next Step" button
-                    },
-                    error: function(xhr, textStatus, errorThrown) {
-                        // Hide spinner
-                        $('#spinner').hide();
-
-                        // Handle error response
-                        console.error(xhr.responseText);
-                        $('#errorMessage').text(xhr.responseText).show();
-                        // Here you can handle the error response as per your requirements
-                    }
-                });
-            });
-        });
-    </script> --}}
-
-    {{-- PAN Verify --}}
-    {{-- <script>
-        $(document).ready(function() {
-            $('#verifyBtn').click(function() {
-                var panNumber = $('#pan_number').val();
-
-                // Show spinner
-                $('#spinner').show();
-
-                // Perform AJAX request
-                $.ajax({
-                    url: "{{ route('verification.pan-verify') }}",
-                    type: "POST",
-                    data: {
-                        pan_number: panNumber,
-                        purpose: 1,
-                        purpose_desc: "onboarding",
-                        _token: "{{ csrf_token() }}"
-                    },
-                    success: function(response) {
-                        // Hide spinner
-                        $('#spinner').hide();
-                        if(response.message == "PAN verification successful"){
-                            $('#errorMessage').hide();
-                            $('#successMessage').text(response.message).show();
-                            $('.next').show();
-                        }
-                        else{
-                            $('#successMessage').hide();
-                            $('.next').hide();
-                            $('#errorMessage').text(response.message).show();
-                        }
-                        // Handle successful response
-                        console.log(response.message);
-                    //  $('#successMessage').text(response.message).show();
-
-                        // Show the "Next Step" button
-                    },
-                    error: function(xhr, textStatus, errorThrown) {
-                        // Hide spinner
-                        $('#spinner').hide();
-
-                        // Handle error response
-                        console.error(xhr.responseText);
-                        $('#errorMessage').text(xhr.responseText).show();
-                    }
-                });
-            });
-        });
-    </script>  --}}
 
     <!-- PAN Verify -->
     <script>

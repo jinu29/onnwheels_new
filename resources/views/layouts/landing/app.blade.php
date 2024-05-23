@@ -55,10 +55,13 @@ $landing_site_direction = session()->get('landing_site_direction');
         }
 
         .footer {
-            padding: 40px 0;
+            width: 100%;
+            padding: 40px 0 20px 0;
             background-color: #003360;
             color: white;
             border-radius: 50px 50px 0 0;
+            /* position: fixed;
+            bottom: 0; */
         }
 
         .line {
@@ -131,6 +134,7 @@ $landing_site_direction = session()->get('landing_site_direction');
         .copyrights {
             background-color: #003360;
             color: white;
+            margin: 10px 0;
         }
 
 
@@ -139,7 +143,6 @@ $landing_site_direction = session()->get('landing_site_direction');
             align-items: center;
             justify-content: space-between;
             border-top: 1px solid gray;
-            padding: 15px 0;
             font-size: 16px;
             font-weight: 600;
         }
@@ -155,28 +158,40 @@ $landing_site_direction = session()->get('landing_site_direction');
             cursor: pointer;
         }
 
-        .user-avatar-container:hover .user-name {
+        /* .user-avatar-container:hover .user-name {
             display: inline-block;
         }
 
 
         .user-avatar-container:hover .dropdown-menu {
             display: block;
+        } */
+
+        .dropdown-menu {
+            padding: 10px 15px;
+            min-width: 12rem;
         }
 
         .dropdown-menu a {
             display: block;
-            margin-bottom: 10px;
-            /* Add spacing between items */
-            margin-left: 10px;
             color: #333;
-            /* Default color for links */
             text-decoration: none;
         }
 
-        .dropdown-menu a:hover {
-            color: #ff0000;
-            /* Reddish color on hover */
+        #dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 59px;
+            background-color: white;
+            z-index: 1;
+            transition: all 05s ease;
+        }
+
+        .dropdown-menu .menu {
+            padding: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
         }
 
         .menu-divider {
@@ -193,6 +208,23 @@ $landing_site_direction = session()->get('landing_site_direction');
         .sign-up:hover {
             background-color: #F89520;
             color: white;
+        }
+
+        .menu {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 10px 0;
+        }
+
+        .menu p {
+            font-size:16px;
+            font-weight: 600;
+            margin-top: 0;
+        }
+
+        .menu i {
+            font-size: 20px;
         }
     </style>
 
@@ -268,17 +300,30 @@ $landing_site_direction = session()->get('landing_site_direction');
 
                     @if (Auth::check())
                         <div class="user-avatar-container" id="user-avatar-container">
-                            <div class="user-avatar d-flex align-items-center" id="user-avatar">
-                                <img src="/public/Images/user-avatar.png" width="40" alt="User Avatar"
-                                    style="height: 40px;">
-                                <span class="user-name">{{ Auth::user()->f_name }}</span>
+                            <div class="user-avatar d-flex align-items-center" id="user-avatar" style="gap: 12px;">
+                                <img src="/public/Images/user-avatar.png" width="40" alt="User Avatar" style="height: 40px;">
+                                <span class="user-name" style="color: black; font-weight:600;">{{ Auth::user()->f_name }}</span>
+                                <i class="fa-solid fa-chevron-down" style="color: black;"></i>
                             </div>
-                            <div class="user-details">
-                                <div class="dropdown-menu" id="dropdown-menu">
-                                    <a href="{{ route('profile') }}">Profile</a>
-                                    <div class="menu-divider"></div> <!-- Divider -->
-                                    <a href="{{ route('user.logout') }}">Logout</a>
-                                </div>
+                            <div class="dropdown-menu" id="dropdown-menu">
+                                <a href="{{ route('profile') }}">
+                                    <div class="menu">
+                                        <i class="fa-solid fa-user"></i>
+                                        <p class="mb-0">Profile</p>
+                                    </div>
+                                </a>
+                                <a href="{{route ('rides')}}">
+                                    <div class="menu">
+                                        <i class="fa-solid fa-file-invoice"></i>
+                                        <p class="mb-0">My Rides</p>
+                                    </div>
+                                </a>
+                                <a href="{{ route('user.logout') }}">
+                                    <div class="menu">
+                                        <i class="fa-solid fa-power-off"></i>
+                                        <p class="mb-0">Logout</p>
+                                    </div>
+                                </a>
                             </div>
                         </div>
                     @else
@@ -287,12 +332,6 @@ $landing_site_direction = session()->get('landing_site_direction');
                                 <a class="dropdown--btn header--btn text-capitalize d-flex align-items-center login"
                                     href="{{ route('login', ['tab' => 'customer']) }}">
                                     <span class="me-1">{{ translate('Login') }}</span>
-                                    {{-- <svg width="12" height="7" viewBox="0 0 12 7" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M6.00224 5.46105L1.33333 0.415128C1.21002 0.290383 1 0.0787335 1 0.0787335C1 0.0787335 0.708488 -0.0458817 0.584976 0.0788632L0.191805 0.475841C0.0680976 0.600389 7.43292e-08 0.766881 7.22135e-08 0.9443C7.00978e-08 1.12172 0.0680976 1.28801 0.191805 1.41266L5.53678 6.80682C5.66068 6.93196 5.82624 7.00049 6.00224 7C6.17902 7.00049 6.34439 6.93206 6.46839 6.80682L11.8082 1.41768C11.9319 1.29303 12 1.12674 12 0.949223C12 0.771804 11.9319 0.605509 11.8082 0.480765L11.415 0.0838844C11.1591 -0.174368 10.9225 0.222512 10.6667 0.480765L6.00224 5.46105Z"
-                                            fill="#000000" />
-                                    </svg> --}}
                                 </a>
                                 <a class="dropdown--btn header--btn text-capitalize d-flex align-items-center sign-up"
                                     href="{{ route('user.signup') }}">
@@ -418,17 +457,18 @@ $landing_site_direction = session()->get('landing_site_direction');
 
             </div>
         </div>
+        <div class="copyrights">
+            <div class="container copyrights-container">
+                <p class="mb-0">Copyrights @2024</p>
+                <p class="mb-0">Designed by Codeplus Gen</p>
+            </div>
+        </div>
     </footer>
 
     <!-- ======= Footer Section ======= -->
 
     {{-- --------------------------------------------------- --}}
-    <div class="copyrights">
-        <div class="container copyrights-container">
-            <p class="mb-0">Copyrights @2024</p>
-            <p class="mb-0">Designed by Codeplus Gen</p>
-        </div>
-    </div>
+    
 
 
     {{-- --------------------------------------------------- --}}
@@ -464,6 +504,25 @@ $landing_site_direction = session()->get('landing_site_direction');
 
     @stack('script_2')
     @yield('scripts')
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const userAvatar = document.getElementById('user-avatar');
+            const dropdownMenu = document.getElementById('dropdown-menu');
+
+            userAvatar.addEventListener('click', () => {
+                dropdownMenu.style.display = dropdownMenu.style.display === 'none' ? 'block' : 'none';
+            });
+
+            // Optional: Hide the dropdown menu when clicking outside of it
+            document.addEventListener('click', (event) => {
+                if (!userAvatar.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                    dropdownMenu.style.display = 'none';
+                }
+            });
+        });
+
+    </script>
 
     <script>
         "use strict";
