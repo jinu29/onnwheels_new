@@ -1273,7 +1273,7 @@
     <script>
         $(document).ready(function() {
             $('#verifyBtn').click(function() {
-                var panNumber = $('#pan_number').val();
+                var panNumber = $('#pan_number').val().toUpperCase();
 
                 // Show spinner
                 $('#spinner').show();

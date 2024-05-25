@@ -112,7 +112,7 @@ $landing_site_direction = session()->get('landing_site_direction');
             list-style: disc;
             font-size: 16px;
             font-weight: 500;
-            padding-bottom: 12px;
+            margin-bottom: 12px;
             cursor: pointer;
         }
 
