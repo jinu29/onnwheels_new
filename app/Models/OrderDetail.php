@@ -15,13 +15,14 @@ class OrderDetail extends Model
         'discount_on_item' => 'float',
         'total_add_on_price' => 'float',
         'tax_amount' => 'float',
-        'item_id'=> 'integer',
-        'order_id'=> 'integer',
-        'quantity'=>'integer',
-        'item_campaign_id'=>'integer'
+        'item_id' => 'integer',
+        'order_id' => 'integer',
+        'quantity' => 'integer',
+        'item_campaign_id' => 'integer',
+       
     ];
 
-    protected $primaryKey   = 'id';
+    protected $primaryKey = 'id';
 
     public function order()
     {
@@ -33,14 +34,15 @@ class OrderDetail extends Model
     }
     public function item()
     {
-        return $this->belongsTo(Item::class,'item_id');
+        return $this->belongsTo(Item::class, 'item_id');
     }
     public function campaign()
     {
         return $this->belongsTo(ItemCampaign::class, 'item_campaign_id');
     }
 
-    protected static function boot(){
+    protected static function boot()
+    {
         parent::boot();
         static::addGlobalScope('order', function (Builder $builder) {
             $builder->Has('order');

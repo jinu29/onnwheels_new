@@ -523,7 +523,6 @@ class HomeController extends Controller
         if ($orders->isNotEmpty()) {
             // Iterate through each order to extract item details
             $orders->each(function ($order) {
-                // Extract item details directly from the order details relationship
                 $items = $order->details->map(function ($detail) {
                     return $detail->item;
                 });
