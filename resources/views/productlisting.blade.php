@@ -71,7 +71,7 @@
       font-weight: 700;
       }
 
-      .btn {
+      .products .btn {
           padding: 8px 15px;
           background-color: #003360;
           color: white;
@@ -83,122 +83,20 @@
           border-radius: 8px;
       }
 
-      /* Category Accordion */
-      .tab input {
-        position: absolute;
-        opacity: 0;
-        z-index: -1;
+      /* Accordion */
+      .card-header {
+        padding: 0;
       }
 
-      .tab__content {
-        max-height: 0;
-        overflow: hidden;
-        transition: all 0.35s;
+      .accordion .card-header {
+        background-color: #003360;
       }
-
-      .tab input:checked ~ .tab__content {
-        max-height: 10rem;
-      }
-
-      /* Visual styles */
-      .accordion {
-        color: #227093;
-        border: 2px solid;
-        border-radius: 0.5rem;
-        overflow: hidden;
-      }
-
-      .tab__label,
-      .tab__close {
-        display: flex;
-        color: white;
-        font-size: 12px;
-        font-weight: 500;
-        border: none;
-        outline: none;
-        align-self: center;
-        border-radius: 8px;
-    }
-
-    /* Category Accordion */
-    .tab input {
-        position: absolute;
-        opacity: 0;
-        z-index: -1;
-      }
-
-
-      .tab__content {
-        max-height: 0;
-        overflow: hidden;
-        transition: all 0.35s;
-      }
-
-
-      .tab input:checked ~ .tab__content {
-        max-height: 10rem;
-      }
-
-      /* Visual styles */
-      .accordion {
-        color: #227093;
-        border: 2px solid;
-        border-radius: 0.5rem;
-        overflow: hidden;
-      }
-
-      .tab__label,
-      .tab__close {
-        display: flex;
-        color: white;
-        background: #f89520;
-        cursor: pointer;
-      }
-
-      .tab__label {
-        justify-content: space-between;
-        padding: 1rem;
-      }
-
-        align-items: center;
-        justify-content: space-between;
-        padding: 1rem;
-      }
-
-      .tab__label::after {
-        content: "\276F";
-        width: 1em;
-        height: 1em;
-        text-align: center;
-        transform: rotate(90deg);
-        transition: all 0.35s;
-      }
-
-      .tab input:checked + .tab__label::after {
-        transform: rotate(270deg);
-      }
-
-      .tab__content p {
-        margin: 0;
-        padding: 1rem;
-      }
-
-      .tab__close {
-        justify-content: flex-end;
-        padding: 0.5rem 1rem;
-        font-size: 0.75rem;
-      }
-      /* Arrow animation */
-      .tab input:not(:checked) + .tab__label:hover::after {
-        animation: bounce .5s infinite;
-      }
-      @keyframes bounce {
-        25% {
-          transform: rotate(90deg) translate(.25rem);
-        }
-        75% {
-          transform: rotate(90deg) translate(-.25rem);
-        }
+      
+      .accordion .card-header h2 button {
+        color:white;
+        text-decoration: none;
+        font-size: 15px;
+        font-weight: 600;
       }
   </style>
 </style>
@@ -206,20 +104,24 @@
 @section('content')
     <div class="container" style="margin-top: 3rem">
         <div class="row">
-            <div class="col-lg-3">
-                <section class="accordion">
-                    <div class="tab">
-                      <input type="checkbox" name="accordion-1" id="cb1" checked>
-                      <label for="cb1" class="tab__label">Categories</label>
-                      <div class="tab__content">
-                          <ul style="padding: 1rem">
-                            <li>Royal Enfield</li>
-                          </ul>
-                      </div>
+            <div class="col-lg-3 mt-3">
+              <div class="accordion" id="accordionExample">
+                <div class="card">
+                  <div class="card-header" id="headingOne">
+                    <h2 class="mb-0">
+                      <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">All Categories</button>
+                    </h2>
+                  </div>
+              
+                  <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                    <div class="card-body">
+                      Some placeholder content for the first accordion panel. This panel is shown by default, thanks to the <code>.show</code> class.Some placeholder content for the first accordion panel. This panel is shown by default, thanks to the <code>.show</code> class.Some placeholder content for the first accordion panel. This panel is shown by default, thanks to the <code>.show</code> class.
                     </div>
-                </section>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="col-lg-9">
+            <div class="col-lg-9 mt-3">
                 <div class="products row">
                     @foreach($products as $product )
                     <div class="col-lg-3 col-6 ">

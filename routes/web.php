@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KycController;
+use App\Http\Controllers\VehicleAvailabilityController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaytmController;
 use App\Http\Controllers\LiqPayController;
@@ -257,4 +258,4 @@ Route::get('thank_you', [HomeController::class, 'thank_you'])->name('thank_you')
 
 Route::get('rides', [HomeController::class, 'rides'])->name('rides');
 
-Route::post('search', [])
+Route::post('search', [VehicleAvailabilityController::class,'search'])->name('search.vehicle');
