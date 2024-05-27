@@ -3963,4 +3963,6 @@
   'Dont have an account?' => 'Dont have an account ',
   'Off_day' => 'Off day',
   'null' => 'Null',
+  'privacy_policy_updated' => 'Privacy policy updated',
+  'terms_and_condition_updated' => 'Terms and condition updated',
 );

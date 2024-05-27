@@ -158,14 +158,20 @@ $landing_site_direction = session()->get('landing_site_direction');
             cursor: pointer;
         }
 
-        /* .user-avatar-container:hover .user-name {
-            display: inline-block;
+        #user-avatar-container {
+            position: relative;
         }
 
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+        }
 
-        .user-avatar-container:hover .dropdown-menu {
+        #user-avatar-container:hover .dropdown-menu {
             display: block;
-        } */
+        }
 
         .dropdown-menu {
             padding: 10px 15px;
@@ -181,7 +187,7 @@ $landing_site_direction = session()->get('landing_site_direction');
         #dropdown-menu {
             display: none;
             position: absolute;
-            top: 59px;
+            top: 34px;
             background-color: white;
             z-index: 1;
             transition: all 05s ease;
@@ -214,7 +220,6 @@ $landing_site_direction = session()->get('landing_site_direction');
             display: flex;
             align-items: center;
             gap: 12px;
-            margin: 10px 0;
         }
 
         .menu p {
@@ -225,6 +230,10 @@ $landing_site_direction = session()->get('landing_site_direction');
 
         .menu i {
             font-size: 20px;
+        }
+
+        ..navbar-bottom-wrapper .menu li a {
+            padding:0px;
         }
     </style>
 
@@ -251,22 +260,22 @@ $landing_site_direction = session()->get('landing_site_direction');
                         <img class="logo" data-onerror-image="{{ asset('public/assets/admin/img/160x160/img2.jpg') }}"
                             src="/public/assets/landing/image/logo.webp" alt="image">
                     </a>
-                    <ul class="menu mb-0">
+                    <ul class="menu mb-0 mr-3">
                         <li>
                             <a href="{{ route('home') }}"
-                                class="{{ Request::is('/') ? 'active' : '' }}"><span>{{ translate('messages.home') }}</span></a>
+                                class="{{ Request::is('/') ? 'active' : '' }} p-0"><span>{{ translate('messages.home') }}</span></a>
                         </li>
                         <li>
                             <a href="{{ route('rental_bike') }}"
-                                class="{{ Request::is('Rental Bike') ? 'active' : '' }}"><span>{{ translate('messages.Rental Bike') }}</span></a>
+                                class="{{ Request::is('Rental Bike') ? 'active' : '' }} p-0"><span>{{ translate('messages.Rental Bike') }}</span></a>
                         </li>
                         <li>
                             <a href="{{ route('safety') }}"
-                                class="{{ Request::is('Safety') ? 'active' : '' }}"><span>{{ translate('messages.Safety') }}</span></a>
+                                class="{{ Request::is('Safety') ? 'active' : '' }} p-0"><span>{{ translate('messages.Safety') }}</span></a>
                         </li>
                         <li>
                             <a href="{{ route('about-us') }}"
-                                class="{{ Request::is('about-us') ? 'active' : '' }}"><span>{{ translate('messages.about_us') }}</span></a>
+                                class="{{ Request::is('about-us') ? 'active' : '' }} p-0"><span>{{ translate('messages.about_us') }}</span></a>
                         </li>
 
                         {{-- <li>
@@ -276,8 +285,8 @@ $landing_site_direction = session()->get('landing_site_direction');
                             <a href="{{route('terms-and-conditions')}}" class="{{ Request::is('terms-and-conditions') ? 'active' : '' }}"><span>{{ translate('messages.terms_and_condition') }}</span></a>
                         </li> --}}
                         <li>
-                            <a href="{{ route('contact-us') }}"
-                                class="{{ Request::is('contact-us') ? 'active' : '' }}"><span>{{ translate('messages.contact_us') }}</span></a>
+                            <a href="{{ route('contact-us') }}" 
+                                class="{{ Request::is('contact-us') ? 'active' : '' }} p-0"><span>{{ translate('messages.contact_us') }}</span></a>
                         </li>
                         @if ($fixed_link && $fixed_link['web_app_url_status'])
                             <div class="mt-2">
@@ -292,7 +301,7 @@ $landing_site_direction = session()->get('landing_site_direction');
                         <span></span>
                     </div>
                     @if (session('user_location'))
-                        <div class="location">
+                        <div class="location ">
                             <i class="fa-solid fa-location-dot"></i>
                             <span id="userLocation">{{ Str::limit(session('user_location'), 20) }}</span>
                         </div>
@@ -435,8 +444,12 @@ $landing_site_direction = session()->get('landing_site_direction');
                         <p class="line"></p>
                     </div>
                     <ul class="pl-4">
-                        <li>Privacy Policy</li>
-                        <li>Terms & Conditions</li>
+                        <a href="{{ route('privacy-policy') }}">
+                            <li>Privacy POlicy</li>
+                        </a>
+                        <a href="{{ route('terms-and-conditions') }}">
+                            <li>Terms & Conditions</li>
+                        </a>
                     </ul>
                 </div>
 
@@ -505,7 +518,7 @@ $landing_site_direction = session()->get('landing_site_direction');
     @stack('script_2')
     @yield('scripts')
 
-    <script>
+    <!-- <script>
         document.addEventListener('DOMContentLoaded', (event) => {
             const userAvatar = document.getElementById('user-avatar');
             const dropdownMenu = document.getElementById('dropdown-menu');
@@ -513,8 +526,6 @@ $landing_site_direction = session()->get('landing_site_direction');
             userAvatar.addEventListener('click', () => {
                 dropdownMenu.style.display = dropdownMenu.style.display === 'none' ? 'block' : 'none';
             });
-
-            // Optional: Hide the dropdown menu when clicking outside of it
             document.addEventListener('click', (event) => {
                 if (!userAvatar.contains(event.target) && !dropdownMenu.contains(event.target)) {
                     dropdownMenu.style.display = 'none';
@@ -522,7 +533,7 @@ $landing_site_direction = session()->get('landing_site_direction');
             });
         });
 
-    </script>
+    </script> -->
 
     <script>
         "use strict";
