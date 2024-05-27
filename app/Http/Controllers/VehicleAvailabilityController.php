@@ -8,6 +8,7 @@ use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Order;
+use Illuminate\Support\Facades\Log;
 
 class VehicleAvailabilityController extends Controller
 {
@@ -70,7 +71,6 @@ class VehicleAvailabilityController extends Controller
     public function search(Request $request)
     {
 
-        // $user_id = Auth::user()->id;
 
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
@@ -78,9 +78,10 @@ class VehicleAvailabilityController extends Controller
         $bookedOrderDetails = OrderDetail::where('start_date', $startDate)
         ->where('end_date',$endDate)
         ->get();
-
-        // Get the IDs of the booked bikes using item_id
+        
+        Log::info("details" . $bookedOrderDetails);
         $bookedBikeIds = $bookedOrderDetails->pluck('item_id')->toArray();
+        
 
         $items = Item::whereNotIn('id', $bookedBikeIds)->get();
 

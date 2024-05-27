@@ -343,8 +343,7 @@
 
     <!-- Booking -->
     <div class="container">
-        <div
-            style="background-image: linear-gradient(#ACA6F3,#D25858); border-radius: 25px;margin-top: -5rem;padding: 30px 50px;">
+        <div style="background-image: linear-gradient(#ACA6F3,#D25858); border-radius: 25px;margin-top: -5rem;padding: 30px 50px;">
             <h1 class="booking-title" style="color: white; font-size: 25px; font-weight: 600;">Book your Next Ride</h1>
             <form id="search-form">
                 <div class="row d-flex justify-content-between">
@@ -352,13 +351,13 @@
                         <input id="start-date" class="form-control w-100" type="date" placeholder="Choose a date" required>
                     </div>
                     <div class="col-lg col-md-6 col-12 p-1 form-group">
-                        <input id="start-time" class="form-control w-100" type="time" placeholder="Pick time" required>
+                        <input id="start-time" class="form-control w-100 time-input" type="time" placeholder="Pick time" required>
                     </div>
                     <div class="col-lg col-md-6 col-12 p-1 form-group">
                         <input id="end-date" class="form-control w-100" type="date" placeholder="Pick date" required>
                     </div>
                     <div class="col-lg col-md-6 col-12 p-1 form-group">
-                        <input id="end-time" class="form-control w-100" type="time" placeholder="Pick time" required>
+                        <input id="end-time" class="form-control w-100 time-input" type="time" placeholder="Pick time" required>
                     </div>
                     <div class="col-lg-2 col-md-12 col-12 p-1 text-center form-group">
                         <button type="button" id="search-button" class="btn w-100">Search</button>
@@ -366,11 +365,12 @@
                 </div>
             </form>
         </div>
-        <div id="search-results" style="margin-top: 1.5rem;"></div>
+        <div id="search-results" style="display: flex; overflow-x: hidden; margin-top:1.5rem;"></div>
     </div>
 
+
     <!-- Features -->
-    <div class="container-fluid features mt-5 ">
+    <div class="container-fluid features mt-3">
         <div class="row justify-content-between px-3 my-3 shadow"
             style="border-radius: 25px; background-color: white; padding: 15px 0; row-gap: 25px;">
             <div class="col-lg col-md-6 col-6 d-flex justify-content-center align-items-center" style="gap:8px;">
@@ -760,6 +760,8 @@
     </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 
     <script>
         $(document).ready(function() {
@@ -799,27 +801,37 @@
                                 // Iterate over each item in the response
                                 response.forEach(function(item) {
                                     // Generate HTML to represent the item
-                                    var itemHTML = '<div class="col-3 mb-3 search-result">' +
-                                        '<div class="card d-flex flex-column align-items-center">' +
-                                        '<img class="card-img" src="{{ asset("storage/app/public/product/") }}/' +
-                                        item.image + '" alt="' + item.name + ' image">' +
-                                        '<div class="card-body">' +
-                                        '<h5 class="card-title">' + item.name + '</h5>' +
-                                        '<div class="rating d-flex justify-content-center mb-0 text-center" style="font-size: 12px; color: rgb(248, 82, 82);">' +
-                                        '<i class="fa-solid fa-star"></i>' +
-                                        '<i class="fa-solid fa-star"></i>' +
-                                        '<i class="fa-solid fa-star"></i>' +
-                                        '<i class="fa-solid fa-star"></i>' +
-                                        '<i class="fa-regular fa-star-half-stroke"></i>' +
-                                        '</div>' +
-                                        '<p class="price mb-0 text-center">Rs. ' + item.price + '</p>' +
-                                        '<a href="' + '{{ route("product.product_detail", ["slug" => $items->slug]) }}' + '" class="btn mb-0 mt-1">BookNow</a>' +
-                                        '</div>' +
-                                        '</div>' + // Closing div for card
-                                        '</div>';
-    
+                                    var itemHTML = '<div class="col-lg-3 col-md-6 col-12 mb-3 style="display:flex; flex-direction:column; align-items:center;">' +
+                                    '<div class="card" style="display:flex; flex-direction:column; align-items:center;">' +
+                                    '<img class="card-img" src="{{ asset("storage/app/public/product/") }}/' +
+                                    item.image + '" alt="' + item.name + ' image">' +
+                                    '<div class="card-body" style="display:flex; flex-direction:column; align-items:center;">' +
+                                    '<h5 class="card-title" style="color: #013460;">' + item.name + '</h5>' +
+                                    '<div class="rating d-flex justify-content-center mb-0 text-center" style="font-size: 12px; color: rgb(248, 82, 82);">' +
+                                    '<i class="fa-solid fa-star"></i>' +
+                                    '<i class="fa-solid fa-star"></i>' +
+                                    '<i class="fa-solid fa-star"></i>' +
+                                    '<i class="fa-solid fa-star"></i>' +
+                                    '<i class="fa-regular fa-star-half-stroke"></i>' +
+                                    '</div>' +
+                                    '<p class="price mb-0 text-center" style="margin-top:10px;">Rs. ' + item.price + '</p>' +
+                                    '<a href="' + '{{ route("product.product_detail", ["slug" => $items->slug]) }}' + '" class="btn mb-0 mt-1">BookNow</a>' +
+                                    '</div>' +
+                                    '</div>' + // Closing div for card
+                                    '</div>';
+
                                     // Append the item HTML to the search results div
                                     $('#search-results').append(itemHTML);
+
+                                    // Slide the newly added item horizontally
+                                    var newItem = $('#search-results').children().last();
+                                    newItem.css('margin-left', '-100%'); // Initially position the item to the left
+
+                                    // Animate the sliding effect
+                                    newItem.animate({
+                                        'margin-left': '0'
+                                    }, 500); // Adjust the duration as needed
+
                                 });
                             } else {
                                 // If no items found, display a message
@@ -840,10 +852,31 @@
             function formatDateAndTime(date, time) {
                 // Combine and format the date and time using Moment.js
                 var formattedDateTime = moment(date + ' ' + time, "YYYY-MM-DD HH:mm").format(
-                    "MMMM DD, YYYY h:mm A");
+                    "MMMM DD, YYYY  h:mm A");
                 return formattedDateTime;
             }
         });
     </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            formatTimeTo12Hour();
+        });
+
+        function formatTimeTo12Hour() {
+            var timeInputs = document.querySelectorAll('.time-input');
+            timeInputs.forEach(function(input) {
+                var timeValue = input.value.split(':');
+                var hours = parseInt(timeValue[0]);
+                var minutes = timeValue[1];
+                var amOrPm = hours >= 12 ? 'PM' : 'AM';
+                hours = hours % 12;
+                hours = hours ? hours : 12; // If hours is 0, set it to 12
+                hours = hours < 10 ? '0' + hours : hours; // Add leading zero for single digit hours
+                input.value = hours + ':' + minutes + ' ' + amOrPm;
+            });
+        }
+    </script>
+
     
 @endsection

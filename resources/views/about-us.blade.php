@@ -388,7 +388,7 @@
                         <h3>Unleash your journey: The Drivewise Advantage</h3>
                     </div>
                     <p>Immerse yourself in a world of possibilities with our extensive range of vehicles. From sleek sedans to rugged SUVs and luxurious convertibles, we have the perfect wheels to match your style, preferences, and the demands of your adventure.</p>
-                    <a class="advantage-btn" href="#">
+                    <a class="advantage-btn" href="/">
                         <button class="explore">Explore the possibilities</button>
                     </a>
                 </div>

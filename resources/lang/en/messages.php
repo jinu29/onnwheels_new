@@ -3960,4 +3960,6 @@
   'The company image field is required.' => 'The company image field is required.',
   'The designation field is required.' => 'The designation field is required.',
   'To_enable_the_verification' => 'To enable the verification',
+  'privacy_policy_updated' => 'Privacy policy updated',
+  'terms_and_condition_updated' => 'Terms and condition updated',
 );
