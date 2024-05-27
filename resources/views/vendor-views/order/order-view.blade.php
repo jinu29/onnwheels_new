@@ -11,6 +11,8 @@
         $campaign_order = $order->details[0]->campaign ? true : false;
     }
     $max_processing_time = explode('-', $order['store']['delivery_time'])[0];
+
+    // dd($order->details->count());
     ?>
     <div class="content container-fluid">
         <!-- Page Header -->
@@ -310,7 +312,6 @@
                                 $product_price += $order['total_tax_amount'];
                             }
                         }
-
                         $total_addon_price = 0;
                         ?>
                         <div class="table-responsive">

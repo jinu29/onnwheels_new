@@ -24,6 +24,7 @@ class OrderController extends Controller
 {
     public function list($status)
     {
+
         $key = explode(' ', request()?->search);
         Order::where(['checked' => 0])->where('store_id',Helpers::get_store_id())->update(['checked' => 1]);
 
@@ -78,11 +79,15 @@ class OrderController extends Controller
             });
         })
         ->when($status == 'all', function($query){
+
             return $query->where(function($query){
-                $query->whereNotIn('order_status',(config('order_confirmation_model') == 'store'|| Helpers::get_store_data()->self_delivery_system)?['failed','canceled', 'refund_requested', 'refunded']:['pending','failed','canceled', 'refund_requested', 'refunded'])
+
+                 $query->whereNotIn('order_status',(config('order_confirmation_model') == 'store'|| Helpers::get_store_data()->self_delivery_system)?['failed','canceled', 'refund_requested', 'refunded']:['pending','failed','canceled', 'refund_requested', 'refunded'])
                 ->orWhere(function($query){
                     return $query->where('order_status','pending')->where('order_type', 'take_away');
                 });
+
+
             });
         })
         ->when(in_array($status, ['pending','confirmed']), function($query){
@@ -102,6 +107,8 @@ class OrderController extends Controller
         ->orderBy('schedule_at', 'desc')
         ->paginate(config('default_pagination'));
         $status = $status;
+        // dd($orders);
+
         return view('vendor-views.order.list', compact('orders', 'status'));
     }
 
@@ -228,6 +235,7 @@ class OrderController extends Controller
         }])->where(['id' => $id, 'store_id' => Helpers::get_store_id()])->first();
         if (isset($order)) {
             $reasons=OrderCancelReason::where('status', 1)->where('user_type' ,'store' )->get();
+
             return view('vendor-views.order.order-view', compact('order' ,'reasons'));
         } else {
             Toastr::info('No more orders!');
