@@ -56,6 +56,10 @@ class ItemController extends Controller
             'name' => 'array',
             'name.0' => 'required',
             'name.*' => 'max:191',
+            'hours' => 'required',
+            'h_price' => 'required',
+            'km'=>'nullable',
+            'km_price'=>'nullable|numeric|between:.01,999999999999.99',
             'category_id' => 'required',
             'image' => 'required_unless:product_gellary,1',
             'price' => 'required|numeric|between:.01,999999999999.99',
@@ -127,6 +131,19 @@ class ItemController extends Controller
 
         $food = new Item;
         $food->name = $request->name[array_search('default', $request->lang)];
+
+
+        $payload = [
+            $request->input('hours') => $request->input('h_price')
+        ];
+
+        $food->hours_price = json_encode($payload);
+
+        $payload_1 = [
+            $request->input('km') => $request->input('km_price')
+        ];
+
+        $food->distance_price = json_encode($payload_1);
 
         $category = [];
         if ($request->category_id != null) {
@@ -377,6 +394,10 @@ class ItemController extends Controller
             'name.0' => 'required',
             'name.*' => 'max:191',
             'category_id' => 'required',
+            'hours' => 'required',
+            'h_price' => 'required',
+            'km'=>'nullable',
+            'km_price'=>'nullable|numeric|between:.01,999999999999.99',
             'price' => 'required|numeric|between:0.01,999999999999.99',
             'description.*' => 'max:1000',
             'description.0' => 'required',
@@ -418,6 +439,18 @@ class ItemController extends Controller
 
         $p = Item::find($id);
         $p->name = $request->name[array_search('default', $request->lang)];
+
+        $payload = [
+            $request->input('hours') => $request->input('h_price')
+        ];
+
+        $p->hours_price = json_encode($payload);
+
+        $payload_1 = [
+            $request->input('km') => $request->input('km_price')
+        ];
+
+        $p->distance_price = json_encode($payload_1);
 
         $category = [];
         if ($request->category_id != null) {

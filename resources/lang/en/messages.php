@@ -3960,6 +3960,9 @@
   'The company image field is required.' => 'The company image field is required.',
   'The designation field is required.' => 'The designation field is required.',
   'To_enable_the_verification' => 'To enable the verification',
+  'Dont have an account?' => 'Dont have an account ',
+  'Off_day' => 'Off day',
+  'null' => 'Null',
   'privacy_policy_updated' => 'Privacy policy updated',
   'terms_and_condition_updated' => 'Terms and condition updated',
 );

@@ -131,6 +131,8 @@ class HomeController extends Controller
 
             $item = Item::where('status', 1)->get();
 
+            // dd($item);
+
             return view('home', compact('landing_data', 'item', 'category', 'review'));
         } elseif ($landing_integration_type == 'file_upload' && File::exists('resources/views/layouts/landing/custom/index.blade.php')) {
             return view('layouts.landing.custom.index');

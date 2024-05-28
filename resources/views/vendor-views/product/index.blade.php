@@ -223,29 +223,7 @@
                                     </div>
                                 </div>
                                 @endif
-                                <div class="col-sm-6 col-lg-4">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label" for="exampleFormControlInput1">{{translate('messages.price')}}</label>
-                                        <input type="number" min="0" max="999999999999" step="0.01" value="1" name="price" class="form-control"
-                                                placeholder="{{ translate('messages.Ex:') }} 100" required>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-lg-4">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label" for="exampleFormControlInput1">{{translate('messages.discount_type')}}</label>
-                                        <select name="discount_type" id="discount_type" class="form-control js-select2-custom">
-                                            <option value="percent">{{translate('messages.percent')}}</option>
-                                            <option value="amount">{{translate('messages.amount')}}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-lg-4">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label" for="exampleFormControlInput1">{{translate('messages.discount')}}</label>
-                                        <input type="number" min="0" max="100000" value="0" name="discount" class="form-control"
-                                                placeholder="{{ translate('messages.Ex:') }} 100" >
-                                    </div>
-                                </div>
+                            
                                 @if ($module_data['stock'])
                                 <div class="col-sm-6 col-lg-4">
                                     <div class="form-group mb-0">
@@ -286,6 +264,86 @@
                                       </div>
                                 </div>
                                 @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="card shadow--card-2 border-0">
+                        <div class="card-header">
+                            <h5 class="card-title">
+                                {{-- <span class="card-header-icon"><i class="tio-dollar-outlined"></i></span> --}}
+                                <span>{{ translate('amount') }}</span>
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-2">
+                                <div class="col-sm-4 col-6">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                        for="exampleFormControlInput1">{{ translate('messages.Security deposit') }}</label>
+                                        <input type="number" min="0" max="999999999999.99" step="0.01"
+                                        value="1" name="price" class="form-control"
+                                        placeholder="{{ translate('messages.Ex:') }} 100" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 col-6">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.discount_type') }}<span
+                                                class="input-label-secondary text--title" data-toggle="tooltip"
+                                                data-placement="right"
+                                                data-original-title="{{ translate('Admin_shares_the_same_percentage/amount_on_discount_as_he_takes_commissions_from_stores') }}">
+                                                <i class="tio-info-outined"></i>
+                                            </span>
+                                        </label>
+                                        <select name="discount_type" id="discount_type"
+                                            class="form-control js-select2-custom">
+                                            <option value="percent">{{ translate('messages.percent') }}</option>
+                                            <option value="amount">{{ translate('messages.amount') }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 col-6">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.discount') }}</label>
+                                        <input type="number" min="0" max="9999999999999999999999" value="0"
+                                            name="discount" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-lg-6">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label" for="exampleFormControlInput1">{{ translate('messages.Hours') }}</label>
+                                        <input type="text" name="hours" class="form-control" placeholder="{{ translate('messages.Ex:') }} 1hrs">
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label" for="exampleFormControlInput1">{{ translate('messages.Hours price') }}</label>
+                                        <input type="number" name="h_price" min="0" max="999999999999.99" step="0.01" class="form-control" placeholder="{{ translate('messages.Ex:') }} 100">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-lg-6">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label" for="exampleFormControlInput1">{{ translate('messages.KM') }}</label>
+                                        <input type="text" name="km" class="form-control" placeholder="{{ translate('messages.Ex:') }} 1km">
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label" for="exampleFormControlInput1">{{ translate('messages.KM price') }}</label>
+                                        <input type="number" name="km_price" min="0" max="999999999999.99" step="0.01" class="form-control" placeholder="{{ translate('messages.Ex:') }} 100">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
