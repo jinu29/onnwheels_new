@@ -87,6 +87,9 @@
 @section('content')
     <div class="container mt-5">
         <div class="row">
+            <div class="col-3">
+                
+            </div>
             @foreach ( $item as $items )
                 <div class="col-lg-3 col-6">
                     <div class="card text-center mb-3">

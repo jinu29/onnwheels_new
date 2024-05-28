@@ -34,8 +34,8 @@
             </div>
 
             <!-- Content -->
-            <div class="navbar-vertical-content bg--005555" id="navbar-vertical-content">
-                <form class="sidebar--search-form">
+            <div class="navbar-vertical-content" id="navbar-vertical-content" style="background-color:#003361;">
+                <form class="sidebar--search-form" style="background-color:#003361;">
                     <div class="search--form-group">
                         <button type="button" class="btn"><i class="tio-search"></i></button>
                         <input type="text" class="form-control form--control" placeholder="{{ translate('Search Menu...') }}" id="search-sidebar-menu">

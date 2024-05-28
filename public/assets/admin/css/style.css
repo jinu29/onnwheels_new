@@ -767,7 +767,6 @@ aside .nav-link {
     width: 100% !important;
     max-width: 500px !important;
     font-size: 1em !important;
-    font-family: "Inter", sans-serif;
 }
 
 .swal2-popup .swal2-icon {
@@ -786,7 +785,6 @@ aside .nav-link {
     }
 }
 .swal2-popup .swal2-title {
-    font-family: "Public Sans", sans-serif;
     font-size: 1.5em !important;
 }
 
@@ -809,9 +807,6 @@ aside .nav-link {
     font-size: 19px;
 }
 
-.btn {
-    font-family: "Inter", sans-serif;
-}
 
 .card-title {
     display: flex;
@@ -1161,7 +1156,6 @@ li.active
     margin-inline-end: 0px;
     font-weight: 700;
     font-size: 11px;
-    font-family: "Poppins", sans-serif;
     color: var(--title-clr);
 }
 
@@ -1206,7 +1200,6 @@ li.active
     top: 51%;
     transform: translate(-50%, -50%);
     font-size: 14px;
-    font-family: "Poppins", sans-serif;
     text-align: center;
 }
 
@@ -1903,10 +1896,6 @@ img.circle {
     font-size: 1.14rem;
 }
 
-thead th {
-    font-family: "Poppins", sans-serif;
-}
-
 .mw--85px {
     max-width: 85px !important;
 }
@@ -2585,7 +2574,6 @@ textarea.form-control[readonly] {
     color: #111;
     content: attr(data-off-label);
     display: block;
-    font-family: inherit;
     font-weight: 500;
     font-size: 12px;
     line-height: 21px;
@@ -4884,10 +4872,6 @@ div.scroll-down {
     opacity: 0;
 }
 
-.bg--005555 {
-    background-color: #005555;
-}
-
 .loading-inner {
     position: fixed;
     z-index: 9999;
@@ -6023,12 +6007,6 @@ textarea.form-control.h--45 {
     font-size: 13px;
 }
 
-*,
-body,
-table th {
-    font-family: "Inter", sans-serif;
-}
-
 strong {
     font-weight: 500;
 }
@@ -6343,10 +6321,6 @@ strong {
     justify-content: space-between;
 }
 
-.auth-wrapper * {
-    font-family: "Roboto", sans-serif;
-}
-
 .auth-wrapper-right {
     width: 100%;
     max-width: 660px;
@@ -6409,7 +6383,7 @@ strong {
 }
 
 .auth-wrapper-right .btn--primary {
-    background: #039d55;
+    background: #003361;
     font-weight: 500;
 }
 
@@ -6603,9 +6577,6 @@ a:hover .text--title {
     color: var(--primary-clr) !important;
 }
 
-/* body .navbar-vertical-content *:not([class*="tio"]) {
-    font-family: "Inter", sans-serif !important;
-} */
 .object-cover {
     -o-object-fit: cover;
     object-fit: cover;
@@ -6651,10 +6622,6 @@ hr.non-printable {
     margin-inline-start: 0 !important;
 }
 
-.invoice-page *,
-.print--invoice * {
-    font-family: "Roboto Mono", monospace !important;
-}
 
 .invoice-page .table *,
 .print--invoice .table * {
@@ -6789,7 +6756,6 @@ hr.non-printable {
     font-weight: 700;
     font-size: 28px;
     line-height: 33px;
-    font-family: "Roboto", sans-serif;
 }
 
 .store-report-content .left-content-card .info .subtext {
@@ -7055,7 +7021,6 @@ hr.non-printable {
 }
 
 .coupon__discount {
-    font-family: "Roboto", sans-serif;
     color: #9eadc1;
 }
 
@@ -7417,7 +7382,6 @@ ul.delivery--information-single li:not(:last-child) {
     }
 }
 .__nav-module-header .inner p {
-    font-family: "Inter", sans-serif;
     max-width: 226px;
     margin: 0;
 }
@@ -7698,7 +7662,6 @@ ul.delivery--information-single li:not(:last-child) {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: "Inter", sans-serif;
     margin-top: 6px;
 }
 
@@ -9521,10 +9484,6 @@ body > .initial-38-1 {
     border-radius: 1.5px !important;
 }
 
-.warning-modal h5,
-.status-warning-modal h5 {
-    font-family: "Roboto", sans-serif;
-}
 
 .status-warning-modal {
     max-width: 436px !important;
@@ -10209,7 +10168,6 @@ body > .initial-38-1 {
     background: #ffffff;
     margin: 0 auto;
     padding: 40px;
-    font-family: "Roboto", sans-serif;
     font-size: 11.5207px;
     line-height: 21px;
     color: #737883;

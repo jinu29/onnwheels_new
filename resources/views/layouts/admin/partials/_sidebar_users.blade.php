@@ -35,7 +35,7 @@
             </div>
 
             <!-- Content -->
-            <div class="navbar-vertical-content bg--005555" id="navbar-vertical-content">
+            <div class="navbar-vertical-content" id="navbar-vertical-content" style="background-color:#003361;">
                 <form class="sidebar--search-form">
                     <div class="search--form-group">
                         <button type="button" class="btn"><i class="tio-search"></i></button>

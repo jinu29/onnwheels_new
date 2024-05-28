@@ -147,13 +147,13 @@
                         </div>
                     @endif
 
-                    <button type="submit" class="btn btn-lg btn-block btn--primary mt-xxl-3">{{translate('messages.login')}}</button>
+                    <button type="submit" class="btn btn-lg btn-block btn--primary mt-xxl-3" style="background-color:#003361; border:none; outline:none; font-weight:600; font-size:16px;">{{translate('messages.login')}}</button>
 
                     <div class="d-flex mt-3">
                         <p class="mr-2">Dont have an account?</p>
                         <a class=""
                            href="{{ route('user.signup') }}">
-                            <span class="me-1" style="font-weight: 700;">{{ translate('Signup') }}</span>
+                            <span class="me-1" style="font-weight: 700; color:#003361;">{{ translate('Signup') }}</span>
                         </a>
                     </div>
                 </form>

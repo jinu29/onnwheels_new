@@ -28,13 +28,17 @@ $log_email_succ = session()->get('log_email_succ');
         .form-group {
             margin-bottom: 1rem;
         }
+
+        body {
+            font-family: "Montserrat", sans-serif;
+        }
     </style>
 
 </head>
 
 <body>
     <!-- ========== MAIN CONTENT ========== -->
-    <main id="content" role="main" class="main">
+    <main id="content" role="main" class="main" style="font-family:'Montserrat', sans-serif;">
         <div class="auth-wrapper">
             <div class="auth-wrapper-left" style="background-image: url(/public/assets/landing/image/login.png); background-size:cover; height:100vh;">
                 {{-- <div class="auth-left-cont">
@@ -55,11 +59,9 @@ $log_email_succ = session()->get('log_email_succ');
                     <form class="" action="{{ route('user.store') }}" method="post" id="form-id">
                         @csrf
                         <input type="hidden" name="role" value="{{ $role ?? null }}">
-                        <div class="auth-header">
-                            <div class="mb-5">
-                                <h2 class="title">Sign Up</h2>
+                            <div class="mb-4">
+                                <h2 class="title m-0" style="color:#003361; font-size:23px;font-weight:600;">Sign Up</h2>
                             </div>
-                        </div>
 
                         <!-- Form Group -->
                         <div class="js-form-message form-group">
@@ -116,13 +118,13 @@ $log_email_succ = session()->get('log_email_succ');
                         </div>
                         <!-- End Form Group -->
 
-                        <button type="submit" class="btn btn-lg btn-block btn--primary mt-4">Signup</button>
+                        <button type="submit" class="btn btn-lg btn-block btn--primary mt-4" style="background-color:#003361; border:none; outline:none; font-weight:600; font-size:16px;">Signup</button>
 
                         <div class="d-flex mt-3">
                             <p class="mr-2">Already have an account?</p>
                             <a class=""
                                href="{{ route('login', ['tab' => 'customer']) }}">
-                                <span class="me-1" style="font-weight: 700;">{{ translate('Login') }}</span>
+                                <span class="me-1" style="font-weight: 700; color:#003361;">{{ translate('Login') }}</span>
                             </a>
                         </div>
                     </form>

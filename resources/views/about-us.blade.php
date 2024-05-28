@@ -171,6 +171,12 @@
         gap: 20px;
     }
 
+    .service-details {
+        display:flex;
+        flex-direction:column;
+        gap:12px;
+    }
+
     .service-details h6 {
         color: black;
         font-size: 17px;
@@ -325,6 +331,7 @@
         .service-bike-img img {
             width: 100%;
         }
+
 
         .service-details h6 {
             color: black;

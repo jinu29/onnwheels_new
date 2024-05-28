@@ -35,12 +35,13 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            margin-bottom:25px;
         }
 
         .title h4 {
             font-size: 25px;
             font-weight: 700;
-            width: 25rem;
+            width: 30rem;
             color: #8e7573;
             text-align: center;
         }
@@ -66,6 +67,12 @@
             align-items: center;
             color: #8e7573;
             text-align: center;
+        }
+
+        .safety-box {
+            display:flex;
+            flex-direction:column;
+            gap:15px;
         }
 
         .box {
@@ -174,16 +181,16 @@
                         <p>Operating at minimum capacity to ensure effective social distancing. Our on-ground team is regularly screened for any signs or symptoms of illness, only then are they allowed to continue working. They are provided with all the safety standards and follow all safety procedures.</p>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6 col-12">
+                <div class="col-lg-6 col-md-6 col-12 d-flex align-items-center justify-content-center">
                     <div class="safety-box-image">
-                        <img src="/public/assets/landing/image/sanitize.jpg" alt="" style="width: 50%;">
+                        <img src="/public/assets/landing/image/sanitize.jpg" alt="" style="width: 300px;">
                     </div>
                 </div>
             </div>
             <div class="box row" style="margin-top: 2rem;">
-                <div class="col-lg-6 col-md-6 col-12">
+                <div class="col-lg-6 col-md-6 col-12 d-flex align-items-center justify-content-center">
                     <div class="safety-box-image">
-                            <img src="/public/assets/landing/image/team-mask.jpg" alt="" style="width: 300px;">
+                        <img src="/public/assets/landing/image/team-mask.jpg" alt="" style="width: 300px;">
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-12">
