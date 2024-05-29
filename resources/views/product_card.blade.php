@@ -1,45 +1,6 @@
-@extends('layouts.landing.app')
-@section('title', translate('messages.rental_bike'))
+
 @section('css')
     <style>
-        #loader {
-            border: 8px solid #f3f3f3;
-            border-radius: 50%;
-            border-top: 8px solid #3498db;
-            width: 50px;
-            height: 50px;
-            -webkit-animation: spin 2s linear infinite;
-            /* Safari */
-            animation: spin 2s linear infinite;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            display: none;
-            /* Hidden by default */
-        }
-
-        /* Safari */
-        @-webkit-keyframes spin {
-            0% {
-                -webkit-transform: rotate(0deg);
-            }
-
-            100% {
-                -webkit-transform: rotate(360deg);
-            }
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
         .products {
             display: flex;
             flex-wrap: wrap
@@ -266,100 +227,34 @@
         }
     </style>
 @endsection
-@section('content')
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-3 mt-3">
-                <fieldset>
-                    <h4>Sort by Price</h4>
-                    <div class="radio-item-container">
-                        <div class="radio-item">
-                            <label for="low_to_high">
-                                <input type="radio" id="low_to_high" name="price_sort" value="low_to_high">
-                                <span id="price">Low to High</span>
-                            </label>
-                        </div>
-                        <div class="radio-item">
-                            <label for="high_to_low">
-                                <input type="radio" id="high_to_low" name="price_sort" value="high_to_low">
-                                <span>High to Low</span>
-                            </label>
-                        </div>
-                    </div>
-                </fieldset>
 
-                <div class="accordion mt-4" id="accordionExample">
-                    <div class="card">
-                        <div class="card-header" id="headingOne">
-                            <h2 class="mb-0">
-                                <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
-                                    data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">All
-                                    Categories</button>
-                            </h2>
-                        </div>
-                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
-                            data-parent="#accordionExample">
-                            <div class="card-body">
-                                <ul>
-                                    @foreach ($categories as $category)
-                                        <li data-category-id="{{ $category->id }}" class="category-item"
-                                            style="cursor:pointer; margin-top:11px; font-size:15px; font-weight:600;">
-                                            {{ $category->name }}</li>
-                                    @endforeach
-                                </ul>
+                @foreach ($item as $items)
+                    <div class="col-lg-4 col-6 p-0">
+                        <div class="card text-center mb-3">
+                            <div class="card-body p-2 d-flex flex-column text-center">
+                                {{-- <img src="/public/assets/landing/image/best-renting1.png"> --}}
+                                <img class="avatar avatar-lg mr-3 onerror-image" src="{{ \App\CentralLogics\Helpers::onerror_image_helper($items['image'] ?? '', asset('storage/app/public/product').'/'.$items['image'] ?? '', asset('public/assets/admin/img/160x160/img2.jpg'),'product/') }}" data-onerror-image="{{asset('public/assets/admin/img/160x160/img2.jpg')}}" alt="{{$items->name}} image">
+                                <div class="card-details d-flex flex-column p-1 mt-1 text-center" style="gap: 12px;">
+                                    <i class="fa-regular fa-heart"></i>
+                                    @if ($items->discount != 0)
+                                        <p class="new">{{ $items->discount }} %</p>
+                                    @endif
+                                    <div class="card-title text-center mb-0">
+                                        <h4 class="product-title mb-0 text-truncate">{{ $items->name }}</h4>
+                                    </div>
+                                    <div class="rating d-flex justify-content-center mb-0 text-center" style="font-size: 12px; color: rgb(248, 82, 82);">
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-regular fa-star-half-stroke"></i>
+                                    </div>
+                                    <p class="price mb-0 text-center">Rs. {{ $items->price }}
+                                    </p>
+                                    <a href="{{route('product.product_detail', $items->slug)}}" class="btn mb-0 mt-1">Book Now</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-9 d-flex flex-wrap m-0" id="products-container">
-                @include('product_card', ['item' => $items])
-                <div id="loader"></div> <!-- Loader element -->
-            </div>
-        </div>
-    </div>
-@endsection
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-<script>
-    $(document).ready(function() {
-        function handleAjaxRequest(url, data) {
-            $('#loader').show(); // Show the loader
-
-            $.ajax({
-                url: url,
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                data: data,
-                success: function(response) {
-                    $('#products-container').html(response);
-                },
-                error: function(xhr) {
-                    console.log(xhr.responseText);
-                },
-                complete: function() {
-                    $('#loader').hide(); // Hide the loader
-                }
-            });
-        }
-
-        $('.category-item').on('click', function() {
-            var categoryId = $(this).data('category-id');
-            handleAjaxRequest('{{ route('rental_bike.category_products') }}', {
-                _token: '{{ csrf_token() }}',
-                category_id: categoryId
-            });
-        });
-
-        $('input[name="price_sort"]').on('change', function() {
-            var sortOption = $(this).val();
-            handleAjaxRequest('{{ route('rental_bike.sort_products') }}', {
-                _token: '{{ csrf_token() }}',
-                sort_option: sortOption
-            });
-        });
-    });
-</script>
+                @endforeach
+   
