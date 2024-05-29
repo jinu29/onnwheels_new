@@ -9,6 +9,8 @@ $landing_site_direction = session()->get('landing_site_direction');
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <link rel="icon" type="image/png" href="public/assets/landing/image/icon.png">
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -56,7 +58,7 @@ $landing_site_direction = session()->get('landing_site_direction');
 
         .footer {
             width: 100%;
-            padding: 40px 0 20px 0;
+            padding: 40px 0 0px 0;
             background-color: #003360;
             color: white;
             border-radius: 50px 50px 0 0;
@@ -134,7 +136,7 @@ $landing_site_direction = session()->get('landing_site_direction');
         .copyrights {
             background-color: #003360;
             color: white;
-            margin: 10px 0;
+            margin-top:25px;
         }
 
 
@@ -145,6 +147,7 @@ $landing_site_direction = session()->get('landing_site_direction');
             border-top: 1px solid gray;
             font-size: 16px;
             font-weight: 600;
+            padding:15px 0;
         }
 
 
@@ -471,9 +474,11 @@ $landing_site_direction = session()->get('landing_site_direction');
             </div>
         </div>
         <div class="copyrights">
-            <div class="container copyrights-container">
-                <p class="mb-0">Copyrights @2024</p>
-                <p class="mb-0">Designed by Codeplus Gen</p>
+            <div class="container">
+                <div class="copyrights-container">
+                    <p class="mb-0">Copyrights @2024</p>
+                    <p class="mb-0">Designed by Codeplus Gen</p>
+                </div>
             </div>
         </div>
     </footer>

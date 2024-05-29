@@ -138,7 +138,7 @@
                         </div>
                     @endif
 
-                    <button type="submit" class="btn btn-lg btn-block btn--primary mt-xxl-3">{{translate('messages.login')}}</button>
+                    <button type="submit" class="btn btn-lg btn-block btn--primary mt-xxl-3" >{{translate('messages.login')}}</button>
                 </form>
                 <!-- End Form -->
                 @if(env('APP_MODE') == 'demo')

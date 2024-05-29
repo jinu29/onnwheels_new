@@ -456,12 +456,51 @@ class HomeController extends Controller
         return view('safety');
     }
 
-    public function rental_bike()
+    public function rental_bike(Request $request)
     {
-        $item = Item::where('status', 1)->get();
-        return view('rental_bike', compact('item'));
+
+        // dd("hi");
+        $categories = Category::all();
+        $query = Item::where('status', 1);
+
+        if ($request->has('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        $items = $query->get();
+
+        return view('rental_bike', compact('items', 'categories'));
     }
 
+    public function getCategoryProducts(Request $request)
+    {
+
+        $categories = Category::all();
+
+        $categoryId = $request->get('category_id');
+        $item = Item::where('category_id', $categoryId)->where('status', 1)->get();
+
+        return view('product_card', compact('item', 'categories'));
+
+        // $responseHtml = '';
+        
+            // $responseHtml .= view('product_card', ['item' => $items])->render();
+        
+        // dd(  $responseHtml);
+        // return response()->json($responseHtml);
+    }
+
+    public function sortProducts(Request $request)
+    {
+        $categories = Category::all();
+        $sortOption = $request->input('sort_option');
+        if ($sortOption == 'low_to_high') {
+            $item = Item::orderBy('price', 'asc')->get();
+        } else {
+            $item = Item::orderBy('price', 'desc')->get();
+        }
+        return view('product_card', compact('item', 'categories'));
+    }
 
     public function create_order_store(Request $request)
     {

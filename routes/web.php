@@ -50,6 +50,9 @@ Route::get('category/{category_id}/products', 'HomeController@product')->name('p
 Route::get('all_category', 'HomeController@all_category')->name('all_category');
 Route::get('safety', 'HomeController@safety')->name('safety');
 Route::get('rental-bike', 'HomeController@rental_bike')->name('rental_bike');
+Route::post('rental-bike/category-products', [HomeController::class, 'getCategoryProducts'])->name('rental_bike.category_products');
+Route::post('/rental_bike/sort_products', [HomeController::class, 'sortProducts'])->name('rental_bike.sort_products');
+
 // Route::get('/item/{slug}', 'item')->name('item');
 
 Route::get('login/{tab}', 'LoginController@login')->name('login');
