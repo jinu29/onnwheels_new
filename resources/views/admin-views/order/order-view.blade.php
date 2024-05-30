@@ -535,8 +535,10 @@
                                                 <?php
                                                 if (!$editing) {
                                                     $detail->item = json_decode($detail->item_details, true);
-                                                }
-                                                // dd($detail);
+                                                }        
+                                        // Retrieve the item details based on the item_id
+                                        $detail->item = \App\Models\Item::where('id', $detail->item_id)->first();
+                                    
                                                 ?>
 
                                                 <tr>
@@ -579,7 +581,7 @@
                                                                         {{ $detail['quantity'] }} x
                                                                         {{ \App\CentralLogics\Helpers::format_currency($detail['price']) }}
                                                                     </h6>
-                                                                    @if ($order->store && $order->store->module->module_type == 'food')
+                                                                    @if ($order->store && $order->store->module->module_type == 'rental')
                                                                         @if (isset($detail['variation']) ? json_decode($detail['variation'], true) : [])
                                                                             @foreach (json_decode($detail['variation'], true) as $variation)
                                                                                 @if (isset($variation['name']) && isset($variation['values']))
