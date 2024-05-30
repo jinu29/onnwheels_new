@@ -472,7 +472,7 @@
                             <small class="old-price mb-0" style="text-decoration: line-through; color:grey;">{{$items->discount}}</small> / day
                             @endif --}}
                                 </p>
-                                <a href="{{ route('product.product_detail', $items->slug) }}" class="btn mb-0 mt-1">BookNow</a>
+                                <a href="{{ route('product.product_detail', $items->slug) }}" class="btn mb-0 mt-1">Book Now</a>
                             </div>
                         </div>
                     </div>

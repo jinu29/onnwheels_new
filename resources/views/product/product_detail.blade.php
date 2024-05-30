@@ -8,46 +8,6 @@
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
 
-    {{-- <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        .gallery {
-            width: min(90vw,550px);
-            list-style-type: none;
-            display: grid;
-            grid-template-columns: repeat(5,1fr);
-            grid-auto-rows: 13vmin;
-            gap: 0.25rem;
-
-            & .item {
-                background-size: cover;
-                background-position: center;
-
-                &:nth-of-type(1) { background-image: url('\App\CentralLogics\Helpers::onerror_image_helper( $items['image'] ?? '', asset('storage/app/public/product').'/'.$items['image'] ?? '', asset('public/assets/admin/img/160x160/img2.jpg'),'product/')'); }
-                /* &:nth-of-type(2) { background-image: url('https://source.unsplash.com/Um9AkOiIDcU'); }
-                &:nth-of-type(3) { background-image: url('https://source.unsplash.com/3InMDrsuYrk'); }
-                &:nth-of-type(4) { background-image: url('https://source.unsplash.com/9XngoIpxcEo'); }
-                &:nth-of-type(5) { background-image: url('https://source.unsplash.com/knVn7YXfvkE'); }
-                &:nth-of-type(6) { background-image: url('https://source.unsplash.com/BzuUDHCi_vo'); } */
-
-                &:hover:not(li[data-pos="1"]) { cursor: pointer; }
-            }
-        }
-
-            li[data-pos='1'] {
-            grid-column: 1/6;
-            grid-row: 1/6;
-        }
-
-            ::view-transition-group(*) {
-            animation-duration: 0.5s;
-            animation-timing-function: ease-in-out;
-        }
-    </style> --}}
     <style>
         body {
             font-family: "Montserrat", sans-serif;

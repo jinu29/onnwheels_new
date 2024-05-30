@@ -556,10 +556,34 @@ class HomeController extends Controller
         return view('thankyou');
     }
 
+    // public function rides(Request $request) 
+    // {
+    //     $user_id = Auth::user()->id;
+    //     $orders = Order::where('user_id', $user_id)->with('details')->get();
+        
+    //     // Check if any orders are retrieved
+    //     if ($orders->isNotEmpty()) {
+    //         // Iterate through each order to extract item details
+    //         $orders->each(function ($order) {
+    //             $items = $order->details->map(function ($detail) {
+    //                 return $detail->item;
+    //             });
+    
+    //             // Append the items to the order object
+    //             $order->items = $items;
+    //         });
+    //     }
+    
+    //     return view('rides', compact('orders'));
+    // }
+
     public function rides(Request $request) 
     {
         $user_id = Auth::user()->id;
-        $orders = Order::where('user_id', $user_id)->with('details')->get();
+        $orders = Order::where('user_id', $user_id)
+            ->with('details')
+            ->orderBy('created_at', 'desc') // Order by created date in descending order
+            ->get();
         
         // Check if any orders are retrieved
         if ($orders->isNotEmpty()) {
@@ -568,13 +592,14 @@ class HomeController extends Controller
                 $items = $order->details->map(function ($detail) {
                     return $detail->item;
                 });
-    
+
                 // Append the items to the order object
                 $order->items = $items;
             });
         }
-    
+
         return view('rides', compact('orders'));
     }
+
     
 }

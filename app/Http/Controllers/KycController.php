@@ -77,35 +77,12 @@ class KycController extends Controller
 
     public function kycstore(Request $request)
     {
-        // Validate the incoming request data
-        // $request->validate([
-        //     'aadhar' => 'required|integer',
-        //     'pan' => 'required|string',
-        //     'license_front' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        //     'license_back' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        // ]);
 
         // Create a new Userkyc instance
         $form = new Userkyc();
         $form->user_id = Auth::User()->id;
         // $form->aadhar = $request->aadhar;
         $form->pan = $request->pan;
-
-        // // Handle image uploads
-        // if ($request->hasFile('license_front')) {
-        //     $licenseFront = $request->file('license_front');
-        //     $licenseFrontName = time() . '_front.' . $licenseFront->getClientOriginalExtension();
-
-        //     $licenseFront->move(public_path('assets/kyc/'), $licenseFrontName);
-        //     $form->license_front = $licenseFrontName;
-        // }
-
-        // if ($request->hasFile('license_back')) {
-        //     $licenseBack = $request->file('license_back');
-        //     $licenseBackName = time() . '_back.' . $licenseBack->getClientOriginalExtension();
-        //     $licenseBack->move(public_path('assets/kyc/'), $licenseBackName);
-        //     $form->license_back = $licenseBackName;
-        // }
 
         // Save the form data to the database
         $form->save();

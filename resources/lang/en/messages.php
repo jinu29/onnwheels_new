@@ -3965,4 +3965,5 @@
   'null' => 'Null',
   'privacy_policy_updated' => 'Privacy policy updated',
   'terms_and_condition_updated' => 'Terms and condition updated',
+  'booking' => 'Booking',
 );
