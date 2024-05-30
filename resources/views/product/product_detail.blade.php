@@ -745,8 +745,9 @@
             ?>
 
             <form id="bookingForm"
-                action="{{ auth()->check() ? route('user.payment', $items->slug) : route('login', ['tab' => 'customer']) }}"
+                action="{{ auth()->check() ? route('user.payment', $items->slug) : route('login', ['tab' => 'customer', 'id' => $items->id]) }}"
                 method="get" enctype="multipart/form-data">
+                <input type="hidden" name="item_id" value="{{ $items->id }}">
                 <div class="col-md-5 pr-2">
                     <div class="card">
                         <div class="demo">

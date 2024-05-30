@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\Item;
 use App\Models\Module;
+use App\Models\OrderDetail;
 use App\Models\Vendor;
 use App\Models\DataSetting;
 use Illuminate\Http\Request;
@@ -36,8 +38,85 @@ class LoginController extends Controller
         $this->middleware('guest:admin,vendor', ['except' => 'logout']);
     }
 
-    public function login($login_url)
+    // public function login($login_url)
+    // {
+
+    //     $orderdetail = OrderDetail::all();
+    //     $items = Item::all();
+
+    //     if ($items->id) {
+    //         return redirect()->route('item.show', ['id' => $items->id]);
+    //     }
+
+
+    //     $language = BusinessSetting::where('key', 'system_language')->first();
+    //     if ($language) {
+    //         foreach (json_decode($language->value, true) as $key => $data) {
+    //             if ($data['default']) {
+    //                 $lang = $data['code'];
+    //                 $direction = $data['direction'];
+    //             }
+    //         }
+    //     }
+    //     $data = array_column(DataSetting::whereIn('key', [
+    //         'store_employee_login_url',
+    //         'store_login_url',
+    //         'customer_login_url',
+    //         'admin_employee_login_url',
+    //         'admin_login_url'
+    //     ])->get(['key', 'value'])->toArray(), 'value', 'key');
+
+    //     $loginTypes = [
+    //         'admin' => 'admin_login_url',
+    //         'admin_employee' => 'admin_employee_login_url',
+    //         'vendor' => 'store_login_url',
+    //         'customer' => 'customer_login_url',
+    //         'vendor_employee' => 'store_employee_login_url'
+    //     ];
+    //     $siteDirections = [
+    //         'admin' => session()?->get('site_direction') ?? $direction ?? 'ltr',
+    //         'admin_employee' => session()?->get('site_direction') ?? $direction ?? 'ltr',
+    //         'vendor' => session()?->get('vendor_site_direction') ?? $direction ?? 'ltr',
+    //         'customer' => session()?->get('customer_site_direction') ?? $direction ?? 'ltr',
+    //         'vendor_employee' => session()?->get('vendor_site_direction') ?? $direction ?? 'ltr'
+    //     ];
+    //     $locals = [
+    //         'admin' => session()?->get('local') ?? $lang ?? 'en',
+    //         'admin_employee' => session()?->get('local') ?? $lang ?? 'en',
+    //         'vendor' => session()?->get('vendor_local') ?? $lang ?? 'en',
+    //         'customer' => session()?->get('customer_local') ?? $lang ?? 'en',
+    //         'vendor_employee' => session()?->get('vendor_local') ?? $lang ?? 'en'
+    //     ];
+    //     $role = null;
+
+    //     $user_type = array_search($login_url, $data);
+    //     abort_if(!$user_type, 404);
+    //     $role = array_search($user_type, $loginTypes, true);
+
+
+    //     abort_if($role == null, 404);
+    //     $site_direction = $siteDirections[$role];
+    //     $locale = $locals[$role];
+    //     App::setLocale($locale);
+    //     $custome_recaptcha = new CaptchaBuilder;
+    //     $custome_recaptcha->build();
+    //     Session::put('six_captcha', $custome_recaptcha->getPhrase());
+
+    //     $email = null;
+    //     $password = null;
+    //     if (Cookie::has('p_token') && Cookie::has('e_token') && Cookie::has('role') && Cookie::get('role') == $role) {
+    //         $email = Crypt::decryptString(Cookie::get('e_token'));
+    //         $password = Crypt::decryptString(Cookie::get('p_token'));
+    //     }
+
+    //     return view('auth.login', compact('custome_recaptcha', 'email', 'password', 'role', 'site_direction', 'locale'));
+    // }
+
+
+    public function login($login_url, $id = null)
     {
+
+        // Check if any item has the given ID and redirect to the corresponding URL
 
         $language = BusinessSetting::where('key', 'system_language')->first();
         if ($language) {
@@ -48,6 +127,7 @@ class LoginController extends Controller
                 }
             }
         }
+
         $data = array_column(DataSetting::whereIn('key', [
             'store_employee_login_url',
             'store_login_url',
@@ -63,6 +143,7 @@ class LoginController extends Controller
             'customer' => 'customer_login_url',
             'vendor_employee' => 'store_employee_login_url'
         ];
+
         $siteDirections = [
             'admin' => session()?->get('site_direction') ?? $direction ?? 'ltr',
             'admin_employee' => session()?->get('site_direction') ?? $direction ?? 'ltr',
@@ -70,6 +151,7 @@ class LoginController extends Controller
             'customer' => session()?->get('customer_site_direction') ?? $direction ?? 'ltr',
             'vendor_employee' => session()?->get('vendor_site_direction') ?? $direction ?? 'ltr'
         ];
+
         $locals = [
             'admin' => session()?->get('local') ?? $lang ?? 'en',
             'admin_employee' => session()?->get('local') ?? $lang ?? 'en',
@@ -77,17 +159,19 @@ class LoginController extends Controller
             'customer' => session()?->get('customer_local') ?? $lang ?? 'en',
             'vendor_employee' => session()?->get('vendor_local') ?? $lang ?? 'en'
         ];
+
         $role = null;
 
         $user_type = array_search($login_url, $data);
         abort_if(!$user_type, 404);
         $role = array_search($user_type, $loginTypes, true);
 
-
         abort_if($role == null, 404);
+
         $site_direction = $siteDirections[$role];
         $locale = $locals[$role];
         App::setLocale($locale);
+
         $custome_recaptcha = new CaptchaBuilder;
         $custome_recaptcha->build();
         Session::put('six_captcha', $custome_recaptcha->getPhrase());
@@ -99,8 +183,12 @@ class LoginController extends Controller
             $password = Crypt::decryptString(Cookie::get('p_token'));
         }
 
-        return view('auth.login', compact('custome_recaptcha', 'email', 'password', 'role', 'site_direction', 'locale'));
+        $orderdetail = OrderDetail::all();
+
+        return view('auth.login', compact('custome_recaptcha', 'email', 'password', 'role', 'site_direction', 'locale', 'id'));
     }
+
+
 
     public function login_attemp($role, $email, $password, $remember = false)
     {
@@ -135,7 +223,8 @@ class LoginController extends Controller
         $request->validate([
             'email' => 'required|email',
             'password' => 'required|min:6',
-            'role' => 'required'
+            'role' => 'required',
+            'item_id' => 'nullable'
         ]);
 
         $recaptcha = Helpers::get_business_settings('recaptcha');
@@ -186,7 +275,17 @@ class LoginController extends Controller
             $credentials = $request->only('email', 'password');
             if (Auth::attempt($credentials)) {
                 // Authentication passed...
-                return redirect()->route('home');
+
+                // dd($request->item_id);
+                $item = Item::where('id', $request->item_id)->first();
+
+                if ($item) {
+                    return redirect()->route('product.product_detail', $item->slug);
+                } else {
+                    return redirect()->route('home');
+                }
+
+                // return redirect()->route('home');
             } else {
                 // Authentication failed...
                 return redirect()->back()->withInput($request->only('email', 'remember'))

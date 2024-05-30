@@ -49,6 +49,7 @@
                 <!-- Form -->
                 <form class="" action="{{route('login_post')}}" method="post" id="form-id">
                     @csrf
+                    <input type="hidden" name="item_id" value="{{ $id ?? null }}">
                     <input type="hidden" name="role" value="{{  $role ?? null }}">
                     <div class="auth-header">
                         <div class="mb-5">
