@@ -151,9 +151,10 @@ class OrderController extends Controller
 
     public function list()
     {
-        $orders = Order::all();
+        $orders = Order::latest()->get();
         return view('admin-views.order.list', compact('orders'));
     }
+    
 
     public function dispatch_list($module, $status, Request $request)
     {
