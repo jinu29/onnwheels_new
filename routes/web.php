@@ -52,6 +52,7 @@ Route::get('safety', 'HomeController@safety')->name('safety');
 Route::get('rental-bike', 'HomeController@rental_bike')->name('rental_bike');
 Route::post('rental-bike/category-products', [HomeController::class, 'getCategoryProducts'])->name('rental_bike.category_products');
 Route::post('/rental_bike/sort_products', [HomeController::class, 'sortProducts'])->name('rental_bike.sort_products');
+Route::post('/submit-review', [HomeController::class, 'reviewStore'])->name('review.store');
 
 // Route::get('/item/{slug}', 'item')->name('item');
 

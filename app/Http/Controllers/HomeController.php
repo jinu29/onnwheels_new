@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Contact;
 use App\Mail\OrderConfirmationMail;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use App\CentralLogics\Helpers;
 use App\Models\AdminFeature;
@@ -496,10 +497,23 @@ class HomeController extends Controller
         try {
             Log::info("Received request data: ", $request->all());
 
+
+            $customer_address = collect([
+                'contact_person_name' => Auth::user()->f_name,
+                'contact_person_number' => Auth::user()->phone,
+                'contact_person_email' => Auth::user()->email,
+                "address_type" => "Delivery",
+                "address" => $request->input('address'),
+                "road" => "",
+                "house" => "",
+                "longitude" => $request->input('lng'),
+                "latitude" => $request->input('lat')
+            ]);
+
             // Create the order
             $order = new Order();
             $order->user_id = Auth::user()->id;
-            $order->delivery_address = $request->input('address');
+            $order->delivery_address = $customer_address;
             $order->store_id = $request->input('store_id');
             $order->order_amount = $request->input('order_amount');
             $order->payment_status = strtolower($request->payment_status);
@@ -566,7 +580,8 @@ class HomeController extends Controller
     //     return view('rides', compact('orders'));
     // }
 
-    public function rides(Request $request){
+    public function rides(Request $request)
+    {
 
         $user_id = Auth::user()->id;
 
@@ -592,5 +607,24 @@ class HomeController extends Controller
         return view('rides', compact('orders', 'user'));
     }
 
+    public function reviewStore(Request $request)
+    {
+        // $request->validate([
+        //     'product_id' => 'required|exists:products,id',
+        //     'rating' => 'required|integer|min:1|max:5',
+        //     'comment' => 'nullable|string',
+        // ]);
 
+        dd($request->all());
+
+        Review::create([
+            'item_id' => $request->product_id,
+            'user_id' => Auth::id(),
+            'rating' => $request->rating,
+            'comment' => $request->comment,
+            'module_id' => '1',
+        ]);
+
+        return response()->json(['success' => 'Review submitted successfully']);
+    }
 }

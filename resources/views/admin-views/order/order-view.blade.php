@@ -1439,12 +1439,12 @@
                                     <span class="name">{{ translate('messages.contact') }}</span>
                                     <a class="deco-none info" href="tel:{{ data_get($address,'contact_person_number', translate('messages.N/A'))  }}">
                                         {{ data_get($address,'contact_person_number', translate('messages.N/A')) }}</a>
-                                    <span class="name">{{ translate('Floor') }}</span> <span
+                                    {{-- <span class="name">{{ translate('Floor') }}</span> <span
                                         class="info">{{ data_get($address,'floor', translate('messages.N/A'))  }}</span>
                                     <span class="name">{{ translate('Road') }}</span> <span
                                         class="info">{{ data_get($address,'road', translate('messages.N/A')) }}</span>
                                     <span class="name">{{ translate('House') }}</span> <span
-                                        class="info">{{data_get($address,'house', translate('messages.N/A')) }}</span>
+                                        class="info">{{data_get($address,'house', translate('messages.N/A')) }}</span> --}}
                                     <hr class="w-100">
                                     <div>
                                         @if (isset($address['address']))

@@ -619,6 +619,7 @@
                 map.setZoom(15);
                 marker.setPosition(place.geometry.location);
 
+                console.log("lat",place.geometry.location.lat())
                 // Set latitude and longitude to hidden fields
                 document.getElementById('latitude').value = place.geometry.location.lat();
                 document.getElementById('longitude').value = place.geometry.location.lng();
@@ -703,6 +704,9 @@
             $('#rzp-button1').click(function(e) {
                 e.preventDefault();
                 const address = document.getElementById('address-input').value;
+                const latitude = document.getElementById('latitude').value;
+                const longitude = document.getElementById('longitude').value;
+
                 if (!address) {
 
                     Swal.fire({
@@ -746,6 +750,8 @@
                             order_amount: orderAmount,
                             distance: localStorage.getItem('distance') ?? null,
                             address: address,
+                            lat: latitude,
+                            lng: longitude,
                             store_id: storeId,
                             item_id: itemId,
                             payment_status: "Paid",
@@ -767,7 +773,7 @@
                                     console.log("data", response)
                                     // Payment stored successfully, initiate Razorpay payment
                                     window.location.href =
-                                        '/thank_you'; // Replace with your desired URL
+                                        '/rides'; // Replace with your desired URL
                                 } else {
                                     alert('Failed to store order details.');
                                 }

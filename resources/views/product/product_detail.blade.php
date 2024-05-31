@@ -858,77 +858,83 @@
                 </div>
             </div>
 
-            <div class="col-8">
+          <div class="col-8">
+            <h5>No Review Found</h5>
+          </div>
+            {{-- <div class="col-8">
                 <div class="master border">
                     <h1 class="my-0" style="color:#003360;">Reviews and Ratings</h1>
                     <h2>How was your experience about our product?</h2>
 
-                    <div class="rating-component">
-                        <div class="status-msg">
-                            <label>
-                                <input class="rating_msg" type="hidden" name="rating_msg" value="" />
-                            </label>
-                        </div>
-                        <div class="stars-box">
-                            <i class="star fa fa-star" title="1 star" data-message="Poor" data-value="1"></i>
-                            <i class="star fa fa-star" title="2 stars" data-message="Too bad" data-value="2"></i>
-                            <i class="star fa fa-star" title="3 stars" data-message="Average quality"
-                                data-value="3"></i>
-                            <i class="star fa fa-star" title="4 stars" data-message="Nice" data-value="4"></i>
-                            <i class="star fa fa-star" title="5 stars" data-message="very good qality"
-                                data-value="5"></i>
-                        </div>
-                        <div class="starrate">
-                            <label>
-                                <input class="ratevalue" type="hidden" name="rate_value" value="">
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="feedback-tags">
-                        <div class="tags-container" data-tag-set="1">
-                            <div class="question-tag">
-                                Why was your experience so bad?
+                    <form id="review-form">
+                        @csrf
+                        <div class="rating-component">
+                            <div class="status-msg">
+                                <label>
+                                    <input class="rating_msg" type="hidden" name="rating_msg" value="" />
+                                </label>
                             </div>
-                        </div>
-                        <div class="tags-container" data-tag-set="2">
-                            <div class="question-tag">
-                                Why was your experience so bad?
+                            <div class="stars-box">
+                                <i class="star fa fa-star" title="1 star" data-message="Poor" data-value="1"></i>
+                                <i class="star fa fa-star" title="2 stars" data-message="Too bad" data-value="2"></i>
+                                <i class="star fa fa-star" title="3 stars" data-message="Average quality"
+                                    data-value="3"></i>
+                                <i class="star fa fa-star" title="4 stars" data-message="Nice" data-value="4"></i>
+                                <i class="star fa fa-star" title="5 stars" data-message="very good qality"
+                                    data-value="5"></i>
                             </div>
-
-                        </div>
-
-                        <div class="tags-container" data-tag-set="3">
-                            <div class="question-tag">
-                                Why was your average rating experience ?
-                            </div>
-                        </div>
-                        <div class="tags-container" data-tag-set="4">
-                            <div class="question-tag">
-                                Why was your experience good?
+                            <div class="starrate">
+                                <label>
+                                    <input class="ratevalue" type="hidden" name="rate_value" value="">
+                                </label>
                             </div>
                         </div>
 
-                        <div class="tags-container" data-tag-set="5">
-                            <div class="make-compliment">
-                                <div class="compliment-container">
-                                    Give a compliment
-                                    <i class="far fa-smile-wink"></i>
+                        <div class="feedback-tags">
+                            <div class="tags-container" data-tag-set="1">
+                                <div class="question-tag">
+                                    Why was your experience so bad?
                                 </div>
                             </div>
+                            <div class="tags-container" data-tag-set="2">
+                                <div class="question-tag">
+                                    Why was your experience so bad?
+                                </div>
+
+                            </div>
+
+                            <div class="tags-container" data-tag-set="3">
+                                <div class="question-tag">
+                                    Why was your average rating experience ?
+                                </div>
+                            </div>
+                            <div class="tags-container" data-tag-set="4">
+                                <div class="question-tag">
+                                    Why was your experience good?
+                                </div>
+                            </div>
+
+                            <div class="tags-container" data-tag-set="5">
+                                <div class="make-compliment">
+                                    <div class="compliment-container">
+                                        Give a compliment
+                                        <i class="far fa-smile-wink"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tags-box">
+                                <textarea cols="60" rows="5" class="tag form-control" name="comment"
+                                    id="inlineFormInputName"></textarea>
+                                <input type="hidden" name="product_id" value="{{ $products->id }}" />
+                            </div>
+
                         </div>
 
-                        <div class="tags-box">
-                            <textarea name="" id="" cols="60" rows="5" class="tag form-control" name="comment"
-                                id="inlineFormInputName"></textarea>
-                            <input type="hidden" name="product_id" value="{{ $products->id }}" />
+                        <div class="button-box">
+                            <input type="submit" class="done btn btn-warning" value="Add review" />
                         </div>
-
-                    </div>
-
-                    <div class="button-box">
-                        <input type="submit" class=" done btn btn-warning" value="Add review" />
-                    </div>
+                    </form>
 
                     <div class="submited-box">
                         <div class="loader"></div>
@@ -937,7 +943,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
 
 
@@ -1187,6 +1193,8 @@
             var stars = $(this).parent().children("i.star");
             var ratingMessage = $(this).data("message");
 
+            console.log("jhi", stars)
+
             var msg = "";
             if (onStar > 1) {
                 msg = onStar;
@@ -1261,6 +1269,35 @@
                 $(".submited-box .loader").hide();
                 $(".submited-box .success-message").show();
             }, 1500);
+        });
+
+        $("#review-form").on("submit", function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            var formData = $(this).serialize();
+
+            $.ajax({
+                url: '{{ route('review.store') }}',
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                    if (response.success) {
+                        $(".rating-component").hide();
+                        $(".feedback-tags").hide();
+                        $(".button-box").hide();
+                        $(".submited-box").show();
+                        $(".submited-box .loader").show();
+
+                        setTimeout(function() {
+                            $(".submited-box .loader").hide();
+                            $(".submited-box .success-message").show();
+                        }, 1500);
+                    }
+                },
+                error: function(response) {
+                    // Handle errors here
+                }
+            });
         });
     </script>
 @endsection

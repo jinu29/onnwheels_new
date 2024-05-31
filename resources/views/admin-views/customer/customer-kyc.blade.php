@@ -82,7 +82,7 @@
         </div>
         <div class="card">
             <div class="mt-5">
-                <table class="table ">
+                <table class="table">
                     <thead class="thead-light">
                         <tr>
                             <th scope="col">#</th>
