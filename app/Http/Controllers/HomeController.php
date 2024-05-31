@@ -407,27 +407,16 @@ class HomeController extends Controller
     {
         $userId = auth()->id(); // Retrieve the authenticated user's ID
 
-        if ($userId) {
-            $user = User::with('userkyc')->find($userId);
+        $user = User::with('userkyc')->find($userId);
 
-            if ($user) {
-                // Check if user KYC data exists
-                if ($user->userkyc) {
-                    if ($user->userkyc->is_verified == 1) {
-                        $items = Item::where('slug', $slug)->first();
+        if ($user) {
+            $items = Item::where('slug', $slug)->first();
 
-                        if ($items) {
-                            return view('payment', compact('items'));
-                        }
-                    } elseif ($user->userkyc->is_verified == 0) {
-                        return view('profile', compact('user'));
-                    }
-                } else {
-                    // Redirect to profile page if user KYC data is missing
-                    return redirect()->route('profile')->with('error', 'User KYC data not found.');
-                }
+            if ($items) {
+                return view('payment', compact('items'));
             }
         }
+
 
         // Add a fallback return if no conditions are met
         return redirect()->route('home')->with('error', 'User not authenticated or KYC not found');
@@ -483,9 +472,9 @@ class HomeController extends Controller
         return view('product_card', compact('item', 'categories'));
 
         // $responseHtml = '';
-        
-            // $responseHtml .= view('product_card', ['item' => $items])->render();
-        
+
+        // $responseHtml .= view('product_card', ['item' => $items])->render();
+
         // dd(  $responseHtml);
         // return response()->json($responseHtml);
     }
@@ -560,7 +549,7 @@ class HomeController extends Controller
     // {
     //     $user_id = Auth::user()->id;
     //     $orders = Order::where('user_id', $user_id)->with('details')->get();
-        
+
     //     // Check if any orders are retrieved
     //     if ($orders->isNotEmpty()) {
     //         // Iterate through each order to extract item details
@@ -568,23 +557,25 @@ class HomeController extends Controller
     //             $items = $order->details->map(function ($detail) {
     //                 return $detail->item;
     //             });
-    
+
     //             // Append the items to the order object
     //             $order->items = $items;
     //         });
     //     }
-    
+
     //     return view('rides', compact('orders'));
     // }
 
-    public function rides(Request $request) 
-    {
+    public function rides(Request $request){
+
         $user_id = Auth::user()->id;
+
+        $user = User::with('userkyc')->find($user_id);
         $orders = Order::where('user_id', $user_id)
             ->with('details')
             ->orderBy('created_at', 'desc') // Order by created date in descending order
             ->get();
-        
+
         // Check if any orders are retrieved
         if ($orders->isNotEmpty()) {
             // Iterate through each order to extract item details
@@ -598,9 +589,10 @@ class HomeController extends Controller
             });
         }
 
-        return view('rides', compact('orders'));
+        return view('rides', compact('orders', 'user'));
     }
 
+<<<<<<< HEAD
     public function checkHoursPrice(Request $request)
     {
         $item = Item::where('id', $request->product_id)->first(); // Use first to get a single item
@@ -688,4 +680,7 @@ class HomeController extends Controller
         }
     }
     
+=======
+
+>>>>>>> bae2840ec0a512a0e4238f7d28c862cf73bf2603
 }

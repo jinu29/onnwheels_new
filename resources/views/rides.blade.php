@@ -154,12 +154,14 @@
             font-weight: 500;
         }
 
-        .my-orders, .my-transaction {
+        .my-orders,
+        .my-transaction {
             margin-top: 20px;
             width: 100%;
         }
 
-        .my-orders button, .my-transaction button {
+        .my-orders button,
+        .my-transaction button {
             width: 100%;
             padding: 8px 12px;
             border: none;
@@ -170,7 +172,8 @@
             font-weight: 700;
         }
 
-        .my-orders button:hover, .my-transaction button:hover {
+        .my-orders button:hover,
+        .my-transaction button:hover {
             background-color: green;
             color: white;
         }
@@ -189,12 +192,13 @@
             }
 
             .table {
-                min-width: 600px; 
+                min-width: 600px;
             }
         }
     </style>
 @endsection
 @section('content')
+<<<<<<< HEAD
     <div class="container-fluid px-5" style="margin-top: 2rem; margin-bottom: 2rem;" id="ride-page">
         <div class="row" >
             <div class="col-lg-4 col-md-12 col-12 mt-3">
@@ -203,182 +207,215 @@
                         <div class="profile-btn">
                             <i class="fa-solid fa-arrow-left"></i>
                             <p class="mb-0">Profile</p>
+=======
+    @if ($user->userkyc === null || ($user->userkyc && $user->userkyc->is_verified == 0 && $user->userkyc->is_reject == 0))
+    <div style="display: flex; align-items: center; justify-content: center; flex-direction: column;">
+        <h3 style="text-align: center; color:red; margin-top: 100px;">Please Verify your <a href="/profile" style="color:blue;">KYC</a>  and Track your orders</h3>
+        <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+        
+        <lottie-player src="https://lottie.host/8d774174-a825-4f4a-9b0f-0d044a7c4635/ngGjtlOoqe.json" background="##FFFFFF" speed="1" style="width: 300px; height: 300px" loop  autoplay direction="1" mode="normal"></lottie-player>
+    </div>
+    @else
+        <div class="container-fluid px-5" style="margin-top: 2rem; margin-bottom: 2rem;" id="ride-page">
+            <div class="row">
+                <div class="col-lg-3 col-md-12 col-12 mt-3">
+                    <div class="profile-user-details">
+                        <a href="#" class="profile-btn">
+                            <div class="profile-btn">
+                                <i class="fa-solid fa-arrow-left"></i>
+                                <p class="mb-0">Profile</p>
+                            </div>
+                        </a>
+                        <div class="user">
+                            <div class="user-image">
+                                <img src="/public/assets/landing/image/user.svg" alt="User">
+                            </div>
+>>>>>>> bae2840ec0a512a0e4238f7d28c862cf73bf2603
                         </div>
-                    </a>
-                    <div class="user">
-                        <div class="user-image">
-                            <img src="/public/assets/landing/image/user.svg" alt="User">
-                        </div>
-                    </div>
 
-                    <h4 class="username">{{ Auth::user()->f_name }}</h4>
+                        <h4 class="username">{{ Auth::user()->f_name }}</h4>
 
-                    <div class="details">
-                        <div class="box">
-                            <i class="fa-solid fa-phone"></i>
-                            <p class="mb-0">{{ Auth::user()->phone }}</p>
+                        <div class="details">
+                            <div class="box">
+                                <i class="fa-solid fa-phone"></i>
+                                <p class="mb-0">{{ Auth::user()->phone }}</p>
+                            </div>
+                            <div class="box">
+                                <i class="fa-solid fa-envelope"></i>
+                                <p class="mb-0">{{ Auth::user()->email }}</p>
+                            </div>
                         </div>
-                        <div class="box">
-                            <i class="fa-solid fa-envelope"></i>
-                            <p class="mb-0">{{ Auth::user()->email }}</p>
-                        </div>
-                    </div>
 
-                    <div class="my-transaction" onclick="showTransactionPage()">
-                        <button>My Transactions</button>
+                        <div class="my-transaction" onclick="showTransactionPage()">
+                            <button>My Transactions</button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
+<<<<<<< HEAD
             <div class="col-lg-8 col-md-12 col-12 mt-3">
                 <div class="rides">
                     <h4>My Rides</h4>
+=======
+                <div class="col-lg-9 col-md-12 col-12 mt-3">
+                    <div class="rides">
+                        <h4>My Rides</h4>
+>>>>>>> bae2840ec0a512a0e4238f7d28c862cf73bf2603
 
-                    <div class="table-responsive">
-                        <div class="rides-list" style="margin-top: 2rem; width:100%;">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>S.No</th>
-                                        <th>Product Name</th>
-                                        <th>Total Price</th>
-                                        <th>Ride Status</th>
-                                        <th>Delivery Boy</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @if($orders->isEmpty())
+                        <div class="table-responsive">
+                            <div class="rides-list" style="margin-top: 2rem; width:100%;">
+                                <table class="table">
+                                    <thead>
                                         <tr>
-                                            <td colspan="5" style="text-align: center;">
-                                                <div class="no-orders">
-                                                    <p class="mb-0 mt-0">No Trips Found</p>
-                                                    <a href="{{route ('rental_bike')}}">Plan one Now!</a>
-                                                </div>
-                                                <iframe src="https://lottie.host/embed/843abefb-7087-4f85-91a6-69cba120f737/fmtl9wHyEa.json"></iframe>
-                                            </td>
+                                            <th>S.No</th>
+                                            <th>Product Name</th>
+                                            <th>Total Price</th>
+                                            <th>Ride Status</th>
+                                            <th>Delivery Boy</th>
                                         </tr>
-                                    @else
-                                        @foreach($orders as $index => $order)
+                                    </thead>
+                                    <tbody>
+                                        @if ($orders->isEmpty())
                                             <tr>
-                                                <td>{{ $index + 1 }}</td>
-                                                <td>{{ $order->items[0]->name }}</td>
-                                                <td>{{ $order->order_amount ?? 'N/A' }}</td>
-                                                <td>{{ $order->order_status ?? 'N/A' }}</td>
-                                                <td class="delivery-boy" type="button" data-toggle="modal" data-target="#exampleModal">Pending</td>
-                                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabel">Delivery Boy Details</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="delivery-boy-details">
-                                                                <h4>Harish</h4>
-                                                                <a href="#"></a>
-                                                                    <p>9876543210</p>
-                                                                </a>
-                                                                <p>Kindly Contact him for further process</p>
+                                                <td colspan="5" style="text-align: center;">
+                                                    <div class="no-orders">
+                                                        <p class="mb-0 mt-0">No Trips Found</p>
+                                                        <a href="{{ route('rental_bike') }}">Plan one Now!</a>
+                                                    </div>
+                                                    <iframe
+                                                        src="https://lottie.host/embed/843abefb-7087-4f85-91a6-69cba120f737/fmtl9wHyEa.json"></iframe>
+                                                </td>
+                                            </tr>
+                                        @else
+                                            @foreach ($orders as $index => $order)
+                                                <tr>
+                                                    <td>{{ $index + 1 }}</td>
+                                                    <td>{{ $order->items[0]->name }}</td>
+                                                    <td>{{ $order->order_amount ?? 'N/A' }}</td>
+                                                    <td>{{ $order->order_status ?? 'N/A' }}</td>
+                                                    <td class="delivery-boy" type="button" data-toggle="modal"
+                                                        data-target="#exampleModal">Pending</td>
+                                                    <div class="modal fade" id="exampleModal" tabindex="-1"
+                                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabel">Delivery
+                                                                        Boy
+                                                                        Details</h5>
+                                                                    <button type="button" class="close"
+                                                                        data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <div class="delivery-boy-details">
+                                                                        <h4>Harish</h4>
+                                                                        <a href="#"></a>
+                                                                        <p>9876543210</p>
+                                                                        </a>
+                                                                        <p>Kindly Contact him for further process</p>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    </div>
-                                                </div>
-                                            </tr>
-                                        @endforeach
-                                    @endif
-                                </tbody>
-                            </table>
+                                                </tr>
+                                            @endforeach
+                                        @endif
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div> 
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="container-fluid px-5" style="margin-top: 4rem; margin-bottom: 2rem;" id="transaction-page">
-        <div class="row" >
-            <div class="col-lg-3 col-md-12 col-12">
-                <div class="profile-user-details">
-                    <a href="#" class="profile-btn">
-                        <div class="profile-btn">
-                            <i class="fa-solid fa-arrow-left"></i>
-                            <p class="mb-0">Profile</p>
+        <div class="container-fluid px-5" style="margin-top: 4rem; margin-bottom: 2rem;" id="transaction-page">
+            <div class="row">
+                <div class="col-lg-3 col-md-12 col-12">
+                    <div class="profile-user-details">
+                        <a href="#" class="profile-btn">
+                            <div class="profile-btn">
+                                <i class="fa-solid fa-arrow-left"></i>
+                                <p class="mb-0">Profile</p>
+                            </div>
+                        </a>
+                        <div class="user">
+                            <div class="user-image">
+                                <img src="/public/assets/landing/image/user.svg" alt="User">
+                            </div>
                         </div>
-                    </a>
-                    <div class="user">
-                        <div class="user-image">
-                            <img src="/public/assets/landing/image/user.svg" alt="User">
+
+                        <h4 class="username">{{ Auth::user()->f_name }}</h4>
+
+                        <div class="details">
+                            <div class="box">
+                                <i class="fa-solid fa-phone"></i>
+                                <p class="mb-0">{{ Auth::user()->phone }}</p>
+                            </div>
+                            <div class="box">
+                                <i class="fa-solid fa-envelope"></i>
+                                <p class="mb-0">{{ Auth::user()->email }}</p>
+                            </div>
                         </div>
-                    </div>
-    
-                    <h4 class="username">{{ Auth::user()->f_name }}</h4>
-    
-                    <div class="details">
-                        <div class="box">
-                            <i class="fa-solid fa-phone"></i>
-                            <p class="mb-0">{{ Auth::user()->phone }}</p>
+
+                        <div class="my-orders" onclick="showOrderPage()">
+                            <button>My Orders</button>
                         </div>
-                        <div class="box">
-                            <i class="fa-solid fa-envelope"></i>
-                            <p class="mb-0">{{ Auth::user()->email }}</p>
-                        </div>
-                    </div>
-    
-                    <div class="my-orders" onclick="showOrderPage()">
-                        <button>My Orders</button>
                     </div>
                 </div>
-            </div>
-    
-            <div class="col-lg-9 col-md-12 col-12 mt-4">
-                <div class="rides">
-                    <h4>Transaction History</h4>
-    
-                    <div class="table-responsive">
-                        <div class="rides-list" style="margin-top: 2rem; width:100%;">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>S.No</th>
-                                        <th>Product Name</th>
-                                        <th>Total Price</th>
-                                        <th>Payment ID</th>
-                                        <th>Date</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @if($orders->isEmpty())
+
+                <div class="col-lg-9 col-md-12 col-12 mt-4">
+                    <div class="rides">
+                        <h4>Transaction History</h4>
+
+                        <div class="table-responsive">
+                            <div class="rides-list" style="margin-top: 2rem; width:100%;">
+                                <table class="table">
+                                    <thead>
                                         <tr>
-                                            <td colspan="5" style="text-align: center;">
-                                                <div class="no-orders">
-                                                    <p class="mb-0 mt-0">No Transactions</p>
-                                                </div>
-                                                <iframe src="https://lottie.host/embed/e641a942-8bfa-46a5-8886-dee0cd01666e/Wm8JpUSH6X.json"></iframe>
-                                            </td>
+                                            <th>S.No</th>
+                                            <th>Product Name</th>
+                                            <th>Total Price</th>
+                                            <th>Payment ID</th>
+                                            <th>Date</th>
                                         </tr>
-                                    @else
-                                        @foreach($orders as $index => $order)
+                                    </thead>
+                                    <tbody>
+                                        @if ($orders->isEmpty())
                                             <tr>
-                                                <td>{{ $index + 1 }}</td>
-                                                <td>{{ $order->items[0]->name }}</td>
-                                                <td>{{ $order->order_amount ?? 'N/A' }}</td>
-                                                <td>{{ $order->transaction_reference ?? 'N/A' }}</td>
-                                                <td class="order-date">{{ $order->created_at }}</td>
+                                                <td colspan="5" style="text-align: center;">
+                                                    <div class="no-orders">
+                                                        <p class="mb-0 mt-0">No Transactions</p>
+                                                    </div>
+                                                    <iframe
+                                                        src="https://lottie.host/embed/e641a942-8bfa-46a5-8886-dee0cd01666e/Wm8JpUSH6X.json"></iframe>
+                                                </td>
                                             </tr>
-                                        @endforeach
-                                    @endif
-                                </tbody>
-                            </table>
+                                        @else
+                                            @foreach ($orders as $index => $order)
+                                                <tr>
+                                                    <td>{{ $index + 1 }}</td>
+                                                    <td>{{ $order->items[0]->name }}</td>
+                                                    <td>{{ $order->order_amount ?? 'N/A' }}</td>
+                                                    <td>{{ $order->transaction_reference ?? 'N/A' }}</td>
+                                                    <td class="order-date">{{ $order->created_at }}</td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-   
+
+    @endif
+
 @endsection
 
 <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/min/moment.min.js"></script>
@@ -411,5 +448,3 @@
         transactionPage.style.display = 'none';
     }
 </script>
-
-

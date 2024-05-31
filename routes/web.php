@@ -55,7 +55,7 @@ Route::post('/rental_bike/sort_products', [HomeController::class, 'sortProducts'
 
 // Route::get('/item/{slug}', 'item')->name('item');
 
-Route::get('login/{tab}', 'LoginController@login')->name('login');
+Route::get('login/{tab}/{id?}', 'LoginController@login')->name('login');
 Route::post('login_submit', 'LoginController@submit')->name('login_post')->middleware('actch');
 Route::get('logout', 'LoginController@logout')->name('logout');
 Route::get('/reload-captcha', 'LoginController@reloadCaptcha')->name('reload-captcha');
