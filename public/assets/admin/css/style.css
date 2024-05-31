@@ -70,9 +70,9 @@
     transition: all ease 0.3s;
 }
 
-.navbar .nav-link:hover .text-truncate {
+/* .navbar .nav-link:hover .text-truncate {
     color: #5affba;
-}
+} */
 
 .navbar .active > .nav-link,
 .navbar .nav-link.active,
@@ -2957,9 +2957,9 @@ a.badge-soft-primary:hover {
     object-fit: contain;
 }
 
-.nav-sub {
+/* .nav-sub {
     background: #005555 !important;
-}
+} */
 
 .scroll-bar {
     max-height: calc(100vh - 100px);

@@ -55,13 +55,13 @@
                     </h5>
                     <form action="javascript:" id="search-form" class="search-form">
                         <!-- Search -->
-                            @csrf
-                            <div class="input-group input--group">
-                                <input id="datatableSearch_" type="search" name="search" class="form-control"
-                                        placeholder="{{translate('ex_: search_delivery_man')}}" aria-label="{{translate('messages.search')}}" value="{{isset($search_by) ? $search_by : ''}}" required>
-                                <button type="submit" class="btn btn--secondary"><i class="tio-search"></i></button>
-                            </div>
-                        </form>
+                        @csrf
+                        <div class="input-group input--group">
+                            <input id="datatableSearch_" type="search" name="search" class="form-control"
+                                    placeholder="{{translate('ex_: search_delivery_man')}}" aria-label="{{translate('messages.search')}}" value="{{isset($search_by) ? $search_by : ''}}" required>
+                            <button type="submit" class="btn btn--secondary"><i class="tio-search"></i></button>
+                        </div>
+                    </form>
                 </div>
             </div>
             <!-- End Header -->

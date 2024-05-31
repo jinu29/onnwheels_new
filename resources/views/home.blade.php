@@ -446,7 +446,7 @@
                                     alt="{{ $items->name }} image">
                             </a>
                             <div class="card-details d-flex flex-column p-1 mt-1 text-center" style="gap: 12px;">
-                                <i class="fa-regular fa-heart"></i>
+                                {{-- <i class="fa-regular fa-heart"></i> --}}
                                 @if ($items->discount != 0)
                                     <p class="new">{{ $items->discount }} %</p>
                                 @endif

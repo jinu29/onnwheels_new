@@ -263,3 +263,6 @@ Route::get('thank_you', [HomeController::class, 'thank_you'])->name('thank_you')
 Route::get('rides', [HomeController::class, 'rides'])->name('rides');
 
 Route::post('search', [VehicleAvailabilityController::class,'search'])->name('search.vehicle');
+
+// Toggle Button
+Route::post('/check-hours-price', [HomeController::class, 'checkHoursPrice'])->name('check-hours-price');

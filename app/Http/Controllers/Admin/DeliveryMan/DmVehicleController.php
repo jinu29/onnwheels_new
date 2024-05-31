@@ -48,6 +48,7 @@ class DmVehicleController extends BaseController
         );
         $language = getWebConfig('language');
         $defaultLang = str_replace('_', '-', app()->getLocale());
+        // dd(DmVehicleViewPath::INDEX[VIEW]);
         return view(DmVehicleViewPath::INDEX[VIEW], compact('vehicles','language','defaultLang'));
     }
 

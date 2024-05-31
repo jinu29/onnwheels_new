@@ -627,4 +627,5 @@ class HomeController extends Controller
 
         return response()->json(['success' => 'Review submitted successfully']);
     }
+
 }

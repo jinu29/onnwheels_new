@@ -291,7 +291,6 @@
             gap: 15px;
             margin-top: 12px;
             padding-bottom: 5px;
-            border-bottom: 1px solid gray;
         }
 
         .total-price {
@@ -632,6 +631,94 @@
             animation: spin 0.8s linear infinite;
         }
 
+        /* Toggle Style */
+        .switches-container {
+            width: 16rem;
+            /* Adjusted for two options */
+            position: relative;
+            display: flex;
+            align-self: flex-start;
+            padding: 0;
+            background: #F89520;
+            line-height: 3rem;
+            border-radius: 3rem;
+            margin-top: 15px;
+        }
+
+        /* input (radio) for toggling. hidden - use labels for clicking on */
+        .switches-container input {
+            visibility: hidden;
+            position: absolute;
+            top: 0;
+        }
+
+        /* labels for the input (radio) boxes - something to click on */
+        .switches-container label {
+            width: 50%;
+            /* Adjusted for two options */
+            padding: 0;
+            margin: 0;
+            text-align: center;
+            cursor: pointer;
+            color: white;
+        }
+
+        .switch-wrapper {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 50%;
+            /* Adjusted for two options */
+            padding: 3px;
+            z-index: 3;
+            transition: transform .5s cubic-bezier(.77, 0, .175, 1);
+        }
+
+        /* switch box highlighter */
+        .switch {
+            border-radius: 3rem;
+            background: white;
+            height: 100%;
+        }
+
+        .switch div {
+            width: 100%;
+            text-align: center;
+            opacity: 0;
+            display: block;
+            font-weight: 600;
+            color: #003361;
+            transition: opacity .2s cubic-bezier(.77, 0, .175, 1) .125s;
+            will-change: opacity;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        /* slide the switch box from right to left */
+        .switches-container input:nth-of-type(1):checked~.switch-wrapper {
+            transform: translateX(0%);
+        }
+
+        /* slide the switch box from left to right */
+        .switches-container input:nth-of-type(2):checked~.switch-wrapper {
+            transform: translateX(100%);
+        }
+
+        /* toggle the switch box labels - first checkbox:checked - show first switch div */
+        .switches-container input:nth-of-type(1):checked~.switch-wrapper .switch div:nth-of-type(1) {
+            opacity: 1;
+        }
+
+        /* toggle the switch box labels - second checkbox:checked - show second switch div */
+        .switches-container input:nth-of-type(2):checked~.switch-wrapper .switch div:nth-of-type(2) {
+            opacity: 1;
+        }
+
+        .km-input {
+            display: none;
+        }
+
         @-webkit-keyframes compliment {
             1% {
                 -webkit-transform: rotate(0deg);
@@ -783,13 +870,41 @@
                             </div>
                             <span class="rating">5.0</span>
                         </div>
-                        <div class="rent">
-                            <p class="mb-0">Rent {{ round($days, 2) }} Days:</p>
+                        <div class="desp">
+                            <p>{{ $items->description }}</p>
+                        </div>
+
+                        {{-- @php
+                            use App\Models\Item;
+                            $items = Item::all();
+                        @endphp --}}
+
+                        <div class="switches-container">
+                            <input type="radio" id="switchHour" name="switchPlan" value="Hour" checked="checked" />
+                            <input type="radio" id="switchKm" name="switchPlan" value="KM" />
+                            <label for="switchHour" class="dynamicToggle">Hour</label>
+                            <label for="switchKm">KM</label>
+                            <div class="switch-wrapper">
+                                <div class="switch">
+                                    <div class="dynamicToggle">Hour</div>
+                                    <div>KM</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="rent" id="rent">
+                            <p class="mb-0">Rent {{ round($days, 2) }}</p>
                             <div class="price">
                                 <i class="fa-solid fa-indian-rupee-sign"></i>
                                 <p class="mb-0">{{ $defaultValue }}</p>
                             </div>
-                            |
+                        </div>
+
+                        <div id="error-message" style="color: red; display: none;">
+                            This Bike is currently not available for Hourly Booking
+                        </div>
+
+                        <div class="km">
                             @if (
                                 $items['distance_price'] &&
                                     collect(json_decode($items['distance_price'], true))->filter()->count() > 0)
@@ -801,13 +916,11 @@
                             @endif
                         </div>
 
-
-                        <div class="desp">
-                            <p>{{ $items->description }}</p>
-                        </div>
                         <div class="date-range">
                             <input type="text" id="demo" name="datefilter" value="" class="shadow" readonly />
+                        </div>
 
+                        <div class="km-input">
                             @if (
                                 $items['distance_price'] &&
                                     collect(json_decode($items['distance_price'], true))->filter()->count() > 0)
@@ -817,7 +930,6 @@
                             @endif
                         </div>
 
-
                         <div class="total-price">
                             <p class="mb-0">Total Price:</p>
                             <div class="price">
@@ -826,6 +938,8 @@
                                 <input type="hidden" id="totalPriceInput" value="{{ $defaultValue }}" name="">
                             </div>
                         </div>
+
+
                         <button type="submit" id="bookNowButton" class="btn">Book Now</button>
                     </div>
                 </div>
@@ -957,6 +1071,7 @@
         let days = {{ round($days, 2) }};
         let formattedDays = moment.duration(days, 'days').humanize();
         document.querySelector('.rent p.mb-0').innerText = `Rent ${formattedDays}`;
+        document.querySelector('.dynamicToggle').innerText = `${formattedDays.toUpperCase()}`;
     </script>
 
 
@@ -1051,7 +1166,6 @@
             document.getElementById('totalPriceInput').value = totalPrice.toFixed(2);
         });
     </script>
-
 
     <script>
         document.getElementById('distanceInput').addEventListener('input', function() {
@@ -1298,6 +1412,71 @@
                     // Handle errors here
                 }
             });
+        });
+    </script>
+
+    {{-- Day Toggle Option --}}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <?php
+    // Assuming $items is an object from a database query in your PHP code
+    $item_id = $items->id;
+    ?>
+
+    <script>
+        $(document).ready(function() {
+
+            $('#rent').show();
+                $('#error-message').hide();
+                $('.km-input').hide();
+                $('.km').hide();
+            // Function to update rent display
+            var product_id = <?php echo json_encode($item_id); ?>;
+
+            console.log("hi", product_id);
+
+            function updateRentDisplay() {
+                console.log("hi")
+                $('#rent').show();
+                $('#error-message').hide();
+                $('.km-input').hide();
+                $('.km').hide();
+            }
+
+            function handleVisibility() {
+                if ($('#switchKm').is(':checked')) {
+                    $('#rent').hide();
+                    $('.date-range').hide();
+                    $('.km-input').show();
+                    $('.km').show();
+                } else {
+                    $('#rent').show();
+                    $('.date-range').show();
+                }
+            }
+
+            // Trigger AJAX call when page loads and "Hour" toggle is checked
+            $('input[name="switchPlan"]').change(function() {
+                if ($('#switchHour').is(':checked')) {
+                    // $.ajax({
+                    //     url: '{{ route('check-hours-price') }}',
+                    //     method: 'POST',
+                    //     data: {
+                    //         variant: 'hour',
+                    //         product_id,
+                    //         _token: '{{ csrf_token() }}'
+                    //     },
+                    //     success: function(response) {
+                    //         updateRentDisplay(response.time_differences[1]);
+                    //     }
+                    // });
+                    updateRentDisplay();
+                }
+
+                handleVisibility();
+            });
+
+            // Initial check on page load
+            handleVisibility();
         });
     </script>
 @endsection

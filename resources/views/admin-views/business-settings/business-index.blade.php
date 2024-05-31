@@ -894,7 +894,7 @@
                                             required>
                                     </div>
                                 </div>
-                                <div class="col-sm-6 col-lg-4">
+                                {{-- <div class="col-sm-6 col-lg-4">
                                     @php($vnv = \App\Models\BusinessSetting::where('key', 'toggle_veg_non_veg')->first())
                                     @php($vnv = $vnv ? $vnv->value : 0)
                                     <div class="form-group mb-0">
@@ -928,7 +928,7 @@
                                             </span>
                                         </label>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="col-sm-6 col-lg-4">
                                     @php($admin_order_notification = \App\Models\BusinessSetting::where('key', 'admin_order_notification')->first())
                                     @php($admin_order_notification = $admin_order_notification ? $admin_order_notification->value : 0)

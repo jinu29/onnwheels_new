@@ -198,13 +198,19 @@
     </style>
 @endsection
 @section('content')
-    @if ($user->userkyc === null || ($user->userkyc && $user->userkyc->is_verified == 0 && $user->userkyc->is_reject == 0) || $user->userkyc && $user->userkyc->is_reject == 2)
-    <div style="display: flex; align-items: center; justify-content: center; flex-direction: column;">
-        <h3 style="text-align: center; color:red; margin-top: 100px;">Please Verify your <a href="/profile" style="color:blue; text-decoration: underline;">KYC</a>  and Track your orders</h3>
-        <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-        
-        <lottie-player src="https://lottie.host/8d774174-a825-4f4a-9b0f-0d044a7c4635/ngGjtlOoqe.json" background="##FFFFFF" speed="1" style="width: 300px; height: 300px" loop  autoplay direction="1" mode="normal"></lottie-player>
-    </div>
+    @if (
+        $user->userkyc === null ||
+            ($user->userkyc && $user->userkyc->is_verified == 0 && $user->userkyc->is_reject == 0) ||
+            ($user->userkyc && $user->userkyc->is_reject == 2))
+        <div style="display: flex; align-items: center; justify-content: center; flex-direction: column;">
+            <h3 style="text-align: center; color:red; margin-top: 100px;">Please Verify your <a href="/profile"
+                    style="color:blue;">KYC</a> and Track your orders</h3>
+            <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+            <lottie-player src="https://lottie.host/8d774174-a825-4f4a-9b0f-0d044a7c4635/ngGjtlOoqe.json"
+                background="##FFFFFF" speed="1" style="width: 300px; height: 300px" loop autoplay direction="1"
+                mode="normal"></lottie-player>
+        </div>
     @else
         <div class="container-fluid px-5" style="margin-top: 2rem; margin-bottom: 2rem;" id="ride-page">
             <div class="row">
