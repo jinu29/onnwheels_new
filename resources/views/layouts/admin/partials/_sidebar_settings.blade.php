@@ -34,8 +34,8 @@
             </div>
 
             <!-- Content -->
-            <div class="navbar-vertical-content bg--005555" id="navbar-vertical-content">
-                <form class="sidebar--search-form">
+            <div class="navbar-vertical-content" id="navbar-vertical-content" style="background-color:#003361;">
+                <form class="sidebar--search-form" style="background-color:#003361;">
                     <div class="search--form-group">
                         <button type="button" class="btn"><i class="tio-search"></i></button>
                         <input type="text" class="form-control form--control" placeholder="{{ translate('Search Menu...') }}" id="search-sidebar-menu">
@@ -86,12 +86,12 @@
                                 <span class="text-truncate">{{ translate('messages.admin_landing_page') }}</span>
                             </a>
                         </li>
-                        <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/business-settings/pages/react-landing-page-settings*') ? 'active' : '' }}">
+                        {{-- <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/business-settings/pages/react-landing-page-settings*') ? 'active' : '' }}">
                             <a class="nav-link " href="{{ route('admin.business-settings.react-landing-page-settings','header') }}" title="{{ translate('messages.react_landing_page') }}">
                                 <span class="tio-circle nav-indicator-icon"></span>
                                 <span class="text-truncate">{{ translate('messages.react_landing_page') }}</span>
                             </a>
-                        </li>
+                        </li> --}}
                         <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/business-settings/pages/flutter-landing-page-settings*') ? 'active' : '' }}">
                             <a class="nav-link " href="{{ route('admin.business-settings.flutter-landing-page-settings','fixed-data') }}" title="{{ translate('messages.flutter_landing_page') }}">
                                 <span class="tio-circle nav-indicator-icon"></span>
@@ -150,12 +150,12 @@
                         </li>
                     </ul>
                 </li>
-                <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/business-settings/file-manager*') ? 'active' : '' }}">
+                {{-- <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/business-settings/file-manager*') ? 'active' : '' }}">
                     <a class="nav-link " href="{{ route('admin.business-settings.file-manager.index') }}" title="{{ translate('messages.gallery') }}">
                         <span class="tio-album nav-icon"></span>
                         <span class="text-truncate text-capitalize">{{ translate('messages.gallery') }}</span>
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                     <small class="nav-subtitle" title="{{ translate('messages.business_settings') }}">{{ translate('messages.system_management') }}</small>
                     <small class="tio-more-horizontal nav-subtitle-replacer"></small>

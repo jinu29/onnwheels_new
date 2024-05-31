@@ -24,7 +24,7 @@
                         <a href="{{ route('admin.users.dashboard') }}" id="tourb-6"
                             class="__nav-link {{ Request::is('admin/users*') ? 'active' : '' }}">
                             <img src="{{ asset('/public/assets/admin/img/new-img/user.svg') }}" alt="public/img">
-                            <span style="color:#003361;">{{ translate('Users') }}</span>
+                            <span style="color:#003361;">{{ translate('Users & Delivery Management') }}</span>
                         </a>
                     </li>
 

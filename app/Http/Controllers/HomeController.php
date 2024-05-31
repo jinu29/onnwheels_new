@@ -601,5 +601,91 @@ class HomeController extends Controller
         return view('rides', compact('orders'));
     }
 
+    public function checkHoursPrice(Request $request)
+    {
+        $item = Item::where('id', $request->product_id)->first(); // Use first to get a single item
+    
+        if ($item) {
+            $hoursPriceArray = json_decode($item->hours_price, true); // Decoding JSON string to array
+    
+            // Check if the array is properly decoded
+            if (is_array($hoursPriceArray)) {
+                // Initialize an array to store the results
+                $timeDifferences = [];
+    
+                // Iterate through each key in the array
+                foreach ($hoursPriceArray as $key => $value) {
+                    // Check if the key is a valid date string
+                    if ($this->isValidDate($key)) {
+                        $currentDateTime = new \DateTime();
+                        $targetDateTime = new \DateTime($key);
+    
+                        $diff = $currentDateTime->diff($targetDateTime);
+    
+                        // Format the result as a string indicating the time difference
+                        $formattedDifference = $this->formatDifference($diff);
+                        $timeDifferences[$key] = $formattedDifference;
+                    } else {
+                        // Handle the case where the key is not a valid date
+                        // Assuming key represents hours
+                        $hours = (int)$key;
+                        $days = $hours / 24;
+                        $weeks = $hours / (24 * 7);
+    
+                        if ($weeks >= 1) {
+                            $timeDifferences[$key] = floor($weeks) . ' week(s)';
+                        } elseif ($days >= 1) {
+                            $timeDifferences[$key] = floor($days) . ' day(s)';
+                        } else {
+                            $timeDifferences[$key] = $hours . ' hour(s)';
+                        }
+                    }
+                }
+    
+                // Return the formatted time differences
+                return response()->json(['time_differences' => $timeDifferences]);
+            } else {
+                return response()->json(['error' => 'Invalid hours_price format'], 400);
+            }
+        } else {
+            return response()->json(['error' => 'Item not found'], 404);
+        }
+    }
+    
+    /**
+     * Check if a string is a valid date
+     *
+     * @param string $date
+     * @return bool
+     */
+    private function isValidDate($date)
+    {
+        return (bool)strtotime($date);
+    }
+    
+    /**
+     * Format the time difference as a string
+     *
+     * @param \DateInterval $diff
+     * @return string
+     */
+    private function formatDifference($diff)
+    {
+        if ($diff->y > 0) {
+            return $diff->y . ' year(s)';
+        } elseif ($diff->m > 0) {
+            return $diff->m . ' month(s)';
+        } elseif ($diff->d >= 7) {
+            return floor($diff->d / 7) . ' week(s)';
+        } elseif ($diff->d > 0) {
+            return $diff->d . ' day(s)';
+        } elseif ($diff->h > 0) {
+            return $diff->h . ' hour(s)';
+        } elseif ($diff->i > 0) {
+            return $diff->i . ' minute(s)';
+        } else {
+            return $diff->s . ' second(s)';
+        }
+    }
     
 }

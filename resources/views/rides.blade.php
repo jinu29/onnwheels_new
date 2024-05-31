@@ -197,7 +197,7 @@
 @section('content')
     <div class="container-fluid px-5" style="margin-top: 2rem; margin-bottom: 2rem;" id="ride-page">
         <div class="row" >
-            <div class="col-lg-3 col-md-12 col-12 mt-3">
+            <div class="col-lg-4 col-md-12 col-12 mt-3">
                 <div class="profile-user-details">
                     <a href="#" class="profile-btn">
                         <div class="profile-btn">
@@ -230,7 +230,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-9 col-md-12 col-12 mt-3">
+            <div class="col-lg-8 col-md-12 col-12 mt-3">
                 <div class="rides">
                     <h4>My Rides</h4>
 
