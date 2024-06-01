@@ -38,7 +38,7 @@ $landing_site_direction = session()->get('landing_site_direction');
     <style>
         body {
             font-family: "Montserrat", sans-serif;
-            background-color: white;
+            background-color: #F8F9FA;
         }
 
         .header--btn {

@@ -207,24 +207,24 @@
                             </a>
                         </li>
                         @endif
-                        <li class="nav-item {{ Request::is('admin/item/reviews') ? 'active' : '' }}">
+                        {{-- <li class="nav-item {{ Request::is('admin/item/reviews') ? 'active' : '' }}">
                             <a class="nav-link " href="{{ route('admin.item.reviews') }}" title="{{ translate('messages.review_list') }}">
                                 <span class="tio-circle nav-indicator-icon"></span>
                                 <span class="text-truncate">{{ translate('messages.review') }}</span>
                             </a>
-                        </li>
-                        <li class="nav-item {{ Request::is('admin/item/bulk-import') ? 'active' : '' }}">
+                        </li> --}}
+                        {{-- <li class="nav-item {{ Request::is('admin/item/bulk-import') ? 'active' : '' }}">
                             <a class="nav-link " href="{{ route('admin.item.bulk-import') }}" title="{{ translate('messages.bulk_import') }}">
                                 <span class="tio-circle nav-indicator-icon"></span>
                                 <span class="text-truncate text-capitalize">{{ translate('messages.bulk_import') }}</span>
                             </a>
-                        </li>
-                        <li class="nav-item {{ Request::is('admin/item/bulk-export') ? 'active' : '' }}">
+                        </li> --}}
+                        {{-- <li class="nav-item {{ Request::is('admin/item/bulk-export') ? 'active' : '' }}">
                             <a class="nav-link " href="{{ route('admin.item.bulk-export-index') }}" title="{{ translate('messages.bulk_export') }}">
                                 <span class="tio-circle nav-indicator-icon"></span>
                                 <span class="text-truncate text-capitalize">{{ translate('messages.bulk_export') }}</span>
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </li>
                 @endif

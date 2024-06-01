@@ -317,6 +317,13 @@
             gap: 5px;
         }
 
+        .km {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
         .desp p {
             margin-top: 12px;
             font-size: 12px;
@@ -882,7 +889,7 @@
                         <div class="switches-container">
                             <input type="radio" id="switchHour" name="switchPlan" value="Hour" checked="checked" />
                             <input type="radio" id="switchKm" name="switchPlan" value="KM" />
-                            <label for="switchHour" class="dynamicToggle">Hour</label>
+                            <label for="switchHour"  id="labelDynamic">Hour</label>
                             <label for="switchKm">KM</label>
                             <div class="switch-wrapper">
                                 <div class="switch">
@@ -900,8 +907,8 @@
                             </div>
                         </div>
 
-                        <div id="error-message" style="color: red; display: none;">
-                            This Bike is currently not available for Hourly Booking
+                        <div id="error-message" style="color: red; display: none; margin-top: 10px; font-weight:600;">
+                            This Bike is currently not available for KM Booking
                         </div>
 
                         <div class="km">
@@ -972,9 +979,9 @@
                 </div>
             </div>
 
-          <div class="col-8">
-            <h5>No Review Found</h5>
-          </div>
+            <div class="col-8">
+                <h5>No Review Found</h5>
+            </div>
             {{-- <div class="col-8">
                 <div class="master border">
                     <h1 class="my-0" style="color:#003360;">Reviews and Ratings</h1>
@@ -1072,6 +1079,9 @@
         let formattedDays = moment.duration(days, 'days').humanize();
         document.querySelector('.rent p.mb-0').innerText = `Rent ${formattedDays}`;
         document.querySelector('.dynamicToggle').innerText = `${formattedDays.toUpperCase()}`;
+        
+        document.getElementById('labelDynamic').innerText = `${formattedDays.toUpperCase()}`;
+
     </script>
 
 
@@ -1420,63 +1430,72 @@
     <?php
     // Assuming $items is an object from a database query in your PHP code
     $item_id = $items->id;
+    $item = $items;
+    
     ?>
 
     <script>
         $(document).ready(function() {
 
             $('#rent').show();
-                $('#error-message').hide();
-                $('.km-input').hide();
-                $('.km').hide();
+            $('#error-message').hide();
+            $('.km-input').hide();
+            $('.km').hide();
             // Function to update rent display
             var product_id = <?php echo json_encode($item_id); ?>;
+            var product = <?php echo json_encode($item); ?>;
 
-            console.log("hi", product_id);
+            console.log("hi", product);
 
             function updateRentDisplay() {
-                console.log("hi")
-                $('#rent').show();
-                $('#error-message').hide();
-                $('.km-input').hide();
-                $('.km').hide();
+                if ($('#switchHour').is(':checked')) {
+                    console.log("hour")
+                    $('#rent').show();
+                    $('.date-range').show();
+                    $('.total-price').show();
+                    $('#bookNowButton').show();
+                    $('#error-message').hide();
+                    $('.km-input').hide();
+                    $('.km').hide();
+                }
             }
 
             function handleVisibility() {
-                if ($('#switchKm').is(':checked')) {
+
+                var distancePrice = JSON.parse(product.distance_price);
+                var filteredValues = Object.values(distancePrice).filter(Boolean);
+
+                if ($('#switchKm').is(':checked') && filteredValues.length > 0) {
+                    console.log("km");
                     $('#rent').hide();
                     $('.date-range').hide();
                     $('.km-input').show();
                     $('.km').show();
+
                 } else {
-                    $('#rent').show();
-                    $('.date-range').show();
+                    console.log("dd");
+
+                    $('#error-message').show();
+                    $('#rent').hide();
+                    $('.date-range').hide();
+                    $('.total-price').hide();
+                    $('#bookNowButton').hide();
+
                 }
             }
 
             // Trigger AJAX call when page loads and "Hour" toggle is checked
             $('input[name="switchPlan"]').change(function() {
                 if ($('#switchHour').is(':checked')) {
-                    // $.ajax({
-                    //     url: '{{ route('check-hours-price') }}',
-                    //     method: 'POST',
-                    //     data: {
-                    //         variant: 'hour',
-                    //         product_id,
-                    //         _token: '{{ csrf_token() }}'
-                    //     },
-                    //     success: function(response) {
-                    //         updateRentDisplay(response.time_differences[1]);
-                    //     }
-                    // });
                     updateRentDisplay();
                 }
-
-                handleVisibility();
+                if ($('#switchKm').is(':checked')) {
+                    handleVisibility();
+                }
             });
 
             // Initial check on page load
-            handleVisibility();
+            // handleVisibility();
         });
     </script>
 @endsection

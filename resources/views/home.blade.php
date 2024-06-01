@@ -8,41 +8,184 @@
     <style>
         .banner {
             width: 100%;
-            background-image: url(/public/assets/landing/image/banner-homepage.png);
+            height: 450px;
+            /* background-image: url(/public/assets/landing/image/Banner.png);
             background-size: cover;
             background-repeat: no-repeat;
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: center; */
         }
 
-        .banner-details {
+        .slide {
+            width: 100%;
+            height: 100%;
+            background-image: url(/public/assets/landing/image/Banner.png);
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        /* Booking */
+        .booking-title {
+            color: white; 
+            font-size: 25px; 
+            font-weight: 600; 
+            margin-bottom:10px;
+        }
+         
+        .booking {
+            border: 0.5px solid #898787;
+            background-image: linear-gradient(#F89520,#304b63); 
+            border-radius: 25px;
+            margin-top: -1.8rem;
+            padding: 30px 70px;
+        }
+
+        /* Steps */
+        .step-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 70px;
+            position: relative;
+        }
+
+        .design {
+            position: absolute;
+        }
+        
+        .step-title {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .step-title h4 {
+            font-size: 26px;
+            font-weight: 700;
+            color: #003360;
+        }
+
+        .step-title span {
+            color: #F89520;
+        }
+
+        .step-title p {
+            font-size: 12.5px;
+            font-weight: 700;
+            color: black;
+        }
+
+        .title a {
+            text-decoration: none;
+        }
+
+        .steps {
+            margin-top: 35px;
+        }
+
+        .step-box {
+            height: 160px;
+            margin-top: 20px;
+            border-radius: 8px;
+            padding: 10px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: white;
-            text-transform: uppercase;
-            padding: 170px 0;
+            gap: 15px;
+            text-align: center;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 
+            0 -10px 15px -3px rgba(0, 0, 0, 0.1),
+            10px 0 15px -3px rgba(0, 0, 0, 0.1),
+            -10px 0 15px -3px rgba(0, 0, 0, 0.1),
+            0 4px 6px -2px rgba(0, 0, 0, 0.05),
+            0 -4px 6px -2px rgba(0, 0, 0, 0.05),
+            4px 0 6px -2px rgba(0, 0, 0, 0.05),
+            -4px 0 6px -2px rgba(0, 0, 0, 0.05);
         }
 
-        .banner-details h1 {
-            font-size: 60px;
-            font-weight: 800;
-            line-height: 65px;
-            letter-spacing: 3px;
-            color: white;
+        .step-image {
+            display: flex;
+            align-items: center;
         }
 
-        .banner-details h3 {
-            font-size: 45px;
-            font-weight: 800;
-            color: white;
+        .step-image img {
+            width: 40px;
+        }
+
+        .step-details {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            color: black;
+            text-transform: capitalize;
+        }
+
+        .step-details p {
+            font-size: 11px;
+            font-weight: 600;
+            line-height: 20px;
+        }
+
+        .step-container .box:nth-child(1) {
+            padding-right: 50px;
+        }
+
+        .step-container .box:nth-child(2) {
+            padding-left: 50px;
+        }
+
+        .step-container .box:nth-child(3) {
+            padding-right: 50px;
+            margin-top: 50px;
+        }
+
+        .step-container .box:nth-child(4) {
+            padding-left: 50px;
+            margin-top: 50px;
+        } 
+
+        .vec-one {
+            width: 80px;
+            position: absolute;
+            top: 175px;
+        } 
+
+        .vec-two {
+            width: 150px;
+            position: absolute;
+            top: 300px;
+            left: 490px;
+        }
+
+        .vec-three {
+            width: 80px;
+            position: absolute;
+            top: 440px;
+        }
+
+        .vec-grp {
+            width: 250px;
+            position: absolute;
+            top: 25px;
+            right: 125px;
         }
 
         /* ---------------------------------- */
         .features {
             padding: 0 120px;
+        }
+
+        .feature-title h4 {
+            font-size: 25px;
+            color: #003361;
+            font-weight: 700;
+        }
+
+        .feature-title span {
+            color: #f29425;
         }
 
         /* ---------------------------------- */
@@ -182,31 +325,35 @@
         .section-title {
             font-size: 18px;
             font-weight: 600;
-            letter-spacing: 1.2px;
+            color: #003360;
         }
 
-        .app {
-            padding: 20px 0;
-            background-color: #E6A43B;
-            margin-top: 3rem;
+        .section-title span {
+            color: #f29425
         }
 
-        .app-details {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+        .rent-title {
+            margin-top: 25px;
+            margin-bottom: 3rem;
         }
 
-        .app-details h5 {
-            font-size: 19px;
-            font-weight: 700;
+        .rent-title h4 {
+            color: #003361;
+            font-size: 25px;
         }
 
-        .app-details h3 {
-            font-size: 35px;
-            font-weight: 700;
-            line-height: 35px;
-            width: 45rem;
+        .rent-title span {
+            color: #f29425;
+        }
+
+        .rental-bike {
+            position: relative;
+        }
+
+        .rental-bike .vec-grp {
+            position: absolute;
+            right: 305px;
+            top: -5px;
         }
 
         /* search-results */
@@ -222,23 +369,75 @@
             color: black;
         }
 
+        /* About */
+        .advantage-details {
+            padding-left: 15px;
+        }
+
+        .advantage-details h6 {
+            color: #525252;
+            font-size: 13px;
+            font-weight: 400;
+            text-transform: capitalize;
+        }
+
+        .advantage-details h3 {
+            color: #2E709E;
+            font-size: 30px;
+            font-weight: 700;
+            text-transform: capitalize;
+            line-height: 38px;
+        }
+
+        .advantage-details p {
+            font-size: 14px;
+            font-weight: 600;
+            padding-left: 15px;
+            margin-top: 30px;
+            color: black;
+        }
+
+        .advantage-title {
+            border-left: 1px solid #E6A43B;
+            padding-left: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .advantage-image img {
+            width: 100%;
+        }
+
+        .advantage-btn {
+            padding-left: 15px;
+        }
+
+        .explore {
+            background-color: #E6A43B;
+            color: white;
+            padding: 9px 22px;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+            margin-top: 25px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .about-title h4 {
+            color: #003361;
+            font-size: 25px;
+            font-weight: 700;   
+            margin-bottom: 40px;
+        }
+
+        .about-title span {
+            color: #f29425;
+        }
+
+
         @media (max-width:991px) {
-
-            .banner {
-                padding: 0 40px;
-            }
-
-            .banner-details {
-                padding: 100px 0;
-            }
-
-            .banner-details h1 {
-                font-size: 40px;
-            }
-
-            .banner-details h3 {
-                font-size: 35px;
-            }
 
             .booking {
                 padding: 30px 80px;
@@ -265,26 +464,46 @@
                 right: -10px;
                 z-index: 2;
             }
+
+            .step-container .col-6 {
+                padding: 0;
+            }
+
+            .vec-one,
+            .vec-two,
+            .vec-three {
+                display: none;
+            }
+
+            .vec-grp {
+                display: none;
+            }
+
+            .step-container {
+                padding: 10px 10px;
+            }
+
+            .step-container .box:nth-child(1) {
+                padding: 1rem;
+            }
+
+            .step-container .box:nth-child(2) {
+                padding: 1rem;
+            }
+
+            .step-container .box:nth-child(3) {
+                padding: 1rem;
+                margin-top: 15px;
+            }
+
+            .step-container .box:nth-child(4) {
+                padding: 1rem;
+                margin-top: 15px;
+            }
         }
 
         /* Mobile */
         @media (max-width:767px) {
-
-            .banner {
-                padding: 0 25px;
-            }
-
-            .banner-details {
-                padding: 90px 0;
-            }
-
-            .banner-details h1 {
-                font-size: 35px;
-            }
-
-            .banner-details h3 {
-                font-size: 25px;
-            }
 
             .booking {
                 padding: 30px 40px;
@@ -328,6 +547,83 @@
                 padding: 0 25px;
             }
 
+            .advantage-row {
+                display: flex;
+                flex-direction: column-reverse;
+                gap: 30px;
+            }
+
+            .advantage-details {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .advantage-details h3 {
+                font-size: 22px;
+            }
+
+            .advantage-details p {
+                padding: 0;
+                border: none;
+            }
+
+            .advantage-title {
+                padding: 0;
+                border: none;
+            }
+
+            .advantage-btn {
+                padding-left: 0px;
+                align-self: center;
+            }
+
+            .step-container .col-12 {
+                width: 100%;
+                margin: 0;
+            }
+
+            .step-box {
+                margin: 0;
+            }
+
+            .step-title {
+                width: 100%;
+            }
+
+            .step-title h4 {
+                font-size: 17px;
+            }
+
+            .step-title p {
+                font-size: 13px;
+            }
+
+            .copyrights-container {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .step-container .box:nth-child(3) {
+                margin-top: 0;
+            }
+
+            .step-container .box:nth-child(4) {
+                margin-top: 0;
+            }
+
+            .rental-bike .card {
+                height: 270px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .rental-bike .card .product-title {
+                font-size: 11px;
+            }
+
         }
     </style>
 @endsection
@@ -335,16 +631,13 @@
 
     <!-- Banner -->
     <div class="banner">
-        <div class="banner-details">
-            <h1>Onn Wheels</h1>
-            <h3>Bike Rental</h3>
-        </div>
+        <div class="slide"></div>
     </div>
 
     <!-- Booking -->
     <div class="container">
-        <div style="background-image: linear-gradient(#ACA6F3,#D25858); border-radius: 25px;margin-top: -5rem;padding: 30px 50px;">
-            <h1 class="booking-title" style="color: white; font-size: 25px; font-weight: 600;">Book your Next Ride</h1>
+        <div class="booking">
+            <h1 class="booking-title">Book your Next Ride</h1>
             <form id="search-form">
                 <div class="row d-flex justify-content-between">
                     <div class="col-lg col-md-6 col-12 p-1 form-group">
@@ -368,37 +661,97 @@
         <div id="search-results" style="display: flex; overflow-x: hidden; margin-top:1.5rem;"></div>
     </div>
 
+    {{-- Steps to book a ride --}}
+    <div class="container" style="margin-top: 1rem;">
+        <div class="step-container">
+            <img class="vec-one" src="public/assets/landing/image/vector-1.png" alt="">
+            <img class="vec-two" src="public/assets/landing/image/vector-2.png" alt="">
+            <img class="vec-three" src="public/assets/landing/image/vector-3.png" alt="">
+            <img class="vec-grp" src="public/assets/landing/image/vector_grp.png" alt="">
+            <div class="step-title">
+                <h4><span>How to Bo</span>ok Your Ride?</h4>
+                <p class="mb-0">Book Your Ride in just four simple steps</p>
+            </div>
+            <div class="row" style="margin-top: 25px;">
+                <div class="col-lg-6 col-md-6 col-12 box">
+                    <div class="step-box">
+                        <div class="step-image">
+                            <img src="public/assets/landing/image/scooter.png" alt="Scooter">
+                            <img src="public/assets/landing/image/flag.png" alt="Scooter">
+                        </div>
+                        <div class="step-details">
+                            <h5>Choose Your Location</h5>
+                            <p class="mb-0">Select Your starting point with our extensive database of location</p>
+                        </div>
+                    </div>
+                </div>
 
-    <!-- Features -->
-    <div class="container-fluid features mt-3">
-        <div class="row justify-content-between px-3 my-3 shadow"
-            style="border-radius: 25px; background-color: white; padding: 15px 0; row-gap: 25px;">
-            <div class="col-lg col-md-6 col-6 d-flex justify-content-center align-items-center" style="gap:8px;">
-                <img src="/public/assets/landing/image/sanitized_vehicle.svg" alt="" style="width: 30px;">
-                <p class="ml-2 mb-0" style="font-size: 15px; font-weight: 500; color:black;"> Sanitized Vehicles</p>
-            </div>
-            <div class="col-lg col-md-6 col-6 d-flex justify-content-center align-items-center" style="gap:8px;">
-                <img src="/public/assets/landing/image/insurance.svg" alt="" style="width: 30px;">
-                <p class="ml-2 mb-0" style="font-size: 15px; font-weight: 500; color:black;">Vehicle Insurance</p>
-            </div>
-            <div class="col-lg col-md-6 col-6 d-flex justify-content-center align-items-center" style="gap:8px;">
-                <img src="/public/assets/landing/image/maintenance.svg" alt="" style="width: 30px;">
-                <p class="ml-2 mb-0" style="font-size: 15px; font-weight: 500; color:black;"> Sanitized Vehicles</p>
-            </div>
-            <div class="col-lg col-md-6 col-6 d-flex justify-content-center align-items-center" style="gap:8px;">
-                <img src="/public/assets/landing/image/roadside_assistance.svg" alt="" style="width: 30px;">
-                <p class="ml-2 mb-0" style="font-size: 15px; font-weight: 500; color:black;"> Sanitized Vehicles</p>
+                <div class="col-lg-6 col-md-6 col-12 box">
+                    <div class="step-box">
+                        <div class="step-image">
+                            <img src="public/assets/landing/image/scooter.png" alt="Scooter">
+                        </div>
+                        <div class="step-details">
+                            <h5>Choose A Bike</h5>
+                            <p class="mb-0">Check and pick your preffered ride</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-12 box">
+                    <div class="step-box">
+                        <div class="step-image">
+                            <img src="public/assets/landing/image/booking.png" alt="Scooter">
+                        </div>
+                        <div class="step-details">
+                            <h5>Make a Booking</h5>
+                            <p class="mb-0">confirm reservation hassie - free</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-12 box">
+                    <div class="step-box">
+                        <div class="step-image">
+                            <img src="public/assets/landing/image/scooter.png" alt="Scooter">
+                            <img src="public/assets/landing/image/box-vector.png" alt="Scooter">
+                        </div>
+                        <div class="step-details">
+                            <h5>enjoy the ride!</h5>
+                            <p class="mb-0">Hit the road embrace the adventure</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    {{--
-    <div class="container-fluid ">
-        <div class="title d-flex justify-content-between">
-            <h3 class="section-title">Category</h3>
 
-            <a href="{{route('all_category')}}" style="text-decoration: none;" class="view">View All</a>
+    {{-- About us --}}
+    <div class="container" style="margin-top: 3rem;">
+        <div class="about-title text-center">
+            <h4><span>About</span> Us</h4>
         </div>
-    </div> --}}
+        <div class="row advantage-row">
+            <div class="col-lg-6 col-md-6 col-12">
+                <div class="advantage-details">
+                    <div class="advantage-title">
+                        <h6>Experience the Freedom, Embrace the Exceptional</h6>
+                        <h3>Unleash your journey: The Drivewise Advantage</h3>
+                    </div>
+                    <p>Immerse yourself in a world of possibilities with our extensive range of vehicles. From sleek sedans to rugged SUVs and luxurious convertibles, we have the perfect wheels to match your style, preferences, and the demands of your adventure.</p>
+                    <a class="advantage-btn" href="/">
+                        <button class="explore">Learn More</button>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-12">
+                <div class="advantage-image">
+                    <img src="/public/assets/landing/image/about.png" alt="Image">
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!--Category-->
     <div class="container-fluid mt-5 px-lg-5">
@@ -409,7 +762,7 @@
         </div>
         <div class="category w-100 my-3">
             @foreach ($category as $categorys)
-                <div class="card text-center">
+                <div class="card text-center border-0">
                     <div class="card-body p-2 d-flex flex-column text-center">
                         <a href="{{ route('product_listing', ['category_id' => $categorys->id]) }}"
                             style="text-decoration: none;">
@@ -430,14 +783,18 @@
     <!-- Best Rental Bikes -->
 
     @if (count($item) > 0)
-        <div class="container-fluid mt-5 px-lg-5">
+        <div class="container-fluid mt-5 px-lg-5 rental-bike">
+            <img class="vec-grp" src="public/assets/landing/image/vector_grp.png" alt="">
+            <div class="rent-title text-center">
+                <h4><span>Rent</span> Your Bike</h4>
+            </div>
             <div class="title d-flex justify-content-between">
-                <h3 class="section-title">Best Rental Bikes</h3>
+                <h3 class="section-title"><span>Best</span> Renting</h3>
                 <a href="{{ route('rental_bike') }}" class="view">View All</a>
             </div>
             <div class="items w-100 my-3">
                 @foreach ($item as $items)
-                    <div class="card text-center">
+                    <div class="card text-center border-0">
                         <div class="card-body p-2 d-flex flex-column text-center">
                             <a href="{{ route('product.product_detail', $items->slug) }}">
                                 <img class="avatar avatar-lg mr-3 onerror-image"
@@ -480,6 +837,32 @@
             </div>
         </div>
     @endif
+
+    <!-- Features -->
+    <div class="container-fluid features" style="margin-top: 35px;">
+        <div class="feature-title text-center" style="margin-bottom:35px;">
+            <h4><span>Why</span> ONN Wheels</h4>
+        </div>
+        <div class="row justify-content-between px-3 my-3 shadow"
+            style="border-radius: 12px; background-color: white; padding: 15px 0; row-gap: 25px;">
+            <div class="col-lg col-md-6 col-6 d-flex justify-content-center align-items-center" style="gap:8px;">
+                <img src="/public/assets/landing/image/sanitized_vehicle.svg" alt="" style="width: 30px;">
+                <p class="ml-2 mb-0 mt-0" style="font-size: 15px; font-weight: 500; color:black;"> Sanitized Vehicles</p>
+            </div>
+            <div class="col-lg col-md-6 col-6 d-flex justify-content-center align-items-center" style="gap:8px;">
+                <img src="/public/assets/landing/image/insurance.svg" alt="" style="width: 30px;">
+                <p class="ml-2 mb-0 mt-0" style="font-size: 15px; font-weight: 500; color:black;">Vehicle Insurance</p>
+            </div>
+            <div class="col-lg col-md-6 col-6 d-flex justify-content-center align-items-center" style="gap:8px;">
+                <img src="/public/assets/landing/image/maintenance.svg" alt="" style="width: 30px;">
+                <p class="ml-2 mb-0 mt-0" style="font-size: 15px; font-weight: 500; color:black;"> Sanitized Vehicles</p>
+            </div>
+            <div class="col-lg col-md-6 col-6 d-flex justify-content-center align-items-center" style="gap:8px;">
+                <img src="/public/assets/landing/image/roadside_assistance.svg" alt="" style="width: 30px;">
+                <p class="ml-2 mb-0 mt-0" style="font-size: 15px; font-weight: 500; color:black;"> Sanitized Vehicles</p>
+            </div>
+        </div>
+    </div>
 
     <!--Blog -->
     {{-- <div class="container blog-container">
@@ -542,7 +925,7 @@
 
     <!--Reviews -->
 
-    @if (count($review) > 0)
+    {{-- @if (count($review) > 0)
         <div class="container-fluid mt-5 px-lg-5">
             <div class="title d-flex justify-content-between">
                 <h3 class="section-title">Customer Reviews</h3>
@@ -576,16 +959,7 @@
                 @endforeach
             </div>
         </div>
-    @endif
-
-    <div class="app">
-        <div class="container">
-            <div class="app-details">
-                <h5>Unlock your adventure. Rent a Bike with ease.</h5>
-                <h3>Download our new app and book your first Bike today</h3>
-            </div>
-        </div>
-    </div>
+    @endif --}}
 @endsection
 
 @section('scripts')
