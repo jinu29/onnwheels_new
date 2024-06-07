@@ -24,7 +24,7 @@
                         <a href="{{ route('admin.users.dashboard') }}" id="tourb-6"
                             class="__nav-link {{ Request::is('admin/users*') ? 'active' : '' }}">
                             <img src="{{ asset('/public/assets/admin/img/new-img/user.svg') }}" alt="public/img">
-                            <span style="color:#003361;">{{ translate('Users & Delivery Management') }}</span>
+                            <span style="color:#003361;">{{ translate('Customer & Delivery Management') }}</span>
                         </a>
                     </li>
 
@@ -121,7 +121,7 @@
                                 class="__nav-link {{ Request::is('admin/dispatch*') ? 'active' : '' }}">
                                 <img src="{{ asset('/public/assets/admin/img/new-img/dispatch.svg') }}"
                                     alt="public/img">
-                                <span>{{ translate('Dispatch Management') }}</span>
+                                <span>{{ translate('Delivery Management') }}</span>
                             </a>
                         </li>
                     @endif
@@ -183,7 +183,7 @@
                                 <img src="{{ asset('/public/assets/admin/img/new-img/module-icon.svg') }}"
                                     alt="public/img">
                             @endif
-                            <span class="text-white">Dashboard</span>
+                            <span class="text-white">Analytics Dashboard Management</span>
 
                         </a>
 

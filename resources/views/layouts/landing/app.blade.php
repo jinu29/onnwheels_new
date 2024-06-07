@@ -464,11 +464,16 @@ $landing_site_direction = session()->get('landing_site_direction');
                     <div class="android d-flex flex-column align-items-start">
                         <h5 class="mb-3" style="font-size: 14px; font-weight: 500;">Download Playstore and IOS App
                         </h5>
-                        <div>
+                        <div class="d-flex">
                             <img src="/public/assets/landing/image/play.png" alt="" class="mr-2">
                             <img src="/public/assets/landing/image/app.png" alt="">
                         </div>
                     </div>
+                    <div class="footer-title mb-2 mt-4">
+                        <h5>Seller Zone</h5>
+                        <p class="line"></p>
+                    </div>
+                    <a href="{{ route('login', ['tab' => 'vendor']) }}">Become a Vendor</a>
                 </div>
 
             </div>

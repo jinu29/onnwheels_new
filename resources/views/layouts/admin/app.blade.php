@@ -67,6 +67,8 @@
 @php($module_type = 'settings')
 @endif
 
+{{-- @dd($module_type) --}}
+
 @include("layouts.admin.partials._sidebar_{$module_type}")
 
 <!-- END ONLY DEV -->
