@@ -3995,4 +3995,10 @@
   'add_new_station' => 'Add new station',
   'Station_information' => 'Station information',
   'station_name' => 'Station name',
+  'The name.1 field is required.' => 'The name.1 field is required.',
+  'The address.1 field is required.' => 'The address.1 field is required.',
+  'Station List' => 'Station List',
+  'edit_station' => 'Edit station',
+  'You want to remove this station?' => 'You want to remove this station ',
+  'delete_station' => 'Delete station',
 );

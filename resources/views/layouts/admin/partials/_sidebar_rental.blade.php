@@ -565,16 +565,16 @@
                 </li>
 
                 
-                <li class="navbar-vertical-aside-has-menu">
+                <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/store/station') ? 'active' : '' }}" >
                     <a class="js-navbar-vertical-aside-menu-link nav-link" href="{{ route('admin.store.station') }}">
                         <span class="tio-add-circle nav-icon"></span>
                         <span class="text-truncate">
                             {{ translate('messages.add_station') }}
-                        </span>
+                        </span> 
                     </a>
                 </li>
-                <li class="navbar-vertical-aside-has-menu">
-                    <a class="js-navbar-vertical-aside-menu-link nav-link" href="#">
+                <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/store/station/list') ? 'active' : '' }}">
+                    <a class="js-navbar-vertical-aside-menu-link nav-link" href="{{ route('admin.store.station-list') }}">
                         <span class="tio-layout nav-icon"></span>
                         <span class="text-truncate">{{ translate('messages.station') }}
                             {{ translate('list') }}</span>
