@@ -243,6 +243,16 @@
                                 </div>
                                 <div class="col-sm-6 col-lg-3">
                                     <div class="form-group mb-0">
+                                        <label class="input-label" for="station_id">{{ translate('messages.station') }}</label>
+                                        <select name="station_id[]" id="station_id" data-placeholder="{{ translate('messages.select_station') }}" class="js-data-example-ajax form-control" multiple="multiple">
+                                            @foreach ($stations as $station)
+                                                <option value="{{ $station->id }}" {{ in_array($station->id, $product->stations->pluck('id')->toArray()) ? 'selected' : '' }}>{{ $station->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-3">
+                                    <div class="form-group mb-0">
                                         <label class="input-label"
                                             for="category_id">{{ translate('messages.category') }}<span
                                                 class="input-label-secondary">*</span></label>
@@ -986,6 +996,31 @@
         readURL(this);
         $('#image-viewer-section').show(1000)
     });
+
+    $('#station_id').select2({
+            ajax: {
+                url: '{{ url('/') }}/admin/store/get-station', // Adjust the route as per your setup
+                data: function(params) {
+                    return {
+                        q: params.term, // search term
+                        page: params.page
+                    };
+                },
+                processResults: function(data) {
+                    return {
+                        results: data
+                    };
+                },
+                __port: function(params, success, failure) {
+                    let $request = $.ajax(params);
+
+                    $request.then(success);
+                    $request.fail(failure);
+
+                    return $request;
+                }
+            }
+        });
 
     $(document).ready(function() {
         @if (count(json_decode($product['add_ons'], true)) > 0)

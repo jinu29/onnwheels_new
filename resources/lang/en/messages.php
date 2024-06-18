@@ -4001,4 +4001,7 @@
   'edit_station' => 'Edit station',
   'You want to remove this station?' => 'You want to remove this station ',
   'delete_station' => 'Delete station',
+  'stations' => 'Stations',
+  'select_stations' => 'Select stations',
+  'select_station' => 'Select station',
 );

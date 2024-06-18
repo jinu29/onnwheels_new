@@ -45,20 +45,15 @@
                         <td>{{ $station->lon }}</td>
                         <td class="text-center">
                             <div class="btn--container justify-content-center">
-                                <a class="btn action-btn btn--primary btn-outline-primary"
-                                   {{-- href="{{ route('admin.station.edit', $station->id) }}" --}}
-                                   title="{{ translate('messages.edit_station') }}">
+                                <a class="btn action-btn btn--primary btn-outline-primary" href="{{ route('admin.store.station-edit', $station->id) }}" title="{{ translate('messages.edit_station') }}">
                                     <i class="tio-edit"></i>
                                 </a>
-                                <a class="btn action-btn btn--danger btn-outline-danger form-alert"
-                                   href="javascript:"
-                                   data-id="station-{{ $station->id }}"
-                                   data-message="{{ translate('You want to remove this station?') }}"
-                                   title="{{ translate('messages.delete_station') }}">
+                                <a class="btn action-btn btn--danger btn-outline-danger form-alert" href="javascript:" data-id="station-{{ $station->id }}" data-message="{{ translate('You want to remove this station?') }}" title="{{ translate('messages.delete_station') }}">
                                     <i class="tio-delete-outlined"></i>
                                 </a>
-                                <form action="" method="post" id="station-{{ $station->id }}">
-                                    @csrf @method('delete')
+                                <form action="{{ route('admin.store.station-delete', $station->id) }}" method="post" id="station-{{ $station->id }}" style="display: none;">
+                                    @csrf
+                                    @method('DELETE')
                                 </form>
                             </div>
                         </td>
