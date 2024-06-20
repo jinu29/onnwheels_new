@@ -344,7 +344,7 @@ class ItemController extends Controller
             'h_price' => 'required',
             'km' => 'nullable',
             'km_price' => 'nullable|numeric|between:.01,999999999999.99',
-            'store_id' => 'required',
+            'store_id' => 'nullable|integer',
             'description' => 'array',
             'description.*' => 'max:1000',
             'discount' => 'required|numeric|min:0',
