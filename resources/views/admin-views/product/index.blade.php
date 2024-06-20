@@ -141,7 +141,7 @@
                         </div>
                         <div class="card-body">
                             <div class="row g-2">
-                                <div class="col-sm-6 col-lg-3">
+                                {{-- <div class="col-sm-6 col-lg-3">
                                     <div class="form-group mb-0">
                                         <label class="input-label" for="store_id">{{ translate('messages.store') }}<span
                                                 class="input-label-secondary"></span></label>
@@ -152,7 +152,8 @@
 
                                         </select>
                                     </div>
-                                </div>
+                                </div> --}}
+                                <input type="hidden" name="store_id" value="6">
 
                                 <div class="col-sm-6 col-lg-3">
                                     <div class="form-group mb-0">

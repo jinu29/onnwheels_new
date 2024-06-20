@@ -31,18 +31,61 @@ class UpdateUserLocationListener
         }
     }
 
+    // private function reverseGeocode($latitude, $longitude)
+    // {
+    //     $context = stream_context_create([
+    //         'http' => [
+    //             'user_agent' => ' Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36',
+    //         ],
+    //     ]);
+    //     // Construct the API request URL
+    //     $apiUrl = "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat={$latitude}&lon={$longitude}";
+
+    //     // Make a GET request to the API
+    //     $response = file_get_contents($apiUrl, false, $context);
+
+    //     // Decode the JSON response
+    //     $data = json_decode($response, true);
+
+    //     // Extract the place name from the response
+    //     $placeName = '';
+
+    //     if (isset($data['display_name'])) {
+    //         $placeName = $data['display_name'];
+    //     }
+
+    //     return $placeName;
+    // }
+
     private function reverseGeocode($latitude, $longitude)
     {
-        $context = stream_context_create([
-            'http' => [
-                'user_agent' => ' Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36',
-            ],
-        ]);
         // Construct the API request URL
         $apiUrl = "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat={$latitude}&lon={$longitude}";
 
-        // Make a GET request to the API
-        $response = file_get_contents($apiUrl, false, $context);
+        // Initialize cURL session
+        $ch = curl_init();
+
+        // Set cURL options
+        curl_setopt($ch, CURLOPT_URL, $apiUrl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36');
+        curl_setopt($ch, CURLOPT_FAILONERROR, true);
+
+        // Execute the cURL request
+        $response = curl_exec($ch);
+
+        // Check for errors
+        if (curl_errno($ch)) {
+            $error_msg = curl_error($ch);
+        }
+
+        // Close the cURL session
+        curl_close($ch);
+
+        // If there was an error, return it
+        if (isset($error_msg)) {
+            return 'Error: ' . $error_msg;
+        }
 
         // Decode the JSON response
         $data = json_decode($response, true);
@@ -56,6 +99,7 @@ class UpdateUserLocationListener
 
         return $placeName;
     }
+
 
     // Function to fetch user's location using JavaScript
     private function fetchAndSaveLocation($user)

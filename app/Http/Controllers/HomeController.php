@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Contact;
 use App\Mail\OrderConfirmationMail;
 use App\Models\Review;
+use App\Models\Station;
 use Illuminate\Http\Request;
 use App\CentralLogics\Helpers;
 use App\Models\AdminFeature;
@@ -404,7 +405,7 @@ class HomeController extends Controller
         }
     }
 
-    public function payment($slug)
+    public function payment($slug, Request $request)
     {
         $userId = auth()->id(); // Retrieve the authenticated user's ID
 
@@ -412,9 +413,12 @@ class HomeController extends Controller
 
         if ($user) {
             $items = Item::where('slug', $slug)->first();
+            $selectedStation = $request->input('available_stations');
+
+            $station = Station::where('id', $selectedStation)->first();
 
             if ($items) {
-                return view('payment', compact('items'));
+                return view('payment', compact('items', 'station'));
             }
         }
 
@@ -456,7 +460,7 @@ class HomeController extends Controller
         }
 
         $items = $query->get();
-        
+
 
         return view('rental_bike', compact('items', 'categories'));
     }
@@ -467,7 +471,7 @@ class HomeController extends Controller
         $categories = Category::all();
 
         $categoryId = $request->get('category_id');
-        $item = Item::where('category_id', $categoryId)->where('status', 1)->get();        
+        $item = Item::where('category_id', $categoryId)->where('status', 1)->get();
         return view('product_card', compact('item', 'categories'));
 
         // $responseHtml = '';

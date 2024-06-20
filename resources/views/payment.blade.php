@@ -482,15 +482,15 @@
 
                         </div>
                         <div class="d-flex flex-column justify-content-between align-items-start">
-                            <h5 class="mt-4">Address :</h5>
-                            <!-- Search input for the address -->
-                            <input id="address-input" type="text" placeholder="Enter an address"
-                                class="form-control mt-2">
+
+                            <h5 class="mt-4">Station : {{ $station->name }}</h5>
+
+                            <input type="hidden" value="{{ $station->name }}" id="station_name" name="station_name">
 
                             <!-- Add a container for the map -->
                             <div id="map" style="width: 100%; height: 400px; margin-top: 20px;"></div>
-                            <input type="hidden" id="latitude" name="latitude">
-                            <input type="hidden" id="longitude" name="longitude">
+                            <input type="hidden" id="latitude" name="latitude" value="{{ $station->lat }}">
+                            <input type="hidden" id="longitude" name="longitude" value="{{ $station->lon }}">
                         </div>
                         <div class="d-flex justify-content-between" style="margin-top: 20px;">
                             <h4>Total</h4>
@@ -577,29 +577,30 @@
         let geocoder;
 
         function initialize() {
-            // Initialize the map
+            // Get the station's latitude and longitude from hidden inputs
+            const stationLat = parseFloat(document.getElementById('latitude').value);
+            const stationLng = parseFloat(document.getElementById('longitude').value);
+
+            // Initialize the map centered on the station's location
             map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 15,
                 center: {
-                    lat: -34.397,
-                    lng: 150.644
+                    lat: stationLat,
+                    lng: stationLng
+                }
+            });
+
+            // Initialize the marker positioned at the station's location
+            marker = new google.maps.Marker({
+                map: map,
+                position: {
+                    lat: stationLat,
+                    lng: stationLng
                 }
             });
 
             // Initialize the geocoder
             geocoder = new google.maps.Geocoder();
-
-            // Initialize the marker
-            marker = new google.maps.Marker({
-                map: map
-            });
-
-            // Set the initial location if available
-            const userLocation = document.getElementById('userLocation') ? document.getElementById('userLocation')
-                .innerText : null;
-            if (userLocation) {
-                geocodeAddress(userLocation);
-            }
 
             // Initialize the autocomplete input
             const input = document.getElementById('address-input');
@@ -619,7 +620,6 @@
                 map.setZoom(15);
                 marker.setPosition(place.geometry.location);
 
-                console.log("lat",place.geometry.location.lat())
                 // Set latitude and longitude to hidden fields
                 document.getElementById('latitude').value = place.geometry.location.lat();
                 document.getElementById('longitude').value = place.geometry.location.lng();
@@ -643,7 +643,6 @@
             });
         }
     </script>
-
     {{-- Date --}}
     <script>
         $(document).ready(function() {
@@ -703,7 +702,7 @@
         $(document).ready(function() {
             $('#rzp-button1').click(function(e) {
                 e.preventDefault();
-                const address = document.getElementById('address-input').value;
+                const address = document.getElementById('station_name').value;
                 const latitude = document.getElementById('latitude').value;
                 const longitude = document.getElementById('longitude').value;
 

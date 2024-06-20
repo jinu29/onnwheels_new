@@ -7,7 +7,7 @@
                 <a href="{{ url()->previous() }}"
                     class="btn btn-danger non-printable mt-3">{{ translate('messages.back') }}</a>
             </div>
-        
+
             <hr class="non-printable">
             <div class="print--invoice initial-38-1">
                 @if ($order->store)
@@ -20,7 +20,8 @@
                                 {{ $order->store->address }}
                             </div>
                             <div class="mt-1 d-flex justify-content-center">
-                                <span>{{ translate('messages.phone') }}</span> <span>:</span> <span>{{ $order->store->phone }}</span>
+                                <span>{{ translate('messages.phone') }}</span> <span>:</span>
+                                <span>{{ $order->store->phone }}</span>
                             </div>
                         </div>
                     </div>
@@ -31,14 +32,16 @@
                     <img src="{{ asset('/public/assets/admin/img/invoice-star.png') }}" alt="" class="w-100">
                 </div>
                 <div class="order-info-id text-center">
-                    <h5 class="d-flex justify-content-center"><span>{{ translate('order_id') }}</span> <span>:</span> <span>{{ $order['id'] }}</span></h5>
+                    <h5 class="d-flex justify-content-center"><span>{{ translate('order_id') }}</span> <span>:</span>
+                        <span>{{ $order['id'] }}</span></h5>
                     <div>
                         {{ date('d/M/Y ' . config('timeformat'), strtotime($order['created_at'])) }}
                     </div>
                     <div>
                         @if ($order->store?->gst_status)
-                            <span>{{ translate('Gst No') }}</span> <span>:</span> <span>{{ $order->store->gst_code }}</span>
-                    @endif
+                            <span>{{ translate('Gst No') }}</span> <span>:</span>
+                            <span>{{ $order->store->gst_code }}</span>
+                        @endif
                     </div>
                 </div>
                 <div class="order-info-details">
@@ -56,7 +59,8 @@
                                     <span>{{ isset($address) ? $address['contact_person_number'] : $order->customer['phone'] }}</span>
                                 </div>
                                 <div class="text-break d-flex">
-                                    <span class="word-nobreak">{{ translate('messages.address') }}</span> <span>:</span>
+                                    <span class="word-nobreak">{{ translate('messages.address') }}</span>
+                                    <span>:</span>
                                     <span>{{ isset($address) ? $address['address'] : '' }}</span>
                                 </div>
                                 @php($address = $order->receiver_details)
@@ -70,7 +74,8 @@
                                     <span>{{ isset($address) ? $address['contact_person_number'] : $order->customer['phone'] }}</span>
                                 </div>
                                 <div class="text-break d-flex">
-                                    <span class="word-nobreak">{{ translate('messages.address') }}</span> <span>:</span>
+                                    <span class="word-nobreak">{{ translate('messages.address') }}</span>
+                                    <span>:</span>
                                     <span>{{ isset($address) ? $address['address'] : '' }}</span>
                                 </div>
                             </div>
@@ -88,7 +93,8 @@
                                     </h5>
                                 @endif
                                 <h5 class="text-break d-flex">
-                                    <span class="word-nobreak">{{ translate('messages.address') }}</span> <span>:</span>
+                                    <span class="word-nobreak">{{ translate('messages.address') }}</span>
+                                    <span>:</span>
                                     <span>{{ isset($order->delivery_address) ? json_decode($order->delivery_address, true)['address'] : '' }}</span>
                                 </h5>
                             </div>
@@ -121,10 +127,19 @@
                                 @php($total_dis_on_pro = 0)
                                 @php($add_ons_cost = 0)
                                 @foreach ($order->details as $detail)
-                                    @php($item = json_decode($detail->item_details, true))
+                                    {{-- @php( $detail->item  = json_decode($detail->item_details, true)) --}}
+
+                                    <?php
+                                    // if (!$editing) {
+                                    //     $detail->item = json_decode($detail->item_details, true);
+                                    // }
+                                    // Retrieve the item details based on the item_id
+                                    $detail->item = \App\Models\Item::where('id', $detail->item_id)->first();
+                                    
+                                    ?>
                                     <tr>
                                         <td class="text-break">
-                                            {{ $item['name'] }} <br>
+                                            {{-- {{ $item['name'] }} <br> --}}
                                             @if ($order->store && $order->store->module->module_type == 'food')
                                                 @if (count(json_decode($detail['variation'], true)) > 0)
                                                     <strong><u>{{ translate('messages.variation') }} : </u></strong>
@@ -208,10 +223,11 @@
                     <dl class="row text-right">
                         @if ($order->order_type != 'parcel')
                             <dt class="col-6">{{ translate('messages.subtotal') }}
-                                @if ($order->tax_status == 'included' )
+                                @if ($order->tax_status == 'included')
                                     ({{ translate('messages.TAX_Included') }})
-                                    @endif
-                                :</dt>
+                                @endif
+                                :
+                            </dt>
                             <dd class="col-6">
                                 {{ \App\CentralLogics\Helpers::format_currency($sub_total + $add_ons_cost) }}</dd>
                             <dt class="col-6">{{ translate('messages.discount') }}:</dt>
@@ -224,10 +240,11 @@
                                 -
                                 {{ \App\CentralLogics\Helpers::format_currency($order['coupon_discount_amount']) }}
                             </dd>
-                            @if ($order->tax_status == 'excluded' || $order->tax_status == null  )
-                            <dt class="col-6">{{ translate('messages.vat/tax') }}:</dt>
-                            <dd class="col-6">+
-                                {{ \App\CentralLogics\Helpers::format_currency($order['total_tax_amount']) }}</dd>
+                            @if ($order->tax_status == 'excluded' || $order->tax_status == null)
+                                <dt class="col-6">{{ translate('messages.vat/tax') }}:</dt>
+                                <dd class="col-6">+
+                                    {{ \App\CentralLogics\Helpers::format_currency($order['total_tax_amount']) }}
+                                </dd>
                             @endif
                             <dt class="col-6">{{ translate('messages.delivery_man_tips') }}:</dt>
                             <dd class="col-6">
@@ -245,34 +262,37 @@
                                 @php($delivery_man_tips = $order['dm_tips'])
                                 + {{ \App\CentralLogics\Helpers::format_currency($delivery_man_tips) }}
                             </dd>
-                            @endif
-                            <dt class="col-6">{{ \App\CentralLogics\Helpers::get_business_data('additional_charge_name')??translate('messages.additional_charge') }}:</dt>
-                            <dd class="col-6">
-                                @php($additional_charge = $order['additional_charge'])
-                                + {{ \App\CentralLogics\Helpers::format_currency($additional_charge) }}
-                            </dd>
+                        @endif
+                        <dt class="col-6">
+                            {{ \App\CentralLogics\Helpers::get_business_data('additional_charge_name') ?? translate('messages.additional_charge') }}:
+                        </dt>
+                        <dd class="col-6">
+                            @php($additional_charge = $order['additional_charge'])
+                            + {{ \App\CentralLogics\Helpers::format_currency($additional_charge) }}
+                        </dd>
                         <dt class="col-6 total">{{ translate('messages.total') }}:</dt>
                         <dd class="col-6 total">
                             {{ \App\CentralLogics\Helpers::format_currency($order->order_amount) }}</dd>
-                            @if ($order?->payments)
-                                @foreach ($order?->payments as $payment)
-                                    @if ($payment->payment_status == 'paid')
-                                        @if ( $payment->payment_method == 'cash_on_delivery')
-
-                                        <dt class="col-6 text-left">{{ translate('messages.Paid_with_Cash') }} ({{  translate('COD')}}) :</dt>
-                                        @else
-
-                                        <dt class="col-6 text-left">{{ translate('messages.Paid_by') }} {{  translate($payment->payment_method)}} :</dt>
-                                        @endif
+                        @if ($order?->payments)
+                            @foreach ($order?->payments as $payment)
+                                @if ($payment->payment_status == 'paid')
+                                    @if ($payment->payment_method == 'cash_on_delivery')
+                                        <dt class="col-6 text-left">{{ translate('messages.Paid_with_Cash') }}
+                                            ({{ translate('COD') }}) :</dt>
                                     @else
-
-                                    <dt class="col-6 text-left">{{ translate('Due_Amount') }} ({{  $payment->payment_method == 'cash_on_delivery' ?  translate('messages.COD') : translate($payment->payment_method) }}) :</dt>
+                                        <dt class="col-6 text-left">{{ translate('messages.Paid_by') }}
+                                            {{ translate($payment->payment_method) }} :</dt>
                                     @endif
+                                @else
+                                    <dt class="col-6 text-left">{{ translate('Due_Amount') }}
+                                        ({{ $payment->payment_method == 'cash_on_delivery' ? translate('messages.COD') : translate($payment->payment_method) }})
+                                        :</dt>
+                                @endif
                                 <dd class="col-6 ">
                                     {{ \App\CentralLogics\Helpers::format_currency($payment->amount) }}
                                 </dd>
-                                @endforeach
-                            @endif
+                            @endforeach
+                        @endif
 
                     </dl>
                     @if ($order->payment_method != 'cash_on_delivery')
@@ -282,7 +302,8 @@
                                 <span>{{ translate('messages.' . $order->payment_method) }}</span> </span>
                             <span> <span>{{ translate('messages.amount') }}</span> <span>:</span>
                                 <span>{{ $order->adjusment + $order->order_amount }}</span> </span>
-                            <span> <span>{{ translate('messages.change') }}</span> <span>:</span> <span>{{ abs($order->adjusment) }}</span> </span>
+                            <span> <span>{{ translate('messages.change') }}</span> <span>:</span>
+                                <span>{{ abs($order->adjusment) }}</span> </span>
                         </div>
                     @endif
                 </div>

@@ -9,8 +9,9 @@
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
 
     {{-- Slick --}}
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css"/>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
 
     <style>
         body {
@@ -850,7 +851,7 @@
             .slick-next:before {
                 color: black;
                 position: absolute;
-                right: 20px;    
+                right: 20px;
             }
 
             .product-details {
@@ -1028,12 +1029,14 @@
                 <div class="p-3 items">
                     @foreach ($product as $products)
                         <a href="{{ route('product.product_detail', $items->slug) }}">
-                            <div class="d-flex flex-column align-items-center justify-content-center m-3 p-4 bg-white shadow" style="border-radius: 12px; height:150px;">
+                            <div class="d-flex flex-column align-items-center justify-content-center m-3 p-4 bg-white shadow"
+                                style="border-radius: 12px; height:150px;">
                                 <img class="avatar avatar-lg mr-3 onerror-image" style="width: 100px;"
                                     src="{{ \App\CentralLogics\Helpers::onerror_image_helper($products['image'] ?? '', asset('storage/app/public/product') . '/' . $products['image'] ?? '', asset('public/assets/admin/img/160x160/img2.jpg'), 'product/') }}"
                                     data-onerror-image="{{ asset('public/assets/admin/img/160x160/img2.jpg') }}"
                                     alt="{{ $products->name }} image">
-                                <h5 style="text-align: center; color:black;" class="fw-700 fs-14">{{ $products->name }}</h5>
+                                <h5 style="text-align: center; color:black;" class="fw-700 fs-14">{{ $products->name }}
+                                </h5>
                             </div>
                         </a>
                     @endforeach
@@ -1139,18 +1142,18 @@
 
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
     {{-- Slick --}}
     <script>
-        $(document).ready(function(){
+        $(document).ready(function() {
             $('.items').slick({
                 infinite: true,
                 slidesToShow: 5,
                 slidesToScroll: 1,
-                responsive: [
-                    {
+                responsive: [{
                         breakpoint: 1024, // Screen width <= 1024px
                         settings: {
                             slidesToShow: 3,
@@ -1309,6 +1312,7 @@
         localStorage.removeItem('endDate');
         localStorage.removeItem('totalPrice');
         localStorage.removeItem('distance');
+        localStorage.removeItem('station_id');
 
         const defaultPricePerDay = parseFloat("{{ $defaultValue }}");
         const defaultPricePerHour = defaultPricePerDay / 24;
@@ -1364,7 +1368,8 @@
 
             }
 
-            const distance = parseFloat(document.getElementById('distanceInput').value) || 0;
+            const distanceElement = document.getElementById('distanceInput');
+            const distance = distanceElement ? parseFloat(distanceElement.value) || 0 : 0;
             // totalPrice += distance * distancePrice;
 
             localStorage.setItem('startDate', startDate.format("YYYY-MM-DD HH:mm:ss"));
@@ -1382,21 +1387,15 @@
             updateTotalPrice(startDate, endDate, defaultPricePerHour, defaultPricePerDay);
         });
 
-        document.getElementById('distanceInput').addEventListener('input', function() {
-            const startDate = moment(localStorage.getItem('startDate'));
-            const endDate = moment(localStorage.getItem('endDate'));
-            if (startDate.isValid() && endDate.isValid()) {
-                updateTotalPrice(startDate, endDate, defaultPricePerHour, defaultPricePerDay);
-            }
-        });
-
-        // SweetAlert for handling the form submission without date selection
         document.getElementById('bookingForm').addEventListener('submit', function(event) {
+            console.log("ji")
             const startDate = localStorage.getItem('startDate');
             const endDate = localStorage.getItem('endDate');
             const totalDistancePrice = localStorage.getItem('totalPrice');
+            const availableStation = document.getElementById('available_stations').value;
 
-            console.log("f", totalDistancePrice)
+
+            console.log("f", availableStation)
             if (totalDistancePrice === null) {
                 if (!startDate || !endDate || totalDistancePrice === null) {
                     event.preventDefault(); // Prevent form submission
@@ -1409,13 +1408,38 @@
                         showCancelButton: true,
                         cancelButtonColor: 'default',
                         confirmButtonColor: '#FC6A57',
-
                         reverseButtons: true
-                    })
+                    });
                 }
+            } else if (!availableStation) {
+                event.preventDefault(); // Prevent form submission
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Plese Select Available Location',
+                    type: 'warning',
+                    showCancelButton: true,
+                    cancelButtonColor: 'default',
+                    confirmButtonColor: '#FC6A57',
+                    reverseButtons: true
+                });
             }
 
+            localStorage.setItem('station_id', availableStation);
+
+
         });
+
+        document.getElementById('distanceInput').addEventListener('input', function() {
+            const startDate = moment(localStorage.getItem('startDate'));
+            const endDate = moment(localStorage.getItem('endDate'));
+            if (startDate.isValid() && endDate.isValid()) {
+                updateTotalPrice(startDate, endDate, defaultPricePerHour, defaultPricePerDay);
+            }
+        });
+
+        // SweetAlert for handling the form submission without date selection
+       
     </script>
 
     <!--review-->
