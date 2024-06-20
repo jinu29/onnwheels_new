@@ -28,25 +28,25 @@ class Item extends Model
         'organic' => 'integer',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
-        'veg'=>'integer',
-        'images'=>'array',
-        'module_id'=>'integer',
-        'is_approved'=>'integer',
-        'stock'=>'integer',
+        'veg' => 'integer',
+        'images' => 'array',
+        'module_id' => 'integer',
+        'is_approved' => 'integer',
+        'stock' => 'integer',
         "min_price" => 'float',
         "max_price" => 'float',
-        'order_count'=>'integer',
-        'rating_count'=>'integer',
-        'unit_id'=>'integer',
-        'hours_price'=>'json',
-        'distance_price'=>'json',
+        'order_count' => 'integer',
+        'rating_count' => 'integer',
+        'unit_id' => 'integer',
+        'hours_price' => 'json',
+        'distance_price' => 'json',
     ];
 
     protected $appends = ['unit_type'];
 
     public function scopeRecommended($query)
     {
-        return $query->where('recommended',1);
+        return $query->where('recommended', 1);
     }
 
     public function carts()
@@ -56,12 +56,17 @@ class Item extends Model
 
     public function temp_product()
     {
-        return $this->hasOne(TempProduct::class,'item_id')->with('translations');
+        return $this->hasOne(TempProduct::class, 'item_id')->with('translations');
     }
 
     public function scopeDiscounted($query)
     {
-        return $query->where('discount','>',0);
+        return $query->where('discount', '>', 0);
+    }
+
+    public function stations()
+    {
+        return $this->belongsToMany(Station::class, 'item_station');
     }
 
     public function translations()
@@ -76,7 +81,7 @@ class Item extends Model
 
     public function scopeActive($query)
     {
-        return $query->where('status', 1)->where('is_approved',1)->whereHas('store', function($query){
+        return $query->where('status', 1)->where('is_approved', 1)->whereHas('store', function ($query) {
             return $query->where('status', 1);
         });
     }
@@ -87,7 +92,7 @@ class Item extends Model
     }
     public function scopeApproved($query)
     {
-        return $query->where('is_approved',1 );
+        return $query->where('is_approved', 1);
     }
 
     public function reviews()
@@ -102,12 +107,12 @@ class Item extends Model
 
     public function unit()
     {
-        return $this->belongsTo(Unit::class,'unit_id');
+        return $this->belongsTo(Unit::class, 'unit_id');
     }
 
     public function module()
     {
-        return $this->belongsTo(Module::class,'module_id');
+        return $this->belongsTo(Module::class, 'module_id');
     }
 
     // public function scopeHasRunningFlashSale($query)
@@ -126,10 +131,11 @@ class Item extends Model
 
     public function getUnitTypeAttribute()
     {
-        return $this->unit?$this->unit->unit:null;
+        return $this->unit ? $this->unit->unit : null;
     }
 
-    public function getNameAttribute($value){
+    public function getNameAttribute($value)
+    {
         if (count($this->translations) > 0) {
             foreach ($this->translations as $translation) {
                 if ($translation['key'] == 'name') {
@@ -141,7 +147,8 @@ class Item extends Model
         return $value;
     }
 
-    public function getDescriptionAttribute($value){
+    public function getDescriptionAttribute($value)
+    {
         if (count($this->translations) > 0) {
             foreach ($this->translations as $translation) {
                 if ($translation['key'] == 'description') {
@@ -175,29 +182,27 @@ class Item extends Model
 
     protected static function booted()
     {
-        if(auth('vendor')->check() || auth('vendor_employee')->check())
-        {
+        if (auth('vendor')->check() || auth('vendor_employee')->check()) {
             static::addGlobalScope(new StoreScope);
         }
 
         static::addGlobalScope(new ZoneScope);
 
         static::addGlobalScope('translate', function (Builder $builder) {
-            $builder->with(['translations' => function($query){
-                return $query->where('locale', app()->getLocale());
-            }]);
+            $builder->with([
+                'translations' => function ($query) {
+                    return $query->where('locale', app()->getLocale());
+                }
+            ]);
         });
     }
 
 
     public function scopeType($query, $type)
     {
-        if($type == 'veg')
-        {
+        if ($type == 'veg') {
             return $query->where('veg', true);
-        }
-        else if($type == 'non_veg')
-        {
+        } else if ($type == 'non_veg') {
             return $query->where('veg', false);
         }
         return $query;
@@ -219,14 +224,15 @@ class Item extends Model
     private function generateSlug($name)
     {
         $slug = Str::slug($name);
-        if ($max_slug = static::where('slug', 'like',"{$slug}%")->latest('id')->value('slug')) {
+        if ($max_slug = static::where('slug', 'like', "{$slug}%")->latest('id')->value('slug')) {
 
-            if($max_slug == $slug) return "{$slug}-2";
+            if ($max_slug == $slug)
+                return "{$slug}-2";
 
-            $max_slug = explode('-',$max_slug);
+            $max_slug = explode('-', $max_slug);
             $count = array_pop($max_slug);
             if (isset($count) && is_numeric($count)) {
-                $max_slug[]= ++$count;
+                $max_slug[] = ++$count;
                 return implode('-', $max_slug);
             }
         }

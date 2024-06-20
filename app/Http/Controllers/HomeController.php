@@ -396,7 +396,7 @@ class HomeController extends Controller
     public function product_detail($slug)
     {
 
-        $items = Item::where('slug', $slug)->first();
+        $items = Item::where('slug', $slug)->with('stations')->first();
         $product = Item::all();
 
         if ($items != null) {

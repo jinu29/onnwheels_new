@@ -23,7 +23,7 @@
         @php($language = $language->value ?? null)
         @php($defaultLang = 'en')
         <!-- End Page Header -->
-        <form action="{{route('admin.store.store')}}" method="post" enctype="multipart/form-data" class="js-validate" id="vendor_form">
+        <form action="{{route('admin.store.station-store')}}" method="post" enctype="multipart/form-data" class="js-validate" id="vendor_form">
             @csrf
 
             <div class="row g-2">

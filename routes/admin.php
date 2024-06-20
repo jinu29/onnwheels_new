@@ -242,6 +242,13 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::get('get-stores', 'VendorController@get_stores')->name('get-stores');
             Route::get('get-addons', 'VendorController@get_addons')->name('get_addons');
             Route::get('station', 'StationController@index')->name('station');
+            Route::post('station', 'StationController@station_store')->name('station-store');
+            Route::get('station/list', 'StationController@station_list')->name('station-list');
+            Route::get('station/{id}/edit', 'StationController@edit')->name('station-edit');
+            Route::post('station/{id}/update', 'StationController@update')->name('station-update');
+            Route::delete('station/{id}', 'StationController@destroy')->name('station-delete');
+
+            Route::get('get-station', 'StationController@search')->name('stations.search');
             Route::group(['middleware' => ['module:store']], function () {
                 Route::get('update-application/{id}/{status}', 'VendorController@update_application')->name('application');
                 Route::get('add', 'VendorController@index')->name('add');

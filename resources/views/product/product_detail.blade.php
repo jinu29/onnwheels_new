@@ -947,7 +947,7 @@
                         <div class="switches-container">
                             <input type="radio" id="switchHour" name="switchPlan" value="Hour" checked="checked" />
                             <input type="radio" id="switchKm" name="switchPlan" value="KM" />
-                            <label for="switchHour"  id="labelDynamic">Hour</label>
+                            <label for="switchHour" id="labelDynamic">Hour</label>
                             <label for="switchKm">KM</label>
                             <div class="switch-wrapper">
                                 <div class="switch">
@@ -1006,6 +1006,15 @@
 
 
                         <button type="submit" id="bookNowButton" class="btn">Book Now</button>
+
+
+                        <p style="margin-top: 20px;">Available at:</p>
+                        <select class="form-control" id="available_stations" name="available_stations">
+                            @foreach ($items->stations as $station)
+                                <option value="{{ $station->id }}">{{ $station->name }}</option>
+                            @endforeach
+                        </select>
+
                     </div>
                 </div>
             </form>
@@ -1180,9 +1189,8 @@
         let formattedDays = moment.duration(days, 'days').humanize();
         document.querySelector('.rent p.mb-0').innerText = `Rent ${formattedDays}`;
         document.querySelector('.dynamicToggle').innerText = `${formattedDays.toUpperCase()}`;
-        
-        document.getElementById('labelDynamic').innerText = `${formattedDays.toUpperCase()}`;
 
+        document.getElementById('labelDynamic').innerText = `${formattedDays.toUpperCase()}`;
     </script>
 
 
@@ -1302,6 +1310,12 @@
         localStorage.removeItem('totalPrice');
         localStorage.removeItem('distance');
 
+        const defaultPricePerDay = parseFloat("{{ $defaultValue }}");
+        const defaultPricePerHour = defaultPricePerDay / 24;
+
+        console.log("PR/DAY", defaultPricePerHour)
+        const distancePrice = parseFloat('{{ $distancePrice }}');
+
         $('#demo').daterangepicker({
             "showISOWeekNumbers": true,
             "timePicker": true,
@@ -1332,40 +1346,48 @@
             "minDate": moment().startOf('hour') // Disable past dates and hours
         });
 
-        // Function to calculate and update total price based on date range selection
-        function updateTotalPrice(startDate, endDate, pricePerHour) {
-            // Calculate the difference in hours between start date and end date
+        function updateTotalPrice(startDate, endDate, pricePerHour, pricePerDay) {
             const hours = moment.duration(endDate.diff(startDate)).asHours();
+            const days = moment.duration(endDate.diff(startDate)).asDays();
 
-            // Calculate total price by multiplying hours with price per hour
-            const totalPrice = hours * pricePerHour;
-            console.log("total", totalPrice);
+            let totalPrice;
+            if (days >= 1) {
+                console.log("days", days)
+                totalPrice = days * pricePerDay;
+            } else {
+                console.log("hour", days)
+                console.log("price-hour", pricePerHour)
+
+                totalPrice = hours * pricePerHour;
+
+                console.log("total price", totalPrice)
+
+            }
+
+            const distance = parseFloat(document.getElementById('distanceInput').value) || 0;
+            // totalPrice += distance * distancePrice;
 
             localStorage.setItem('startDate', startDate.format("YYYY-MM-DD HH:mm:ss"));
             localStorage.setItem('endDate', endDate.format("YYYY-MM-DD HH:mm:ss"));
             localStorage.setItem('totalPrice', totalPrice.toFixed(2));
 
-            // Display the calculated total price on the page
-            $('#totalPrice').text(totalPrice.toFixed(2)); // Display total price rounded to 2 decimal places
-            $('#totalPriceInput').val(totalPrice.toFixed(2)); // Display total price rounded to 2 decimal places
-
-            // Enable the "Book Now" button
+            $('#totalPrice').text(totalPrice.toFixed(2));
+            $('#totalPriceInput').val(totalPrice.toFixed(2));
             document.getElementById('bookNowButton').disabled = false;
         }
 
-        // Event listener for date range selection
         $('#demo').on('apply.daterangepicker', function(ev, picker) {
-            // Retrieve the selected start date and end date from the picker
             const startDate = picker.startDate;
             const endDate = picker.endDate;
+            updateTotalPrice(startDate, endDate, defaultPricePerHour, defaultPricePerDay);
+        });
 
-            // Retrieve the price per hour (convert $defaultValue to a numeric value)
-            const pricePerHour = parseFloat("{{ $defaultValue }}");
-
-            console.log("DD", pricePerHour);
-
-            // Update the total price based on the selected date range and price per hour
-            updateTotalPrice(startDate, endDate, pricePerHour);
+        document.getElementById('distanceInput').addEventListener('input', function() {
+            const startDate = moment(localStorage.getItem('startDate'));
+            const endDate = moment(localStorage.getItem('endDate'));
+            if (startDate.isValid() && endDate.isValid()) {
+                updateTotalPrice(startDate, endDate, defaultPricePerHour, defaultPricePerDay);
+            }
         });
 
         // SweetAlert for handling the form submission without date selection
@@ -1546,7 +1568,7 @@
             var product_id = <?php echo json_encode($item_id); ?>;
             var product = <?php echo json_encode($item); ?>;
 
-            console.log("hi", product);
+            console.log("product", product);
 
             function updateRentDisplay() {
                 if ($('#switchHour').is(':checked')) {
