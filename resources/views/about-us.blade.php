@@ -274,6 +274,7 @@
         .advantage-details {
             display: flex;
             flex-direction: column;
+            padding: 0;
         }
 
         .advantage-details h3 {
@@ -355,6 +356,7 @@
             font-size: 18px;
             font-weight: 800;
             width: 100%;
+            line-height: 22px;
         }
 
     }

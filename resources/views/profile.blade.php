@@ -15,6 +15,7 @@
             padding: 15px 25px;
             border: 1px solid black;
             border-radius: 15px;
+            background-color: white;
         }
 
         .profile h2 {
@@ -514,6 +515,20 @@
                 width: 100%;
             }
         }
+
+        .table>:not(caption)>*>* {
+            border: none;
+        } 
+
+        .table .thead-light th {
+            background: none;
+        }
+
+        @media (max-width:767px) {
+            .profile {
+                padding: 15px 10px;
+            }
+        }
     </style>
 @endsection
 
@@ -749,106 +764,68 @@
                                 Your KYC is verified. You are now good to go...
                             </div>
                         </div>
-
-
-                    </div>
-
-                    <div class="card">
-                        <div class="mt-5">
-                            <table class="table ">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Aadhar</th>
-                                        <th scope="col">Pan</th>
-                                        <th>License Front</th>
-                                        <th>License Back</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>{{ $user->f_name }}</td>
-                                        <td>{{ $user->userkyc->aadhar ?? 'N/A' }}</td>
-                                        <td>
-                                            {{ $user->userkyc->pan ?? 'N/A' }}
-                                        </td>
-                                        <td class="images">
-                                            @if ($user->userkyc)
-                                                @if ($user->userkyc->license_front)
-                                                    <img src="{{ asset('public' . $user->userkyc['license_front']) }}"
-                                                        alt="License Front" type="button" data-toggle="modal"
-                                                        data-target="#exampleModal{{ $user->id }}"
-                                                        style="width: 100px; height: 100px; object-fit: contain; ">
-{{-- 
-                                                    <div class="modal fade" id="exampleModal{{ $user->id }}"
-                                                        tabindex="-1" aria-labelledby="exampleModalLabel"
-                                                        aria-hidden="true">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <button type="button" class="close"
-                                                                        data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <img src="{{ asset('public' . $user->userkyc['license_front']) }}"
-                                                                        alt="License Front"
-                                                                        style="width:220px; height: 300px; object-fit: contain">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div> --}}
-                                                @else
-                                                    <img src="{{ asset('public/assets/admin/img/160x160/img2.jpg') }}"
-                                                        alt="Default Image">
-                                                @endif
-                                            @else
-                                                <p>N/A</p>
-                                            @endif
-                                        </td>
-
-                                        <td>
-                                            @if ($user->userkyc)
-                                                @php
-                                                    $timestamp = time();
-                                                    $licenseBackUrl =
-                                                        asset('public' . $user->userkyc['license_back']) .
-                                                        '?t=' .
-                                                        $timestamp;
-                                                @endphp
-                                                <img src="{{ $licenseBackUrl }}" alt="License Back" type="button"
-                                                    class="" data-toggle="modal"
-                                                    data-target="#exampleModal1{{ $user->id }}"
-                                                    style="width: 100px; height: 100px; object-fit: contain; ">
-
-                                                {{-- <div class="modal fade" id="exampleModal1{{ $user->id }}"
-                                                    tabindex="-1" aria-labelledby="exampleModalLabel"
-                                                    aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <button type="button" class="close"
-                                                                    data-dismiss="modal" aria-label="Close">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                </button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <img src="{{ $licenseBackUrl }}" alt="License Back"
-                                                                    style="width:220px; height: 300px; object-fit: contain">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div> --}}
-                                            @else
-                                                <p>N/A</p>
-                                            @endif
-                                        </td>
-
-
-                                       
-                                </tbody>
-                            </table>
+                        <div class="row d-flex align-items-center">
+                            <h4 class="mb-3">User Details</h4>
+                            <div class="col-lg-3 col-md-6 col-6 mb-3">
+                                <h5 style="font-size: 13px;">Name</h5>
+                            </div>
+                            <div class="col-lg-9 col-md-6 col-6 mb-3">
+                                <p class="mb-0" style="font-size: 12px; font-weight:600;">{{ $user->f_name }}</p>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-6 mb-3">
+                                <h5 style="font-size: 13px;">Aadhar Number</h5>
+                            </div>
+                            <div class="col-lg-9 col-md-6 col-6 mb-3">
+                                <p class="mb-0" style="font-size: 12px; font-weight:600;">{{ $user->userkyc->aadhar ?? 'N/A' }}</p>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-6 mb-3">
+                                <h5 style="font-size: 13px;">PAN Number</h5>
+                            </div>
+                            <div class="col-lg-9 col-md-6 col-6 mb-3">
+                                <p class="mb-0" style="font-size: 12px; font-weight:600;">{{ $user->userkyc->pan ?? 'N/A' }}</p>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-6 mb-3">
+                                <h5 style="font-size: 13px;">License Front</h5>
+                            </div>
+                            <div class="col-lg-9 col-md-6 col-6 mb-3">
+                                <p class="mb-0" style="font-size: 12px; font-weight:600;">
+                                    @if ($user->userkyc)
+                                        @if ($user->userkyc->license_front)
+                                            <img src="{{ asset('public' . $user->userkyc['license_front']) }}"
+                                                alt="License Front" type="button" data-toggle="modal"
+                                                data-target="#exampleModal{{ $user->id }}"
+                                                style="width: 100px; height: 100px; object-fit: contain; ">
+                                        @else
+                                            <img src="{{ asset('public/assets/admin/img/160x160/img2.jpg') }}"
+                                                alt="Default Image">
+                                        @endif
+                                    @else
+                                        <p>N/A</p>
+                                    @endif
+                                </p>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-6 mb-3">
+                                <h5 style="font-size: 13px;">License Back</h5>
+                            </div>
+                            <div class="col-lg-9 col-md-6 col-6 mb-3">
+                                <p class="mb-0" style="font-size: 12px; font-weight:600;">
+                                    @if ($user->userkyc)
+                                        @php
+                                            $timestamp = time();
+                                            $licenseBackUrl =
+                                                asset('public' . $user->userkyc['license_back']) .
+                                                '?t=' .
+                                                $timestamp;
+                                        @endphp
+                                        <img src="{{ $licenseBackUrl }}" alt="License Back" type="button"
+                                            class="" data-toggle="modal"
+                                            data-target="#exampleModal1{{ $user->id }}"
+                                            style="width: 100px; height: 100px; object-fit: contain; ">
+                                    @else
+                                        <p>N/A</p>
+                                    @endif
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>

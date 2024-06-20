@@ -101,8 +101,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 15px 8px;
+            justify-content: center;
+            gap: 20px;
+            padding: 15px 15px;
             border: none;
+            border-radius: 12px;
+            height: 280px;
         }
 
         .card-body {
@@ -112,7 +116,7 @@
 
         .card-title {
             color: #8e7573;
-            font-size: 16px;
+            font-size: 14px;
         }
 
         .card-text {
@@ -120,15 +124,22 @@
         }
 
         /* ---------------------------- */
+        .benefits .card {
+            gap: 10px;
+            height: 250px;
+        }
+
         .benefits .card-title {
             color: black;
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 15px;
         }
 
         /* Mobile */
         @media (max-width:767px) {
-            .advantages-title h4 {
-                font-size: 20px;
+            .advantages .title h4 {
+                font-size: 18px;
                 width:100%;
             }
 
@@ -141,8 +152,31 @@
                 text-align: center;
             }
 
+            .safety-box h5 {
+                font-size: 15px;
+            }
+
+            .safety-box p {
+                font-size: 14px;
+            }
+
             .safety-box-image {
                 display: none;
+            }
+
+            .safety .title h4 {
+                width: 100%;
+                font-size: 18px;
+            }
+
+            .safety-steps .title h4 {
+                font-size: 18px;
+                width:100%;
+            }
+
+            .benefits .title h4 {
+                font-size: 18px;
+                width:100%;
             }
         }
     </style>
@@ -211,7 +245,7 @@
                 <p class="line"></p>
             </div>
             <div class="row" style="margin-top: 2rem;">
-                <div class="col-lg-3 col-md-6 col-12">
+                <div class="col-lg-3 col-md-6 col-12 mt-3">
                     <div class="card shadow">
                         <img src="/public/assets/landing/image/daily-temperature-checks-icon.png" class="card-img-top" style="width: 60px;">
                         <div class="card-body">
@@ -220,30 +254,30 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6 col-12">
+                <div class="col-lg-3 col-md-6 col-12 mt-3">
                     <div class="card shadow">
-                        <img src="/public/assets/landing/image/daily-temperature-checks-icon.png" class="card-img-top" style="width: 60px;">
+                        <img src="/public/assets/landing/image/mask-icon.png" class="card-img-top" style="width: 60px;">
                         <div class="card-body">
-                          <h5 class="card-title">Daily temperature checks for the entire team</h5>
-                          <p class="card-text">Our on-ground team is regularly screened for any signs or symptoms of illness, only then are they allowed to continue operations.</p>
+                          <h5 class="card-title">All teams using masks at all times</h5>
+                          <p class="card-text">With social distancing being imperative, ONN provides the on-ground team with masks. The teams are directed to wear the masks at all times.</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6 col-12">
+                <div class="col-lg-3 col-md-6 col-12 mt-3">
                     <div class="card shadow">
-                        <img src="/public/assets/landing/image/daily-temperature-checks-icon.png" class="card-img-top" style="width: 60px;">
+                        <img src="/public/assets/landing/image/arogya-setu-icon.png" class="card-img-top" style="width: 60px;">
                         <div class="card-body">
-                          <h5 class="card-title">Daily temperature checks for the entire team</h5>
-                          <p class="card-text">Our on-ground team is regularly screened for any signs or symptoms of illness, only then are they allowed to continue operations.</p>
+                          <h5 class="card-title">Aarogya Setu app used by all teams</h5>
+                          <p class="card-text">Our team takes all the safety procedures, every employee uses the Aarogya Setu app to stay updated with the latest information.</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6 col-12">
+                <div class="col-lg-3 col-md-6 col-12 mt-3">
                     <div class="card shadow">
-                        <img src="/public/assets/landing/image/daily-temperature-checks-icon.png" class="card-img-top" style="width: 60px;">
+                        <img src="/public/assets/landing/image/stations-sanitized-daily-icon.png" class="card-img-top" style="width: 60px;">
                         <div class="card-body">
-                          <h5 class="card-title">Daily temperature checks for the entire team</h5>
-                          <p class="card-text">Our on-ground team is regularly screened for any signs or symptoms of illness, only then are they allowed to continue operations.</p>
+                          <h5 class="card-title">Stations are being sanitized daily</h5>
+                          <p class="card-text">ONN Stations are being sanitized with disinfectant daily, our team makes sure that the station is safe for customers to visit at all times</p>
                         </div>
                     </div>
                 </div>
@@ -259,19 +293,19 @@
                 <p class="line"></p>
             </div>
             <div class="row" style="margin-top: 1rem;">
-                <div class="col-lg-3 col-md-6 col-12">
-                    <div class="card">
-                        <img src="/public/assets/landing/image/sanitization-of-bikes-icon.png" class="card-img-top" style="width: 40px;">
+                <div class="col-lg-3 col-md-6 col-12 mt-3">
+                    <div class="card shadow">
+                        <img src="/public/assets/landing/image/bookings.png" class="card-img-top" style="width: 40px;">
                         <div class="card-body" style="margin-top: 15px;">
-                        <h5 class="card-title">Sanitization of bikes</h5>
-                        <p class="card-text">Our services are guaranteed. Every time you go to pick up your bike, our employees make it sure to sanitize the bikes in front of you</p>
+                        <h5 class="card-title">Long term bookings</h5>
+                        <p class="card-text">Customers can avail from flexible subscriptions in the current pandemic. Long term subscriptions available.</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-lg-3 col-md-6 col-12">
-                    <div class="card">
-                        <img src="/public/assets/landing/image/sanitization-of-bikes-icon.png" class="card-img-top" style="width: 40px;">
+                <div class="col-lg-3 col-md-6 col-12 mt-3">
+                    <div class="card shadow">
+                        <img src="/public/assets/landing/image/bike-sharing.png" class="card-img-top" style="width: 40px;">
                         <div class="card-body" style="margin-top: 15px;">
                         <h5 class="card-title">Easy bike sharing</h5>
                         <p class="card-text">Share the bike with your friends and family with our exclusive Share Key service at the tap of a button without any additional cost</p>
@@ -279,9 +313,9 @@
                     </div>
                 </div>
 
-                <div class="col-lg-3 col-md-6 col-12">
-                    <div class="card">
-                        <img src="/public/assets/landing/image/sanitization-of-bikes-icon.png" class="card-img-top" style="width: 40px;">
+                <div class="col-lg-3 col-md-6 col-12 mt-3">
+                    <div class="card shadow">
+                        <img src="/public/assets/landing/image/variety-of-bikes-icon.png" class="card-img-top" style="width: 40px;">
                         <div class="card-body" style="margin-top: 15px;">
                         <h5 class="card-title">Variety of bikes</h5>
                         <p class="card-text">Ride a different bike every time you book. Choose from a wide variety of bikes available at ONN Bikes. We have a bike for all your commute needs.</p>
@@ -289,9 +323,9 @@
                     </div>
                 </div>
 
-                <div class="col-lg-3 col-md-6 col-12">
-                    <div class="card">
-                        <img src="/public/assets/landing/image/sanitization-of-bikes-icon.png" class="card-img-top" style="width: 40px;">
+                <div class="col-lg-3 col-md-6 col-12 mt-3">
+                    <div class="card shadow">
+                        <img src="/public/assets/landing/image/easy-payments-and-refunds-icon.png" class="card-img-top" style="width: 40px;">
                         <div class="card-body" style="margin-top: 15px;">
                         <h5 class="card-title">Easy payments and refunds</h5>
                         <p class="card-text">Combining tech and mobility, ONN Bikes offers the most efficient platform for all your commute needs. Get access to flexible plans,</p>

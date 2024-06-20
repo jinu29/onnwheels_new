@@ -78,7 +78,19 @@
             flex-direction:column-reverse;
         }
     }
-</style> -->
+</style> --> 
+
+@section('css')
+    <style>
+        .contact-item {
+            height: 240px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+@endsection
 
 @section('content')
     <!-- ==== Contact Section ==== -->
@@ -612,15 +624,6 @@
         </svg>
 
     </section>
-    <!-- ==== Contact Section ==== -->
-
-<!-- Title -->
-    <!-- <div class="container text-center d-flex flex-column align-items-center contact-container" style="margin-top: 2rem;">
-        <h4>Contact Us</h4>
-        <p>Come pedal with us! Calling all enthusiasts, commuters, and adventurers to embark on an exhilarating ride. Rent a bike and let the adventure begin!</p>
-    </div> -->
-
-<!-- Form -->
     <!-- <div class="container" style="margin-bottom:3rem;">
         <div class="row d-flex align-items-center form" style="margin-top: 2rem;">
 

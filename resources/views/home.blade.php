@@ -196,6 +196,7 @@
             font-weight: 600;
             border: none;
             outline: none;
+            align-self: flex-end;
         }
 
         .card {
@@ -540,7 +541,7 @@
             }
 
             .slick-slide {
-                margin: 0 10px;
+                margin: 0 6px;
             }
 
             .reviews-container {
@@ -556,6 +557,7 @@
             .advantage-details {
                 display: flex;
                 flex-direction: column;
+                padding: 0;
             }
 
             .advantage-details h3 {
@@ -601,7 +603,13 @@
             .copyrights-container {
                 display: flex;
                 flex-direction: column;
+                align-items: center;
+                text-align: center;
                 gap: 15px;
+            }
+
+            .copyrights-container p {
+                font-size: 14px;
             }
 
             .step-container .box:nth-child(3) {
@@ -788,8 +796,8 @@
             <div class="rent-title text-center">
                 <h4><span>Rent</span> Your Bike</h4>
             </div>
-            <div class="title d-flex justify-content-between">
-                <h3 class="section-title"><span>Best</span> Renting</h3>
+            <div class="title d-flex justify-content-end">
+                {{-- <h3 class="section-title"><span>Best</span> Renting</h3> --}}
                 <a href="{{ route('rental_bike') }}" class="view">View All</a>
             </div>
             <div class="items w-100 my-3">

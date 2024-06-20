@@ -151,6 +151,7 @@
             border-radius: 20px;
             width: 100%;
             border: 2px solid #003360;
+            background-color: white;
         }
 
         fieldset h4 {
@@ -269,7 +270,7 @@
 @section('content')
     <div class="container mt-5">
         <div class="row">
-            <div class="col-3 mt-3">
+            <div class="col-lg-3 col-md-12 col-12 mt-3">
                 <fieldset>
                     <h4>Sort by Price</h4>
                     <div class="radio-item-container">
@@ -292,7 +293,7 @@
                     <div class="card">
                         <div class="card-header" id="headingOne">
                             <h2 class="mb-0">
-                                <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
+                                <button class="btn btn-link btn-block text-left" type="button"      data-toggle="collapse"
                                     data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">All
                                     Categories</button>
                             </h2>
@@ -312,7 +313,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-9 d-flex flex-wrap m-0" id="products-container">
+            <div class="col-lg-9 col-md-12 col-12 m-0" id="products-container">
+                {{-- <h4 class="mt-3 mb-3" style="text-align: center;">{{$category_name->name}}</h4> --}}
                 @include('product_card', ['item' => $items])
                 <div id="loader"></div> <!-- Loader element -->
             </div>

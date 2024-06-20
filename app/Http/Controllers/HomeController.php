@@ -448,8 +448,6 @@ class HomeController extends Controller
 
     public function rental_bike(Request $request)
     {
-
-        // dd("hi");
         $categories = Category::all();
         $query = Item::where('status', 1);
 
@@ -458,6 +456,7 @@ class HomeController extends Controller
         }
 
         $items = $query->get();
+        
 
         return view('rental_bike', compact('items', 'categories'));
     }
@@ -468,8 +467,7 @@ class HomeController extends Controller
         $categories = Category::all();
 
         $categoryId = $request->get('category_id');
-        $item = Item::where('category_id', $categoryId)->where('status', 1)->get();
-
+        $item = Item::where('category_id', $categoryId)->where('status', 1)->get();        
         return view('product_card', compact('item', 'categories'));
 
         // $responseHtml = '';

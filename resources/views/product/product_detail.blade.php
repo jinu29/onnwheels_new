@@ -8,6 +8,10 @@
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
 
+    {{-- Slick --}}
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+
     <style>
         body {
             font-family: "Montserrat", sans-serif;
@@ -646,7 +650,7 @@
             display: flex;
             align-self: flex-start;
             padding: 0;
-            background: #F89520;
+            border: 2px solid #F89520;
             line-height: 3rem;
             border-radius: 3rem;
             margin-top: 15px;
@@ -667,7 +671,8 @@
             margin: 0;
             text-align: center;
             cursor: pointer;
-            color: white;
+            color: black;
+            font-size: 12px;
         }
 
         .switch-wrapper {
@@ -694,12 +699,15 @@
             opacity: 0;
             display: block;
             font-weight: 600;
-            color: #003361;
+            color: white;
+            font-size: 12px;
+            background: #003361;
             transition: opacity .2s cubic-bezier(.77, 0, .175, 1) .125s;
             will-change: opacity;
             position: absolute;
             top: 0;
             left: 0;
+            border-radius: 3rem;
         }
 
         /* slide the switch box from right to left */
@@ -801,6 +809,56 @@
             100% {
                 -webkit-transform: rotate(360deg);
                 transform: rotate(360deg);
+            }
+        }
+
+        .slick-prev:before {
+            color: black;
+        }
+
+        .slick-next:before {
+            color: black;
+        }
+
+        .items h5 {
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .review {
+            margin-top: 3rem;
+        }
+
+        .review h4 {
+            text-align: center;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .reviews p {
+            font-size: 17px;
+            font-weight: 600;
+        }
+
+        @media (max-width:767px) {
+            .slick-prev:before {
+                color: black;
+                position: absolute;
+                left: 20px;
+            }
+
+            .slick-next:before {
+                color: black;
+                position: absolute;
+                right: 20px;    
+            }
+
+            .product-details {
+                padding: 0;
+            }
+
+            .date-range {
+                width: 100%;
             }
         }
     </style>
@@ -954,33 +1012,31 @@
         </div>
     </div>
 
-
-
-    <div class="container">
+    <div class="container" style=" margin-top: 4rem;">
         <div class="row">
-            <div class="col-lg-4">
-                <div class="p-3 border rounded">
-                    <h4 style="font-size:16px; font-weight:600;color:#003360;">Top Selling Products</h4>
+            <div class="col-lg-12">
+                <h4 class="text-center" style="font-size:18px; font-weight:600;color:#003360;">Top Selling Products</h4>
+                <div class="p-3 items">
                     @foreach ($product as $products)
                         <a href="{{ route('product.product_detail', $items->slug) }}">
-                            <div class="d-flex m-3 p-4">
-                                <div class="border rounded">
-                                    <img class="avatar avatar-lg mr-3 onerror-image" style="width: 100px;"
-                                        src="{{ \App\CentralLogics\Helpers::onerror_image_helper($products['image'] ?? '', asset('storage/app/public/product') . '/' . $products['image'] ?? '', asset('public/assets/admin/img/160x160/img2.jpg'), 'product/') }}"
-                                        data-onerror-image="{{ asset('public/assets/admin/img/160x160/img2.jpg') }}"
-                                        alt="{{ $products->name }} image">
-                                </div>
-                                <div class="ml-5">
-                                    <h5>{{ $products->name }}</h5>
-                                </div>
+                            <div class="d-flex flex-column align-items-center justify-content-center m-3 p-4 bg-white shadow" style="border-radius: 12px; height:150px;">
+                                <img class="avatar avatar-lg mr-3 onerror-image" style="width: 100px;"
+                                    src="{{ \App\CentralLogics\Helpers::onerror_image_helper($products['image'] ?? '', asset('storage/app/public/product') . '/' . $products['image'] ?? '', asset('public/assets/admin/img/160x160/img2.jpg'), 'product/') }}"
+                                    data-onerror-image="{{ asset('public/assets/admin/img/160x160/img2.jpg') }}"
+                                    alt="{{ $products->name }} image">
+                                <h5 style="text-align: center; color:black;" class="fw-700 fs-14">{{ $products->name }}</h5>
                             </div>
                         </a>
                     @endforeach
                 </div>
             </div>
 
-            <div class="col-8">
-                <h5>No Review Found</h5>
+            <div class="col-12 d-flex flex-column align-items-center review">
+                <h4>Reviews</h4>
+                <div class="reviews">
+                    <p class="mb-0 text-center">No Reviews Found</p>
+                    <iframe src="https://lottie.host/embed/843abefb-7087-4f85-91a6-69cba120f737/fmtl9wHyEa.json"></iframe>
+                </div>
             </div>
             {{-- <div class="col-8">
                 <div class="master border">
@@ -1074,6 +1130,51 @@
 
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+    {{-- Slick --}}
+    <script>
+        $(document).ready(function(){
+            $('.items').slick({
+                infinite: true,
+                slidesToShow: 5,
+                slidesToScroll: 1,
+                responsive: [
+                    {
+                        breakpoint: 1024, // Screen width <= 1024px
+                        settings: {
+                            slidesToShow: 3,
+                            slidesToScroll: 1,
+                            infinite: true,
+                            dots: false
+                        }
+                    },
+                    {
+                        breakpoint: 768, // Screen width <= 768px
+                        settings: {
+                            slidesToShow: 2,
+                            slidesToScroll: 1,
+                            infinite: true,
+                            dots: false
+                        }
+                    },
+                    {
+                        breakpoint: 480, // Screen width <= 480px
+                        settings: {
+                            slidesToShow: 1,
+                            slidesToScroll: 1,
+                            infinite: true,
+                            dots: false
+                        }
+                    }
+                ]
+            });
+        });
+    </script>
+
+
+
     <script>
         let days = {{ round($days, 2) }};
         let formattedDays = moment.duration(days, 'days').humanize();

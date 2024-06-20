@@ -148,8 +148,11 @@ $landing_site_direction = session()->get('landing_site_direction');
             font-size: 16px;
             font-weight: 600;
             padding:15px 0;
-        }
+        } 
 
+        .copyrights-container a {
+            color:  #F89520;
+        }
 
         .user-avatar-container {
             position: relative;
@@ -174,6 +177,17 @@ $landing_site_direction = session()->get('landing_site_direction');
 
         #user-avatar-container:hover .dropdown-menu {
             display: block;
+        }
+
+        #user-menu {
+            position: absolute;
+            top: 55px;
+            left: 0;
+            width: 100%;
+            z-index: 1050; /* Bootstrap's default z-index for dropdowns */
+            background-color: white; /* Ensure the menu has a background color */
+            border: 1px solid rgba(0, 0, 0, 0.15); /* Optional: Add border to the dropdown */
+            box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
         }
 
         .dropdown-menu {
@@ -226,17 +240,66 @@ $landing_site_direction = session()->get('landing_site_direction');
         }
 
         .menu p {
-            font-size:16px;
+            font-size:13px;
             font-weight: 600;
             margin-top: 0;
         }
 
         .menu i {
-            font-size: 20px;
+            font-size: 16px;
         }
 
-        ..navbar-bottom-wrapper .menu li a {
+        .navbar-bottom-wrapper .menu li a {
             padding:0px;
+        } 
+
+        a {
+            text-decoration: none;
+        }
+
+        .navbar-bottom-wrapper .menu {
+            color: black;
+            text-decoration: none;
+        } 
+
+        .navbar-bottom-wrapper .menu p {
+            text-decoration: none;
+        }
+
+        @media (max-width:767px) {
+            .copyrights-container {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .user-avatar-container {
+                position: relative;
+            }
+
+            .user-avatar {
+                cursor: pointer;
+            }
+
+            .menu {
+                cursor: pointer;
+            }
+
+            #user-menu {
+                position: absolute;
+                top: 55px;
+                left: 0;
+                width: 100%;
+                z-index: 1050; /* Bootstrap's default z-index for dropdowns */
+                background-color: white; /* Ensure the menu has a background color */
+                border: 1px solid rgba(0, 0, 0, 0.15); /* Optional: Add border to the dropdown */
+                box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
+            }
+
+            .collapse.show #user-menu {
+                height: 150px;
+            }
         }
     </style>
 
@@ -256,124 +319,130 @@ $landing_site_direction = session()->get('landing_site_direction');
     <header>
         <div class="navbar-bottom shadow">
             <div class="container">
-                <div class="navbar-bottom-wrapper ">
+                <div class="navbar-bottom-wrapper d-flex justify-content-between">
                     @php($fav = \App\Models\BusinessSetting::where(['key' => 'icon'])->first()->value ?? '')
                     @php($logo = \App\Models\BusinessSetting::where(['key' => 'logo'])->first()->value ?? '')
-                    <a href="{{ route('home') }}" class="logo">
-                        <img class="logo" data-onerror-image="{{ asset('public/assets/admin/img/160x160/img2.jpg') }}"
-                            src="/public/assets/landing/image/logo.webp" alt="image">
-                    </a>
-                    <ul class="menu mb-0 mr-3">
-                        <li>
-                            <a href="{{ route('home') }}"
-                                class="{{ Request::is('/') ? 'active' : '' }} p-0"><span>{{ translate('messages.home') }}</span></a>
-                        </li>
-                        <li>
-                            <a href="{{ route('rental_bike') }}"
-                                class="{{ Request::is('Rental Bike') ? 'active' : '' }} p-0"><span>{{ translate('messages.Rental Bike') }}</span></a>
-                        </li>
-                        <li>
-                            <a href="{{ route('safety') }}"
-                                class="{{ Request::is('Safety') ? 'active' : '' }} p-0"><span>{{ translate('messages.Safety') }}</span></a>
-                        </li>
-                        <li>
-                            <a href="{{ route('about-us') }}"
-                                class="{{ Request::is('about-us') ? 'active' : '' }} p-0"><span>{{ translate('messages.about_us') }}</span></a>
-                        </li>
-
-                        {{-- <li>
-                            <a href="{{route('privacy-policy')}}" class="{{ Request::is('privacy-policy') ? 'active' : '' }}"><span>{{ translate('messages.privacy_policy') }}</span></a>
-                        </li>
-                        <li>
-                            <a href="{{route('terms-and-conditions')}}" class="{{ Request::is('terms-and-conditions') ? 'active' : '' }}"><span>{{ translate('messages.terms_and_condition') }}</span></a>
-                        </li> --}}
-                        <li>
-                            <a href="{{ route('contact-us') }}" 
-                                class="{{ Request::is('contact-us') ? 'active' : '' }} p-0"><span>{{ translate('messages.contact_us') }}</span></a>
-                        </li>
-                        @if ($fixed_link && $fixed_link['web_app_url_status'])
-                            <div class="mt-2">
-                                <a class="cmn--btn me-xl-auto py-2" href="{{ $fixed_link['web_app_url'] }}"
-                                    target="_blank">{{ translate('messages.browse_web') }}</a>
+                    <div>
+                        <a href="{{ route('home') }}" class="logo">
+                            <img class="logo" data-onerror-image="{{ asset('public/assets/admin/img/160x160/img2.jpg') }}"
+                                src="/public/assets/landing/image/logo.webp" alt="image">
+                        </a>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <ul class="menu mb-0 mr-3">
+                            <li>
+                                <a href="{{ route('home') }}"
+                                    class="{{ Request::is('/') ? 'active' : '' }} p-0"><span>{{ translate('messages.home') }}</span></a>
+                            </li>
+                            <li>
+                                <a href="{{ route('rental_bike') }}"
+                                    class="{{ Request::is('Rental Bike') ? 'active' : '' }} p-0"><span>{{ translate('messages.Rental Bike') }}</span></a>
+                            </li>
+                            <li>
+                                <a href="{{ route('safety') }}"
+                                    class="{{ Request::is('Safety') ? 'active' : '' }} p-0"><span>{{ translate('messages.Safety') }}</span></a>
+                            </li>
+                            <li>
+                                <a href="{{ route('about-us') }}"
+                                    class="{{ Request::is('about-us') ? 'active' : '' }} p-0"><span>{{ translate('messages.about_us') }}</span></a>
+                            </li>
+    
+                            {{-- <li>
+                                <a href="{{route('privacy-policy')}}" class="{{ Request::is('privacy-policy') ? 'active' : '' }}"><span>{{ translate('messages.privacy_policy') }}</span></a>
+                            </li>
+                            <li>
+                                <a href="{{route('terms-and-conditions')}}" class="{{ Request::is('terms-and-conditions') ? 'active' : '' }}"><span>{{ translate('messages.terms_and_condition') }}</span></a>
+                            </li> --}}
+                            <li>
+                                <a href="{{ route('contact-us') }}" 
+                                    class="{{ Request::is('contact-us') ? 'active' : '' }} p-0"><span>{{ translate('messages.contact_us') }}</span></a>
+                            </li>
+                            @if ($fixed_link && $fixed_link['web_app_url_status'])
+                                <div class="mt-2">
+                                    <a class="cmn--btn me-xl-auto py-2" href="{{ $fixed_link['web_app_url'] }}"
+                                        target="_blank">{{ translate('messages.browse_web') }}</a>
+                                </div>
+                            @endif
+                        </ul>
+                        @if (session('user_location'))
+                            <div class="location ">
+                                <i class="fa-solid fa-location-dot"></i>
+                                <span id="userLocation">{{ Str::limit(session('user_location'), 20) }}</span>
                             </div>
                         @endif
-                    </ul>
-                    <div class="nav-toggle d-lg-none ms-auto me-3">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
-                    @if (session('user_location'))
-                        <div class="location ">
-                            <i class="fa-solid fa-location-dot"></i>
-                            <span id="userLocation">{{ Str::limit(session('user_location'), 20) }}</span>
-                        </div>
-                    @endif
-
-                    @if (Auth::check())
-                        <div class="user-avatar-container" id="user-avatar-container">
-                            <div class="user-avatar d-flex align-items-center" id="user-avatar" style="gap: 12px;">
-                                <img src="/public/Images/user-avatar.png" width="40" alt="User Avatar" style="height: 40px;">
-                                <span class="user-name" style="color: black; font-weight:600;">{{ Auth::user()->f_name }}</span>
-                                <i class="fa-solid fa-chevron-down" style="color: black;"></i>
+    
+                        @if (Auth::check())
+                            <div class="user-avatar-container" id="user-avatar-container">
+                                <div class="user-avatar d-flex align-items-center" id="user-avatar" style="gap: 8px;" data-bs-toggle="collapse" data-bs-target="#user-menu" aria-expanded="false" aria-controls="user-menu">
+                                    <img src="/public/Images/user-avatar.png" width="40" alt="User Avatar" style="height: 40px;">
+                                    <span class="user-name" style="color: black; font-weight: 600; font-size:13px;">{{ Auth::user()->f_name }}</span>
+                                    <i class="fa-solid fa-chevron-down" style="color: black;"></i>
+                                </div>
+                                <div class="collapse" id="user-menu">
+                                    <div class="card card-body p-0 m-0 border-0">
+                                        <a href="{{ route('profile') }}">
+                                            <div class="menu d-flex align-items-center p-2">
+                                                <i class="fa-solid fa-user me-2"></i>
+                                                <p class="mb-0">Profile</p>
+                                            </div>
+                                        </a>
+                                        <a href="{{ route('rides') }}">
+                                            <div class="menu d-flex align-items-center p-2">
+                                                <i class="fa-solid fa-file-invoice me-2"></i>
+                                                <p class="mb-0">My Rides</p>
+                                            </div>
+                                        </a>
+                                        <a href="{{ route('user.logout') }}">
+                                            <div class="menu d-flex align-items-center p-2">
+                                                <i class="fa-solid fa-power-off me-2"></i>
+                                                <p class="mb-0">Logout</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="dropdown-menu" id="dropdown-menu">
-                                <a href="{{ route('profile') }}">
-                                    <div class="menu">
-                                        <i class="fa-solid fa-user"></i>
-                                        <p class="mb-0">Profile</p>
-                                    </div>
-                                </a>
-                                <a href="{{route ('rides')}}">
-                                    <div class="menu">
-                                        <i class="fa-solid fa-file-invoice"></i>
-                                        <p class="mb-0">My Rides</p>
-                                    </div>
-                                </a>
-                                <a href="{{ route('user.logout') }}">
-                                    <div class="menu">
-                                        <i class="fa-solid fa-power-off"></i>
-                                        <p class="mb-0">Logout</p>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    @else
-                        @if (isset($toggle_dm_registration) || isset($toggle_store_registration))
-                            <div class="dropdown--btn-hover position-relative d-flex" style="gap: 10px;">
-                                <a class="dropdown--btn header--btn text-capitalize d-flex align-items-center login"
-                                    href="{{ route('login', ['tab' => 'customer']) }}">
-                                    <span class="me-1">{{ translate('Login') }}</span>
-                                </a>
-                                <a class="dropdown--btn header--btn text-capitalize d-flex align-items-center sign-up"
-                                    href="{{ route('user.signup') }}">
-                                    <span class="me-1">{{ translate('Signup') }}</span>
-                                </a>
-
-                                {{--
-                                <ul class="dropdown-list">
-                                    @if ($toggle_store_registration)
-                                        <li>
-                                            <a class="" href="{{ route('restaurant.create') }}">
-                                                {{ translate('messages.store_registration') }}
-                                            </a>
-                                        </li>
+                        @else
+                            @if (isset($toggle_dm_registration) || isset($toggle_store_registration))
+                                <div class="dropdown--btn-hover position-relative d-flex" style="gap: 10px;">
+                                    <a class="dropdown--btn header--btn text-capitalize d-flex align-items-center login"
+                                        href="{{ route('login', ['tab' => 'customer']) }}">
+                                        <span class="me-1">{{ translate('Login') }}</span>
+                                    </a>
+                                    <a class="dropdown--btn header--btn text-capitalize d-flex align-items-center sign-up"
+                                        href="{{ route('user.signup') }}">
+                                        <span class="me-1">{{ translate('Signup') }}</span>
+                                    </a>
+    
+                                    {{--
+                                    <ul class="dropdown-list">
+                                        @if ($toggle_store_registration)
+                                            <li>
+                                                <a class="" href="{{ route('restaurant.create') }}">
+                                                    {{ translate('messages.store_registration') }}
+                                                </a>
+                                            </li>
+                                            @if ($toggle_dm_registration)
+                                                <li>
+                                                    <hr class="dropdown-divider">
+                                                </li>
+                                            @endif
+                                        @endif
                                         @if ($toggle_dm_registration)
                                             <li>
-                                                <hr class="dropdown-divider">
+                                                <a class=""
+                                                    href="{{ route('deliveryman.create') }}">{{ translate('messages.deliveryman_registration') }}</a>
                                             </li>
                                         @endif
-                                    @endif
-                                    @if ($toggle_dm_registration)
-                                        <li>
-                                            <a class=""
-                                                href="{{ route('deliveryman.create') }}">{{ translate('messages.deliveryman_registration') }}</a>
-                                        </li>
-                                    @endif
-                                </ul> --}}
-                            </div>
+                                    </ul> --}}
+                                </div>
+                            @endif
                         @endif
-                    @endif
+                        <div class="nav-toggle d-lg-none ml-4">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -405,19 +474,6 @@ $landing_site_direction = session()->get('landing_site_direction');
                         <a
                             href="Mailto:{{ \App\CentralLogics\Helpers::get_settings('email_address') }}">{{ \App\CentralLogics\Helpers::get_settings('email_address') }}</a>
                     </div>
-                    <div class="social-icons mt-4">
-                        <a href="#">
-                            <img src="/public/assets/landing/image/devicon_facebook.png" alt=""
-                                class="mr-2">
-                        </a>
-                        <a href="#">
-                            <img src="/public/assets/landing/image/skill-icons_linkedin.png" alt=""
-                                class="mr-2">
-                        </a>
-                        <a href="#">
-                            <img src="/public/assets/landing/image/skill-icons_instagram.png" alt="">
-                        </a>
-                    </div>
                 </div>
 
                 <div class="col-lg-3 col-sm-6 col-md-4 mt-3">
@@ -426,13 +482,13 @@ $landing_site_direction = session()->get('landing_site_direction');
                         <p class="line"></p>
                     </div>
                     <ul class="pl-4 d-flex flex-column">
-                        <a href="#">
+                        <a href="/">
                             <li>Home</li>
                         </a>
                         <a href="{{ route('about-us') }}">
                             <li>About Us</li>
                         </a>
-                        <a href="#">
+                        <a href="{{route ('rental_bike')}}">
                             <li>Rental Bikes</li>
                         </a>
                         <a href="{{ route('contact-us') }}">
@@ -441,14 +497,14 @@ $landing_site_direction = session()->get('landing_site_direction');
                     </ul>
                 </div>
 
-                <div class="col-lg-3 col-sm-6 col-md-4 mt-3">
+                <div class="col-lg-3 col-md-4 col-12 mt-3">
                     <div class="footer-title mb-4">
                         <h5>Policies</h5>
                         <p class="line"></p>
                     </div>
-                    <ul class="pl-4">
+                    <ul class="pl-4 d-flex flex-column">
                         <a href="{{ route('privacy-policy') }}">
-                            <li>Privacy POlicy</li>
+                            <li>Privacy Policy</li>
                         </a>
                         <a href="{{ route('terms-and-conditions') }}">
                             <li>Terms & Conditions</li>
@@ -461,19 +517,33 @@ $landing_site_direction = session()->get('landing_site_direction');
                         <h5>Onn Wheels App</h5>
                         <p class="line"></p>
                     </div>
-                    <div class="android d-flex flex-column align-items-start">
+                    <div class="android d-flex flex-column align-items-start mb-4">
                         <h5 class="mb-3" style="font-size: 14px; font-weight: 500;">Download Playstore and IOS App
                         </h5>
                         <div class="d-flex">
-                            <img src="/public/assets/landing/image/play.png" alt="" class="mr-2">
-                            <img src="/public/assets/landing/image/app.png" alt="">
+                            <a href="https://play.google.com/store" target="_blank">
+                                <img src="/public/assets/landing/image/play.png" alt="Play Store" class="mr-2">
+                            </a>
+                            <a href="https://www.apple.com/app-store/" target="_blank">
+                                <img src="/public/assets/landing/image/app.png" alt="App Store">
+                            </a>
                         </div>
                     </div>
-                    <div class="footer-title mb-2 mt-4">
-                        <h5>Seller Zone</h5>
+                    <div class="footer-title mb-2">
+                        <h5>Follow us on</h5>
                         <p class="line"></p>
                     </div>
-                    <a href="{{ route('login', ['tab' => 'vendor']) }}">Become a Vendor</a>
+                    <div class="social-icons mt-2">
+                        <a href="https://www.facebook.com" target="_blank">
+                            <img src="/public/assets/landing/image/devicon_facebook.png" alt="Facebook" class="mr-2">
+                        </a>
+                        <a href="https://www.linkedin.com" target="_blank">
+                            <img src="/public/assets/landing/image/skill-icons_linkedin.png" alt="LinkedIn" class="mr-2">
+                        </a>
+                        <a href="https://www.instagram.com" target="_blank">
+                            <img src="/public/assets/landing/image/skill-icons_instagram.png" alt="Instagram">
+                        </a>
+                    </div>
                 </div>
 
             </div>
@@ -481,8 +551,8 @@ $landing_site_direction = session()->get('landing_site_direction');
         <div class="copyrights">
             <div class="container">
                 <div class="copyrights-container">
-                    <p class="mb-0">Copyrights @2024</p>
-                    <p class="mb-0">Designed by Codeplus Gen</p>
+                    <p class="mb-0">© Copyright ONN WHEELS All Rights Reserved {{ date('Y') }}</p>
+                    <p class="mb-0">Designed by <a href="https://codepluse.com/" target="blank">Codeplus Gen</a></p>
                 </div>
             </div>
         </div>
@@ -543,7 +613,7 @@ $landing_site_direction = session()->get('landing_site_direction');
             });
         });
 
-    </script> -->
+    </script> -->       
 
     <script>
         "use strict";
