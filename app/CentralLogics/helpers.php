@@ -305,34 +305,34 @@ class Helpers
                 $data['available_date_ends'] = $data->end_date->format('Y-m-d');
                 unset($data['end_date']);
             }
-            $data['variations'] = $variations;
-            $data['food_variations'] = $data['food_variations']?json_decode($data['food_variations'], true):'';
-            $data['store_name'] = $data->store->name;
-            $data['is_campaign'] = $data->store?->campaigns_count>0?1:0;
-            $data['module_type'] = $data->module->module_type;
-            $data['zone_id'] = $data->store->zone_id;
-            $running_flash_sale = FlashSaleItem::Active()->whereHas('flashSale', function ($query) {
-                $query->Active()->Running();
-            })
-                ->where(['item_id' => $data['id']])->first();
-            $data['flash_sale'] =(int) (($running_flash_sale) ? 1 :0);
-            $data['stock'] = ($running_flash_sale && ($running_flash_sale->available_stock > 0)) ? $running_flash_sale->available_stock : $data['stock'];
-            $data['discount'] = ($running_flash_sale && ($running_flash_sale->available_stock > 0)) ? $running_flash_sale->discount : $data['discount'];
-            $data['discount_type'] = ($running_flash_sale && ($running_flash_sale->available_stock > 0)) ? $running_flash_sale->discount_type : $data['discount_type'];
-            $data['store_discount'] = ($running_flash_sale && ($running_flash_sale->available_stock > 0)) ? 0 : (self::get_store_discount($data->store) ? $data->store?->discount->discount : 0);
-            $data['schedule_order'] = $data->store->schedule_order;
-            $data['rating_count'] = (int)($data->rating ? array_sum(json_decode($data->rating, true)) : 0);
-            $data['avg_rating'] = (float)($data->avg_rating ? $data->avg_rating : 0);
-            $data['min_delivery_time'] =  (int) explode('-',$data->store->delivery_time)[0] ?? 0;
-            $data['max_delivery_time'] =  (int) explode('-',$data->store->delivery_time)[1] ?? 0;
-            $data['common_condition_id'] =  (int) $data->pharmacy_item_details?->common_condition_id ?? 0;
-            $data['is_basic'] =  (int) $data->pharmacy_item_details?->is_basic ?? 0;
-            if($temp_product == true){
-                $data['tags']=\App\Models\Tag::whereIn('id',json_decode($data?->tag_ids) )->get(['tag','id']);
-            }
-            unset($data['pharmacy_item_details']);
-            unset($data['store']);
-            unset($data['rating']);
+            // $data['variations'] = $variations;
+            // $data['food_variations'] = $data['food_variations']?json_decode($data['food_variations'], true):'';
+            // $data['store_name'] = $data->store->name;
+            // $data['is_campaign'] = $data->store?->campaigns_count>0?1:0;
+            // $data['module_type'] = $data->module->module_type;
+            // $data['zone_id'] = $data->store->zone_id;
+            // $running_flash_sale = FlashSaleItem::Active()->whereHas('flashSale', function ($query) {
+            //     $query->Active()->Running();
+            // })
+            //     ->where(['item_id' => $data['id']])->first();
+            // $data['flash_sale'] =(int) (($running_flash_sale) ? 1 :0);
+            // $data['stock'] = ($running_flash_sale && ($running_flash_sale->available_stock > 0)) ? $running_flash_sale->available_stock : $data['stock'];
+            // $data['discount'] = ($running_flash_sale && ($running_flash_sale->available_stock > 0)) ? $running_flash_sale->discount : $data['discount'];
+            // $data['discount_type'] = ($running_flash_sale && ($running_flash_sale->available_stock > 0)) ? $running_flash_sale->discount_type : $data['discount_type'];
+            // $data['store_discount'] = ($running_flash_sale && ($running_flash_sale->available_stock > 0)) ? 0 : (self::get_store_discount($data->store) ? $data->store?->discount->discount : 0);
+            // $data['schedule_order'] = $data->store->schedule_order;
+            // $data['rating_count'] = (int)($data->rating ? array_sum(json_decode($data->rating, true)) : 0);
+            // $data['avg_rating'] = (float)($data->avg_rating ? $data->avg_rating : 0);
+            // $data['min_delivery_time'] =  (int) explode('-',$data->store->delivery_time)[0] ?? 0;
+            // $data['max_delivery_time'] =  (int) explode('-',$data->store->delivery_time)[1] ?? 0;
+            // $data['common_condition_id'] =  (int) $data->pharmacy_item_details?->common_condition_id ?? 0;
+            // $data['is_basic'] =  (int) $data->pharmacy_item_details?->is_basic ?? 0;
+            // if($temp_product == true){
+            //     $data['tags']=\App\Models\Tag::whereIn('id',json_decode($data?->tag_ids) )->get(['tag','id']);
+            // }
+            // unset($data['pharmacy_item_details']);
+            // unset($data['store']);
+            // unset($data['rating']);
         }
 
         return $data;

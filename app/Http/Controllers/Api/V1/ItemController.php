@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Models\Item;
 use App\Models\Order;
+use App\Models\OrderDetail;
+use App\Models\OrderPayment;
 use App\Models\Review;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -15,6 +17,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Store;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
+use Exception;
+use Config;
 
 class ItemController extends Controller
 {
@@ -83,7 +88,7 @@ class ItemController extends Controller
         $max = $request->query('max_price');
 
         $items = ProductLogic::get_zone($zone_id, $request['limit'], $request['offset'], $type, $min, $max, $product_id);
-        
+
         // $items['products'] = Helpers::product_data_formatting($items['products'], true, false, app()->getLocale());
         return response()->json($items, 200);
     }
@@ -285,11 +290,11 @@ class ItemController extends Controller
                 });
             })->select(['name', 'image', 'id'])
             ->paginate($limit, ['*'], 'page', $offset);
-        
 
-            // dd($items);
 
-            
+        // dd($items);
+
+
         $data = [
             'total_size' => $items->total(),
             'limit' => $limit,
@@ -386,41 +391,120 @@ class ItemController extends Controller
     public function get_product($id)
     {
         try {
-            $item = Item::withCount('whislists')->with(['tags', 'reviews', 'reviews.customer'])->active()
-                ->when(config('module.current_module_data'), function ($query) {
-                    $query->module(config('module.current_module_data')['id']);
-                })
-                ->when(is_numeric($id), function ($qurey) use ($id) {
-                    $qurey->where('id', $id);
-                })
-                ->when(!is_numeric($id), function ($qurey) use ($id) {
-                    $qurey->where('slug', $id);
-                })
-                ->first();
-            $store = StoreLogic::get_store_details($item->store_id);
-            if ($store) {
-                $category_ids = DB::table('items')
-                    ->join('categories', 'items.category_id', '=', 'categories.id')
-                    ->selectRaw('categories.position as positions, IF((categories.position = "0"), categories.id, categories.parent_id) as categories')
-                    ->where('items.store_id', $item->store_id)
-                    ->where('categories.status', 1)
-                    ->groupBy('categories', 'positions')
-                    ->get();
+            // $item = Item::withCount('whislists')->with(['tags', 'reviews', 'reviews.customer'])->active()
+            //     ->when(config('module.current_module_data'), function ($query) {
+            //         $query->module(config('module.current_module_data')['id']);
+            //     })
+            //     ->when(is_numeric($id), function ($qurey) use ($id) {
+            //         $qurey->where('id', $id);
+            //     })
+            //     ->when(!is_numeric($id), function ($qurey) use ($id) {
+            //         $qurey->where('slug', $id);
+            //     })
+            //     ->first();
 
-                $store = Helpers::store_data_formatting($store);
-                $store['category_ids'] = array_map('intval', $category_ids->pluck('categories')->toArray());
-                $store['category_details'] = Category::whereIn('id', $store['category_ids'])->get();
-                $store['price_range'] = Item::withoutGlobalScopes()->where('store_id', $item->store_id)
-                    ->select(DB::raw('MIN(price) AS min_price, MAX(price) AS max_price'))
-                    ->get(['min_price', 'max_price']);
-            }
+            //     dd($item);
+            // $store = StoreLogic::get_store_details($item->store_id);
+            // if ($store) {
+            //     $category_ids = DB::table('items')
+            //         ->join('categories', 'items.category_id', '=', 'categories.id')
+            //         ->selectRaw('categories.position as positions, IF((categories.position = "0"), categories.id, categories.parent_id) as categories')
+            //         ->where('items.store_id', $item->store_id)
+            //         ->where('categories.status', 1)
+            //         ->groupBy('categories', 'positions')
+            //         ->get();
+
+            //     $store = Helpers::store_data_formatting($store);
+            //     $store['category_ids'] = array_map('intval', $category_ids->pluck('categories')->toArray());
+            //     $store['category_details'] = Category::whereIn('id', $store['category_ids'])->get();
+            //     $store['price_range'] = Item::withoutGlobalScopes()->where('store_id', $item->store_id)
+            //         ->select(DB::raw('MIN(price) AS min_price, MAX(price) AS max_price'))
+            //         ->get(['min_price', 'max_price']);
+            // }
+
+            $item = Item::where('id', $id)->with('stations')->first();
+
             $item = Helpers::product_data_formatting($item, false, false, app()->getLocale());
-            $item['store_details'] = $store;
+            // $item['store_details'] = $store;
             return response()->json($item, 200);
         } catch (\Exception $e) {
             return response()->json([
                 'errors' => ['code' => 'product-001', 'message' => translate('messages.not_found')]
             ], 404);
+        }
+    }
+
+    public function payment(Request $request)
+    {
+        $key = Config::get('razor.razor_key');
+        return response()->json(['key' => $key]);
+
+    }
+
+    public function createOrderStore(Request $request)
+    {
+        try {
+            Log::info("Received request data: ", $request->all());
+
+            // Extract user data from request
+            $user_id = $request->input('user_id');
+            $contact_person_name = $request->input('contact_person_name');
+            $contact_person_number = $request->input('contact_person_number');
+            $contact_person_email = $request->input('contact_person_email');
+
+            $customer_address = collect([
+                'contact_person_name' => $contact_person_name,
+                'contact_person_number' => $contact_person_number,
+                'contact_person_email' => $contact_person_email,
+                "address_type" => "Delivery",
+                "address" => $request->input('address'),
+                "road" => "",
+                "house" => "",
+                "longitude" => $request->input('lng'),
+                "latitude" => $request->input('lat')
+            ]);
+
+            // Create the order
+            $order = new Order();
+            $order->user_id = $user_id;
+            $order->delivery_address = $customer_address;
+            $order->store_id = $request->input('store_id');
+            $order->order_amount = $request->input('order_amount');
+            $order->payment_status = strtolower($request->input('payment_status'));
+            $order->transaction_reference = $request->input('transaction_reference');
+            $order->save();
+
+            // Create the order detail if the order is successfully created
+            if ($order->user_id == $user_id) {
+                Log::info("Order created successfully with ID: " . $order->id);
+
+                $orderDetail = new OrderDetail();
+                $orderDetail->order_id = $order->id;
+                $orderDetail->item_id = $request->input('item_id');
+                $orderDetail->price = $request->input('order_amount');
+                $orderDetail->distance = $request->input('distance');
+                $orderDetail->start_date = $request->input('start_date');
+                $orderDetail->end_date = $request->input('end_date');
+                $orderDetail->save();
+
+                if (isset($order->transaction_reference)) {
+                    $order_payment = new OrderPayment();
+                    $order_payment->order_id = $order->id;
+                    $order_payment->transaction_ref = $request->input('transaction_reference');
+                    $order_payment->amount = $request->input('order_amount');
+                    $order_payment->payment_status = $request->input('payment_status');
+                    $order_payment->payment_method = "Razorpay";
+                    $order_payment->save();
+                }
+            }
+
+            return response()->json(['success' => true]);
+        } catch (Exception $e) {
+            Log::error('An error occurred while processing the order:', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            return response()->json(['success' => false, 'error' => 'An error occurred while processing your request.']);
         }
     }
 

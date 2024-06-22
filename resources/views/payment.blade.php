@@ -699,114 +699,114 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-        $(document).ready(function() {
-            $('#rzp-button1').click(function(e) {
-                e.preventDefault();
-                const address = document.getElementById('station_name').value;
-                const latitude = document.getElementById('latitude').value;
-                const longitude = document.getElementById('longitude').value;
+            $(document).ready(function() {
+                $('#rzp-button1').click(function(e) {
+                    e.preventDefault();
+                    const address = document.getElementById('station_name').value;
+                    const latitude = document.getElementById('latitude').value;
+                    const longitude = document.getElementById('longitude').value;
 
-                if (!address) {
+                    if (!address) {
 
-                    Swal.fire({
-                        title: 'Please enter an address',
-                        text: '',
-                        type: 'warning',
-                        showCancelButton: true,
-                        cancelButtonColor: 'default',
-                        confirmButtonColor: '#FC6A57',
-                        reverseButtons: true
-                    })
-                    return;
-                }
-
-                const storedStartDate = localStorage.getItem('startDate');
-                const storedEndDate = localStorage.getItem('endDate');
-
-                if (storedStartDate && storedEndDate) {
-                    // Display stored start date and end date in 12-hour format with AM/PM
-                    var startDate = moment(storedStartDate, "YYYY-MM-DD hh:mm A").format(
-                        "MMMM DD, YYYY  h:mm A");
-                    var endDate = moment(storedEndDate, "YYYY-MM-DD hh:mm A").format(
-                        "MMMM DD, YYYY  h:mm A");
-                }
-
-                var orderAmount = $('#totalPriceInput').val();
-                var itemId = $('#itemIdInput').val();
-                var storeId = $('#itemStoreIdInput').val();
-
-                var options = {
-                    "key": "{{ Config::get('razor.razor_key') }}",
-                    "amount": orderAmount * 100,
-                    "currency": "INR",
-                    "name": "Onnwheels",
-                    "description": "Test Transaction",
-                    "image": "https://example.com/your_logo",
-                    "handler": function(response) {
-                        console.log("hi", response)
-
-                        var orderData = {
-                            order_amount: orderAmount,
-                            distance: localStorage.getItem('distance') ?? null,
-                            address: address,
-                            lat: latitude,
-                            lng: longitude,
-                            store_id: storeId,
-                            item_id: itemId,
-                            payment_status: "Paid",
-                            start_date: startDate,
-                            end_date: endDate,
-                            transaction_reference: response.razorpay_payment_id,
-                            _token: '{{ csrf_token() }}'
-                        };
-
-                        console.log("payload", orderData)
-
-                        $.ajax({
-                            url: '{{ route('create-order') }}',
-                            method: 'POST',
-                            data: orderData,
-                            success: function(response) {
-                                console.log("data", response)
-                                if (response.success) {
-                                    console.log("data", response)
-                                    // Payment stored successfully, initiate Razorpay payment
-                                    window.location.href =
-                                        '/rides'; // Replace with your desired URL
-                                } else {
-                                    alert('Failed to store order details.');
-                                }
-                            },
-                            error: function(xhr, status, error) {
-                                console.error('An error occurred:', error);
-                                alert(
-                                    'An error occurred while processing your request.'
-                                );
-                            },
-                        });
-
-
-                    },
-                    "prefill": {
-                        "name": "Gaurav Kumar",
-                        "email": "gaurav.kumar@example.com",
-                        "contact": "9000090000"
-                    },
-                    "notes": {
-                        "address": "Razorpay Corporate Office"
-                    },
-                    "theme": {
-                        "color": "#3399cc"
+                        Swal.fire({
+                            title: 'Please enter an address',
+                            text: '',
+                            type: 'warning',
+                            showCancelButton: true,
+                            cancelButtonColor: 'default',
+                            confirmButtonColor: '#FC6A57',
+                            reverseButtons: true
+                        })
+                        return;
                     }
-                };
+
+                    const storedStartDate = localStorage.getItem('startDate');
+                    const storedEndDate = localStorage.getItem('endDate');
+
+                    if (storedStartDate && storedEndDate) {
+                        // Display stored start date and end date in 12-hour format with AM/PM
+                        var startDate = moment(storedStartDate, "YYYY-MM-DD hh:mm A").format(
+                            "MMMM DD, YYYY  h:mm A");
+                        var endDate = moment(storedEndDate, "YYYY-MM-DD hh:mm A").format(
+                            "MMMM DD, YYYY  h:mm A");
+                    }
+
+                    var orderAmount = $('#totalPriceInput').val();
+                    var itemId = $('#itemIdInput').val();
+                    var storeId = $('#itemStoreIdInput').val();
+
+                    var options = {
+                        "key": "{{ Config::get('razor.razor_key') }}",
+                        "amount": orderAmount * 100,
+                        "currency": "INR",
+                        "name": "Onnwheels",
+                        "description": "Test Transaction",
+                        "image": "https://example.com/your_logo",
+                        "handler": function(response) {
+                            console.log("hi", response)
+
+                            var orderData = {
+                                order_amount: orderAmount,
+                                distance: localStorage.getItem('distance') ?? null,
+                                address: address,
+                                lat: latitude,
+                                lng: longitude,
+                                store_id: storeId,
+                                item_id: itemId,
+                                payment_status: "Paid",
+                                start_date: startDate,
+                                end_date: endDate,
+                                transaction_reference: response.razorpay_payment_id,
+                                _token: '{{ csrf_token() }}'
+                            };
+
+                            console.log("payload", orderData)
+
+                            $.ajax({
+                                url: '{{ route('create-order') }}',
+                                method: 'POST',
+                                data: orderData,
+                                success: function(response) {
+                                    console.log("data", response)
+                                    if (response.success) {
+                                        console.log("data", response)
+                                        // Payment stored successfully, initiate Razorpay payment
+                                        window.location.href =
+                                            '/rides'; // Replace with your desired URL
+                                    } else {
+                                        alert('Failed to store order details.');
+                                    }
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error('An error occurred:', error);
+                                    alert(
+                                        'An error occurred while processing your request.'
+                                    );
+                                },
+                            });
 
 
-                var rzp1 = new Razorpay(options);
-                rzp1.open();
+                        },
+                        "prefill": {
+                            "name": "Gaurav Kumar",
+                            "email": "gaurav.kumar@example.com",
+                            "contact": "9000090000"
+                        },
+                        "notes": {
+                            "address": "Razorpay Corporate Office"
+                        },
+                        "theme": {
+                            "color": "#3399cc"
+                        }
+                    };
+
+
+                    var rzp1 = new Razorpay(options);
+                    rzp1.open();
+
+                });
 
             });
-
-        });
 
         // Retrieve stored start date and end date from localStorage on page load
         $(document).ready(function() {

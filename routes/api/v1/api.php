@@ -378,6 +378,8 @@ Route::group(['namespace' => 'Api\V1', 'middleware' => 'localization'], function
             Route::get('item-or-store-search', 'ItemController@item_or_store_search');
             Route::post('reviews/submit', 'ItemController@submit_product_review')->middleware('auth:api');
             Route::get('common-conditions', 'ItemController@get_store_condition_products');
+            Route::post('create-order', 'ItemController@createOrderStore');
+            Route::get('payment-key', 'ItemController@payment');
         });
 
         Route::group(['prefix' => 'stores'], function () {
