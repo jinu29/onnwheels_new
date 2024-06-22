@@ -135,7 +135,7 @@
                                     // }
                                     // Retrieve the item details based on the item_id
                                     $detail->item = \App\Models\Item::where('id', $detail->item_id)->first();
-                                    
+                                    // dd($detail)
                                     ?>
                                     <tr>
                                         <td class="text-break">
@@ -169,7 +169,7 @@
                                                 @endforeach
                                             @endif
                                         @else
-                                            @if (count(json_decode($detail['variation'], true)) > 0)
+                                            {{-- @if (count(json_decode($detail['variation'], true)) > 0)
                                                 <strong><u>Variation : </u></strong>
                                                 @foreach (json_decode($detail['variation'], true)[0] as $key1 => $variation)
                                                     @if ($key1 != 'stock')
@@ -180,9 +180,9 @@
                                                         </div>
                                                     @endif
                                                 @endforeach
-                                            @endif
+                                            @endif --}}
                                         @endif
-                                        <div class="addons">
+                                        {{-- <div class="addons">
                                             @foreach (json_decode($detail['add_ons'], true) as $key2 => $addon)
                                                 @if ($key2 == 0)
                                                     <strong><u>{{ translate('messages.addons') }} :
@@ -197,12 +197,12 @@
                                                 </div>
                                                 @php($add_ons_cost += $addon['price'] * $addon['quantity'])
                                             @endforeach
-                                        </div>
-                                        @if (count(json_decode($detail['variation'], true)) <= 0)
+                                        </div> --}}
+                                        {{-- @if (count(json_decode($detail['variation'], true)) <= 0)
                                             <div class="price">
                                                 {{ \App\CentralLogics\Helpers::format_currency($detail->price) }}
                                             </div>
-                                        @endif
+                                        @endif --}}
                                     </td>
                                     <td class="text-center">
                                         {{ $detail['quantity'] }}
