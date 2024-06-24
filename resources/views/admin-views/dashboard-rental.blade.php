@@ -109,7 +109,7 @@
                                 </a>
                             </div>
 
-                            <div class="col-sm-6 col-lg-3">
+                            {{-- <div class="col-sm-6 col-lg-3">
                                 <a class="order--card h-100" href="{{route('admin.order.list',['accepted'])}}">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <h6 class="card-subtitle d-flex justify-content-between m-0 align-items-center">
@@ -121,7 +121,7 @@
                                         </span>
                                     </div>
                                 </a>
-                            </div>
+                            </div> --}}
                             <div class="col-sm-6 col-lg-3">
                                 <a class="order--card h-100" href="{{route('admin.order.list',['processing'])}}">
                                     <div class="d-flex justify-content-between align-items-center">
@@ -136,7 +136,7 @@
                                 </a>
                             </div>
 
-                            <div class="col-sm-6 col-lg-3">
+                            {{-- <div class="col-sm-6 col-lg-3">
                                 <a class="order--card h-100" href="{{route('admin.order.list',['item_on_the_way'])}}">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <h6 class="card-subtitle d-flex justify-content-between m-0 align-items-center">
@@ -148,7 +148,7 @@
                                         </span>
                                     </div>
                                 </a>
-                            </div>
+                            </div> --}}
 
                             <div class="col-sm-6 col-lg-3">
                                 <a class="order--card h-100" href="{{route('admin.order.list',['delivered'])}}">
@@ -354,13 +354,13 @@
                 <!-- End Card -->
             </div>
 
-            <div class="col-lg-4 col-md-6">
+            {{-- <div class="col-lg-4 col-md-6">
                 <!-- Card -->
                 <div class="card h-100" id="top-deliveryman-view">
                     @include('admin-views.partials._top-deliveryman',['top_deliveryman'=>$data['top_deliveryman']])
                 </div>
                 <!-- End Card -->
-            </div>
+            </div> --}}
 
             <div class="col-lg-4 col-md-6">
                 <!-- Card -->

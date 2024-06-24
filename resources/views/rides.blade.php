@@ -260,7 +260,7 @@
                                             <th>Product Name</th>
                                             <th>Total Price</th>
                                             <th>Ride Status</th>
-                                            <th>Delivery Boy</th>
+                                            <th>Invoice</th>
                                         </tr>
                                     </thead>
                                     <tbody>

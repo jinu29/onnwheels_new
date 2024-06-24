@@ -43,8 +43,8 @@
                 </form>
                 <ul class="navbar-nav navbar-nav-lg nav-tabs">
                 <!-- Business Section-->
-                <li class="nav-item">
-                    <small class="nav-subtitle" title="{{ translate('messages.business_section') }}">{{ translate('messages.business_management') }}</small>
+                {{-- <li class="nav-item">
+                    <small class="nav-subtitle" title="{{ translate('messages.business_section') }}">{{ translate('messages.branch_management') }}</small>
                     <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                 </li>
 
@@ -115,19 +115,19 @@
                                 class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('messages.withdraw_method') }}</span>
                         </a>
                     </li>
-                @endif
+                @endif --}}
 
                 <!-- Report -->
                 @if (\App\CentralLogics\Helpers::module_permission_check('report'))
                 <li class="nav-item">
-                    <small class="nav-subtitle" title="{{ translate('messages.report_and_analytics') }}">{{ translate('messages.report_and_analytics') }}</small>
+                    <small class="nav-subtitle" title="{{ translate('messages.report_and_analytics') }}">{{ translate('messages.reports_management') }}</small>
                     <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                 </li>
 
                 <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/transactions/report/day-wise-report') ? 'active' : '' }}">
                     <a class="nav-link " href="{{ route('admin.transactions.report.day-wise-report') }}" title="{{ translate('messages.transection_report') }}">
                         <span class="tio-chart-pie-1 nav-icon"></span>
-                        <span class="text-truncate">{{ translate('messages.transection_report') }}</span>
+                        <span class="text-truncate">{{ translate('messages.transaction_report') }}</span>
                     </a>
                 </li>
 
@@ -138,7 +138,7 @@
                     </a>
                 </li>
 
-                <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/transactions/report/store*') ? 'active' : '' }}">
+                {{-- <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/transactions/report/store*') ? 'active' : '' }}">
                     <a class="nav-link " href="{{ route('admin.transactions.report.store-summary-report') }}" title="{{ translate('messages.store_wise_report') }}">
                         <span class="tio-home nav-icon"></span>
                         <span class="text-truncate">{{ translate('messages.store_wise_report') }}</span>
@@ -167,13 +167,12 @@
                     </a>
                 </li>
 
-
                 <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/transactions/report/order-report') ? 'active' : '' }}">
                     <a class="nav-link " href="{{ route('admin.transactions.report.order-report') }}" title="{{ translate('messages.order_report') }}">
                         <span class="tio-chart-bar-4 nav-icon"></span>
                         <span class="text-truncate text-capitalize">{{ translate('messages.order_report') }}</span>
                     </a>
-                </li>
+                </li> --}}
                 @endif
 
 

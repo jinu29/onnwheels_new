@@ -789,7 +789,6 @@
     </div>
 
     <!-- Best Rental Bikes -->
-
     @if (count($item) > 0)
         <div class="container-fluid mt-5 px-lg-5 rental-bike">
             <img class="vec-grp" src="public/assets/landing/image/vector_grp.png" alt="">
@@ -847,7 +846,7 @@
     @endif
 
     <!-- Features -->
-    <div class="container-fluid features" style="margin-top: 35px;">
+    <div class="container-fluid features" style="margin-top: 35px; margin-bottom:35px;">
         <div class="feature-title text-center" style="margin-bottom:35px;">
             <h4><span>Why</span> ONN Wheels</h4>
         </div>
@@ -932,7 +931,6 @@
     </div> --}}
 
     <!--Reviews -->
-
     {{-- @if (count($review) > 0)
         <div class="container-fluid mt-5 px-lg-5">
             <div class="title d-flex justify-content-between">

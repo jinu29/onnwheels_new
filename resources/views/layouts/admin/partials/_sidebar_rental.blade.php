@@ -233,7 +233,7 @@
                                         <!-- Orders -->
                     @if (\App\CentralLogics\Helpers::module_permission_check('order'))
                     <li class="nav-item">
-                        <small class="nav-subtitle">{{ translate('messages.Booking_management') }}</small>
+                        <small class="nav-subtitle">{{ translate('messages.Order_management') }}</small>
                         <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                     </li>
 
@@ -249,7 +249,7 @@
                                 <a class="nav-link" href="{{ route('admin.order.list', ['all']) }}" title="{{ translate('messages.all_orders') }}">
                                     <span class="tio-circle nav-indicator-icon"></span>
                                     <span class="text-truncate sidebar--badge-container">
-                                        {{ translate('messages.all') }}
+                                        {{ translate('messages.all bookings') }}
                                         <span class="badge badge-soft-info badge-pill ml-1">
                                             {{ \App\Models\Order::StoreOrder()->module(Config::get('module.current_module_id'))->count() }}
                                         </span>

@@ -54,7 +54,7 @@
                     <h5 class="subtitle text-capitalize">{{translate('messages.total_customer')}}</h5>
                 </div>
             </div>
-            <div class="col-sm-6 col-lg-4">
+            {{-- <div class="col-sm-6 col-lg-4">
                 <div class="__user-dashboard-card" style="--theme-clr:#006AB4">
                     <div class="__user-dashboard-card-thumbs">
                         @php($total_deliveryman = $inactive_deliveryman + $active_deliveryman)
@@ -70,7 +70,7 @@
                     <h3 class="title">{{$total_deliveryman}}</h3>
                     <h5 class="subtitle text-capitalize">{{translate('messages.total_delivery_man')}}</h5>
                 </div>
-            </div>
+            </div> --}}
             <div class="col-sm-6 col-lg-4">
                 <div class="__user-dashboard-card" style="--theme-clr:#FFA800">
                     <div class="__user-dashboard-card-thumbs">
@@ -362,11 +362,11 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4">
+            {{-- <div class="col-lg-4">
                 <div class="card h-100" id="top-deliveryman-view">
                     @include('admin-views.partials._top-deliveryman',['top_deliveryman'=>$data['top_deliveryman']])
                 </div>
-            </div>
+            </div> --}}
         </div>
         @else
         <!-- Page Header -->

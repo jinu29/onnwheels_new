@@ -54,7 +54,7 @@
                     </li>
                     <!-- End Dashboards -->
                 <!-- DeliveryMan -->
-                @if (\App\CentralLogics\Helpers::module_permission_check('deliveryman'))
+                {{-- @if (\App\CentralLogics\Helpers::module_permission_check('deliveryman'))
                 <li class="nav-item">
                     <small class="nav-subtitle" title="{{ translate('messages.deliveryman_section') }}">{{ translate('messages.deliveryman_management') }}</small>
                     <small class="tio-more-horizontal nav-subtitle-replacer"></small>
@@ -78,7 +78,6 @@
                         </span>
                     </a>
                 </li>
-
                 <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/users/delivery-man/new') ? 'active' : '' }}">
                     <a class="js-navbar-vertical-aside-menu-link nav-link" href="{{ route('admin.users.delivery-man.new') }}" title="{{ translate('messages.new_delivery_man') }}">
                         <i class="tio-man nav-icon"></i>
@@ -87,8 +86,6 @@
                         </span>
                     </a>
                 </li>
-
-
                 <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/users/delivery-man') ? 'active' : '' }}">
                     <a class="js-navbar-vertical-aside-menu-link nav-link" href="{{ route('admin.users.delivery-man.list') }}" title="{{ translate('messages.deliveryman_list') }}">
                         <i class="tio-filter-list nav-icon"></i>
@@ -97,7 +94,6 @@
                         </span>
                     </a>
                 </li>
-
                 <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/users/delivery-man/reviews') ? 'active' : '' }}">
                     <a class="js-navbar-vertical-aside-menu-link nav-link" href="{{ route('admin.users.delivery-man.reviews.list') }}" title="{{ translate('messages.reviews') }}">
                         <i class="tio-star-outlined nav-icon"></i>
@@ -106,7 +102,7 @@
                         </span>
                     </a>
                 </li>
-                @endif
+                @endif --}}
                 <!-- End DeliveryMan -->
 
                 <!-- Customer Section -->

@@ -461,39 +461,32 @@
             ?>
 
             <div class="col-lg-8">
-                <div class="row border mx-lg-2 rounded d-flex align-items-center">
-                    <div class="col-lg-5 p-4">
-                        <img src="{{ asset('storage/app/public/product') . '/' . $items['image'] ?? '', asset('public/assets/admin/img/160x160/img2.jpg'), 'product/' }}"
-                            class="mt-5" width="100%">
+                <div class="row border mx-lg-2 d-flex align-items-start" style="border-radius: 12px;">
+                    <div class="col-5">
+                        <img style="width: 100%" src="{{ asset('storage/app/public/product') . '/' . $items['image'] ?? '', asset('public/assets/admin/img/160x160/img2.jpg'), 'product/' }}"
+                            class="mt-5">
                     </div>
-                    <div class="col-lg-7">
-                        <h4>{{ $items->name }}</h4>
+                    <div class="col-7 mt-3">
+                        <h4 style="font-weight:600;">{{ $items->name }}</h4>
                         <input type="hidden" value="{{ $items->name }}" name="item_details">
                         <input type="hidden" value="{{ $items->id }}" id="itemIdInput" name="item_id">
                         <input type="hidden" value="{{ $items->store_id }}" id="itemStoreIdInput" name="store_id">
-                        <div class="date d-flex align-items-center justify-content-between">
+                        <div class="date d-flex align-items-center justify-content-between mt-4">
                             <p id="startdate" class="mb-0"></p>
                             <input type="hidden" value="default_value" id="inputStartDate" name="start_date">
                             <p class="mb-0">to</p>
                             <p id="enddate" class="mb-0"></p>
                             <input type="hidden" value="" id="inputEndDate" name="end_date">
-
                             <p id="distance" class="mb-0"></p>
-
                         </div>
                         <div class="d-flex flex-column justify-content-between align-items-start">
                             <h5 class="mt-4">Address :</h5>
                             <!-- Search input for the address -->
                             <input id="address-input" type="text" placeholder="Enter an address"
-                                class="form-control mt-2">
-
-                            <!-- Add a container for the map -->
-                            <div id="map" style="width: 100%; height: 400px; margin-top: 20px;"></div>
-                            <input type="hidden" id="latitude" name="latitude">
-                            <input type="hidden" id="longitude" name="longitude">
+                                class="form-control">
                         </div>
                         <div class="d-flex justify-content-between" style="margin-top: 20px;">
-                            <h4>Total</h4>
+                            <h4 style="font-weight: 600;">Total</h4>
                             <div class="price">
                                 <i class="fa-solid fa-indian-rupee-sign"></i>
                                 <p class="mb-0" id="totalPriceDisplay"></p>
@@ -501,9 +494,17 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-12 mb-3">
+                        <div class="d-flex flex-column justify-content-between align-items-start">
+                            <div id="map" style="width: 100%; height: 150px; margin-top: 15px;"></div>
+                            <input type="hidden" id="latitude" name="latitude">
+                            <input type="hidden" id="longitude" name="longitude">
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
-            <div class="col-lg-4 mt-5 mt-lg-0 border rounded">
+            <div class="col-lg-4 mt-5 mt-lg-0 border" style="border-radius: 12px;">
                 <div class="p-3">
                     <div class="title">
                         <h4>Checkout</h4>
@@ -515,7 +516,7 @@
                             <p id="amtTotalPriceDisplay"></p>
                         </div>
                     </div>
-                    {{-- <div class="box">
+                    <div class="box">
                         <p>SGST (18%)</p>
                         <div class="amt">
                             <i class="fa-solid fa-indian-rupee-sign"></i>
@@ -528,7 +529,7 @@
                             <i class="fa-solid fa-indian-rupee-sign"></i>
                             <p></p>
                         </div>
-                    </div> --}}
+                    </div>
                     <div class="box">
                         <h5>Total Payable Amount</h5>
                         <div class="amt">

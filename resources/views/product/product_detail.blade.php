@@ -368,6 +368,10 @@
             color: white;
         }
 
+        .btn:focus {
+            color: white;
+        }
+
         /* Address */
         .address {
             margin-top: 15px;
@@ -1005,15 +1009,14 @@
                         </div>
 
 
-                        <button type="submit" id="bookNowButton" class="btn">Book Now</button>
-
-
-                        <p style="margin-top: 20px;">Available at:</p>
+                        <p style="margin-top: 20px;">Bike   Available at:</p>
                         <select class="form-control" id="available_stations" name="available_stations">
                             @foreach ($items->stations as $station)
                                 <option value="{{ $station->id }}">{{ $station->name }}</option>
                             @endforeach
-                        </select>
+                        </select>   
+
+                        <button type="submit" id="bookNowButton" class="btn">Book Now</button>
 
                     </div>
                 </div>

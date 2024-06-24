@@ -58,7 +58,6 @@ $landing_site_direction = session()->get('landing_site_direction');
 
         .footer {
             width: 100%;
-            padding: 40px 0 0px 0;
             background-color: #003360;
             color: white;
             border-radius: 50px 50px 0 0;
@@ -451,7 +450,7 @@ $landing_site_direction = session()->get('landing_site_direction');
     @yield('content')
     <!-- ======= Footer Section ======= -->
 
-    <footer class="footer" style="margin-top:2rem;">
+    <footer class="footer" style="margin-top:2rem; position:relative; margin-top:auto;">
         <div class="container p-4">
             <div class="row">
 
@@ -473,6 +472,23 @@ $landing_site_direction = session()->get('landing_site_direction');
                         <i class="fa-regular fa-envelope" style="font-size: 19px;"></i>
                         <a
                             href="Mailto:{{ \App\CentralLogics\Helpers::get_settings('email_address') }}">{{ \App\CentralLogics\Helpers::get_settings('email_address') }}</a>
+                    </div>
+
+                    {{-- Social Media Links --}}
+                    <div class="footer-title mb-2 mt-4">
+                        <h5>Follow us on</h5>
+                        <p class="line"></p>
+                    </div>
+                    <div class="social-icons mt-2">
+                        <a href="https://www.facebook.com" target="_blank">
+                            <img src="/public/assets/landing/image/devicon_facebook.png" alt="Facebook" class="mr-2">
+                        </a>
+                        <a href="https://www.linkedin.com" target="_blank">
+                            <img src="/public/assets/landing/image/skill-icons_linkedin.png" alt="LinkedIn" class="mr-2">
+                        </a>
+                        <a href="https://www.instagram.com" target="_blank">
+                            <img src="/public/assets/landing/image/skill-icons_instagram.png" alt="Instagram">
+                        </a>
                     </div>
                 </div>
 
@@ -529,20 +545,14 @@ $landing_site_direction = session()->get('landing_site_direction');
                             </a>
                         </div>
                     </div>
+
+                    {{-- Seller Option --}}
                     <div class="footer-title mb-2">
-                        <h5>Follow us on</h5>
+                        <h5>Seller Option</h5>
                         <p class="line"></p>
                     </div>
-                    <div class="social-icons mt-2">
-                        <a href="https://www.facebook.com" target="_blank">
-                            <img src="/public/assets/landing/image/devicon_facebook.png" alt="Facebook" class="mr-2">
-                        </a>
-                        <a href="https://www.linkedin.com" target="_blank">
-                            <img src="/public/assets/landing/image/skill-icons_linkedin.png" alt="LinkedIn" class="mr-2">
-                        </a>
-                        <a href="https://www.instagram.com" target="_blank">
-                            <img src="/public/assets/landing/image/skill-icons_instagram.png" alt="Instagram">
-                        </a>
+                    <div>
+                        <a href="{{ route('login', ['tab' => 'vendor']) }}">Become a Seller</a>
                     </div>
                 </div>
 

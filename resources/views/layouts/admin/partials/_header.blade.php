@@ -18,13 +18,13 @@
             <!-- Secondary Content -->
             <div class="navbar-nav-wrap-content-right flex-grow-1 w-0">
                 <!-- Navbar -->
-                <ul class="navbar-nav align-items-center flex-row flex-grow-1 __navbar-nav" style="color:#003361;">
+                <ul class="navbar-nav d-flex align-items-center justify-content-between flex-row flex-grow-1 __navbar-nav" style="color:#003361;">
 
                     <li class="nav-item __nav-item">
                         <a href="{{ route('admin.users.dashboard') }}" id="tourb-6"
                             class="__nav-link {{ Request::is('admin/users*') ? 'active' : '' }}">
                             <img src="{{ asset('/public/assets/admin/img/new-img/user.svg') }}" alt="public/img">
-                            <span style="color:#003361;">{{ translate('Customer & Delivery Management') }}</span>
+                            <span style="color:#003361;">{{ translate('Customer Management') }}</span>
                         </a>
                     </li>
 
@@ -115,7 +115,7 @@
                             </div>
                         </div>
                     </li>
-                    @if (\App\CentralLogics\Helpers::module_permission_check('order'))
+                    {{-- @if (\App\CentralLogics\Helpers::module_permission_check('order'))
                         <li class="nav-item __nav-item">
                             <a href="{{ route('admin.dispatch.dashboard') }}" id="tourb-8"
                                 class="__nav-link {{ Request::is('admin/dispatch*') ? 'active' : '' }}">
@@ -124,9 +124,9 @@
                                 <span>{{ translate('Delivery Management') }}</span>
                             </a>
                         </li>
-                    @endif
+                    @endif --}}
 
-                    <li class="nav-item max-sm-m-0 ml-auto mr-lg-3">
+                    {{-- <li class="nav-item max-sm-m-0 ml-auto mr-lg-3">
                         <a class="btn btn-icon rounded-circle nav-msg-icon" href="{{ route('admin.message.list') }}">
                             <img src="{{ asset('/public/assets/admin/img/new-img/message-icon.svg') }}"
                                 alt="public/img">
@@ -135,7 +135,7 @@
                                 <span class="btn-status btn-status-danger">{{ $message }}</span>
                             @endif
                         </a>
-                    </li>
+                    </li> --}}
                     {{-- <li class="nav-item max-sm-m-0">
                         <div class="hs-unfold">
                             <div>
