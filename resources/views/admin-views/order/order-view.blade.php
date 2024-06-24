@@ -1468,7 +1468,7 @@
                 <!-- order proof -->
                 <div class="card mb-2 mt-2">
                     <div class="card-header border-0 text-center pb-0">
-                        <h4 class="m-0">{{ translate('messages.delivery_proof') }} </h4>
+                        <h4 class="m-0">{{ translate('messages.order_proof') }} </h4>
                         <button class="btn btn-outline-primary btn-sm" data-toggle="modal"
                                             data-target=".order-proof-modal">
                                             {{ translate('messages.add') }}
