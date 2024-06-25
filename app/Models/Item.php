@@ -39,6 +39,9 @@ class Item extends Model
         'rating_count' => 'integer',
         'unit_id' => 'integer',
         'hours_price' => 'json',
+        'days_price' => 'json',
+        'week_price' => 'json',
+        'month_price' => 'json',
         'distance_price' => 'json',
     ];
 

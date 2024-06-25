@@ -492,14 +492,16 @@
                             <input type="hidden" id="latitude" name="latitude" value="{{ $station->lat }}">
                             <input type="hidden" id="longitude" name="longitude" value="{{ $station->lon }}">
                         </div>
-                        <div class="d-flex justify-content-between" style="margin-top: 20px;">
+                        <input type="hidden" id="totalPriceInput" name="order_amount" readonly>
+
+                        {{-- <div class="d-flex justify-content-between" style="margin-top: 20px;">
                             <h4>Total</h4>
                             <div class="price">
                                 <i class="fa-solid fa-indian-rupee-sign"></i>
                                 <p class="mb-0" id="totalPriceDisplay"></p>
                                 <input type="hidden" id="totalPriceInput" name="order_amount" readonly>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -515,20 +517,29 @@
                             <p id="amtTotalPriceDisplay"></p>
                         </div>
                     </div>
-                    {{-- <div class="box">
-                        <p>SGST (18%)</p>
+                    <div class="box">
+                        <p>Weekend Price</p>
                         <div class="amt">
                             <i class="fa-solid fa-indian-rupee-sign"></i>
-                            <p></p>
+                            <p id="weekendPriceDisplay"></p>
                         </div>
                     </div>
                     <div class="box">
-                        <p>GST (18%)</p>
+                        @php($gst = \App\Models\BusinessSetting::where('key', 'gst')->first())
+                        <p>GST ({{ $gst ? $gst->value : 0 }}%)</p>
                         <div class="amt">
                             <i class="fa-solid fa-indian-rupee-sign"></i>
-                            <p></p>
+                            <p id="gstAmount"></p>
                         </div>
-                    </div> --}}
+                    </div>
+                    <div class="box">
+                        @php($sgst = \App\Models\BusinessSetting::where('key', 'sgst')->first())
+                        <p>SGST ({{ $sgst ? $sgst->value : 0 }}%)</p>
+                        <div class="amt">
+                            <i class="fa-solid fa-indian-rupee-sign"></i>
+                            <p id="sgstAmount"></p>
+                        </div>
+                    </div>
                     <div class="box">
                         <h5>Total Payable Amount</h5>
                         <div class="amt">
@@ -644,41 +655,41 @@
         }
     </script>
     {{-- Date --}}
+
     <script>
         $(document).ready(function() {
-            // Calculate or retrieve the total price here
-            var totalPrice = localStorage.getItem('totalPrice');
-            $('#totalPriceDisplay').text($('#totalPriceDisplay').text() + ' ' + totalPrice);
-            $('#totalPriceDisplay').text(totalPrice);
-            $('#totalPriceInput').val(totalPrice);
-            $('#amtTotalPriceDisplay').text(totalPrice);
-            $('#totalunitprice').text(totalPrice);
+            // Retrieve total price, weekend price, gst, and sgst from localStorage or backend
+            var totalPrice = parseFloat(localStorage.getItem('totalPrice') || 0);
+            var weekendPrice = parseFloat(localStorage.getItem('weekendPrice') || 0);
+            var gstPercentage = parseFloat('{{ $gst ? $gst->value : 0 }}');
+            var sgstPercentage = parseFloat('{{ $sgst ? $sgst->value : 0 }}');
 
-            // Start date
-            var distance = localStorage.getItem('distance');
-            if (distance !== null) {
-                // If distance is present, hide start date and end date
-                $('#startdate').hide();
-                $('#enddate').hide();
-                $('#distance').text(distance + " KM").show();
-                $('#inputStartDate').val(''); // Clear start date value
-                $('#inputEndDate').val(''); // Clear end date value
-            } else {
-                // If distance data is not present, show start date and end date
-                $('#startdate').show();
-                $('#enddate').show();
-                $('#distance').hide(); // Hide distance
-                var startDate = localStorage.getItem('startDate');
-                var formattedStartDate = moment(startDate, "YYYY-MM-DD HH:mm:ss").format("MMMM DD, YYYY  h:mm A");
-                $('#startdate').text(formattedStartDate);
-                $('#inputStartDate').val(formattedStartDate);
+            // Calculate GST and SGST amounts
+            var gstAmount = (totalPrice * gstPercentage) / 100;
+            var sgstAmount = (totalPrice * sgstPercentage) / 100;
 
-                var endDate = localStorage.getItem('endDate');
-                var formattedEndDate = moment(endDate, "YYYY-MM-DD HH:mm:ss").format("MMMM DD, YYYY  h:mm A");
-                $('#enddate').text(formattedEndDate);
-                $('#inputEndDate').val(formattedEndDate);
-            }
+            // Calculate total payable amount
+            var totalPayableAmount = totalPrice + weekendPrice + gstAmount + sgstAmount;
 
+            // Display values in the HTML
+            $('#amtTotalPriceDisplay').text(totalPrice.toFixed(2));
+            $('#weekendPriceDisplay').text(weekendPrice.toFixed(2));
+            $('#gstAmount').text(gstAmount.toFixed(2));
+            $('#sgstAmount').text(sgstAmount.toFixed(2));
+            $('#totalunitprice').text(totalPayableAmount.toFixed(2));
+            $('#totalPriceInput').val(totalPayableAmount);
+            // Format and display start and end dates
+            var startDate = localStorage.getItem('startDate');
+            var parsedStartDate = moment(startDate, "MMMM DD, YYYY @ h:mm A");
+            var formattedStartDate = parsedStartDate.format("MMMM DD, YYYY  h:mm A");
+            $('#startdate').text(formattedStartDate);
+            $('#inputStartDate').val(formattedStartDate);
+
+            var endDate = localStorage.getItem('endDate');
+            var parsedEndDate = moment(endDate, "MMMM DD, YYYY @ h:mm A");
+            var formattedEndDate = parsedEndDate.format("MMMM DD, YYYY  h:mm A");
+            $('#enddate').text(formattedEndDate);
+            $('#inputEndDate').val(formattedEndDate);
         });
     </script>
     <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
@@ -699,124 +710,133 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-            $(document).ready(function() {
-                $('#rzp-button1').click(function(e) {
-                    e.preventDefault();
-                    const address = document.getElementById('station_name').value;
-                    const latitude = document.getElementById('latitude').value;
-                    const longitude = document.getElementById('longitude').value;
+        $(document).ready(function() {
+            $('#rzp-button1').click(function(e) {
+                e.preventDefault();
+                const address = document.getElementById('station_name').value;
+                const latitude = document.getElementById('latitude').value;
+                const longitude = document.getElementById('longitude').value;
 
-                    if (!address) {
+                if (!address) {
 
-                        Swal.fire({
-                            title: 'Please enter an address',
-                            text: '',
-                            type: 'warning',
-                            showCancelButton: true,
-                            cancelButtonColor: 'default',
-                            confirmButtonColor: '#FC6A57',
-                            reverseButtons: true
-                        })
-                        return;
-                    }
+                    Swal.fire({
+                        title: 'Please enter an address',
+                        text: '',
+                        type: 'warning',
+                        showCancelButton: true,
+                        cancelButtonColor: 'default',
+                        confirmButtonColor: '#FC6A57',
+                        reverseButtons: true
+                    })
+                    return;
+                }
 
-                    const storedStartDate = localStorage.getItem('startDate');
-                    const storedEndDate = localStorage.getItem('endDate');
+                const storedStartDate = localStorage.getItem('startDate');
+                const storedEndDate = localStorage.getItem('endDate');
 
-                    if (storedStartDate && storedEndDate) {
-                        // Display stored start date and end date in 12-hour format with AM/PM
-                        var startDate = moment(storedStartDate, "YYYY-MM-DD hh:mm A").format(
-                            "MMMM DD, YYYY  h:mm A");
-                        var endDate = moment(storedEndDate, "YYYY-MM-DD hh:mm A").format(
-                            "MMMM DD, YYYY  h:mm A");
-                    }
+                if (storedStartDate && storedEndDate) {
+                    // Display stored start date and end date in 12-hour format with AM/PM
+                    var startDate = moment(storedStartDate, "MMMM DD, YYYY @ h:mm A").format(
+                        "MMMM DD, YYYY  h:mm A");
+                    var endDate = moment(storedEndDate, "MMMM DD, YYYY @ h:mm A").format(
+                        "MMMM DD, YYYY  h:mm A");
+                }
 
-                    var orderAmount = $('#totalPriceInput').val();
-                    var itemId = $('#itemIdInput').val();
-                    var storeId = $('#itemStoreIdInput').val();
+                var orderAmount = $('#totalPriceInput').val();
+                var itemId = $('#itemIdInput').val();
+                var storeId = $('#itemStoreIdInput').val();
 
-                    var options = {
-                        "key": "{{ Config::get('razor.razor_key') }}",
-                        "amount": orderAmount * 100,
-                        "currency": "INR",
-                        "name": "Onnwheels",
-                        "description": "Test Transaction",
-                        "image": "https://example.com/your_logo",
-                        "handler": function(response) {
-                            console.log("hi", response)
+                var orderAmount = parseInt($('#totalPriceInput').val());
+                if (isNaN(orderAmount)) {
+                    orderAmount = 0; // or handle the error appropriately
+                }
+                console.log("amount", orderAmount)
+                var options = {
+                    "key": "{{ Config::get('razor.razor_key') }}",
+                    "amount": orderAmount * 100,
+                    "currency": "INR",
+                    "name": "Onnwheels",
+                    "description": "Test Transaction",
+                    "image": "https://example.com/your_logo",
+                    "handler": function(response) {
+                        console.log("hi", response)
 
-                            var orderData = {
-                                order_amount: orderAmount,
-                                distance: localStorage.getItem('distance') ?? null,
-                                address: address,
-                                lat: latitude,
-                                lng: longitude,
-                                store_id: storeId,
-                                item_id: itemId,
-                                payment_status: "Paid",
-                                start_date: startDate,
-                                end_date: endDate,
-                                transaction_reference: response.razorpay_payment_id,
-                                _token: '{{ csrf_token() }}'
-                            };
+                        var orderData = {
+                            order_amount: orderAmount,
+                            distance: localStorage.getItem('distance') ?? null,
+                            address: address,
+                            lat: latitude,
+                            lng: longitude,
+                            store_id: storeId,
+                            item_id: itemId,
+                            payment_status: "Paid",
+                            start_date: startDate,
+                            end_date: endDate,
+                            transaction_reference: response.razorpay_payment_id,
+                            _token: '{{ csrf_token() }}'
+                        };
 
-                            console.log("payload", orderData)
+                        console.log("payload", orderData)
 
-                            $.ajax({
-                                url: '{{ route('create-order') }}',
-                                method: 'POST',
-                                data: orderData,
-                                success: function(response) {
+                        $.ajax({
+                            url: '{{ route('create-order') }}',
+                            method: 'POST',
+                            data: orderData,
+                            success: function(response) {
+                                console.log("data", response)
+                                if (response.success) {
                                     console.log("data", response)
-                                    if (response.success) {
-                                        console.log("data", response)
-                                        // Payment stored successfully, initiate Razorpay payment
-                                        window.location.href =
-                                            '/rides'; // Replace with your desired URL
-                                    } else {
-                                        alert('Failed to store order details.');
-                                    }
-                                },
-                                error: function(xhr, status, error) {
-                                    console.error('An error occurred:', error);
-                                    alert(
-                                        'An error occurred while processing your request.'
-                                    );
-                                },
-                            });
+                                    // Payment stored successfully, initiate Razorpay payment
+                                    window.location.href =
+                                        '/rides'; // Replace with your desired URL
+                                } else {
+                                    alert('Failed to store order details.');
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                console.error('An error occurred:', error);
+                                alert(
+                                    'An error occurred while processing your request.'
+                                );
+                            },
+                        });
 
 
-                        },
-                        "prefill": {
-                            "name": "Gaurav Kumar",
-                            "email": "gaurav.kumar@example.com",
-                            "contact": "9000090000"
-                        },
-                        "notes": {
-                            "address": "Razorpay Corporate Office"
-                        },
-                        "theme": {
-                            "color": "#3399cc"
-                        }
-                    };
+                    },
+                    "prefill": {
+                        "name": "Gaurav Kumar",
+                        "email": "gaurav.kumar@example.com",
+                        "contact": "9000090000"
+                    },
+                    "notes": {
+                        "address": "Razorpay Corporate Office"
+                    },
+                    "theme": {
+                        "color": "#3399cc"
+                    }
+                };
 
 
-                    var rzp1 = new Razorpay(options);
-                    rzp1.open();
-
-                });
+                var rzp1 = new Razorpay(options);
+                rzp1.open();
 
             });
 
+        });
+
         // Retrieve stored start date and end date from localStorage on page load
         $(document).ready(function() {
-            const storedStartDate = localStorage.getItem('startDate');
-            const storedEndDate = localStorage.getItem('endDate');
+            const storedStartDate = localStorage.getItem(
+                'startDate'); // Assume it's in format "July 02, 2024 @ 12:00 PM"
+            const storedEndDate = localStorage.getItem(
+                'endDate'); // Assume it's in format "July 02, 2024 @ 12:00 PM"
 
             if (storedStartDate && storedEndDate) {
                 // Display stored start date and end date in 12-hour format with AM/PM
-                $('#startdate').text(moment(storedStartDate, "YYYY-MM-DD hh:mm A").format("MMMM DD, YYYY  h:mm A"));
-                $('#enddate').text(moment(storedEndDate, "YYYY-MM-DD hh:mm A").format("MMMM DD, YYYY  h:mm A"));
+                $('#startdate').text(moment(storedStartDate, "MMMM DD, YYYY @ h:mm A").format(
+                    "MMMM DD, YYYY @ h:mm A"));
+                $('#enddate').text(moment(storedEndDate, "MMMM DD, YYYY @ h:mm A").format(
+                    "MMMM DD, YYYY @ h:mm A"));
             }
         });
     </script>

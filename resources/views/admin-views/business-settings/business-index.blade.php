@@ -782,37 +782,37 @@
                         <div class="card-body">
                             <div class="row g-3 align-items-end">
                                 <div class="col-sm-6 col-lg-4">
-                                    @php($admin_commission = \App\Models\BusinessSetting::where('key', 'admin_commission')->first())
+                                    @php($gst = \App\Models\BusinessSetting::where('key', 'gst')->first())
                                     <div class="form-group mb-0">
                                         <label class="form-label text-capitalize"
                                             for="admin_commission">
-                                            {{ translate('messages.Default_Commission_Rate_On_Order') }} (%)
-                                            <span class="form-label-secondary" data-toggle="tooltip" data-placement="right" data-original-title="{{ translate('messages.Set_up_‘Default_Commission_Rate’_on_every_Order._Admin_can_also_set_store-wise_different_commission_rates_from_respective_store_settings.') }}">
+                                            {{ translate('messages.Default_GST') }} (%)
+                                            <span class="form-label-secondary" data-toggle="tooltip" data-placement="right" data-original-title="{{ translate('messages.Set_up_‘Default_GST’') }}">
                                                 <img src="{{asset('public/assets/admin/img/info-circle.svg')}}" alt="">
                                             </span>
                                         </label>
-                                        <input type="number" name="admin_commission" class="form-control"
-                                            id="admin_commission" placeholder="{{ translate('messages.Ex:_10') }}"
-                                            value="{{ $admin_commission ? $admin_commission->value : 0 }}"
+                                        <input type="number" name="gst" class="form-control"
+                                            id="gst" placeholder="{{ translate('messages.Ex:_10') }}"
+                                            value="{{ $gst ? $gst->value : 0 }}"
                                             min="0" max="100" required>
                                     </div>
                                 </div>
                                 <div class="col-sm-6 col-lg-4">
-                                    @php($delivery_charge_comission = \App\Models\BusinessSetting::where('key', 'delivery_charge_comission')->first())
+                                    @php($sgst = \App\Models\BusinessSetting::where('key', 'sgst')->first())
                                     <div class="form-group mb-0">
                                         <label class="input-label text-capitalize d-flex alig-items-center"
                                         for="admin_comission_in_delivery_charge">
-                                        {{translate('messages.Commission_Rate_On_Delivery_Charge')}} (%)
-                                            <span class="form-label-secondary" data-toggle="tooltip" data-placement="right" data-original-title="{{ translate('messages.Set_a_default_‘Commission_Rate’_for_freelance_deliverymen_(under_admin)_on_every_deliveryman. ') }}">
+                                        {{translate('messages.SGST')}} (%)
+                                            <span class="form-label-secondary" data-toggle="tooltip" data-placement="right" data-original-title="{{ translate('messages.Set SGST') }}">
                                                 <img src="{{asset('public/assets/admin/img/info-circle.svg')}}" alt="">
                                             </span>
                                         </label>
-                                            <input type="number" name="admin_comission_in_delivery_charge" class="form-control" id="admin_comission_in_delivery_charge"  placeholder="{{ translate('messages.Ex:_10') }}"
-                                            min="0" max="100" step="0.01" value="{{ $delivery_charge_comission ? $delivery_charge_comission->value: 0 }}">
+                                            <input type="number" name="sgst" class="form-control" id="admin_comission_in_delivery_charge"  placeholder="{{ translate('messages.Ex:_10') }}"
+                                            min="0" max="100" step="0.01" value="{{ $sgst ? $sgst->value: 0 }}">
                                     </div>
                                 </div>
 
-                                <div class="col-lg-4 col-sm-6">
+                                {{-- <div class="col-lg-4 col-sm-6">
                                     @php($order_confirmation_model = \App\Models\BusinessSetting::where('key', 'order_confirmation_model')->first())
                                     @php($order_confirmation_model = $order_confirmation_model ? $order_confirmation_model->value : 'deliveryman')
                                     <div class="form-group mb-0">
@@ -842,7 +842,7 @@
                                             </label>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="col-lg-4 col-sm-6">
                                     @php($tax_included = \App\Models\BusinessSetting::where('key', 'tax_included')->first())
                                     @php($tax_included = $tax_included ? $tax_included->value : 0)

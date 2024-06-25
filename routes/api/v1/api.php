@@ -380,6 +380,7 @@ Route::group(['namespace' => 'Api\V1', 'middleware' => 'localization'], function
             Route::get('common-conditions', 'ItemController@get_store_condition_products');
             Route::post('create-order', 'ItemController@createOrderStore');
             Route::get('payment-key', 'ItemController@payment');
+            Route::get('all-orders', 'ItemController@get_all_orders');
         });
 
         Route::group(['prefix' => 'stores'], function () {

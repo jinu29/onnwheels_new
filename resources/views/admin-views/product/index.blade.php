@@ -339,7 +339,7 @@
                                 <div class="col-sm-4 col-6">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Security deposit') }}</label>
+                                            for="exampleFormControlInput1">{{ translate('messages.weekend deposit') }}</label>
                                         <input type="number" min="0" max="999999999999.99" step="0.01"
                                             value="1" name="price" class="form-control"
                                             placeholder="{{ translate('messages.Ex:') }} 100" required>
@@ -373,7 +373,7 @@
                                 </div>
                             </div>
                             <div class="row mt-2">
-                                <div class="col-lg-6">
+                                <div class="col-lg-3">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
                                             for="exampleFormControlInput1">{{ translate('messages.Hours') }}</label>
@@ -382,7 +382,7 @@
                                     </div>
 
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-3">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
                                             for="exampleFormControlInput1">{{ translate('messages.Hours price') }}</label>
@@ -391,9 +391,141 @@
                                             placeholder="{{ translate('messages.Ex:') }} 100">
                                     </div>
                                 </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.Hour KM limit') }}</label>
+                                        <input type="number" name="h_km_limit" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.Hour KM Charges') }}</label>
+                                        <input type="number" name="h_km_charges" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100">
+                                    </div>
+                                </div>
                             </div>
                             <div class="row mt-2">
-                                <div class="col-lg-6">
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.Day') }}</label>
+                                        <input type="text" name="days" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 1hrs">
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.Day price') }}</label>
+                                        <input type="number" name="d_price" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.Day KM limit') }}</label>
+                                        <input type="number" name="d_km_limit" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.Day KM Charges') }}</label>
+                                        <input type="number" name="d_km_charges" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.Week') }}</label>
+                                        <input type="text" name="week" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 1hrs">
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.Week price') }}</label>
+                                        <input type="number" name="w_price" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.Week KM limit') }}</label>
+                                        <input type="number" name="w_km_limit" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.Week KM Charges') }}</label>
+                                        <input type="number" name="w_km_charges" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.month') }}</label>
+                                        <input type="text" name="month" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 1hrs">
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.Month price') }}</label>
+                                        <input type="number" name="m_price" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.Month KM limit') }}</label>
+                                        <input type="number" name="m_km_limit" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.Month KM Charges') }}</label>
+                                        <input type="number" name="m_km_charges" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-lg-3">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
                                             for="exampleFormControlInput1">{{ translate('messages.KM') }}</label>
@@ -402,11 +534,29 @@
                                     </div>
 
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-3">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
                                             for="exampleFormControlInput1">{{ translate('messages.KM price') }}</label>
                                         <input type="number" name="km_price" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.KM limit') }}</label>
+                                        <input type="number" name="km_limit" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.KM Charges') }}</label>
+                                        <input type="number" name="km_charges" min="0" max="999999999999.99"
                                             step="0.01" class="form-control"
                                             placeholder="{{ translate('messages.Ex:') }} 100">
                                     </div>

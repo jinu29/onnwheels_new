@@ -341,7 +341,6 @@
 
         #demo {
             padding: 8px 15px;
-            margin-top: 15px;
             text-align: center;
             background: #FFA500;
             color: white;
@@ -711,6 +710,7 @@
             border-radius: 3rem;
         }
 
+
         /* slide the switch box from right to left */
         .switches-container input:nth-of-type(1):checked~.switch-wrapper {
             transform: translateX(0%);
@@ -862,6 +862,149 @@
                 width: 100%;
             }
         }
+
+        /* tabs style */
+
+        .tabs {
+            width: 75%;
+            margin-top: 15px;
+        }
+
+        /* Tab links */
+        .tab-links {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: space-around;
+            outline: 2px solid #F89520;
+            border-radius: 50px;
+            /* Yellow outline border */
+        }
+
+        .tab-links li {
+            flex: 1;
+            text-align: center;
+            padding: 7px;
+        }
+
+        .tab-links a {
+            display: block;
+            padding: 10px 0;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .tab-links a:hover {
+            background-color: #f0f0f0;
+        }
+
+        .tab-links a.active {
+            background-color: #003360;
+            /* Blue background */
+            color: white;
+            /* White text */
+            outline: none;
+            /* Remove default outline */
+            padding: 10px 15px;
+            border-radius: 50px;
+        }
+
+        /* Tab content */
+        .tab-content {
+            padding: 20px;
+        }
+
+        .tab {
+            display: none;
+        }
+
+        .tab:first-child {
+            display: block;
+        }
+
+        /* Switch block styling */
+        .switch-block {
+            margin-bottom: 20px;
+        }
+
+        .switch-block input[type="radio"] {
+            display: none;
+        }
+
+        .switch-block label {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px 5px 0 0;
+            transition: all 0.3s ease;
+        }
+
+        .switch-block input[type="radio"]:checked+label {
+            background-color: #0056b3;
+        }
+
+        /* Date range input */
+        .date-range {
+            margin-top: 10px;
+        }
+
+        .date-range input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        /* Dynamic toggle and switch wrapper */
+        .switch-wrapper {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .switch {
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            padding: 5px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .switch div {
+            display: inline-block;
+            padding: 5px 10px;
+        }
+
+        .switch .dynamicToggle {
+            font-weight: bold;
+        }
+
+        .price {
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 10px;
+            border: 2px solid white;
+            /* Border color */
+            background-color: #003361;
+            /* Background color */
+            color: white;
+            /* Text color */
+            border-radius: 5px;
+            /* Rounded corners */
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            /* Shadow effect */
+            text-align: center;
+            /* Centered text */
+        }
     </style>
 @endsection
 @section('content')
@@ -870,31 +1013,13 @@
 
             <?php
             // JSON string containing the key-value pair
-            $jsonString = $items['hours_price'];
-            
-            // Decode the JSON string into an associative array
-            $hoursPriceArray = json_decode($jsonString, true);
-            
-            // Initialize variables to store key, value, and days
-            $defaultKey = '';
-            $defaultValue = '';
-            $days = 0;
-            
-            // Check if decoding was successful and $hoursPriceArray is not empty
-            if ($hoursPriceArray && is_array($hoursPriceArray)) {
-                // Extract key and value from the associative array
-                $defaultKey = key($hoursPriceArray); // Get the key (e.g., "12")
-                $defaultValue = current($hoursPriceArray); // Get the value (e.g., "200")
-                $days = $defaultKey / 24; // Convert hours to days
-            }
-            
-            if ($items['distance_price']) {
-                $jsonString = $items['distance_price'];
-            
-                $distancePriceArray = json_decode($jsonString, true);
-                $distance = key($distancePriceArray);
-                $distancePrice = current($distancePriceArray);
-            }
+            $hourPrice = $items['hours_price'];
+            $dayPrice = $items['days_price'];
+            $weekPrice = $items['week_price'];
+            $monthPrice = $items['month_price'];
+            $distancePrice = $items['distance_price'];
+            $weekendPrice = $items['price'];
+            // dd($weekendPrice);
             ?>
 
             <form id="bookingForm"
@@ -921,10 +1046,6 @@
                         <div class="product-title">
                             <h4>{{ $items->name }}</h4>
                             <input type="hidden" value="{{ $items->name }}" name="">
-                            <div class="icons">
-                                {{-- <i class="fa-regular fa-heart"></i>
-                            <i class="fa-solid fa-share-nodes"></i> --}}
-                            </div>
                         </div>
                         <div class="d-flex flex-row align-items-center">
                             <div class="p-ratings">
@@ -945,7 +1066,7 @@
                             $items = Item::all();
                         @endphp --}}
 
-                        <div class="switches-container">
+                        {{-- <div class="switches-container">
                             <input type="radio" id="switchHour" name="switchPlan" value="Hour" checked="checked" />
                             <input type="radio" id="switchKm" name="switchPlan" value="KM" />
                             <label for="switchHour" id="labelDynamic">Hour</label>
@@ -956,57 +1077,184 @@
                                     <div>KM</div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
-                        <div class="rent" id="rent">
-                            <p class="mb-0">Rent {{ round($days, 2) }}</p>
-                            <div class="price">
-                                <i class="fa-solid fa-indian-rupee-sign"></i>
-                                <p class="mb-0">{{ $defaultValue }}</p>
+                        <!-- Tab structure -->
+                        <div class="tabs">
+                            <ul class="tab-links">
+                                <?php if (!is_null($hourPrice)): ?>
+                                <li><a href="#tab-hour">Hour</a></li>
+                                <?php endif; ?>
+                                <?php if (!is_null($dayPrice)): ?>
+                                <li><a href="#tab-day">Day</a></li>
+                                <?php endif; ?>
+                                <?php if (!is_null($weekPrice)): ?>
+                                <li><a href="#tab-week">7 Days</a></li>
+                                <?php endif; ?>
+                                <?php if (!is_null($monthPrice)): ?>
+                                <li><a href="#tab-month">30 Days</a></li>
+                                <?php endif; ?>
+                            </ul>
+
+                            <div class="tab-content">
+                                <?php if (!is_null($hourPrice)): ?>
+                                @php
+                                    $hourPrice = json_decode($hourPrice, true);
+                                @endphp
+                                <div id="tab-hour" class="tab">
+                                    <label for="switchHour" id="labelHour" style="margin-top: 10px;">Hour</label>
+                                    <div class="row">
+                                        <div class="col s9 l8">
+                                            <span class="inner_text">Hourly Price</span>
+                                        </div>
+                                        <div class="col s3 l4" style="padding:0rem;">
+                                            <span class="inner_text">
+                                                ₹<b>{{ $hourPrice['price'] }}</b>/hr
+                                        </div>
+                                    </div>
+                                    <label for="switchHour" id="labelHour" style="margin-top: 10px;">Extras</label>
+                                    <div class="row">
+                                        <div class="col s9 l8">
+                                            <span class="inner_text">Km limit</span>
+                                        </div>
+                                        <div class="col s3 l4" style="padding:0rem;">
+                                            <span class="inner_text">
+                                                <b>{{ $hourPrice['km_limit'] }}</b>/hr
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s9 l8">
+                                            <span class="inner_text">Excess km charges</span>
+                                        </div>
+                                        <div class="col s3 l4" style="padding:0rem;">
+                                            <span class="inner_text">
+                                                ₹<b>{{ $hourPrice['km_charges'] }}</b>/km
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
+
+                                <?php if (!is_null($dayPrice)): ?>
+                                @php
+                                    $dayPrice = json_decode($dayPrice, true);
+                                @endphp
+                                <div id="tab-day" class="tab">
+                                    <label for="switchHour" id="labelHour" style="margin-top: 10px;">Day</label>
+                                    <div class="row">
+                                        <div class="col s9 l8">
+                                            <span class="inner_text">Day Price</span>
+                                        </div>
+                                        <div class="col s3 l4" style="padding:0rem;">
+                                            <span class="inner_text">
+                                                ₹<b>{{ $dayPrice['price'] }}</b>/day
+                                        </div>
+                                    </div>
+                                    <label for="switchDay" id="labelDay" style="margin-top: 10px;">Extras</label>
+                                    <div class="row">
+                                        <div class="col s9 l8">
+                                            <span class="inner_text">Km limit</span>
+                                        </div>
+                                        <div class="col s3 l4" style="padding:0rem;">
+                                            <span class="inner_text">
+                                                <b>{{ $dayPrice['km_limit'] }}</b>/hr
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s9 l8">
+                                            <span class="inner_text">Excess km charges</span>
+                                        </div>
+                                        <div class="col s3 l4" style="padding:0rem;">
+                                            <span class="inner_text">
+                                                ₹<b>{{ $dayPrice['km_charges'] }}</b>/km
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
+
+                                <?php if (!is_null($weekPrice)): ?>
+                                @php
+                                    $weekPrice = json_decode($weekPrice, true);
+                                @endphp
+                                <div id="tab-week" class="tab">
+                                    <label for="switchHour" id="labelHour" style="margin-top: 10px;">Week</label>
+                                    <div class="row">
+                                        <div class="col s9 l8">
+                                            <span class="inner_text">Week Price</span>
+                                        </div>
+                                        <div class="col s3 l4" style="padding:0rem;">
+                                            <span class="inner_text">
+                                                ₹<b>{{ $weekPrice['price'] }}</b>/Week
+                                        </div>
+                                    </div>
+                                    <label for="switchWeek" style="margin-top: 10px;" id="labelWeek">Extras</label>
+                                    <div class="row">
+                                        <div class="col s9 l8">
+                                            <span class="inner_text">Km limit</span>
+                                        </div>
+                                        <div class="col s3 l4" style="padding:0rem;">
+                                            <span class="inner_text">
+                                                <b>{{ $weekPrice['km_limit'] }}</b>/hr
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s9 l8">
+                                            <span class="inner_text">Excess km charges</span>
+                                        </div>
+                                        <div class="col s3 l4" style="padding:0rem;">
+                                            <span class="inner_text">
+                                                ₹<b>{{ $weekPrice['km_charges'] }}</b>/km
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
+
+                                <?php if (!is_null($monthPrice)): ?>
+                                @php
+                                    $monthPrice = json_decode($monthPrice, true);
+                                @endphp
+                                <div id="tab-month" class="tab">
+                                    <label for="switchHour" id="labelHour" style="margin-top: 10px;">Month</label>
+                                    <div class="row">
+                                        <div class="col s9 l8">
+                                            <span class="inner_text">Month Price</span>
+                                        </div>
+                                        <div class="col s3 l4" style="padding:0rem;">
+                                            <span class="inner_text">
+                                                ₹<b>{{ $monthPrice['price'] }}</b>/Month
+                                        </div>
+                                    </div>
+                                    <label for="switchMonth" style="margin-top: 10px;" id="labelMonth">Extras</label>
+                                    <div class="row">
+                                        <div class="col s9 l8">
+                                            <span class="inner_text">Km limit</span>
+                                        </div>
+                                        <div class="col s3 l4" style="padding:0rem;">
+                                            <span class="inner_text">
+                                                <b>{{ $monthPrice['km_limit'] }}</b>/hr
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s9 l8">
+                                            <span class="inner_text">Excess km charges</span>
+                                        </div>
+                                        <div class="col s3 l4" style="padding:0rem;">
+                                            <span class="inner_text">
+                                                ₹<b>{{ $monthPrice['km_charges'] }}</b>/km
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
+
                             </div>
                         </div>
 
-                        <div id="error-message" style="color: red; display: none; margin-top: 10px; font-weight:600;">
-                            This Bike is currently not available for KM Booking
-                        </div>
-
-                        <div class="km">
-                            @if (
-                                $items['distance_price'] &&
-                                    collect(json_decode($items['distance_price'], true))->filter()->count() > 0)
-                                <p class="mb-0">{{ $distance }} KM : </p>
-                                <div class="price">
-                                    <i class="fa-solid fa-indian-rupee-sign"></i>
-                                    <p class="mb-0">{{ $distancePrice }}</p>
-                                </div>
-                            @endif
-                        </div>
 
                         <div class="date-range">
-                            <input type="text" id="demo" name="datefilter" value="" class="shadow" readonly />
+                            <input type="text" id="demo" name="datefilter" value="" class="shadow"
+                                readonly />
                         </div>
 
-                        <div class="km-input">
-                            @if (
-                                $items['distance_price'] &&
-                                    collect(json_decode($items['distance_price'], true))->filter()->count() > 0)
-                                <label style="margin-top: 10px;" for="distanceInput">Enter Distance (KM):</label>
-                                <input type="number" id="distanceInput" name="distanceInput" min="{{ $distance }}"
-                                    value="{{ $distance }}" />
-                            @endif
-                        </div>
-
-                        <div class="total-price">
-                            <p class="mb-0">Total Price:</p>
-                            <div class="price">
-                                <i class="fa-solid fa-indian-rupee-sign"></i>
-                                <p class="mb-0" id="totalPrice">{{ $defaultValue }}</p>
-                                <input type="hidden" id="totalPriceInput" value="{{ $defaultValue }}" name="">
-                            </div>
-                        </div>
-
-
-                        <button type="submit" id="bookNowButton" class="btn">Book Now</button>
+                        <div class="price" id="price"></div>
 
 
                         <p style="margin-top: 20px;">Available at:</p>
@@ -1015,6 +1263,18 @@
                                 <option value="{{ $station->id }}">{{ $station->name }}</option>
                             @endforeach
                         </select>
+                        {{-- <div class="rent" id="rent">
+                            <p class="mb-0">Rent {{ round($days, 2) }}</p>
+                            <div class="price">
+                                <i class="fa-solid fa-indian-rupee-sign"></i>
+                                <p class="mb-0">{{ $defaultValue }}</p>
+                            </div>
+                        </div> --}}
+
+                        <button type="submit" id="bookNowButton" class="btn">Book Now</button>
+
+
+
 
                     </div>
                 </div>
@@ -1050,90 +1310,6 @@
                     <iframe src="https://lottie.host/embed/843abefb-7087-4f85-91a6-69cba120f737/fmtl9wHyEa.json"></iframe>
                 </div>
             </div>
-            {{-- <div class="col-8">
-                <div class="master border">
-                    <h1 class="my-0" style="color:#003360;">Reviews and Ratings</h1>
-                    <h2>How was your experience about our product?</h2>
-
-                    <form id="review-form">
-                        @csrf
-                        <div class="rating-component">
-                            <div class="status-msg">
-                                <label>
-                                    <input class="rating_msg" type="hidden" name="rating_msg" value="" />
-                                </label>
-                            </div>
-                            <div class="stars-box">
-                                <i class="star fa fa-star" title="1 star" data-message="Poor" data-value="1"></i>
-                                <i class="star fa fa-star" title="2 stars" data-message="Too bad" data-value="2"></i>
-                                <i class="star fa fa-star" title="3 stars" data-message="Average quality"
-                                    data-value="3"></i>
-                                <i class="star fa fa-star" title="4 stars" data-message="Nice" data-value="4"></i>
-                                <i class="star fa fa-star" title="5 stars" data-message="very good qality"
-                                    data-value="5"></i>
-                            </div>
-                            <div class="starrate">
-                                <label>
-                                    <input class="ratevalue" type="hidden" name="rate_value" value="">
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="feedback-tags">
-                            <div class="tags-container" data-tag-set="1">
-                                <div class="question-tag">
-                                    Why was your experience so bad?
-                                </div>
-                            </div>
-                            <div class="tags-container" data-tag-set="2">
-                                <div class="question-tag">
-                                    Why was your experience so bad?
-                                </div>
-
-                            </div>
-
-                            <div class="tags-container" data-tag-set="3">
-                                <div class="question-tag">
-                                    Why was your average rating experience ?
-                                </div>
-                            </div>
-                            <div class="tags-container" data-tag-set="4">
-                                <div class="question-tag">
-                                    Why was your experience good?
-                                </div>
-                            </div>
-
-                            <div class="tags-container" data-tag-set="5">
-                                <div class="make-compliment">
-                                    <div class="compliment-container">
-                                        Give a compliment
-                                        <i class="far fa-smile-wink"></i>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="tags-box">
-                                <textarea cols="60" rows="5" class="tag form-control" name="comment"
-                                    id="inlineFormInputName"></textarea>
-                                <input type="hidden" name="product_id" value="{{ $products->id }}" />
-                            </div>
-
-                        </div>
-
-                        <div class="button-box">
-                            <input type="submit" class="done btn btn-warning" value="Add review" />
-                        </div>
-                    </form>
-
-                    <div class="submited-box">
-                        <div class="loader"></div>
-                        <div class="success-message">
-                            Thank you!
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
-
 
 
         </div>
@@ -1145,6 +1321,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
         crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
 
     {{-- Slick --}}
     <script>
@@ -1185,15 +1362,60 @@
         });
     </script>
 
-
-
     <script>
-        let days = {{ round($days, 2) }};
-        let formattedDays = moment.duration(days, 'days').humanize();
-        document.querySelector('.rent p.mb-0').innerText = `Rent ${formattedDays}`;
-        document.querySelector('.dynamicToggle').innerText = `${formattedDays.toUpperCase()}`;
+        $(document).ready(function() {
+            // Show the first tab by default
+            $('.tab-links li:first-child a').addClass('active');
+            $('.tab-content .tab:first-child').show();
 
-        document.getElementById('labelDynamic').innerText = `${formattedDays.toUpperCase()}`;
+            // Handle tab clicks
+            $('.tab-links a').on('click', function(e) {
+                e.preventDefault();
+                var currentAttrValue = $(this).attr('href');
+
+                // Show/Hide Tabs
+                $('.tab-content .tab').hide();
+                $(currentAttrValue).show();
+
+                // Change/remove current tab to active
+                $('.tab-links a').removeClass('active');
+                $(this).addClass('active');
+            });
+
+            // Initial dynamic toggle text setting
+            const dynamicToggle = $('#dynamicToggle');
+            const hourPrice = <?php echo json_encode($hourPrice); ?>;
+            const dayPrice = <?php echo json_encode($dayPrice); ?>;
+            const weekPrice = <?php echo json_encode($weekPrice); ?>;
+            const monthPrice = <?php echo json_encode($monthPrice); ?>;
+            const distancePrice = <?php echo json_encode($distancePrice); ?>;
+
+            function updateDynamicToggle() {
+                const checkedRadio = $('input[name="switchPlan"]:checked').val();
+                switch (checkedRadio) {
+                    case 'Hour':
+                        dynamicToggle.text(`Hour (${hourPrice})`);
+                        break;
+                    case 'Day':
+                        dynamicToggle.text(`Day (${dayPrice})`);
+                        break;
+                    case 'Week':
+                        dynamicToggle.text(`Week (${weekPrice})`);
+                        break;
+                    case 'Month':
+                        dynamicToggle.text(`Month (${monthPrice})`);
+                        break;
+                    case 'KM':
+                        dynamicToggle.text(`KM (${distancePrice})`);
+                        break;
+                }
+            }
+
+            $('input[name="switchPlan"]').on('change', updateDynamicToggle);
+
+            // Set initial value of dynamicToggle based on checked radio button
+            updateDynamicToggle();
+        });
     </script>
 
 
@@ -1249,76 +1471,29 @@
             thumbItem: 4
         });
     </script>
-    <script>
-        let spinNumberOutput = document.querySelector('.spinNumberOutput')
-        let regularPrice = document.querySelector('.regularPrice')
-        let quantityOutput = document.querySelector('.quantityOutput')
-        let plusButton = document.querySelector('.incrimentButton')
-        let minusButton = document.querySelector('.decrimentButton')
 
-        spinNumberOutput.value = 1;
-        quantityOutput.innerHTML = regularPrice.innerHTML * spinNumberOutput.value
-
-        plusButton.addEventListener('click', function() {
-            spinNumberOutput.value++
-            console.log(quantityOutput.innerHTML = regularPrice.innerHTML * spinNumberOutput.value)
-        })
-
-        minusButton.addEventListener('click', function() {
-
-            if (spinNumberOutput.value > 1) {
-                spinNumberOutput.value--
-                console.log(quantityOutput.innerHTML = regularPrice.innerHTML * spinNumberOutput.value)
-
-            }
-        })
-    </script>
-
-    <script>
-        document.getElementById('distanceInput').addEventListener('input', function() {
-            var distance = parseFloat(this.value) || 0; // Get the distance input, default to 0 if invalid
-            var distancePrice = parseFloat('{{ $distancePrice }}'); // Get the distance price from PHP
-            var defaultPrice = parseFloat('{{ $defaultValue }}'); // Get the default price from PHP
-
-            // Calculate the total price
-            var totalPrice = defaultPrice + (distance * distancePrice);
-
-            // Update the total price in the UI
-            document.getElementById('totalPrice').innerText = totalPrice.toFixed(2);
-            document.getElementById('totalPriceInput').value = totalPrice.toFixed(2);
-        });
-    </script>
-
-    <script>
-        document.getElementById('distanceInput').addEventListener('input', function() {
-            var distance = parseFloat(this.value) || 0; // Get the distance input, default to 0 if invalid
-            var distancePrice = parseFloat('{{ $distancePrice }}'); // Get the distance price from PHP
-            var defaultPrice = parseFloat('{{ $defaultValue }}'); // Get the default price from PHP
-
-            // Calculate the total price
-            var totalPrice = distance * distancePrice;
-            localStorage.setItem('totalPrice', totalPrice.toFixed(2));
-            localStorage.setItem('distance', distance);
-
-            // Update the total price in the UI
-            document.getElementById('totalPrice').innerText = totalPrice.toFixed(2);
-            document.getElementById('totalPriceInput').value = totalPrice.toFixed(2);
-        });
-    </script>
 
     {{-- Date Range --}}
     <script>
+        $('#price').hide();
+
         localStorage.removeItem('startDate');
         localStorage.removeItem('endDate');
         localStorage.removeItem('totalPrice');
         localStorage.removeItem('distance');
         localStorage.removeItem('station_id');
+        localStorage.removeItem('weekendPrice');
 
-        const defaultPricePerDay = parseFloat("{{ $defaultValue }}");
-        const defaultPricePerHour = defaultPricePerDay / 24;
+        const hourPrice = <?php echo json_encode($hourPrice); ?>;
+        const dayPrice = <?php echo json_encode($dayPrice); ?>;
+        const weekPrice = <?php echo json_encode($weekPrice); ?>;
+        const monthPrice = <?php echo json_encode($monthPrice); ?>;
+        const distancePrice = <?php echo json_encode($distancePrice); ?>;
+        const weekendPrice = <?php echo json_encode($weekendPrice); ?>;
 
-        console.log("PR/DAY", defaultPricePerHour)
-        const distancePrice = parseFloat('{{ $distancePrice }}');
+
+        console.log("ff", weekendPrice)
+
 
         $('#demo').daterangepicker({
             "showISOWeekNumbers": true,
@@ -1343,49 +1518,94 @@
             },
             "linkedCalendars": true,
             "showCustomRangeLabel": false,
-            "startDate": moment().startOf('hour'), // Set initial start date to current time (hour precision)
-            "endDate": moment().startOf('hour').add(1,
-                'hour'), // Set initial end date to one hour from current time
+            "startDate": moment().startOf('hour'),
+            "endDate": moment().startOf('hour').add(1, 'hour'),
             "opens": "center",
-            "minDate": moment().startOf('hour') // Disable past dates and hours
+            "minDate": moment().startOf('hour')
+        }, function(start, end, label) {
+            calculatePrice(start, end);
         });
 
-        function updateTotalPrice(startDate, endDate, pricePerHour, pricePerDay) {
-            const hours = moment.duration(endDate.diff(startDate)).asHours();
-            const days = moment.duration(endDate.diff(startDate)).asDays();
+        function calculatePrice(start, end) {
+            const duration = moment.duration(end.diff(start));
+            const hours = duration.asHours();
+            const days = duration.asDays();
+            const weeks = duration.asWeeks();
+            const months = duration.asMonths();
+            let price = 0;
+            let weekend = 0;
 
-            let totalPrice;
-            if (days >= 1) {
-                console.log("days", days)
-                totalPrice = days * pricePerDay;
-            } else {
-                console.log("hour", days)
-                console.log("price-hour", pricePerHour)
+            console.log("days", days);
+            console.log("hours", hours);
+            console.log("weeks", weeks);
+            console.log("Month", months);
 
-                totalPrice = hours * pricePerHour;
+            // Calculate price for months
+            if (months >= 1) {
+                const fullMonths = Math.floor(months);
+                const remainingWeeks = Math.floor((months - fullMonths) * 4.34524); // Approximation of weeks in a month
+                const remainingDays = Math.floor((months - fullMonths) * 30.4375 - remainingWeeks *
+                7); // Approximation of days in a month
+                const remainingHours = Math.floor((months - fullMonths) * 30.4375 * 24 - remainingDays * 24 -
+                    remainingWeeks * 7 * 24);
 
-                console.log("total price", totalPrice)
+                price = fullMonths * monthPrice.price + remainingWeeks * weekPrice.price + remainingDays * dayPrice.price +
+                    remainingHours * hourPrice.price;
+            }
+            // Calculate price for weeks
+            else if (weeks >= 1) {
+                const fullWeeks = Math.floor(weeks);
+                const remainingDays = Math.floor((weeks - fullWeeks) * 7);
+                const remainingHours = Math.floor((weeks - fullWeeks) * 7 * 24 - remainingDays * 24);
 
+                price = fullWeeks * weekPrice.price + remainingDays * dayPrice.price + remainingHours * hourPrice.price;
+            }
+            // Calculate price for days
+            else if (days >= 1) {
+                const fullDays = Math.floor(days);
+                const remainingHours = Math.floor((days - fullDays) * 24);
+
+                price = fullDays * dayPrice.price + remainingHours * hourPrice.price;
+                // Calculate weekend price for daily rentals
+                let current = moment(start);
+                while (current <= end) {
+                    const day = current.day();
+                    if (day === 5 || day === 6 || day === 0) { // Friday, Saturday, Sunday
+                        weekend += weekendPrice;
+                    }
+                    current.add(1, 'days');
+                }
+            }
+            // Calculate price for hours
+            else {
+                price = hours * hourPrice.price;
+                // Calculate weekend price for hourly rentals
+                let current = moment(start);
+                while (current <= end) {
+                    const day = current.day();
+                    if (day === 5 || day === 6 || day === 0) { // Friday, Saturday, Sunday
+                        weekend += weekendPrice;
+                    }
+                    current.add(1, 'days');
+                }
             }
 
-            const distanceElement = document.getElementById('distanceInput');
-            const distance = distanceElement ? parseFloat(distanceElement.value) || 0 : 0;
-            // totalPrice += distance * distancePrice;
+            console.log("Weekend", weekend);
 
-            localStorage.setItem('startDate', startDate.format("YYYY-MM-DD HH:mm:ss"));
-            localStorage.setItem('endDate', endDate.format("YYYY-MM-DD HH:mm:ss"));
-            localStorage.setItem('totalPrice', totalPrice.toFixed(2));
+            // Only add weekend price for hourly and daily rentals
+            if (months < 1 && weeks < 1) {
+                price += weekend;
+            }
 
-            $('#totalPrice').text(totalPrice.toFixed(2));
-            $('#totalPriceInput').val(totalPrice.toFixed(2));
-            document.getElementById('bookNowButton').disabled = false;
+            if (price > 0) {
+                $('#price').text(`Total Price: ₹${price.toFixed(2)}`).show();
+                localStorage.setItem('startDate', start.format('MMMM DD, YYYY @ h:mm A'));
+                localStorage.setItem('endDate', end.format('MMMM DD, YYYY @ h:mm A'));
+                localStorage.setItem('totalPrice', price.toFixed(2));
+                localStorage.setItem('weekendPrice', weekend.toFixed(2));
+            } 
         }
 
-        $('#demo').on('apply.daterangepicker', function(ev, picker) {
-            const startDate = picker.startDate;
-            const endDate = picker.endDate;
-            updateTotalPrice(startDate, endDate, defaultPricePerHour, defaultPricePerDay);
-        });
 
         document.getElementById('bookingForm').addEventListener('submit', function(event) {
             console.log("ji")
@@ -1429,17 +1649,6 @@
 
 
         });
-
-        document.getElementById('distanceInput').addEventListener('input', function() {
-            const startDate = moment(localStorage.getItem('startDate'));
-            const endDate = moment(localStorage.getItem('endDate'));
-            if (startDate.isValid() && endDate.isValid()) {
-                updateTotalPrice(startDate, endDate, defaultPricePerHour, defaultPricePerDay);
-            }
-        });
-
-        // SweetAlert for handling the form submission without date selection
-       
     </script>
 
     <!--review-->

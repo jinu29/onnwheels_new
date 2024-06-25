@@ -441,6 +441,23 @@ class ItemController extends Controller
 
     }
 
+    public function get_all_orders(Request $request)
+    {
+        $userId = $request->input('user_id'); // Assuming 'vendor_id' is the key for vendor ID in the request
+
+        $orders = Order::where('user_id', $userId)
+            ->with('customer')
+            ->Notpos()
+            ->NotDigitalOrder()
+            ->orderBy('schedule_at', 'desc')
+            ->get();
+
+        $orders = Helpers::order_data_formatting($orders, true);
+
+        return response()->json($orders, 200);
+    }
+
+
     public function createOrderStore(Request $request)
     {
         try {

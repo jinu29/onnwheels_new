@@ -517,8 +517,8 @@ class BusinessSettingsController extends Controller
             'value' => $request['tax']
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'admin_commission'], [
-            'value' => $request['admin_commission']
+        DB::table('business_settings')->updateOrInsert(['key' => 'gst'], [
+            'value' => $request['gst']
         ]);
 
         DB::table('business_settings')->updateOrInsert(['key' => 'country'], [
@@ -587,8 +587,8 @@ class BusinessSettingsController extends Controller
             'value' => $request['digit_after_decimal_point']
         ]);
 
-        DB::table('business_settings')->updateOrInsert(['key' => 'delivery_charge_comission'], [
-            'value' => $request['admin_comission_in_delivery_charge']
+        DB::table('business_settings')->updateOrInsert(['key' => 'sgst'], [
+            'value' => $request['sgst']
         ]);
 
         // DB::table('business_settings')->updateOrInsert(['key' => 'max_otp_hit'], [
