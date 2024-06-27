@@ -261,8 +261,11 @@ Route::post('/create-order', [PaymentController::class, 'createOrder']);
 Route::get('thank_you', [HomeController::class, 'thank_you'])->name('thank_you');
 
 Route::get('rides', [HomeController::class, 'rides'])->name('rides');
+Route::get('invoice/{id}', [HomeController::class, 'invoice'])->name('invoice');
+Route::get('print-invoice/{id}', [HomeController::class, 'print_invoice'])->name('print.invoice');
 
 Route::post('search', [VehicleAvailabilityController::class,'search'])->name('search.vehicle');
 
 // Toggle Button
 Route::post('/check-hours-price', [HomeController::class, 'checkHoursPrice'])->name('check-hours-price');
+

@@ -6,6 +6,7 @@ use App\Models\Contact;
 use App\Mail\OrderConfirmationMail;
 use App\Models\Review;
 use App\Models\Station;
+use App\Scopes\StoreScope;
 use Illuminate\Http\Request;
 use App\CentralLogics\Helpers;
 use App\Models\AdminFeature;
@@ -29,6 +30,8 @@ use App\Mail;
 use Illuminate\Support\Facades\Http;
 use Razorpay\Api\Api;
 use Session;
+use Carbon\Carbon;
+use App\Scopes\ZoneScope;
 
 class HomeController extends Controller
 {
@@ -517,6 +520,7 @@ class HomeController extends Controller
             $order->user_id = Auth::user()->id;
             $order->delivery_address = $customer_address;
             $order->store_id = $request->input('store_id');
+            $order->order_status = 'confirmed';
             $order->order_amount = $request->input('order_amount');
             $order->payment_status = strtolower($request->payment_status);
             $order->transaction_reference = $request->input('transaction_reference');
@@ -533,6 +537,8 @@ class HomeController extends Controller
                 $orderDetail->distance = $request->input('distance');
                 $orderDetail->start_date = $request->input('start_date');
                 $orderDetail->end_date = $request->input('end_date');
+                $orderDetail->unit_price = $request->input('unit_price');
+                $orderDetail->weekend_price = $request->input('weekend_price');
                 $orderDetail->save();
 
                 if (isset($order->transaction_reference)) {
@@ -607,6 +613,112 @@ class HomeController extends Controller
         }
 
         return view('rides', compact('orders', 'user'));
+    }
+
+    public function invoice($id){
+        $order = Order::withOutGlobalScope(ZoneScope::class)->with([
+            'details',
+            'store' => function ($query) {
+                return $query->withCount('orders');
+            },
+            'details.item' => function ($query) {
+                return $query->withoutGlobalScope(StoreScope::class);
+            },
+            'details.campaign' => function ($query) {
+                return $query->withoutGlobalScope(StoreScope::class);
+            }
+        ])->where('id', $id)->first();
+
+        $details = json_decode($order->details, true);
+        $orderDetails = $details;
+
+        // Extract weekend price
+        $weekendPrice = $details[0]['weekend_price'] ?? null;
+
+        $item = $order->details->first()->item;
+
+        // Decode JSON fields from item properties
+        $dayPrice = json_decode($item->days_price, true) ?? ['price' => 0];
+        $weekPrice = json_decode($item->week_price, true) ?? 0;
+        $monthPrice = json_decode($item->month_price, true) ?? 0;
+        $hourPrice = json_decode($item->hours_price, true) ?? ['price' => 0];
+
+        $startDateTime = Carbon::parse($details[0]['start_date']);
+        $endDateTime = Carbon::parse($details[0]['end_date']);
+        $durationHours = $endDateTime->diffInHours($startDateTime);
+
+        // Determine the pricing based on duration
+        $totalPrice = 0;
+        $type = '';
+
+        if ($durationHours <= 23) {
+            $totalPrice = $hourPrice['km_charges'] ?? 0;
+            $type = "hour";
+        } elseif ($durationHours <= 7 * 24) { // 7 days
+            $totalPrice = $dayPrice['km_charges'] ?? 0;
+            $type = "day";
+        } elseif ($durationHours <= 30 * 24) { // 30 days (approximately 1 month)
+            $totalPrice = $weekPrice['km_charges'] ?? 0;
+            $type = "week";
+        } else {
+            $totalPrice = $monthPrice['km_charges'] ?? 0;
+            $type = "month";
+        }
+        return view('invoice', compact('order', 'weekendPrice', 'type', 'totalPrice', 'orderDetails'));
+    }
+
+    public function print_invoice($id)
+    {
+        $order = Order::withOutGlobalScope(ZoneScope::class)->with([
+            'details',
+            'store' => function ($query) {
+                return $query->withCount('orders');
+            },
+            'details.item' => function ($query) {
+                return $query->withoutGlobalScope(StoreScope::class);
+            },
+            'details.campaign' => function ($query) {
+                return $query->withoutGlobalScope(StoreScope::class);
+            }
+        ])->where('id', $id)->first();
+
+        $details = json_decode($order->details, true);
+        $orderDetails = $details;
+
+        // Extract weekend price
+        $weekendPrice = $details[0]['weekend_price'] ?? null;
+
+        $item = $order->details->first()->item;
+
+        // Decode JSON fields from item properties
+        $dayPrice = json_decode($item->days_price, true) ?? ['price' => 0];
+        $weekPrice = json_decode($item->week_price, true) ?? 0;
+        $monthPrice = json_decode($item->month_price, true) ?? 0;
+        $hourPrice = json_decode($item->hours_price, true) ?? ['price' => 0];
+
+        $startDateTime = Carbon::parse($details[0]['start_date']);
+        $endDateTime = Carbon::parse($details[0]['end_date']);
+        $durationHours = $endDateTime->diffInHours($startDateTime);
+
+        // Determine the pricing based on duration
+        $totalPrice = 0;
+        $type = '';
+
+        if ($durationHours <= 23) {
+            $totalPrice = $hourPrice['km_charges'] ?? 0;
+            $type = "hour";
+        } elseif ($durationHours <= 7 * 24) { // 7 days
+            $totalPrice = $dayPrice['km_charges'] ?? 0;
+            $type = "day";
+        } elseif ($durationHours <= 30 * 24) { // 30 days (approximately 1 month)
+            $totalPrice = $weekPrice['km_charges'] ?? 0;
+            $type = "week";
+        } else {
+            $totalPrice = $monthPrice['km_charges'] ?? 0;
+            $type = "month";
+        }
+        // return view('invoice', compact('order', 'weekendPrice', 'type', 'totalPrice', 'orderDetails'));
+        return view('admin-views.order.invoice-print',compact('order', 'weekendPrice', 'type', 'totalPrice', 'orderDetails'))->render();
     }
 
     public function reviewStore(Request $request)

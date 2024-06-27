@@ -493,6 +493,7 @@
                             <input type="hidden" id="longitude" name="longitude" value="{{ $station->lon }}">
                         </div>
                         <input type="hidden" id="totalPriceInput" name="order_amount" readonly>
+                        <input type="hidden" id="rentingPrice" name="rented_unit_amount" readonly>
 
                         {{-- <div class="d-flex justify-content-between" style="margin-top: 20px;">
                             <h4>Total</h4>
@@ -678,6 +679,8 @@
             $('#sgstAmount').text(sgstAmount.toFixed(2));
             $('#totalunitprice').text(totalPayableAmount.toFixed(2));
             $('#totalPriceInput').val(totalPayableAmount);
+            $('#rentingPrice').val(totalPrice);
+
             // Format and display start and end dates
             var startDate = localStorage.getItem('startDate');
             var parsedStartDate = moment(startDate, "MMMM DD, YYYY @ h:mm A");
@@ -733,6 +736,7 @@
 
                 const storedStartDate = localStorage.getItem('startDate');
                 const storedEndDate = localStorage.getItem('endDate');
+                const weekendPrice = localStorage.getItem('weekendPrice');
 
                 if (storedStartDate && storedEndDate) {
                     // Display stored start date and end date in 12-hour format with AM/PM
@@ -743,6 +747,8 @@
                 }
 
                 var orderAmount = $('#totalPriceInput').val();
+                var rented_unit_price =  $('#rentingPrice').val();
+
                 var itemId = $('#itemIdInput').val();
                 var storeId = $('#itemStoreIdInput').val();
 
@@ -769,7 +775,9 @@
                             lng: longitude,
                             store_id: storeId,
                             item_id: itemId,
+                            unit_price: rented_unit_price,
                             payment_status: "Paid",
+                            weekend_price: weekendPrice,
                             start_date: startDate,
                             end_date: endDate,
                             transaction_reference: response.razorpay_payment_id,

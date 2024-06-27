@@ -8,6 +8,7 @@ use App\Models\OrderDetail;
 use App\Models\OrderPayment;
 use App\Models\Review;
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\CentralLogics\Helpers;
 use App\CentralLogics\StoreLogic;
@@ -445,18 +446,102 @@ class ItemController extends Controller
     {
         $userId = $request->input('user_id'); // Assuming 'vendor_id' is the key for vendor ID in the request
 
+
+        $user = User::with('userkyc')->find($userId);
         $orders = Order::where('user_id', $userId)
-            ->with('customer')
-            ->Notpos()
-            ->NotDigitalOrder()
-            ->orderBy('schedule_at', 'desc')
+            ->with('details')
+            ->orderBy('created_at', 'desc') // Order by created date in descending order
             ->get();
+
+        // Check if any orders are retrieved
+        if ($orders->isNotEmpty()) {
+            // Iterate through each order to extract item details
+            $orders->each(function ($order) {
+                $items = $order->details->map(function ($detail) {
+                    return $detail->item;
+                });
+
+                // Append the items to the order object
+                $order->items = $items;
+            });
+        }
+        // $orders = Order::where('user_id', $userId)
+        //     ->with('customer')
+        //     ->Notpos()
+        //     ->NotDigitalOrder()
+        //     ->orderBy('schedule_at', 'desc')
+        //     ->get();
 
         $orders = Helpers::order_data_formatting($orders, true);
 
         return response()->json($orders, 200);
     }
 
+    public function get_order(Request $request)
+    {
+        $orderId = $request->input('order_id');
+
+        // Retrieve the order with its details
+        $order = Order::where('id', $orderId)
+            ->with('details.item')
+            ->orderBy('created_at', 'desc')
+            ->first();
+
+        // Get GST and SGST values
+        $gst = \App\Models\BusinessSetting::where('key', 'gst')->first()->value;
+        $sgst = \App\Models\BusinessSetting::where('key', 'sgst')->first()->value;
+
+        // Check if the order is found
+        if ($order) {
+            // Map through details to extract items
+            $items = $order->details->map(function ($detail) use ($gst, $sgst) {
+                return [
+                    'item_id' => $detail->item_id,
+                    'item_name' => $detail->item->name,
+                    'quantity' => $detail->quantity,
+                    'unit_price' => $detail->unit_price,
+                    'gst_amount' => ($detail->unit_price * $gst) / 100,
+                    'sgst_amount' => ($detail->unit_price * $sgst) / 100,
+                    'price' => $detail->price,
+                    'subtotal' => $detail->quantity * $detail->price,
+                    'weekend_price' => $detail->weekend_price,
+                    'image' => $detail->item->image
+                ];
+            });
+
+            // Format the order data
+            $formattedOrder = [
+                'gst' => $gst,
+                'sgst' => $sgst,
+                'order_id' => $order->id,
+                'order_amount' => $order->order_amount,
+                'payment_status' => $order->payment_status,
+                'order_status' => $order->order_status,
+                'created_at' => $order->created_at,
+                'items' => $items,
+                'delivery_address' => $order->delivery_address ? json_decode($order->delivery_address, true) : null,
+            ];
+
+            return response()->json($formattedOrder, 200);
+        } else {
+            return response()->json(['error' => 'Order not found'], 404);
+        }
+    }
+
+    public function get_gst(Request $request)
+    {
+        // Retrieve GST and SGST values
+        $gst = \App\Models\BusinessSetting::where('key', 'gst')->first()->value;
+        $sgst = \App\Models\BusinessSetting::where('key', 'sgst')->first()->value;
+
+        // Prepare the response data
+        $response = [
+            'gst' => $gst,
+            'sgst' => $sgst
+        ];
+
+        return response()->json($response, 200);
+    }
 
     public function createOrderStore(Request $request)
     {
@@ -499,6 +584,7 @@ class ItemController extends Controller
                 $orderDetail->order_id = $order->id;
                 $orderDetail->item_id = $request->input('item_id');
                 $orderDetail->price = $request->input('order_amount');
+                $orderDetail->unit_price = $request->input('unit_price');
                 $orderDetail->distance = $request->input('distance');
                 $orderDetail->start_date = $request->input('start_date');
                 $orderDetail->end_date = $request->input('end_date');
@@ -523,6 +609,30 @@ class ItemController extends Controller
             ]);
             return response()->json(['success' => false, 'error' => 'An error occurred while processing your request.']);
         }
+    }
+
+    public function vehicle_availability_check(Request $request)
+    {
+
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        $bookedOrderDetails = OrderDetail::where('start_date', $startDate)
+            ->where('end_date', $endDate)
+            ->get();
+
+        Log::info("details" . $bookedOrderDetails);
+        
+        $bookedBikeIds = $bookedOrderDetails->pluck('item_id')->toArray();
+
+
+        $items = Item::whereNotIn('id', $bookedBikeIds)->paginate(10);
+
+        if(!$items){
+            return response()->json(['success' => false, 'message' => 'No Item Found.']);
+        }
+
+        return response()->json($items);
     }
 
     public function get_related_products(Request $request, $id)

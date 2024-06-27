@@ -260,7 +260,7 @@
                                             <th>Product Name</th>
                                             <th>Total Price</th>
                                             <th>Ride Status</th>
-                                            <th>Delivery Boy</th>
+                                            <th>Invoice</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -282,9 +282,11 @@
                                                     <td>{{ $order->items[0]->name }}</td>
                                                     <td>{{ $order->order_amount ?? 'N/A' }}</td>
                                                     <td>{{ $order->order_status ?? 'N/A' }}</td>
-                                                    <td class="delivery-boy" type="button" data-toggle="modal"
-                                                        data-target="#exampleModal">Pending</td>
-                                                    <div class="modal fade" id="exampleModal" tabindex="-1"
+                                                    <td class="delivery-boy" type="button" data-toggle="modal">
+                                                        <a href="{{ route('invoice', ['id' => $order->id]) }}">View</a>
+                                                    </td>
+
+                                                    {{-- <div class="modal fade" id="exampleModal" tabindex="-1"
                                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                         <div class="modal-dialog">
                                                             <div class="modal-content">
@@ -308,7 +310,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div> --}}
                                                 </tr>
                                             @endforeach
                                         @endif

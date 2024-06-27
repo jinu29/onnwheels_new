@@ -37,11 +37,11 @@ class CustomerAuthController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => Helpers::error_processor($validator)], 403);
         }
-        $user = User::where('phone', $request->phone)->first();
+        $user = User::where('phone', $request->phone)->with('userKyc')->first();
         if ($user) {
             if ($user->is_phone_verified) {
                 $token = $user->createToken('RestaurantCustomerAuth')->accessToken;
-                return response()->json(['token' => $token, 'is_phone_verified' => true], 200);
+                return response()->json(['token' => $token, 'is_phone_verified' => true, 'user' => $user], 200);
             }
 
             $data = DB::table('phone_verifications')->where([
@@ -552,7 +552,7 @@ class CustomerAuthController extends Controller
                 Cart::where('user_id', $request->guest_id)->update(['user_id' => $user->id, 'is_guest' => 0]);
             }
 
-            return response()->json(['token' => $token, 'is_phone_verified' => $user->is_phone_verified, 'user' => $user], 200);
+            return response()->json(['token' => $token, 'is_phone_verified' => $user->is_phone_verified, 'user' => $user, 'user_kyc' => $user->userKyc], 200);
         } else {
             return response()->json(['errors' => [['code' => 'auth-001', 'message' => translate('messages.Unauthorized')]]], 401);
         }

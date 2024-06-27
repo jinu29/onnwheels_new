@@ -524,44 +524,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mt-2">
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.KM') }}</label>
-                                        <input type="text" name="km" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 1km">
-                                    </div>
-
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.KM price') }}</label>
-                                        <input type="number" name="km_price" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100">
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.KM limit') }}</label>
-                                        <input type="number" name="km_limit" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100">
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.KM Charges') }}</label>
-                                        <input type="number" name="km_charges" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100">
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>

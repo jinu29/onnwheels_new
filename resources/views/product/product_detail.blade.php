@@ -1005,6 +1005,28 @@
             text-align: center;
             /* Centered text */
         }
+
+
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
     </style>
 @endsection
 @section('content')
@@ -1022,7 +1044,7 @@
             // dd($weekendPrice);
             ?>
 
-            <form id="bookingForm"
+            <form id="bookingForm" class="d-flex align-items-center"
                 action="{{ auth()->check() ? route('user.payment', $items->slug) : route('login', ['tab' => 'customer', 'id' => $items->id]) }}"
                 method="get" enctype="multipart/form-data">
                 <input type="hidden" name="item_id" value="{{ $items->id }}">
@@ -1156,7 +1178,7 @@
                                         </div>
                                         <div class="col s3 l4" style="padding:0rem;">
                                             <span class="inner_text">
-                                                <b>{{ $dayPrice['km_limit'] }}</b>/hr
+                                                <b>{{ $dayPrice['km_limit'] }}</b>/day
                                         </div>
                                     </div>
                                     <div class="row">
@@ -1193,7 +1215,7 @@
                                         </div>
                                         <div class="col s3 l4" style="padding:0rem;">
                                             <span class="inner_text">
-                                                <b>{{ $weekPrice['km_limit'] }}</b>/hr
+                                                <b>{{ $weekPrice['km_limit'] }}</b>/week
                                         </div>
                                     </div>
                                     <div class="row">
@@ -1230,7 +1252,7 @@
                                         </div>
                                         <div class="col s3 l4" style="padding:0rem;">
                                             <span class="inner_text">
-                                                <b>{{ $monthPrice['km_limit'] }}</b>/hr
+                                                <b>{{ $monthPrice['km_limit'] }}</b>/month
                                         </div>
                                     </div>
                                     <div class="row">
@@ -1322,6 +1344,9 @@
         crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
+
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
     {{-- Slick --}}
     <script>
@@ -1541,24 +1566,23 @@
             console.log("Month", months);
 
             // Calculate price for months
-            if (months >= 1) {
-                const fullMonths = Math.floor(months);
-                const remainingWeeks = Math.floor((months - fullMonths) * 4.34524); // Approximation of weeks in a month
-                const remainingDays = Math.floor((months - fullMonths) * 30.4375 - remainingWeeks *
-                7); // Approximation of days in a month
-                const remainingHours = Math.floor((months - fullMonths) * 30.4375 * 24 - remainingDays * 24 -
-                    remainingWeeks * 7 * 24);
+            if (days >= 30) {
+                const fullMonths = Math.floor(days / 30);
+                const remainingDays = days % 30;
+                const remainingWeeks = Math.floor(remainingDays / 7);
+                const remainingHours = (remainingDays % 7) * 24;
 
-                price = fullMonths * monthPrice.price + remainingWeeks * weekPrice.price + remainingDays * dayPrice.price +
-                    remainingHours * hourPrice.price;
+                price = fullMonths * monthPrice.price + remainingWeeks * weekPrice.price + Math.floor(remainingHours / 24) *
+                    dayPrice.price + (remainingHours % 24) * hourPrice.price;
             }
             // Calculate price for weeks
-            else if (weeks >= 1) {
-                const fullWeeks = Math.floor(weeks);
-                const remainingDays = Math.floor((weeks - fullWeeks) * 7);
-                const remainingHours = Math.floor((weeks - fullWeeks) * 7 * 24 - remainingDays * 24);
+            else if (days >= 7) {
+                const fullWeeks = Math.floor(days / 7);
+                const remainingDays = days % 7;
+                const remainingHours = (remainingDays % 7) * 24;
 
-                price = fullWeeks * weekPrice.price + remainingDays * dayPrice.price + remainingHours * hourPrice.price;
+                price = fullWeeks * weekPrice.price + Math.floor(remainingDays) * dayPrice.price + remainingHours *
+                    hourPrice.price;
             }
             // Calculate price for days
             else if (days >= 1) {
@@ -1566,12 +1590,14 @@
                 const remainingHours = Math.floor((days - fullDays) * 24);
 
                 price = fullDays * dayPrice.price + remainingHours * hourPrice.price;
+
                 // Calculate weekend price for daily rentals
                 let current = moment(start);
                 while (current <= end) {
                     const day = current.day();
                     if (day === 5 || day === 6 || day === 0) { // Friday, Saturday, Sunday
-                        weekend += weekendPrice;
+                        console.log("days weekened", weekend)
+                        weekend = weekendPrice;
                     }
                     current.add(1, 'days');
                 }
@@ -1579,21 +1605,23 @@
             // Calculate price for hours
             else {
                 price = hours * hourPrice.price;
+
                 // Calculate weekend price for hourly rentals
                 let current = moment(start);
                 while (current <= end) {
                     const day = current.day();
                     if (day === 5 || day === 6 || day === 0) { // Friday, Saturday, Sunday
-                        weekend += weekendPrice;
+                        console.log("hour weekened", weekend)
+                        weekend = weekendPrice;
                     }
-                    current.add(1, 'days');
+                    current.add(1, 'hours');
                 }
             }
 
             console.log("Weekend", weekend);
 
             // Only add weekend price for hourly and daily rentals
-            if (months < 1 && weeks < 1) {
+            if (days < 30) {
                 price += weekend;
             }
 
@@ -1603,8 +1631,9 @@
                 localStorage.setItem('endDate', end.format('MMMM DD, YYYY @ h:mm A'));
                 localStorage.setItem('totalPrice', price.toFixed(2));
                 localStorage.setItem('weekendPrice', weekend.toFixed(2));
-            } 
+            }
         }
+
 
 
         document.getElementById('bookingForm').addEventListener('submit', function(event) {
@@ -1650,6 +1679,9 @@
 
         });
     </script>
+
+    //
+   
 
     <!--review-->
     <script>

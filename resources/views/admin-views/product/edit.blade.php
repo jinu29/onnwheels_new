@@ -245,10 +245,15 @@
 
                                 <div class="col-sm-6 col-lg-3">
                                     <div class="form-group mb-0">
-                                        <label class="input-label" for="station_id">{{ translate('messages.station') }}</label>
-                                        <select name="station_id[]" id="station_id" data-placeholder="{{ translate('messages.select_station') }}" class="js-data-example-ajax form-control" multiple="multiple">
+                                        <label class="input-label"
+                                            for="station_id">{{ translate('messages.station') }}</label>
+                                        <select name="station_id[]" id="station_id"
+                                            data-placeholder="{{ translate('messages.select_station') }}"
+                                            class="js-data-example-ajax form-control" multiple="multiple">
                                             @foreach ($stations as $station)
-                                                <option value="{{ $station->id }}" {{ in_array($station->id, $product->stations->pluck('id')->toArray()) ? 'selected' : '' }}>{{ $station->name }}</option>
+                                                <option value="{{ $station->id }}"
+                                                    {{ in_array($station->id, $product->stations->pluck('id')->toArray()) ? 'selected' : '' }}>
+                                                    {{ $station->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -442,7 +447,7 @@
                                 <div class="col-sm-4 col-6">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Security deposit') }}</label>
+                                            for="exampleFormControlInput1">{{ translate('messages.weekend deposit') }}</label>
                                         <input type="number" value="{{ $product->price }}" min="0"
                                             max="999999999999.99" name="price" class="form-control" step="0.01"
                                             placeholder="{{ translate('messages.Ex:') }} 100" required>
@@ -467,7 +472,7 @@
                                                 {{ translate('messages.amount') }}
                                             </option>
                                         </select>
-                                    </div>
+                                    </div>  
                                 </div>
                                 <div class="col-sm-4 col-6">
                                     <div class="form-group mb-0">
@@ -479,84 +484,191 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="row mt-2">
                                 <?php
                                 // JSON string containing the key-value pair
                                 $jsonString = $product['hours_price'];
-
+                                
                                 // Decode the JSON string into an associative array
                                 $hoursPriceArray = json_decode($jsonString, true);
-
-                                // Initialize variables to store key and value
-                                $defaultKey = '';
-                                $defaultValue = '';
-
-
-                                // Check if decoding was successful and $hoursPriceArray is not empty
-                                if ($hoursPriceArray && is_array($hoursPriceArray)) {
-                                    // Extract key and value from the associative array
-                                    $defaultKey = key($hoursPriceArray); // Get the key (e.g., "12")
-                                    $defaultValue = current($hoursPriceArray); // Get the value (e.g., "200")
-                                }
+                                
                                 ?>
-
-                                <div class="col-lg-6">
+                                <div class="col-lg-3">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
                                             for="exampleFormControlInput1">{{ translate('messages.Hours') }}</label>
                                         <input type="text" name="hours" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 1hrs"
-                                            value="{{ $defaultKey }}">
+                                            placeholder="{{ translate('messages.Ex:') }} 1hrs" value="{{$hoursPriceArray["hour"] ?? 0}}">
                                     </div>
 
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-3">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
                                             for="exampleFormControlInput1">{{ translate('messages.Hours price') }}</label>
                                         <input type="number" name="h_price" min="0" max="999999999999.99"
                                             step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100"
-                                            value="{{ $defaultValue }}">
+                                            placeholder="{{ translate('messages.Ex:') }} 100" value="{{$hoursPriceArray["price"] ?? 0}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.Hour KM limit') }}</label>
+                                        <input type="number" name="h_km_limit" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100" value="{{$hoursPriceArray["km_limit"] ?? 0}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.Hour KM Charges') }}</label>
+                                        <input type="number" name="h_km_charges" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100" value="{{$hoursPriceArray["km_charges"] ?? 0}}">
                                     </div>
                                 </div>
                             </div>
+
                             <div class="row mt-2">
                                 <?php
                                 // JSON string containing the key-value pair
-                                $jsonString = $product['distance_price'];
-
+                                $jsonString = $product['days_price'];
+                                
                                 // Decode the JSON string into an associative array
-                                $discountPriceArray = json_decode($jsonString, true);
-
-                                // Initialize variables to store key and value
-                                $defaultKey = '';
-                                $defaultValue = '';
-
-
-                                // Check if decoding was successful and $hoursPriceArray is not empty
-                                if ($discountPriceArray && is_array($discountPriceArray)) {
-                                    // Extract key and value from the associative array
-                                    $defaultKey = key($discountPriceArray); // Get the key (e.g., "12")
-                                    $defaultValue = current($discountPriceArray); // Get the value (e.g., "200")
-                                }
+                                $dayPriceArray = json_decode($jsonString, true);
+                                
                                 ?>
-                                <div class="col-lg-6">
+                                <div class="col-lg-3">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.KM') }}</label>
-                                        <input type="text" name="km" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 1km" value="{{ $defaultKey }}">
+                                            for="exampleFormControlInput1">{{ translate('messages.Day') }}</label>
+                                        <input type="text" name="days" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 1hrs" value="{{$dayPriceArray["hour"] ?? 0}}">
                                     </div>
 
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-3">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.KM price') }}</label>
-                                        <input type="number" name="km_price" min="0" max="999999999999.99"
+                                            for="exampleFormControlInput1">{{ translate('messages.Day price') }}</label>
+                                        <input type="number" name="d_price" min="0" max="999999999999.99"
                                             step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100"  value="{{ $defaultValue }}">
+                                            placeholder="{{ translate('messages.Ex:') }} 100" value="{{$dayPriceArray["price"] ?? 0}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.Day KM limit') }}</label>
+                                        <input type="number" name="d_km_limit" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100" value="{{$dayPriceArray["km_limit"] ?? 0}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.Day KM Charges') }}</label>
+                                        <input type="number" name="d_km_charges" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100" value="{{$dayPriceArray["km_charges"] ?? 0}}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <?php
+                                // JSON string containing the key-value pair
+                                $jsonString = $product['week_price'];
+                                
+                                // Decode the JSON string into an associative array
+                                $weekPriceArray = json_decode($jsonString, true);
+                                
+                                ?>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.Week') }}</label>
+                                        <input type="text" name="week" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 1hrs" value="{{$weekPriceArray["hour"] ?? 0}}">
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.Week price') }}</label>
+                                        <input type="number" name="w_price" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100" value="{{$weekPriceArray["price"] ?? 0}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.Week KM limit') }}</label>
+                                        <input type="number" name="w_km_limit" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100" value="{{$weekPriceArray["km_limit"] ?? 0}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.Week KM Charges') }}</label>
+                                        <input type="number" name="w_km_charges" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100" value="{{$weekPriceArray["km_charges"] ?? 0}}">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row mt-2">
+                                <?php
+                                // JSON string containing the key-value pair
+                                $jsonString = $product['month_price'];
+                                
+                                // Decode the JSON string into an associative array
+                                $monthPriceArray = json_decode($jsonString, true);
+                                
+                                ?>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.month') }}</label>
+                                        <input type="text" name="month" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 1hrs" value="{{$monthPriceArray["hour"] ?? 0}}">
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.Month price') }}</label>
+                                        <input type="number" name="m_price" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100" value="{{$monthPriceArray["price"] ?? 0}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.Month KM limit') }}</label>
+                                        <input type="number" name="m_km_limit" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100" value="{{$monthPriceArray["km_limit"] ?? 0}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.Month KM Charges') }}</label>
+                                        <input type="number" name="m_km_charges" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100" value="{{$monthPriceArray["km_charges"] ?? 0}}">
                                     </div>
                                 </div>
                             </div>
@@ -1000,29 +1112,29 @@
     });
 
     $('#station_id').select2({
-            ajax: {
-                url: '{{ url('/') }}/admin/store/get-station', // Adjust the route as per your setup
-                data: function(params) {
-                    return {
-                        q: params.term, // search term
-                        page: params.page
-                    };
-                },
-                processResults: function(data) {
-                    return {
-                        results: data
-                    };
-                },
-                __port: function(params, success, failure) {
-                    let $request = $.ajax(params);
+        ajax: {
+            url: '{{ url('/') }}/admin/store/get-station', // Adjust the route as per your setup
+            data: function(params) {
+                return {
+                    q: params.term, // search term
+                    page: params.page
+                };
+            },
+            processResults: function(data) {
+                return {
+                    results: data
+                };
+            },
+            __port: function(params, success, failure) {
+                let $request = $.ajax(params);
 
-                    $request.then(success);
-                    $request.fail(failure);
+                $request.then(success);
+                $request.fail(failure);
 
-                    return $request;
-                }
+                return $request;
             }
-        });
+        }
+    });
 
     $(document).ready(function() {
         @if (count(json_decode($product['add_ons'], true)) > 0)

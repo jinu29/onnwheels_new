@@ -39,6 +39,7 @@ use App\Models\OrderPayment;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use MatanYadaev\EloquentSpatial\Objects\Point;
+use Carbon\Carbon;
 
 class OrderController extends Controller
 {
@@ -154,7 +155,7 @@ class OrderController extends Controller
         $orders = Order::latest()->get();
         return view('admin-views.order.list', compact('orders'));
     }
-    
+
 
     public function dispatch_list($module, $status, Request $request)
     {
@@ -284,8 +285,44 @@ class OrderController extends Controller
 
             $deliveryMen = Helpers::deliverymen_list_formatting($deliveryMen);
 
+            $details = json_decode($order->details, true);
+            $orderDetails = $details;
 
-            return view('admin-views.order.order-view', compact('order', 'deliveryMen', 'categories', 'products', 'category', 'keyword', 'editing'));
+            // Extract weekend price
+            $weekendPrice = $details[0]['weekend_price'] ?? null;
+
+            $item = $order->details->first()->item;
+
+            // Decode JSON fields from item properties
+            $dayPrice = json_decode($item->days_price, true) ?? ['price' => 0];
+            $weekPrice = json_decode($item->week_price, true) ?? 0;
+            $monthPrice = json_decode($item->month_price, true) ?? 0;
+            $hourPrice = json_decode($item->hours_price, true) ?? ['price' => 0];
+
+            $startDateTime = Carbon::parse($details[0]['start_date']);
+            $endDateTime = Carbon::parse($details[0]['end_date']);
+            $durationHours = $endDateTime->diffInHours($startDateTime);
+
+            // Determine the pricing based on duration
+            $totalPrice = 0;
+            $type = '';
+
+            if ($durationHours <= 23) {
+                $totalPrice = $hourPrice['km_charges'] ?? 0;
+                $type = "hour";
+            } elseif ($durationHours <= 7 * 24) { // 7 days
+                $totalPrice = $dayPrice['km_charges'] ?? 0;
+                $type = "day";
+            } elseif ($durationHours <= 30 * 24) { // 30 days (approximately 1 month)
+                $totalPrice = $weekPrice['km_charges'] ?? 0;
+                $type = "week";
+            } else {
+                $totalPrice = $monthPrice['km_charges'] ?? 0;
+                $type = "month";
+            }
+
+
+            return view('admin-views.order.order-view', compact('order', 'deliveryMen', 'categories', 'products', 'category', 'keyword', 'editing', 'weekendPrice', 'orderDetails', 'type', 'totalPrice'));
         } else {
             Toastr::info(translate('messages.no_more_orders'));
             return back();
@@ -403,160 +440,54 @@ class OrderController extends Controller
             }
         ])->withOutGlobalScope(ZoneScope::class)->find($request->id);
 
-        if (in_array($order->order_status, ['refunded', 'failed'])) {
-            Toastr::warning(translate('messages.you_can_not_change_the_status_of_a_completed_order'));
-            return back();
-        }
-        if (in_array($order->order_status, ['refund_requested']) && BusinessSetting::where(['key' => 'refund_active_status'])->first()->value == false) {
-            Toastr::warning(translate('Refund Option is not active. Please active it from Refund Settings'));
-            return back();
-        }
-
-        if ($order['delivery_man_id'] == null && $request->order_status == 'out_for_delivery') {
-            Toastr::warning(translate('messages.please_assign_deliveryman_first'));
-            return back();
-        }
-
-        if ($request->order_status == 'delivered' && $order['transaction_reference'] == null && $order['payment_method'] != 'cash_on_delivery') {
-            Toastr::warning(translate('messages.add_your_paymen_ref_first'));
-            return back();
-        }
-
-        if ($request->order_status == 'delivered') {
-
-            if ($order->transaction == null) {
-                $unpaid_payment = OrderPayment::where('payment_status', 'unpaid')->where('order_id', $order->id)->first()?->payment_method;
-                $unpaid_pay_method = 'digital_payment';
-                if ($unpaid_payment) {
-                    $unpaid_pay_method = $unpaid_payment;
-                }
-                if ($order->payment_method == "cash_on_delivery" || $unpaid_pay_method == 'cash_on_delivery') {
-                    if ($order->order_type == 'take_away') {
-                        $ol = OrderLogic::create_transaction($order, 'store', null);
-                    } else if ($order->delivery_man_id) {
-                        $ol = OrderLogic::create_transaction($order, 'deliveryman', null);
-                    } else if ($order->user_id) {
-                        $ol = OrderLogic::create_transaction($order, false, null);
-                    }
-                } else {
-                    $ol = OrderLogic::create_transaction($order, 'admin', null);
-                }
-                if (!$ol) {
-                    Toastr::warning(translate('messages.faield_to_create_order_transaction'));
-                    return back();
-                }
-            } else if ($order->delivery_man_id) {
-                $order->transaction->update(['delivery_man_id' => $order->delivery_man_id]);
-            }
-
-            $order->payment_status = 'paid';
-            if ($order->delivery_man) {
-                $dm = $order->delivery_man;
-                $dm->increment('order_count');
-                $dm->current_orders = $dm->current_orders > 1 ? $dm->current_orders - 1 : 0;
-                $dm->save();
-            }
-            $order->details->each(function ($item, $key) {
-                if ($item->item) {
-                    $item->item->increment('order_count');
-                }
-            });
-            $order?->customer?->increment('order_count');
-            if ($order->store) {
-                $order->store->increment('order_count');
-            }
-            if ($order->parcel_category) {
-                $order->parcel_category->increment('orders_count');
-            }
-
-            OrderLogic::update_unpaid_order_payment(order_id: $order->id, payment_method: $order->payment_method);
-
-        } else if ($request->order_status == 'refunded' && BusinessSetting::where('key', 'refund_active_status')->first()->value == 1) {
-            if ($order->payment_status == "unpaid") {
-                Toastr::warning(translate('messages.you_can_not_refund_a_cod_order'));
-                return back();
-            }
-            if (isset($order->delivered)) {
-                $rt = OrderLogic::refund_order($order);
-                if (!$rt) {
-                    Toastr::warning(translate('messages.faield_to_create_order_transaction'));
-                    return back();
-                }
-            }
-            $refund_method = $request->refund_method ?? 'manual';
-            $wallet_status = BusinessSetting::where('key', 'wallet_status')->first()->value;
-            $refund_to_wallet = BusinessSetting::where('key', 'wallet_add_refund')->first()->value;
-            if ($order->payment_status == "paid" && $wallet_status == 1 && $refund_to_wallet == 1) {
-                $refund_amount = round($order->order_amount - $order->delivery_charge - $order->dm_tips, config('round_up_to_digit'));
-                CustomerLogic::create_wallet_transaction($order->user_id, $refund_amount, 'order_refund', $order->id);
-                Toastr::info(translate('Refunded amount added to customer wallet'));
-                $refund_method = 'wallet';
-            } else {
-                Toastr::warning(translate('Customer Wallet Refund is not active.Plase Manage the Refund Amount Manually'));
-                $refund_method = $request->refund_method ?? 'manual';
-            }
-            Refund::where('order_id', $order->id)->update([
-                'order_status' => 'refunded',
-                'admin_note' => $request->admin_note ?? null,
-                'refund_status' => 'approved',
-                'refund_method' => $refund_method,
-            ]);
-            if ($order->delivery_man) {
-                $dm = $order->delivery_man;
-                $dm->current_orders = $dm->current_orders > 1 ? $dm->current_orders - 1 : 0;
-                $dm->save();
-            }
-
-            try {
-                $mail_status = Helpers::get_mail_status('refund_order_mail_status_user');
-                if (config('mail.status') && $order?->customer?->email && $mail_status == '1') {
-                    Mail::to($order->customer->email)->send(new \App\Mail\RefundedOrderMail($order->id));
-                }
-            } catch (\Throwable $th) {
-                info($th->getMessage());
-                Toastr::error(translate('messages.Failed_to_send_mail'));
-            }
-        } else if ($request->order_status == 'canceled') {
-            if (in_array($order->order_status, ['delivered', 'canceled', 'refund_requested', 'refunded', 'failed', 'picked_up']) || $order->picked_up) {
-                Toastr::warning(translate('messages.you_can_not_cancel_a_completed_order'));
-                return back();
-            }
-            $order->cancellation_reason = $request->reason;
-            $order->canceled_by = 'admin';
-            if (config('module.' . $order->module->module_type)['stock']) {
-                foreach ($order->details as $detail) {
-                    $variant = json_decode($detail['variation'], true);
-                    $item = $detail->item;
-                    if ($detail->campaign) {
-                        $item = $detail->campaign;
-                    }
-                    ProductLogic::update_stock($item, -$detail->quantity, count($variant) ? $variant[0]['type'] : null)->save();
-                }
-            }
-            if ($order->delivery_man) {
-                $dm = $order->delivery_man;
-                $dm->current_orders = $dm->current_orders > 1 ? $dm->current_orders - 1 : 0;
-                $dm->save();
-            }
-            if ($order->is_guest == 0) {
-
-                OrderLogic::refund_before_delivered($order);
-            }
-        }
+        // Update order status and additional attributes
         $order->order_status = $request->order_status;
-        if ($request->order_status == 'processing') {
-            $order->processing_time = ($request->processing_time) ? $request->processing_time : explode('-', $order['store']['delivery_time'])[0];
-        }
-        $order[$request->order_status] = now();
+
         $order->save();
 
+        // Send order notification
         if (!Helpers::send_order_notification($order)) {
             Toastr::warning(translate('messages.push_notification_faild'));
         }
 
+        // Success message and redirect back
         Toastr::success(translate('messages.order_status_updated'));
         return back();
     }
+
+    public function updateOrderDetails(Request $request)
+    {
+        // Extract data from the request
+        $orderId = $request->input('order_id');
+        $kmExceed = $request->input('km_exceed');
+        $typeExceed = $request->input('type_exceed');
+        $penalty = $request->input('penalty');
+        $kmCharges = $request->input('km_charges'); // Assuming you need this for calculation
+
+        // Fetch the order detail
+        $orderDetail = OrderDetail::where('order_id', $orderId)->first();
+
+        if (!$orderDetail) {
+            return response()->json(['success' => false, 'message' => 'Order detail not found'], 404);
+        }
+
+        // Update order details
+        // Calculate the updated price based on the provided inputs
+        $updatedPrice = $orderDetail->price + ($kmCharges * $kmExceed) + $penalty + ($orderDetail->price * $typeExceed);
+
+        // Update the fields
+        $orderDetail->price = $updatedPrice;
+        $orderDetail->km_exceed = $kmExceed;
+        $orderDetail->type_exceed = $typeExceed;
+        $orderDetail->penalty = $penalty;
+
+        // Save the updated order detail
+        $orderDetail->save();
+
+        // Return a JSON response indicating success
+        return response()->json(['success' => true, 'message' => 'Order details updated successfully']);
+    }
+
 
     public function add_delivery_man($order_id, $delivery_man_id)
     {
@@ -706,7 +637,43 @@ class OrderController extends Controller
                 return $query->withoutGlobalScope(StoreScope::class);
             }
         ])->where('id', $id)->first();
-        return view('admin-views.order.invoice', compact('order'));
+
+        $details = json_decode($order->details, true);
+        $orderDetails = $details;
+
+        // Extract weekend price
+        $weekendPrice = $details[0]['weekend_price'] ?? null;
+
+        $item = $order->details->first()->item;
+
+        // Decode JSON fields from item properties
+        $dayPrice = json_decode($item->days_price, true) ?? ['price' => 0];
+        $weekPrice = json_decode($item->week_price, true) ?? 0;
+        $monthPrice = json_decode($item->month_price, true) ?? 0;
+        $hourPrice = json_decode($item->hours_price, true) ?? ['price' => 0];
+
+        $startDateTime = Carbon::parse($details[0]['start_date']);
+        $endDateTime = Carbon::parse($details[0]['end_date']);
+        $durationHours = $endDateTime->diffInHours($startDateTime);
+
+        // Determine the pricing based on duration
+        $totalPrice = 0;
+        $type = '';
+
+        if ($durationHours <= 23) {
+            $totalPrice = $hourPrice['km_charges'] ?? 0;
+            $type = "hour";
+        } elseif ($durationHours <= 7 * 24) { // 7 days
+            $totalPrice = $dayPrice['km_charges'] ?? 0;
+            $type = "day";
+        } elseif ($durationHours <= 30 * 24) { // 30 days (approximately 1 month)
+            $totalPrice = $weekPrice['km_charges'] ?? 0;
+            $type = "week";
+        } else {
+            $totalPrice = $monthPrice['km_charges'] ?? 0;
+            $type = "month";
+        }
+        return view('admin-views.order.invoice', compact('order', 'weekendPrice', 'type', 'totalPrice', 'orderDetails'));
     }
 
     public function print_invoice($id)
@@ -723,7 +690,44 @@ class OrderController extends Controller
                 return $query->withoutGlobalScope(StoreScope::class);
             }
         ])->where('id', $id)->first();
-        return view('admin-views.order.invoice-print', compact('order'))->render();
+
+        $details = json_decode($order->details, true);
+        $orderDetails = $details;
+
+        // Extract weekend price
+        $weekendPrice = $details[0]['weekend_price'] ?? null;
+
+        $item = $order->details->first()->item;
+
+        // Decode JSON fields from item properties
+        $dayPrice = json_decode($item->days_price, true) ?? ['price' => 0];
+        $weekPrice = json_decode($item->week_price, true) ?? 0;
+        $monthPrice = json_decode($item->month_price, true) ?? 0;
+        $hourPrice = json_decode($item->hours_price, true) ?? ['price' => 0];
+
+        $startDateTime = Carbon::parse($details[0]['start_date']);
+        $endDateTime = Carbon::parse($details[0]['end_date']);
+        $durationHours = $endDateTime->diffInHours($startDateTime);
+
+        // Determine the pricing based on duration
+        $totalPrice = 0;
+        $type = '';
+
+        if ($durationHours <= 23) {
+            $totalPrice = $hourPrice['km_charges'] ?? 0;
+            $type = "hour";
+        } elseif ($durationHours <= 7 * 24) { // 7 days
+            $totalPrice = $dayPrice['km_charges'] ?? 0;
+            $type = "day";
+        } elseif ($durationHours <= 30 * 24) { // 30 days (approximately 1 month)
+            $totalPrice = $weekPrice['km_charges'] ?? 0;
+            $type = "week";
+        } else {
+            $totalPrice = $monthPrice['km_charges'] ?? 0;
+            $type = "month";
+        }
+        // return view('invoice', compact('order', 'weekendPrice', 'type', 'totalPrice', 'orderDetails'));
+        return view('admin-views.order.invoice-print',compact('order', 'weekendPrice', 'type', 'totalPrice', 'orderDetails'))->render();
     }
 
     public function add_payment_ref_code(Request $request, $id)
@@ -1483,24 +1487,28 @@ class OrderController extends Controller
         foreach ($request->lang as $index => $key) {
             if ($default_lang == $key && !($request->reason[$index])) {
                 if ($key != 'default') {
-                    array_push($data, array(
-                        'translationable_type' => 'App\Models\RefundReason',
-                        'translationable_id' => $reason->id,
-                        'locale' => $key,
-                        'key' => 'reason',
-                        'value' => $reason->reason,
-                    )
+                    array_push(
+                        $data,
+                        array(
+                            'translationable_type' => 'App\Models\RefundReason',
+                            'translationable_id' => $reason->id,
+                            'locale' => $key,
+                            'key' => 'reason',
+                            'value' => $reason->reason,
+                        )
                     );
                 }
             } else {
                 if ($request->reason[$index] && $key != 'default') {
-                    array_push($data, array(
-                        'translationable_type' => 'App\Models\RefundReason',
-                        'translationable_id' => $reason->id,
-                        'locale' => $key,
-                        'key' => 'reason',
-                        'value' => $request->reason[$index],
-                    )
+                    array_push(
+                        $data,
+                        array(
+                            'translationable_type' => 'App\Models\RefundReason',
+                            'translationable_id' => $reason->id,
+                            'locale' => $key,
+                            'key' => 'reason',
+                            'value' => $request->reason[$index],
+                        )
                     );
                 }
             }

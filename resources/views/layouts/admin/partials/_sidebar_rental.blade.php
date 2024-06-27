@@ -256,7 +256,7 @@
                                     </span>
                                 </a>
                             </li>
-                            <li class="nav-item {{ Request::is('admin/order/list/scheduled') ? 'active' : '' }}">
+                            {{-- <li class="nav-item {{ Request::is('admin/order/list/scheduled') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('admin.order.list', ['scheduled']) }}" title="{{ translate('messages.scheduled_orders') }}">
                                     <span class="tio-circle nav-indicator-icon"></span>
                                     <span class="text-truncate sidebar--badge-container">
@@ -366,7 +366,7 @@
                                         </span>
                                     </span>
                                 </a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </li>
 

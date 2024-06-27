@@ -55,6 +55,7 @@ class UserController extends Controller
     // }
     public function userkyc_store(Request $request)
     {
+
         $user_id = Auth::user()->id;
 
         $user_kyc = Userkyc::where('user_id', $user_id)->first();

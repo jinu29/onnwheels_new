@@ -45,7 +45,7 @@ class Helpers
 
     public static function schedule_order()
     {
-        return (bool)BusinessSetting::where(['key' => 'schedule_order'])->first()->value;
+        return (bool) BusinessSetting::where(['key' => 'schedule_order'])->first()->value;
     }
 
 
@@ -78,28 +78,33 @@ class Helpers
 
     public static function address_data_formatting($data)
     {
-        foreach ($data as $key=>$item) {
+        foreach ($data as $key => $item) {
             $data[$key]['zone_ids'] = array_column(Zone::query()->whereContains('coordinates', new Point($item->latitude, $item->longitude, POINT_SRID))->latest()->get(['id'])->toArray(), 'id');
         }
         return $data;
     }
 
-    public static function cart_product_data_formatting($data, $selected_variation, $selected_addons,
-                                                        $selected_addon_quantity,$trans = false, $local = 'en')
-    {
+    public static function cart_product_data_formatting(
+        $data,
+        $selected_variation,
+        $selected_addons,
+        $selected_addon_quantity,
+        $trans = false,
+        $local = 'en'
+    ) {
         $variations = [];
         $categories = [];
-        $category_ids = gettype($data['category_ids']) == 'array' ? $data['category_ids'] : json_decode($data['category_ids'],true);
+        $category_ids = gettype($data['category_ids']) == 'array' ? $data['category_ids'] : json_decode($data['category_ids'], true);
         foreach ($category_ids as $value) {
-            $category_name = Category::where('id',$value['id'])->pluck('name');
-            $categories[] = ['id' => (string)$value['id'], 'position' => $value['position'], 'name'=>data_get($category_name,'0','NA')];
+            $category_name = Category::where('id', $value['id'])->pluck('name');
+            $categories[] = ['id' => (string) $value['id'], 'position' => $value['position'], 'name' => data_get($category_name, '0', 'NA')];
         }
         $data['category_ids'] = $categories;
-        $attributes = gettype($data['attributes']) == 'array' ? $data['attributes'] : json_decode($data['attributes'],true);
+        $attributes = gettype($data['attributes']) == 'array' ? $data['attributes'] : json_decode($data['attributes'], true);
         $data['attributes'] = $attributes;
-        $choice_options = gettype($data['choice_options']) == 'array' ? $data['choice_options'] : json_decode($data['choice_options'],true);
+        $choice_options = gettype($data['choice_options']) == 'array' ? $data['choice_options'] : json_decode($data['choice_options'], true);
         $data['choice_options'] = $choice_options;
-        $add_ons = gettype($data['add_ons']) == 'array' ? $data['add_ons'] : json_decode($data['add_ons'],true);
+        $add_ons = gettype($data['add_ons']) == 'array' ? $data['add_ons'] : json_decode($data['add_ons'], true);
         $data_addons = self::addon_data_formatting(AddOn::whereIn('id', $add_ons)->active()->get(), true, $trans, $local);
         $selected_data = array_combine($selected_addons, $selected_addon_quantity);
         foreach ($data_addons as $addon) {
@@ -113,12 +118,12 @@ class Helpers
             }
         }
         $data['addons'] = $data_addons;
-        $data_variations = gettype($data['variations']) == 'array' ? $data['variations'] : json_decode($data['variations'],true);
+        $data_variations = gettype($data['variations']) == 'array' ? $data['variations'] : json_decode($data['variations'], true);
         foreach ($data_variations as $var) {
             array_push($variations, [
                 'type' => $var['type'],
-                'price' => (float)$var['price'],
-                'stock' => (int)($var['stock'] ?? 0)
+                'price' => (float) $var['price'],
+                'stock' => (int) ($var['stock'] ?? 0)
             ]);
         }
         if ($data->title) {
@@ -142,15 +147,15 @@ class Helpers
             unset($data['end_date']);
         }
         $data['variations'] = $variations;
-        $data_variation = $data['food_variations']?(gettype($data['food_variations']) == 'array' ? $data['food_variations'] : json_decode($data['food_variations'],true)):[];
-        if($data->module->module_type == 'food'){
+        $data_variation = $data['food_variations'] ? (gettype($data['food_variations']) == 'array' ? $data['food_variations'] : json_decode($data['food_variations'], true)) : [];
+        if ($data->module->module_type == 'food') {
             foreach ($selected_variation as $selected_item) {
                 foreach ($data_variation as &$all_item) {
                     if ($selected_item["name"] === $all_item["name"]) {
                         foreach ($all_item["values"] as &$value) {
                             if (in_array($value["label"], $selected_item["values"]["label"])) {
                                 $value["isSelected"] = true;
-                            }else{
+                            } else {
                                 $value["isSelected"] = false;
                             }
                         }
@@ -160,25 +165,25 @@ class Helpers
         }
         $data['food_variations'] = $data_variation;
         $data['store_name'] = $data->store->name;
-        $data['is_campaign'] = $data->store?->campaigns_count>0?1:0;
+        $data['is_campaign'] = $data->store?->campaigns_count > 0 ? 1 : 0;
         $data['module_type'] = $data->module->module_type;
         $data['zone_id'] = $data->store->zone_id;
         $running_flash_sale = FlashSaleItem::Active()->whereHas('flashSale', function ($query) {
             $query->Active()->Running();
         })
             ->where(['item_id' => $data['id']])->first();
-        $data['flash_sale'] =(int) (($running_flash_sale) ? 1 :0);
+        $data['flash_sale'] = (int) (($running_flash_sale) ? 1 : 0);
         $data['stock'] = ($running_flash_sale && ($running_flash_sale->available_stock > 0)) ? $running_flash_sale->available_stock : $data['stock'];
         $data['discount'] = ($running_flash_sale && ($running_flash_sale->available_stock > 0)) ? $running_flash_sale->discount : $data['discount'];
         $data['discount_type'] = ($running_flash_sale && ($running_flash_sale->available_stock > 0)) ? $running_flash_sale->discount_type : $data['discount_type'];
         $data['store_discount'] = ($running_flash_sale && ($running_flash_sale->available_stock > 0)) ? 0 : (self::get_store_discount($data->store) ? $data->store?->discount->discount : 0);
         $data['schedule_order'] = $data->store->schedule_order;
-        $data['rating_count'] = (int)($data->rating ? array_sum(json_decode($data->rating, true)) : 0);
-        $data['avg_rating'] = (float)($data->avg_rating ? $data->avg_rating : 0);
-        $data['min_delivery_time'] =  (int) explode('-',$data->store->delivery_time)[0] ?? 0;
-        $data['max_delivery_time'] =  (int) explode('-',$data->store->delivery_time)[1] ?? 0;
-        $data['common_condition_id'] =  (int) $data->pharmacy_item_details?->common_condition_id ?? 0;
-        $data['is_basic'] =  (int) $data->pharmacy_item_details?->is_basic ?? 0;
+        $data['rating_count'] = (int) ($data->rating ? array_sum(json_decode($data->rating, true)) : 0);
+        $data['avg_rating'] = (float) ($data->avg_rating ? $data->avg_rating : 0);
+        $data['min_delivery_time'] = (int) explode('-', $data->store->delivery_time)[0] ?? 0;
+        $data['max_delivery_time'] = (int) explode('-', $data->store->delivery_time)[1] ?? 0;
+        $data['common_condition_id'] = (int) $data->pharmacy_item_details?->common_condition_id ?? 0;
+        $data['is_basic'] = (int) $data->pharmacy_item_details?->is_basic ?? 0;
 
         unset($data['pharmacy_item_details']);
         unset($data['store']);
@@ -188,7 +193,7 @@ class Helpers
         return $data;
     }
 
-    public static function product_data_formatting($data, $multi_data = false, $trans = false, $local = 'en' , $temp_product=false)
+    public static function product_data_formatting($data, $multi_data = false, $trans = false, $local = 'en', $temp_product = false)
     {
         $storage = [];
         if ($multi_data == true) {
@@ -215,11 +220,11 @@ class Helpers
                     $item['available_date_ends'] = $item->end_date->format('Y-m-d');
                     unset($item['end_date']);
                 }
-                $item['recommended'] =(int) $item->recommended;
+                $item['recommended'] = (int) $item->recommended;
                 $categories = [];
                 foreach (json_decode($item['category_ids']) as $value) {
-                    $category_name = Category::where('id',$value->id)->pluck('name');
-                    $categories[] = ['id' => (string)$value->id, 'position' => $value->position, 'name'=>data_get($category_name,'0','NA')];
+                    $category_name = Category::where('id', $value->id)->pluck('name');
+                    $categories[] = ['id' => (string) $value->id, 'position' => $value->position, 'name' => data_get($category_name, '0', 'NA')];
                 }
                 $item['category_ids'] = $categories;
                 $item['attributes'] = json_decode($item['attributes']);
@@ -228,41 +233,12 @@ class Helpers
                 foreach (json_decode($item['variations'], true) as $var) {
                     array_push($variations, [
                         'type' => $var['type'],
-                        'price' => (float)$var['price'],
-                        'stock' => (int)($var['stock'] ?? 0)
+                        'price' => (float) $var['price'],
+                        'stock' => (int) ($var['stock'] ?? 0)
                     ]);
                 }
                 $item['variations'] = $variations;
-                $item['food_variations'] = $item['food_variations']?json_decode($item['food_variations'], true):'';
-                $item['module_type'] = $item->module->module_type;
-                $item['store_name'] = $item->store?->name;
-                $item['is_campaign'] = $item->store?->campaigns_count>0?1:0;
-                $item['zone_id'] = $item->store?->zone_id;
-                $running_flash_sale = FlashSaleItem::Active()->whereHas('flashSale', function ($query) {
-                    $query->Active()->Running();
-                })
-                    ->where(['item_id' => $item['id']])->first();
-                $item['flash_sale'] =(int) ((($running_flash_sale && ($running_flash_sale->available_stock > 0)) ? 1 :0));
-                $item['stock'] = ($running_flash_sale && ($running_flash_sale->available_stock > 0)) ? $running_flash_sale->available_stock : $item['stock'];
-                $item['discount'] = ($running_flash_sale && ($running_flash_sale->available_stock > 0)) ? $running_flash_sale->discount : $item['discount'];
-                $item['discount_type'] = ($running_flash_sale && ($running_flash_sale->available_stock > 0)) ? $running_flash_sale->discount_type : $item['discount_type'];
-                $item['store_discount'] = ($running_flash_sale && ($running_flash_sale->available_stock > 0)) ? 0 : (self::get_store_discount($item->store) ? $item->store?->discount->discount : 0);
-                $item['schedule_order'] = $item->store?->schedule_order;
-                $item['delivery_time'] = $item->store?->delivery_time;
-                $item['free_delivery'] = $item->store?->free_delivery;
-                $item['tax'] = $item->store?->tax;
-                $item['unit'] = $item->unit;
-                $item['rating_count'] = (int)($item->rating ? array_sum(json_decode($item->rating, true)) : 0);
-                $item['avg_rating'] = (float)($item->avg_rating ? $item->avg_rating : 0);
-                $item['recommended'] =(int) $item->recommended;
-                $item['min_delivery_time'] =  (int) explode('-',$item->store?->delivery_time)[0] ?? 0;
-                $item['max_delivery_time'] =  (int) explode('-',$item->store?->delivery_time)[1] ?? 0;
-                $item['common_condition_id'] =  (int) $item->pharmacy_item_details?->common_condition_id ?? 0;
-                $item['is_basic'] =  (int) $item->pharmacy_item_details?->is_basic ?? 0;
-
-                unset($item['pharmacy_item_details']);
-                unset($item['store']);
-                unset($item['rating']);
+             
                 array_push($storage, $item);
             }
             $data = $storage;
@@ -270,8 +246,8 @@ class Helpers
             $variations = [];
             $categories = [];
             foreach (json_decode($data['category_ids']) as $value) {
-                $category_name = Category::where('id',$value->id)->pluck('name');
-                $categories[] = ['id' => (string)$value->id, 'position' => $value->position, 'name'=>data_get($category_name,'0','NA')];
+                $category_name = Category::where('id', $value->id)->pluck('name');
+                $categories[] = ['id' => (string) $value->id, 'position' => $value->position, 'name' => data_get($category_name, '0', 'NA')];
             }
             $data['category_ids'] = $categories;
 
@@ -281,8 +257,8 @@ class Helpers
             foreach (json_decode($data['variations'], true) as $var) {
                 array_push($variations, [
                     'type' => $var['type'],
-                    'price' => (float)$var['price'],
-                    'stock' => (int)($var['stock'] ?? 0)
+                    'price' => (float) $var['price'],
+                    'stock' => (int) ($var['stock'] ?? 0)
                 ]);
             }
             if ($data->title) {
@@ -305,34 +281,15 @@ class Helpers
                 $data['available_date_ends'] = $data->end_date->format('Y-m-d');
                 unset($data['end_date']);
             }
-            // $data['variations'] = $variations;
-            // $data['food_variations'] = $data['food_variations']?json_decode($data['food_variations'], true):'';
-            // $data['store_name'] = $data->store->name;
-            // $data['is_campaign'] = $data->store?->campaigns_count>0?1:0;
-            // $data['module_type'] = $data->module->module_type;
-            // $data['zone_id'] = $data->store->zone_id;
-            // $running_flash_sale = FlashSaleItem::Active()->whereHas('flashSale', function ($query) {
-            //     $query->Active()->Running();
-            // })
-            //     ->where(['item_id' => $data['id']])->first();
-            // $data['flash_sale'] =(int) (($running_flash_sale) ? 1 :0);
-            // $data['stock'] = ($running_flash_sale && ($running_flash_sale->available_stock > 0)) ? $running_flash_sale->available_stock : $data['stock'];
-            // $data['discount'] = ($running_flash_sale && ($running_flash_sale->available_stock > 0)) ? $running_flash_sale->discount : $data['discount'];
-            // $data['discount_type'] = ($running_flash_sale && ($running_flash_sale->available_stock > 0)) ? $running_flash_sale->discount_type : $data['discount_type'];
-            // $data['store_discount'] = ($running_flash_sale && ($running_flash_sale->available_stock > 0)) ? 0 : (self::get_store_discount($data->store) ? $data->store?->discount->discount : 0);
-            // $data['schedule_order'] = $data->store->schedule_order;
-            // $data['rating_count'] = (int)($data->rating ? array_sum(json_decode($data->rating, true)) : 0);
-            // $data['avg_rating'] = (float)($data->avg_rating ? $data->avg_rating : 0);
-            // $data['min_delivery_time'] =  (int) explode('-',$data->store->delivery_time)[0] ?? 0;
-            // $data['max_delivery_time'] =  (int) explode('-',$data->store->delivery_time)[1] ?? 0;
-            // $data['common_condition_id'] =  (int) $data->pharmacy_item_details?->common_condition_id ?? 0;
-            // $data['is_basic'] =  (int) $data->pharmacy_item_details?->is_basic ?? 0;
-            // if($temp_product == true){
-            //     $data['tags']=\App\Models\Tag::whereIn('id',json_decode($data?->tag_ids) )->get(['tag','id']);
-            // }
-            // unset($data['pharmacy_item_details']);
-            // unset($data['store']);
-            // unset($data['rating']);
+            $data['variations'] = $variations;
+            $data['food_variations'] = $data['food_variations']?json_decode($data['food_variations'], true):'';
+            $data['store_name'] = $data->store->name;
+            $data['is_campaign'] = $data->store?->campaigns_count>0?1:0;
+            $data['module_type'] = $data->module->module_type;
+            $data['zone_id'] = $data->store->zone_id;
+          
+            unset($data['store']);
+            unset($data['rating']);
         }
 
         return $data;
@@ -365,10 +322,10 @@ class Helpers
                     $item['available_date_ends'] = $item->end_date->format('Y-m-d');
                     unset($item['end_date']);
                 }
-                $item['recommended'] =(int) $item->recommended;
+                $item['recommended'] = (int) $item->recommended;
                 $categories = [];
                 foreach (json_decode($item['category_ids']) as $value) {
-                    $categories[] = ['id' => (string)$value->id, 'position' => $value->position];
+                    $categories[] = ['id' => (string) $value->id, 'position' => $value->position];
                 }
                 $item['category_ids'] = $categories;
                 $item['attributes'] = json_decode($item['attributes']);
@@ -377,12 +334,12 @@ class Helpers
                 foreach (json_decode($item['variations'], true) as $var) {
                     array_push($variations, [
                         'type' => $var['type'],
-                        'price' => (float)$var['price'],
-                        'stock' => (int)($var['stock'] ?? 0)
+                        'price' => (float) $var['price'],
+                        'stock' => (int) ($var['stock'] ?? 0)
                     ]);
                 }
                 $item['variations'] = $variations;
-                $item['food_variations'] = $item['food_variations']?json_decode($item['food_variations'], true):'';
+                $item['food_variations'] = $item['food_variations'] ? json_decode($item['food_variations'], true) : '';
                 $item['module_type'] = $item->module->module_type;
                 $item['store_name'] = $item->store->name;
                 $item['zone_id'] = $item->store->zone_id;
@@ -390,16 +347,16 @@ class Helpers
                     $query->Active()->Running();
                 })
                     ->where(['item_id' => $data['id']])->first();
-                $data['flash_sale'] =(int) (($running_flash_sale) ? 1 :0);
+                $data['flash_sale'] = (int) (($running_flash_sale) ? 1 : 0);
                 $data['stock'] = ($running_flash_sale && ($running_flash_sale->available_stock > 0)) ? $running_flash_sale->available_stock : $data['stock'];
                 $data['discount'] = ($running_flash_sale && ($running_flash_sale->available_stock > 0)) ? $running_flash_sale->discount : $data['discount'];
                 $data['discount_type'] = ($running_flash_sale && ($running_flash_sale->available_stock > 0)) ? $running_flash_sale->discount_type : $data['discount_type'];
                 $data['store_discount'] = ($running_flash_sale && ($running_flash_sale->available_stock > 0)) ? 0 : (self::get_store_discount($data->store) ? $data->store?->discount->discount : 0);
                 $item['schedule_order'] = $item->store->schedule_order;
                 $item['tax'] = $item->store->tax;
-                $item['rating_count'] = (int)($item->rating ? array_sum(json_decode($item->rating, true)) : 0);
-                $item['avg_rating'] = (float)($item->avg_rating ? $item->avg_rating : 0);
-                $item['recommended'] =(int) $item->recommended;
+                $item['rating_count'] = (int) ($item->rating ? array_sum(json_decode($item->rating, true)) : 0);
+                $item['avg_rating'] = (float) ($item->avg_rating ? $item->avg_rating : 0);
+                $item['recommended'] = (int) $item->recommended;
 
                 if ($trans) {
                     $item['translations'][] = [
@@ -449,7 +406,7 @@ class Helpers
             $variations = [];
             $categories = [];
             foreach (json_decode($data['category_ids']) as $value) {
-                $categories[] = ['id' => (string)$value->id, 'position' => $value->position];
+                $categories[] = ['id' => (string) $value->id, 'position' => $value->position];
             }
             $data['category_ids'] = $categories;
 
@@ -459,8 +416,8 @@ class Helpers
             foreach (json_decode($data['variations'], true) as $var) {
                 array_push($variations, [
                     'type' => $var['type'],
-                    'price' => (float)$var['price'],
-                    'stock' => (int)($var['stock'] ?? 0)
+                    'price' => (float) $var['price'],
+                    'stock' => (int) ($var['stock'] ?? 0)
                 ]);
             }
             if ($data->title) {
@@ -484,7 +441,7 @@ class Helpers
                 unset($data['end_date']);
             }
             $data['variations'] = $variations;
-            $data['food_variations'] = $data['food_variations']?json_decode($data['food_variations'], true):'';
+            $data['food_variations'] = $data['food_variations'] ? json_decode($data['food_variations'], true) : '';
             $data['store_name'] = $data->store->name;
             $data['module_type'] = $data->module->module_type;
             $data['zone_id'] = $data->store->zone_id;
@@ -492,14 +449,14 @@ class Helpers
                 $query->Active()->Running();
             })
                 ->where(['item_id' => $data['id']])->first();
-            $data['flash_sale'] =(int) (($running_flash_sale) ? 1 :0);
+            $data['flash_sale'] = (int) (($running_flash_sale) ? 1 : 0);
             $data['stock'] = ($running_flash_sale && ($running_flash_sale->available_stock > 0)) ? $running_flash_sale->available_stock : $data['stock'];
             $data['discount'] = ($running_flash_sale && ($running_flash_sale->available_stock > 0)) ? $running_flash_sale->discount : $data['discount'];
             $data['discount_type'] = ($running_flash_sale && ($running_flash_sale->available_stock > 0)) ? $running_flash_sale->discount_type : $data['discount_type'];
             $data['store_discount'] = ($running_flash_sale && ($running_flash_sale->available_stock > 0)) ? 0 : (self::get_store_discount($data->store) ? $data->store?->discount->discount : 0);
             $data['schedule_order'] = $data->store->schedule_order;
-            $data['rating_count'] = (int)($data->rating ? array_sum(json_decode($data->rating, true)) : 0);
-            $data['avg_rating'] = (float)($data->avg_rating ? $data->avg_rating : 0);
+            $data['rating_count'] = (int) ($data->rating ? array_sum(json_decode($data->rating, true)) : 0);
+            $data['avg_rating'] = (float) ($data->avg_rating ? $data->avg_rating : 0);
 
             if ($trans) {
                 $data['translations'][] = [
@@ -702,7 +659,7 @@ class Helpers
                 $item['total_items'] = $item['items_count'];
                 $item['total_campaigns'] = $item['campaigns_count'];
                 $item['is_recommended'] = false;
-                if($item->storeConfig && $item->storeConfig->is_recommended_deleted == 0 ){
+                if ($item->storeConfig && $item->storeConfig->is_recommended_deleted == 0) {
                     $item['is_recommended'] = $item->storeConfig->is_recommended;
                 }
                 unset($item['items_count']);
@@ -716,7 +673,7 @@ class Helpers
         } else {
             $data->load('storeConfig');
             $data['is_recommended'] = false;
-            if($data->storeConfig && $data->storeConfig->is_recommended_deleted == 0 ){
+            if ($data->storeConfig && $data->storeConfig->is_recommended_deleted == 0) {
                 $data['is_recommended'] = $data->storeConfig->is_recommended;
             }
             $ratings = StoreLogic::calculate_store_rating($data['rating']);
@@ -765,79 +722,33 @@ class Helpers
     public static function order_data_formatting($data, $multi_data = false)
     {
         $storage = [];
+
         if ($multi_data) {
             foreach ($data as $item) {
-                if (isset($item['store'])) {
-                    $item['store_name'] = $item['store']['name'];
-                    $item['store_address'] = $item['store']['address'];
-                    $item['store_phone'] = $item['store']['phone'];
-                    $item['store_lat'] = $item['store']['latitude'];
-                    $item['store_lng'] = $item['store']['longitude'];
-                    $item['store_logo'] = $item['store']['logo'];
-                    $item['min_delivery_time'] =  (int) explode('-',$item['store']['delivery_time'])[0] ?? 0;
-                    $item['max_delivery_time'] =  (int) explode('-',$item['store']['delivery_time'])[1] ?? 0;
-                    unset($item['store']);
-                } else {
-                    $item['store_name'] = null;
-                    $item['store_address'] = null;
-                    $item['store_phone'] = null;
-                    $item['store_lat'] = null;
-                    $item['store_lng'] = null;
-                    $item['store_logo'] = null;
-                    $item['min_delivery_time'] = null;
-                    $item['max_delivery_time'] = null;
-                }
-                $item['item_campaign'] = 0;
-                foreach ($item->details as $d) {
-                    if ($d->item_campaign_id != null) {
-                        $item['item_campaign'] = 1;
-                    }
-                }
+                $formattedItem = [
+                    'id' => $item['id'],
+                    'order_id' => $item['id'], // Assuming 'id' is used for 'order_id' if not available directly
+                    'item_name' => isset($item['details'][0]['item']['name']) ? $item['details'][0]['item']['name'] : null,
+                    'total_amount' => $item['order_amount'],
+                    'image' => $item['details'][0]['item']['image'] ?? null,
+                ];
 
-                $item['delivery_address'] = $item->delivery_address ? json_decode($item->delivery_address, true) : null;
-                $item['details_count'] = (int)$item->details->count();
-                $item['min_delivery_time'] =  $item->store ? (int)explode('-',$item->store?->delivery_time)[0] ?? 0:0;
-                $item['max_delivery_time'] =  $item->store ? (int)explode('-',$item->store?->delivery_time)[1] ?? 0:0;
-
-                unset($item['details']);
-                array_push($storage, $item);
+                array_push($storage, $formattedItem);
             }
-            $data = $storage;
         } else {
-            if (isset($data['store'])) {
-                $data['store_name'] = $data['store']['name'];
-                $data['store_address'] = $data['store']['address'];
-                $data['store_phone'] = $data['store']['phone'];
-                $data['store_lat'] = $data['store']['latitude'];
-                $data['store_lng'] = $data['store']['longitude'];
-                $data['store_logo'] = $data['store']['logo'];
-                $data['min_delivery_time'] =  $data['store']?(int) explode('-',$data['store']['delivery_time'])[0] ?? 0:0;
-                $data['max_delivery_time'] =  $data['store']?(int) explode('-',$data['store']['delivery_time'])[1] ?? 0:0;
-                unset($data['store']);
-            } else {
-                $data['store_name'] = null;
-                $data['store_address'] = null;
-                $data['store_phone'] = null;
-                $data['store_lat'] = null;
-                $data['store_lng'] = null;
-                $data['store_logo'] = null;
-                $data['min_delivery_time'] = null;
-                $data['max_delivery_time'] = null;
-            }
+            $formattedItem = [
+                'id' => $data['id'],
+                'order_id' => $data['id'], // Assuming 'id' is used for 'order_id' if not available directly
+                'item_name' => isset($data['details'][0]['item']['name']) ? $data['details'][0]['item']['name'] : null,
+                'total_amount' => $data['order_amount'],
+            ];
 
-            $data['item_campaign'] = 0;
-            foreach ($data->details as $d) {
-                if ($d->item_campaign_id != null) {
-                    $data['item_campaign'] = 1;
-                }
-            }
-            $data['delivery_address'] = $data->delivery_address ? json_decode($data->delivery_address, true) : null;
-            $data['details_count'] = (int)$data->details->count();
-
-            unset($data['details']);
+            $storage = $formattedItem;
         }
-        return $data;
+
+        return $storage;
     }
+
 
     public static function order_details_data_formatting($data)
     {
@@ -876,8 +787,8 @@ class Helpers
     {
         $storage = [];
         foreach ($data as $item) {
-            $item['avg_rating'] = (float)(count($item->rating) ? (float)$item->rating[0]->average : 0);
-            $item['rating_count'] = (int)(count($item->rating) ? $item->rating[0]->rating_count : 0);
+            $item['avg_rating'] = (float) (count($item->rating) ? (float) $item->rating[0]->average : 0);
+            $item['rating_count'] = (int) (count($item->rating) ? $item->rating[0]->rating_count : 0);
             $item['lat'] = $item->last_location ? $item->last_location->latitude : null;
             $item['lng'] = $item->last_location ? $item->last_location->longitude : null;
             $item['location'] = $item->last_location ? $item->last_location->location : null;
@@ -922,14 +833,14 @@ class Helpers
 
     public static function currency_code()
     {
-        if(!request()->is('/api*') && !session()->has('currency_code')){
+        if (!request()->is('/api*') && !session()->has('currency_code')) {
             $currency = BusinessSetting::where(['key' => 'currency'])->first()->value;
-            session()->put('currency_code',$currency);
-        }else{
+            session()->put('currency_code', $currency);
+        } else {
             $currency = BusinessSetting::where(['key' => 'currency'])->first()->value;
         }
 
-        if(!request()->is('/api*')){
+        if (!request()->is('/api*')) {
             $currency = session()->get('currency_code');
         }
 
@@ -940,9 +851,9 @@ class Helpers
 
     public static function currency_symbol()
     {
-        if(!session()->has('currency_symbol')){
+        if (!session()->has('currency_symbol')) {
             $currency_symbol = Currency::where(['currency_code' => Helpers::currency_code()])->first()->currency_symbol;
-            session()->put('currency_symbol',$currency_symbol);
+            session()->put('currency_symbol', $currency_symbol);
         }
         $currency_symbol = session()->get('currency_symbol');
         return $currency_symbol;
@@ -952,9 +863,9 @@ class Helpers
 
     public static function format_currency($value)
     {
-        if(!session()->has('currency_symbol_position')){
+        if (!session()->has('currency_symbol_position')) {
             $currency_symbol_position = BusinessSetting::where(['key' => 'currency_symbol_position'])->first()->value;
-            session()->put('currency_symbol_position',$currency_symbol_position);
+            session()->put('currency_symbol_position', $currency_symbol_position);
         }
         $currency_symbol_position = session()->get('currency_symbol_position');
         return $currency_symbol_position == 'right' ? number_format($value, config('round_up_to_digit')) . ' ' . self::currency_symbol() : self::currency_symbol() . ' ' . number_format($value, config('round_up_to_digit'));
@@ -969,36 +880,36 @@ class Helpers
             "content-type: application/json"
         );
 
-        if(isset($data['message'])){
+        if (isset($data['message'])) {
             $message = $data['message'];
-        }else{
+        } else {
             $message = '';
         }
-        if(isset($data['conversation_id'])){
+        if (isset($data['conversation_id'])) {
             $conversation_id = $data['conversation_id'];
-        }else{
+        } else {
             $conversation_id = '';
         }
-        if(isset($data['sender_type'])){
+        if (isset($data['sender_type'])) {
             $sender_type = $data['sender_type'];
-        }else{
+        } else {
             $sender_type = '';
         }
-        if(isset($data['module_id'])){
+        if (isset($data['module_id'])) {
             $module_id = $data['module_id'];
-        }else{
+        } else {
             $module_id = '';
         }
-        if(isset($data['order_type'])){
+        if (isset($data['order_type'])) {
             $order_type = $data['order_type'];
-        }else{
+        } else {
             $order_type = '';
         }
 
         $click_action = "";
-        if($web_push_link){
+        if ($web_push_link) {
             $click_action = ',
-            "click_action": "'.$web_push_link.'"';
+            "click_action": "' . $web_push_link . '"';
         }
 
         $postdata = '{
@@ -1028,7 +939,7 @@ class Helpers
                 "icon" : "new",
                 "sound": "notification.wav",
                 "android_channel_id": "6ammart"
-                '.$click_action.'
+                ' . $click_action . '
             }
         }';
         $ch = curl_init();
@@ -1048,7 +959,7 @@ class Helpers
         return $result;
     }
 
-    public static function send_push_notif_to_topic($data, $topic, $type,$web_push_link = null)
+    public static function send_push_notif_to_topic($data, $topic, $type, $web_push_link = null)
     {
         // info([$data, $topic, $type, $web_push_link]);
         $key = BusinessSetting::where(['key' => 'push_notification_key'])->first()->value;
@@ -1058,26 +969,26 @@ class Helpers
             "authorization: key=" . $key . "",
             "content-type: application/json"
         );
-        if(isset($data['module_id'])){
+        if (isset($data['module_id'])) {
             $module_id = $data['module_id'];
-        }else{
+        } else {
             $module_id = '';
         }
-        if(isset($data['order_type'])){
+        if (isset($data['order_type'])) {
             $order_type = $data['order_type'];
-        }else{
+        } else {
             $order_type = '';
         }
-        if(isset($data['zone_id'])){
+        if (isset($data['zone_id'])) {
             $zone_id = $data['zone_id'];
-        }else{
+        } else {
             $zone_id = '';
         }
 
         $click_action = "";
-        if($web_push_link){
+        if ($web_push_link) {
             $click_action = ',
-            "click_action": "'.$web_push_link.'"';
+            "click_action": "' . $web_push_link . '"';
         }
 
         if (isset($data['order_id'])) {
@@ -1107,7 +1018,7 @@ class Helpers
                     "icon" : "new",
                     "sound": "notification.wav",
                     "android_channel_id": "6ammart"
-                    '.$click_action.'
+                    ' . $click_action . '
                   }
             }';
         } else {
@@ -1131,7 +1042,7 @@ class Helpers
                     "icon" : "new",
                     "sound": "notification.wav",
                     "android_channel_id": "6ammart"
-                    '.$click_action.'
+                    ' . $click_action . '
                   }
             }';
         }
@@ -1207,17 +1118,17 @@ class Helpers
         })
             ->where(['item_id' => $product->id])->first();
 
-        if($running_flash_sale){
+        if ($running_flash_sale) {
             if ($running_flash_sale['discount_type'] == 'percent') {
                 $price_discount = ($price / 100) * $running_flash_sale['discount'];
             } else {
                 $price_discount = $running_flash_sale['discount'];
             }
             return [
-                'discount_type'=>'flash_sale',
-                'discount_amount'=> $price_discount,
-                'admin_discount_amount'=> ($price_discount*$running_flash_sale->flashSale->admin_discount_percentage)/100,
-                'vendor_discount_amount'=> ($price_discount*$running_flash_sale->flashSale->vendor_discount_percentage)/100,
+                'discount_type' => 'flash_sale',
+                'discount_amount' => $price_discount,
+                'admin_discount_amount' => ($price_discount * $running_flash_sale->flashSale->admin_discount_percentage) / 100,
+                'vendor_discount_amount' => ($price_discount * $running_flash_sale->flashSale->vendor_discount_percentage) / 100,
             ];
         }
 
@@ -1231,8 +1142,8 @@ class Helpers
         }
 
         return [
-            'discount_type'=>isset($store_discount)?'store_discount':'product_discount',
-            'discount_amount'=> $price_discount
+            'discount_type' => isset($store_discount) ? 'store_discount' : 'product_discount',
+            'discount_amount' => $price_discount
         ];
     }
 
@@ -1276,19 +1187,19 @@ class Helpers
         return $lowest_price;
     }
 
-    public static function get_store_discount($store)
-    {
-        if ($store->discount) {
-            if (date('Y-m-d', strtotime($store->discount->start_date)) <= now()->format('Y-m-d') && date('Y-m-d', strtotime($store->discount->end_date)) >= now()->format('Y-m-d') && date('H:i', strtotime($store->discount->start_time)) <= now()->format('H:i') && date('H:i', strtotime($store->discount->end_time)) >= now()->format('H:i')) {
-                return [
-                    'discount' => $store->discount->discount,
-                    'min_purchase' => $store->discount->min_purchase,
-                    'max_discount' => $store->discount->max_discount
-                ];
-            }
-        }
-        return null;
-    }
+    // public static function get_store_discount($store)
+    // {
+    //     if ($store->discount) {
+    //         if (date('Y-m-d', strtotime($store->discount->start_date)) <= now()->format('Y-m-d') && date('Y-m-d', strtotime($store->discount->end_date)) >= now()->format('Y-m-d') && date('H:i', strtotime($store->discount->start_time)) <= now()->format('H:i') && date('H:i', strtotime($store->discount->end_time)) >= now()->format('H:i')) {
+    //             return [
+    //                 'discount' => $store->discount->discount,
+    //                 'min_purchase' => $store->discount->min_purchase,
+    //                 'max_discount' => $store->discount->max_discount
+    //             ];
+    //         }
+    //     }
+    //     return null;
+    // }
 
     public static function max_earning()
     {
@@ -1332,70 +1243,96 @@ class Helpers
         return $max;
     }
 
-    public static function order_status_update_message($status,$module_type, $lang='en')
+    public static function order_status_update_message($status, $module_type, $lang = 'en')
     {
         if ($status == 'pending') {
-            $data = NotificationMessage::with(['translations'=>function($query)use($lang){
-                $query->where('locale', $lang);
-            }])->where('module_type',$module_type)->where('key', 'order_pending_message')->first();
+            $data = NotificationMessage::with([
+                'translations' => function ($query) use ($lang) {
+                    $query->where('locale', $lang);
+                }
+            ])->where('module_type', $module_type)->where('key', 'order_pending_message')->first();
         } elseif ($status == 'confirmed') {
-            $data =  NotificationMessage::with(['translations'=>function($query)use($lang){
-                $query->where('locale', $lang);
-            }])->where('module_type',$module_type)->where('key', 'order_confirmation_msg')->first();
+            $data = NotificationMessage::with([
+                'translations' => function ($query) use ($lang) {
+                    $query->where('locale', $lang);
+                }
+            ])->where('module_type', $module_type)->where('key', 'order_confirmation_msg')->first();
         } elseif ($status == 'processing') {
-            $data = NotificationMessage::with(['translations'=>function($query)use($lang){
-                $query->where('locale', $lang);
-            }])->where('module_type',$module_type)->where('key', 'order_processing_message')->first();
+            $data = NotificationMessage::with([
+                'translations' => function ($query) use ($lang) {
+                    $query->where('locale', $lang);
+                }
+            ])->where('module_type', $module_type)->where('key', 'order_processing_message')->first();
         } elseif ($status == 'picked_up') {
-            $data = NotificationMessage::with(['translations'=>function($query)use($lang){
-                $query->where('locale', $lang);
-            }])->where('module_type',$module_type)->where('key', 'out_for_delivery_message')->first();
+            $data = NotificationMessage::with([
+                'translations' => function ($query) use ($lang) {
+                    $query->where('locale', $lang);
+                }
+            ])->where('module_type', $module_type)->where('key', 'out_for_delivery_message')->first();
         } elseif ($status == 'handover') {
-            $data = NotificationMessage::with(['translations'=>function($query)use($lang){
-                $query->where('locale', $lang);
-            }])->where('module_type',$module_type)->where('key', 'order_handover_message')->first();
+            $data = NotificationMessage::with([
+                'translations' => function ($query) use ($lang) {
+                    $query->where('locale', $lang);
+                }
+            ])->where('module_type', $module_type)->where('key', 'order_handover_message')->first();
         } elseif ($status == 'delivered') {
-            $data = NotificationMessage::with(['translations'=>function($query)use($lang){
-                $query->where('locale', $lang);
-            }])->where('module_type',$module_type)->where('key', 'order_delivered_message')->first();
+            $data = NotificationMessage::with([
+                'translations' => function ($query) use ($lang) {
+                    $query->where('locale', $lang);
+                }
+            ])->where('module_type', $module_type)->where('key', 'order_delivered_message')->first();
         } elseif ($status == 'delivery_boy_delivered') {
-            $data = NotificationMessage::with(['translations'=>function($query)use($lang){
-                $query->where('locale', $lang);
-            }])->where('module_type',$module_type)->where('key', 'delivery_boy_delivered_message')->first();
+            $data = NotificationMessage::with([
+                'translations' => function ($query) use ($lang) {
+                    $query->where('locale', $lang);
+                }
+            ])->where('module_type', $module_type)->where('key', 'delivery_boy_delivered_message')->first();
         } elseif ($status == 'accepted') {
-            $data = NotificationMessage::with(['translations'=>function($query)use($lang){
-                $query->where('locale', $lang);
-            }])->where('module_type',$module_type)->where('key', 'delivery_boy_assign_message')->first();
+            $data = NotificationMessage::with([
+                'translations' => function ($query) use ($lang) {
+                    $query->where('locale', $lang);
+                }
+            ])->where('module_type', $module_type)->where('key', 'delivery_boy_assign_message')->first();
         } elseif ($status == 'canceled') {
-            $data = NotificationMessage::with(['translations'=>function($query)use($lang){
-                $query->where('locale', $lang);
-            }])->where('module_type',$module_type)->where('key', 'order_cancled_message')->first();
+            $data = NotificationMessage::with([
+                'translations' => function ($query) use ($lang) {
+                    $query->where('locale', $lang);
+                }
+            ])->where('module_type', $module_type)->where('key', 'order_cancled_message')->first();
         } elseif ($status == 'refunded') {
-            $data = NotificationMessage::with(['translations'=>function($query)use($lang){
-                $query->where('locale', $lang);
-            }])->where('module_type',$module_type)->where('key', 'order_refunded_message')->first();
+            $data = NotificationMessage::with([
+                'translations' => function ($query) use ($lang) {
+                    $query->where('locale', $lang);
+                }
+            ])->where('module_type', $module_type)->where('key', 'order_refunded_message')->first();
         } elseif ($status == 'refund_request_canceled') {
-            $data = NotificationMessage::with(['translations'=>function($query)use($lang){
-                $query->where('locale', $lang);
-            }])->where('module_type',$module_type)->where('key', 'refund_request_canceled')->first();
+            $data = NotificationMessage::with([
+                'translations' => function ($query) use ($lang) {
+                    $query->where('locale', $lang);
+                }
+            ])->where('module_type', $module_type)->where('key', 'refund_request_canceled')->first();
         } elseif ($status == 'offline_verified') {
-            $data = NotificationMessage::with(['translations'=>function($query)use($lang){
-                $query->where('locale', $lang);
-            }])->where('module_type',$module_type)->where('key', 'offline_order_accept_message')->first();
+            $data = NotificationMessage::with([
+                'translations' => function ($query) use ($lang) {
+                    $query->where('locale', $lang);
+                }
+            ])->where('module_type', $module_type)->where('key', 'offline_order_accept_message')->first();
         } elseif ($status == 'offline_denied') {
-            $data = NotificationMessage::with(['translations'=>function($query)use($lang){
-                $query->where('locale', $lang);
-            }])->where('module_type',$module_type)->where('key', 'offline_order_deny_message')->first();
+            $data = NotificationMessage::with([
+                'translations' => function ($query) use ($lang) {
+                    $query->where('locale', $lang);
+                }
+            ])->where('module_type', $module_type)->where('key', 'offline_order_deny_message')->first();
         } else {
-            $data = ["status"=>"0","message"=>"",'translations'=>[]];
+            $data = ["status" => "0", "message" => "", 'translations' => []];
         }
 
-        if($data){
+        if ($data) {
             if ($data['status'] == 0) {
                 return 0;
             }
             return count($data->translations) > 0 ? $data->translations[0]->value : $data['message'];
-        }else{
+        } else {
             return false;
         }
     }
@@ -1406,7 +1343,7 @@ class Helpers
         try {
 
 
-            if((in_array($order->payment_method, ['cash_on_delivery', 'offline_payment'])  && $order->order_status == 'pending' )||(!in_array($order->payment_method, ['cash_on_delivery', 'offline_payment']) && $order->order_status == 'confirmed' )){
+            if ((in_array($order->payment_method, ['cash_on_delivery', 'offline_payment']) && $order->order_status == 'pending') || (!in_array($order->payment_method, ['cash_on_delivery', 'offline_payment']) && $order->order_status == 'confirmed')) {
                 $data = [
                     'title' => translate('messages.order_push_title'),
                     'description' => translate('messages.new_order_push_description'),
@@ -1417,23 +1354,23 @@ class Helpers
                     'zone_id' => $order->zone_id,
                     'type' => 'new_order',
                 ];
-                self::send_push_notif_to_topic($data, 'admin_message', 'order_request', url('/').'/admin/order/list/all');
+                self::send_push_notif_to_topic($data, 'admin_message', 'order_request', url('/') . '/admin/order/list/all');
             }
 
             $status = ($order->order_status == 'delivered' && $order->delivery_man) ? 'delivery_boy_delivered' : $order->order_status;
 
 
-            if($order->is_guest){
-                $customer_details = json_decode($order['delivery_address'],true);
-                $value = self::order_status_update_message($status,$order->module->module_type,'en');
-                $value = self::text_variable_data_format(value:$value,store_name:$order->store?->name,order_id:$order->id,user_name:"{$customer_details['contact_person_name']}",delivery_man_name:"{$order->delivery_man?->f_name} {$order->delivery_man?->l_name}");
+            if ($order->is_guest) {
+                $customer_details = json_decode($order['delivery_address'], true);
+                $value = self::order_status_update_message($status, $order->module->module_type, 'en');
+                $value = self::text_variable_data_format(value: $value, store_name: $order->store?->name, order_id: $order->id, user_name: "{$customer_details['contact_person_name']}", delivery_man_name: "{$order->delivery_man?->f_name} {$order->delivery_man?->l_name}");
                 $user_fcm = $order->guest->fcm_token;
 
-            }else{
+            } else {
 
-                $value = self::order_status_update_message($status,$order->module->module_type,$order->customer?
-                    $order->customer->current_language_key:'en');
-                $value = self::text_variable_data_format(value:$value,store_name:$order->store?->name,order_id:$order->id,user_name:"{$order->customer?->f_name} {$order->customer?->l_name}",delivery_man_name:"{$order->delivery_man?->f_name} {$order->delivery_man?->l_name}");
+                $value = self::order_status_update_message($status, $order->module->module_type, $order->customer ?
+                    $order->customer->current_language_key : 'en');
+                $value = self::text_variable_data_format(value: $value, store_name: $order->store?->name, order_id: $order->id, user_name: "{$order->customer?->f_name} {$order->customer?->l_name}", delivery_man_name: "{$order->delivery_man?->f_name} {$order->delivery_man?->l_name}");
                 $user_fcm = $order?->customer?->cm_firebase_token;
             }
 
@@ -1462,7 +1399,7 @@ class Helpers
                     'image' => '',
                     'type' => 'order_status',
                 ];
-                if($order->store && $order->store->vendor){
+                if ($order->store && $order->store->vendor) {
                     self::send_push_notif_to_device($order->store->vendor->firebase_token, $data);
                     DB::table('user_notifications')->insert([
                         'data' => json_encode($data),
@@ -1484,9 +1421,9 @@ class Helpers
                         'image' => '',
                         'type' => 'new_order',
                     ];
-                    if($order->store && $order->store->vendor){
+                    if ($order->store && $order->store->vendor) {
                         self::send_push_notif_to_device($order->store->vendor->firebase_token, $data);
-                        $web_push_link = url('/').'/store-panel/order/list/all';
+                        $web_push_link = url('/') . '/store-panel/order/list/all';
                         self::send_push_notif_to_topic($data, "store_panel_{$order->store_id}_message", 'new_order', $web_push_link);
                         DB::table('user_notifications')->insert([
                             'data' => json_encode($data),
@@ -1506,10 +1443,10 @@ class Helpers
                         'order_type' => $order->order_type,
                         'image' => '',
                     ];
-                    if($order->zone){
-                        if($order->dm_vehicle_id){
+                    if ($order->zone) {
+                        if ($order->dm_vehicle_id) {
 
-                            $topic = 'delivery_man_'.$order->zone_id.'_'.$order->dm_vehicle_id;
+                            $topic = 'delivery_man_' . $order->zone_id . '_' . $order->dm_vehicle_id;
                             self::send_push_notif_to_topic($data, $topic, 'order_request');
                         }
                         self::send_push_notif_to_topic($data, $order->zone->deliveryman_wise_topic, 'order_request');
@@ -1529,10 +1466,10 @@ class Helpers
                     'order_type' => 'parcel_order',
                     'image' => '',
                 ];
-                if($order->zone){
-                    if($order->dm_vehicle_id){
+                if ($order->zone) {
+                    if ($order->dm_vehicle_id) {
 
-                        $topic = 'delivery_man_'.$order->zone_id.'_'.$order->dm_vehicle_id;
+                        $topic = 'delivery_man_' . $order->zone_id . '_' . $order->dm_vehicle_id;
                         self::send_push_notif_to_topic($data, $topic, 'order_request');
                     }
                     self::send_push_notif_to_topic($data, $order->zone->deliveryman_wise_topic, 'order_request');
@@ -1551,9 +1488,9 @@ class Helpers
                     'image' => '',
                     'type' => 'new_order',
                 ];
-                if($order->store && $order->store->vendor){
+                if ($order->store && $order->store->vendor) {
                     self::send_push_notif_to_device($order->store->vendor->firebase_token, $data);
-                    $web_push_link = url('/').'/store-panel/order/list/all';
+                    $web_push_link = url('/') . '/store-panel/order/list/all';
                     self::send_push_notif_to_topic($data, "store_panel_{$order->store_id}_message", 'new_order', $web_push_link);
                     // self::send_push_notif_to_topic($data, 'admin_message', 'order_request');
                     DB::table('user_notifications')->insert([
@@ -1573,9 +1510,9 @@ class Helpers
                     'image' => '',
                     'type' => 'new_order',
                 ];
-                if($order->store && $order->store->vendor){
+                if ($order->store && $order->store->vendor) {
                     self::send_push_notif_to_device($order->store->vendor->firebase_token, $data);
-                    $web_push_link = url('/').'/store-panel/order/list/all';
+                    $web_push_link = url('/') . '/store-panel/order/list/all';
                     self::send_push_notif_to_topic($data, "store_panel_{$order->store_id}_message", 'new_order', $web_push_link);
                     DB::table('user_notifications')->insert([
                         'data' => json_encode($data),
@@ -1608,9 +1545,9 @@ class Helpers
                         'image' => '',
                         'type' => 'new_order',
                     ];
-                    if($order->store && $order->store->vendor){
+                    if ($order->store && $order->store->vendor) {
                         self::send_push_notif_to_device($order->store->vendor->firebase_token, $data);
-                        $web_push_link = url('/').'/store-panel/order/list/all';
+                        $web_push_link = url('/') . '/store-panel/order/list/all';
                         self::send_push_notif_to_topic($data, "store_panel_{$order->store_id}_message", 'new_order', $web_push_link);
                         DB::table('user_notifications')->insert([
                             'data' => json_encode($data),
@@ -1622,7 +1559,7 @@ class Helpers
                 }
             }
 
-            if ($order->order_type == 'delivery' && !$order->scheduled && $order->order_status == 'confirmed'  && ($order->payment_method != 'cash_on_delivery' || config('order_confirmation_model') == 'store')) {
+            if ($order->order_type == 'delivery' && !$order->scheduled && $order->order_status == 'confirmed' && ($order->payment_method != 'cash_on_delivery' || config('order_confirmation_model') == 'store')) {
                 $data = [
                     'title' => translate('messages.order_push_title'),
                     'description' => translate('messages.new_order_push_description'),
@@ -1633,15 +1570,15 @@ class Helpers
                 ];
                 if ($order->store->self_delivery_system) {
                     self::send_push_notif_to_topic($data, "restaurant_dm_" . $order->store_id, 'order_request');
-                } else
-                {if($order->zone){
-                    if($order->dm_vehicle_id){
+                } else {
+                    if ($order->zone) {
+                        if ($order->dm_vehicle_id) {
 
-                        $topic = 'delivery_man_'.$order->zone_id.'_'.$order->dm_vehicle_id;
-                        self::send_push_notif_to_topic($data, $topic, 'order_request');
+                            $topic = 'delivery_man_' . $order->zone_id . '_' . $order->dm_vehicle_id;
+                            self::send_push_notif_to_topic($data, $topic, 'order_request');
+                        }
+                        self::send_push_notif_to_topic($data, $order->zone->deliveryman_wise_topic, 'order_request');
                     }
-                    self::send_push_notif_to_topic($data, $order->zone->deliveryman_wise_topic, 'order_request');
-                }
                 }
             }
 
@@ -1668,7 +1605,7 @@ class Helpers
                 }
                 $order_verification_mail_status = Helpers::get_mail_status('order_verification_mail_status_user');
                 if ($order->order_status == 'pending' && config('order_delivery_verification') == 1 && $order_verification_mail_status == '1' && $order->is_guest == 0) {
-                    Mail::to($order->customer->email)->send(new OrderVerificationMail($order->otp,$order->customer->f_name));
+                    Mail::to($order->customer->email)->send(new OrderVerificationMail($order->otp, $order->customer->f_name));
                 }
             } catch (\Exception $ex) {
                 info($ex->getMessage());
@@ -1709,7 +1646,8 @@ class Helpers
                 $key . '=' . env($key),
                 $key . '=' . $value,
                 file_get_contents($path)
-            ));
+            )
+            );
         }
     }
 
@@ -1721,18 +1659,21 @@ class Helpers
                 $key_from . '=' . env($key_from),
                 $key_to . '=' . $value,
                 file_get_contents($path)
-            ));
+            )
+            );
         }
     }
 
-    public static  function remove_dir($dir)
+    public static function remove_dir($dir)
     {
         if (is_dir($dir)) {
             $objects = scandir($dir);
             foreach ($objects as $object) {
                 if ($object != "." && $object != "..") {
-                    if (filetype($dir . "/" . $object) == "dir") Helpers::remove_dir($dir . "/" . $object);
-                    else unlink($dir . "/" . $object);
+                    if (filetype($dir . "/" . $object) == "dir")
+                        Helpers::remove_dir($dir . "/" . $object);
+                    else
+                        unlink($dir . "/" . $object);
                 }
             }
             reset($objects);
@@ -1817,7 +1758,7 @@ class Helpers
     {
         $data = [];
         foreach ($coordinates as $coord) {
-            $data[] = (object)['lat' => $coord[1], 'lng' => $coord[0]];
+            $data[] = (object) ['lat' => $coord[1], 'lng' => $coord[0]];
         }
         return $data;
     }
@@ -1833,7 +1774,7 @@ class Helpers
         }
 
         $permission = auth('admin')->user()->role->modules;
-        if (isset($permission) && in_array($mod_name, (array)json_decode($permission)) == true) {
+        if (isset($permission) && in_array($mod_name, (array) json_decode($permission)) == true) {
             return true;
         }
 
@@ -1858,7 +1799,7 @@ class Helpers
             return true;
         } else if (auth('vendor_employee')->check()) {
             $permission = auth('vendor_employee')->user()->role->modules;
-            if (isset($permission) && in_array($mod_name, (array)json_decode($permission)) == true) {
+            if (isset($permission) && in_array($mod_name, (array) json_decode($permission)) == true) {
                 if ($mod_name == 'reviews') {
                     return auth('vendor_employee')->user()->store->reviews_section;
                 } else if ($mod_name == 'deliveryman') {
@@ -1931,7 +1872,7 @@ class Helpers
 
     public static function insert_business_settings_key($key, $value = null)
     {
-        $data =  BusinessSetting::where('key', $key)->first();
+        $data = BusinessSetting::where('key', $key)->first();
         if (!$data) {
             DB::table('business_settings')->updateOrInsert(['key' => $key], [
                 'value' => $value,
@@ -1942,11 +1883,11 @@ class Helpers
         return true;
     }
 
-    public static function insert_data_settings_key($key,$type, $value = null)
+    public static function insert_data_settings_key($key, $type, $value = null)
     {
-        $data =  DataSetting::where('key', $key)->where('type', $type)->first();
+        $data = DataSetting::where('key', $key)->where('type', $type)->first();
         if (!$data) {
-            DataSetting::updateOrCreate(['key' => $key,'type' => $type ], [
+            DataSetting::updateOrCreate(['key' => $key, 'type' => $type], [
                 'value' => $value,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -2109,7 +2050,7 @@ class Helpers
         $keys = BusinessSetting::whereIn('key', ['toggle_veg_non_veg', 'toggle_dm_registration', 'toggle_store_registration'])->get();
         $data = [];
         foreach ($keys as $key) {
-            $data[$key->key] = (bool)$key->value;
+            $data[$key->key] = (bool) $key->value;
         }
         return $data;
     }
@@ -2118,15 +2059,13 @@ class Helpers
     {
         if (strpos(url()->current(), '/api')) {
             $lang = App::getLocale();
-        } elseif ( request()->is('admin*') && auth('admin')?->check() && session()->has('local')) {
+        } elseif (request()->is('admin*') && auth('admin')?->check() && session()->has('local')) {
             $lang = session('local');
-        }elseif (request()->is('store-panel/*') && (auth('vendor_employee')?->check() || auth('vendor')?->check()) && session()->has('vendor_local')) {
+        } elseif (request()->is('store-panel/*') && (auth('vendor_employee')?->check() || auth('vendor')?->check()) && session()->has('vendor_local')) {
             $lang = session('vendor_local');
-        }
-        elseif (session()->has('landing_local')) {
+        } elseif (session()->has('landing_local')) {
             $lang = session('landing_local');
-        }
-        elseif (session()->has('local')) {
+        } elseif (session()->has('local')) {
             $lang = session('local');
         } else {
             $data = Helpers::get_business_settings('language');
@@ -2152,7 +2091,7 @@ class Helpers
         $lang = 'en';
 
         foreach ($languages as $key => $language) {
-            if($language->default){
+            if ($language->default) {
                 $lang = $language->code;
             }
         }
@@ -2164,7 +2103,7 @@ class Helpers
         $lang = 'en';
 
         foreach ($languages as $key => $language) {
-            if($language->default){
+            if ($language->default) {
                 $lang = $language->direction;
             }
         }
@@ -2179,7 +2118,8 @@ class Helpers
 
     //Generate referer code
 
-    public static function generate_referer_code() {
+    public static function generate_referer_code()
+    {
         $ref_code = strtoupper(Str::random(10));
 
         if (self::referer_code_exists($ref_code)) {
@@ -2189,12 +2129,14 @@ class Helpers
         return $ref_code;
     }
 
-    public static function referer_code_exists($ref_code) {
+    public static function referer_code_exists($ref_code)
+    {
         return User::where('ref_code', '=', $ref_code)->exists();
     }
 
 
-    public static function generate_reset_password_code() {
+    public static function generate_reset_password_code()
+    {
         $code = strtoupper(Str::random(15));
 
         if (self::reset_password_code_exists($code)) {
@@ -2204,11 +2146,13 @@ class Helpers
         return $code;
     }
 
-    public static function reset_password_code_exists($code) {
+    public static function reset_password_code_exists($code)
+    {
         return DB::table('password_resets')->where('token', '=', $code)->exists();
     }
 
-    public static function number_format_short( $n ) {
+    public static function number_format_short($n)
+    {
         if ($n < 900) {
             // 0 - 900
             $n = $n;
@@ -2231,13 +2175,13 @@ class Helpers
             $suffix = 'T';
         }
 
-        if(!session()->has('currency_symbol_position')){
+        if (!session()->has('currency_symbol_position')) {
             $currency_symbol_position = BusinessSetting::where(['key' => 'currency_symbol_position'])->first()->value;
-            session()->put('currency_symbol_position',$currency_symbol_position);
+            session()->put('currency_symbol_position', $currency_symbol_position);
         }
         $currency_symbol_position = session()->get('currency_symbol_position');
 
-        return $currency_symbol_position == 'right' ? number_format($n, config('round_up_to_digit')).$suffix . ' ' . self::currency_symbol() : self::currency_symbol() . ' ' . number_format($n, config('round_up_to_digit')).$suffix;
+        return $currency_symbol_position == 'right' ? number_format($n, config('round_up_to_digit')) . $suffix . ' ' . self::currency_symbol() : self::currency_symbol() . ' ' . number_format($n, config('round_up_to_digit')) . $suffix;
     }
     // public static function export_attributes($collection){
     //     $data = [];
@@ -2252,29 +2196,31 @@ class Helpers
     // }
 
 
-    public static function export_store_withdraw($collection){
+    public static function export_store_withdraw($collection)
+    {
         $data = [];
-        $status = ['pending','approved','denied'];
-        foreach($collection as $key=>$item){
+        $status = ['pending', 'approved', 'denied'];
+        foreach ($collection as $key => $item) {
             $data[] = [
-                'SL'=>$key+1,
+                'SL' => $key + 1,
                 translate('messages.amount') => $item->amount,
                 translate('messages.store') => isset($item->vendor) ? $item->vendor->stores[0]->name : '',
-                translate('messages.request_time') => date('Y-m-d '.config('timeformat'),strtotime($item->created_at)),
-                translate('messages.status') => isset($status[$item->approved])?translate("messages.".$status[$item->approved]):"",
+                translate('messages.request_time') => date('Y-m-d ' . config('timeformat'), strtotime($item->created_at)),
+                translate('messages.status') => isset($status[$item->approved]) ? translate("messages." . $status[$item->approved]) : "",
             ];
         }
         return $data;
     }
 
-    public static function export_account_transaction($collection){
+    public static function export_account_transaction($collection)
+    {
         $data = [];
-        foreach($collection as $key=>$item){
+        foreach ($collection as $key => $item) {
             $data[] = [
-                'SL'=>$key+1,
+                'SL' => $key + 1,
                 translate('messages.collect_from') => $item->store ? $item->store?->name : ($item->deliveryman ? $item->deliveryman->f_name . ' ' . $item->deliveryman->l_name : translate('messages.not_found')),
                 translate('messages.type') => $item->from_type,
-                translate('messages.received_at') => $item->created_at->format('Y-m-d '.config('timeformat')),
+                translate('messages.received_at') => $item->created_at->format('Y-m-d ' . config('timeformat')),
                 translate('messages.amount') => $item->amount,
                 translate('messages.reference') => $item->ref,
             ];
@@ -2282,13 +2228,14 @@ class Helpers
         return $data;
     }
 
-    public static function export_dm_earning($collection){
+    public static function export_dm_earning($collection)
+    {
         $data = [];
-        foreach($collection as $key=>$item){
+        foreach ($collection as $key => $item) {
             $data[] = [
-                'SL'=>$key+1,
-                translate('messages.name') => isset($item->delivery_man) ? $item->delivery_man->f_name.' '.$item->delivery_man->l_name : translate('messages.not_found'),
-                translate('messages.received_at') => $item->created_at->format('Y-m-d '.config('timeformat')),
+                'SL' => $key + 1,
+                translate('messages.name') => isset($item->delivery_man) ? $item->delivery_man->f_name . ' ' . $item->delivery_man->l_name : translate('messages.not_found'),
+                translate('messages.received_at') => $item->created_at->format('Y-m-d ' . config('timeformat')),
                 translate('messages.amount') => $item->amount,
                 translate('messages.method') => $item->method,
                 translate('messages.reference') => $item->ref,
@@ -2297,60 +2244,57 @@ class Helpers
         return $data;
     }
 
-    public static function export_items($foods,$module_type){
+    public static function export_items($foods, $module_type)
+    {
         $storage = [];
-        foreach($foods as $item)
-        {
+        foreach ($foods as $item) {
             $category_id = 0;
             $sub_category_id = 0;
-            foreach(json_decode($item->category_ids, true) as $key=>$category)
-            {
-                if($key==0)
-                {
+            foreach (json_decode($item->category_ids, true) as $key => $category) {
+                if ($key == 0) {
                     $category_id = $category['id'];
-                }
-                else if($key==1)
-                {
+                } else if ($key == 1) {
                     $sub_category_id = $category['id'];
                 }
             }
             $storage[] = [
-                'Id'=>$item->id,
-                'Name'=>$item->name,
-                'Description'=>$item->description,
-                'Image'=>$item->image,
-                'Images'=>$item->images,
-                'CategoryId'=>$category_id,
-                'SubCategoryId'=>$sub_category_id,
-                'UnitId'=>$item->unit_id,
-                'Stock'=>$item->stock,
-                'Price'=>$item->price,
-                'Discount'=>$item->discount,
-                'DiscountType'=>$item->discount_type,
-                'AvailableTimeStarts'=>$item->available_time_starts,
-                'AvailableTimeEnds'=>$item->available_time_ends,
-                'Variations'=>$module_type == 'food'?$item->food_variations:$item->variations,
-                'AddOns'=>str_replace(['"','[',']'],'',$item->add_ons),
-                'Attributes'=>str_replace(['"','[',']'],'',$item->attributes),
-                'StoreId'=>$item->store_id,
-                'ModuleId'=>$item->module_id,
-                'Status'=>$item->status == 1 ? 'active' : 'inactive',
-                'Veg'=>$item->veg == 1 ? 'yes' : 'no',
-                'Recommended'=>$item->recommended == 1 ? 'yes' : 'no',
+                'Id' => $item->id,
+                'Name' => $item->name,
+                'Description' => $item->description,
+                'Image' => $item->image,
+                'Images' => $item->images,
+                'CategoryId' => $category_id,
+                'SubCategoryId' => $sub_category_id,
+                'UnitId' => $item->unit_id,
+                'Stock' => $item->stock,
+                'Price' => $item->price,
+                'Discount' => $item->discount,
+                'DiscountType' => $item->discount_type,
+                'AvailableTimeStarts' => $item->available_time_starts,
+                'AvailableTimeEnds' => $item->available_time_ends,
+                'Variations' => $module_type == 'food' ? $item->food_variations : $item->variations,
+                'AddOns' => str_replace(['"', '[', ']'], '', $item->add_ons),
+                'Attributes' => str_replace(['"', '[', ']'], '', $item->attributes),
+                'StoreId' => $item->store_id,
+                'ModuleId' => $item->module_id,
+                'Status' => $item->status == 1 ? 'active' : 'inactive',
+                'Veg' => $item->veg == 1 ? 'yes' : 'no',
+                'Recommended' => $item->recommended == 1 ? 'yes' : 'no',
             ];
         }
 
         return $storage;
     }
 
-    public static function export_store_item($collection){
+    public static function export_store_item($collection)
+    {
         $data = [];
-        foreach($collection as $key=>$item){
+        foreach ($collection as $key => $item) {
             $data[] = [
-                'SL'=>$key+1,
+                'SL' => $key + 1,
                 translate('messages.id') => $item['id'],
                 translate('messages.name') => $item['name'],
-                translate('messages.type') => $item->category?$item->category->name:'',
+                translate('messages.type') => $item->category ? $item->category->name : '',
                 translate('messages.price') => $item['price'],
                 translate('messages.status') => $item['status'],
             ];
@@ -2358,53 +2302,55 @@ class Helpers
         return $data;
     }
 
-    public static function export_stores($collection){
+    public static function export_stores($collection)
+    {
         $data = [];
-        foreach($collection as $key=>$item){
+        foreach ($collection as $key => $item) {
             $data[] = [
-                'id'=>$item->id,
-                'ownerId'=>$item->vendor->id,
-                'ownerFirstName'=>$item->vendor->f_name,
-                'ownerLastName'=>$item->vendor->l_name,
-                'storeName'=>$item->name,
-                'phone'=>$item->vendor->phone,
-                'email'=>$item->vendor->email,
-                'logo'=>$item->logo,
-                'CoverPhoto'=>$item->cover_photo,
-                'latitude'=>$item->latitude,
-                'longitude'=>$item->longitude,
-                'Address'=>$item->address ?? null,
-                'zone_id'=>$item->zone_id,
-                'module_id'=>$item->module_id,
-                'MinimumOrderAmount'=>$item->minimum_order,
-                'Comission'=>$item->comission ?? 0,
-                'Tax'=>$item->tax ?? 0,
-                'DeliveryTime'=>$item->delivery_time ?? '20-30',
-                'MinimumDeliveryFee'=>$item->minimum_shipping_charge ?? 0,
-                'PerKmDeliveryFee'=>$item->per_km_shipping_charge ?? 0,
-                'MaximumDeliveryFee'=>$item->maximum_shipping_charge ?? 0,
-                'ScheduleOrder'=> $item->schedule_order == 1 ? 'yes' : 'no',
-                'Status'=> $item->status == 1 ? 'active' : 'inactive',
-                'SelfDeliverySystem'=> $item->self_delivery_system == 1 ? 'active' : 'inactive',
-                'Veg'=> $item->veg == 1 ? 'yes' : 'no',
-                'NonVeg'=> $item->non_veg == 1 ? 'yes' : 'no',
-                'FreeDelivery'=> $item->free_delivery == 1 ? 'yes' : 'no',
-                'TakeAway'=> $item->take_away == 1 ? 'yes' : 'no',
-                'Delivery'=> $item->delivery == 1 ? 'yes' : 'no',
-                'ReviewsSection'=> $item->reviews_section == 1 ? 'active' : 'inactive',
-                'PosSystem'=> $item->pos_system == 1 ? 'active' : 'inactive',
-                'storeOpen'=> $item->active == 1 ? 'yes' : 'no',
-                'FeaturedStore'=> $item->featured == 1 ? 'yes' : 'no',
+                'id' => $item->id,
+                'ownerId' => $item->vendor->id,
+                'ownerFirstName' => $item->vendor->f_name,
+                'ownerLastName' => $item->vendor->l_name,
+                'storeName' => $item->name,
+                'phone' => $item->vendor->phone,
+                'email' => $item->vendor->email,
+                'logo' => $item->logo,
+                'CoverPhoto' => $item->cover_photo,
+                'latitude' => $item->latitude,
+                'longitude' => $item->longitude,
+                'Address' => $item->address ?? null,
+                'zone_id' => $item->zone_id,
+                'module_id' => $item->module_id,
+                'MinimumOrderAmount' => $item->minimum_order,
+                'Comission' => $item->comission ?? 0,
+                'Tax' => $item->tax ?? 0,
+                'DeliveryTime' => $item->delivery_time ?? '20-30',
+                'MinimumDeliveryFee' => $item->minimum_shipping_charge ?? 0,
+                'PerKmDeliveryFee' => $item->per_km_shipping_charge ?? 0,
+                'MaximumDeliveryFee' => $item->maximum_shipping_charge ?? 0,
+                'ScheduleOrder' => $item->schedule_order == 1 ? 'yes' : 'no',
+                'Status' => $item->status == 1 ? 'active' : 'inactive',
+                'SelfDeliverySystem' => $item->self_delivery_system == 1 ? 'active' : 'inactive',
+                'Veg' => $item->veg == 1 ? 'yes' : 'no',
+                'NonVeg' => $item->non_veg == 1 ? 'yes' : 'no',
+                'FreeDelivery' => $item->free_delivery == 1 ? 'yes' : 'no',
+                'TakeAway' => $item->take_away == 1 ? 'yes' : 'no',
+                'Delivery' => $item->delivery == 1 ? 'yes' : 'no',
+                'ReviewsSection' => $item->reviews_section == 1 ? 'active' : 'inactive',
+                'PosSystem' => $item->pos_system == 1 ? 'active' : 'inactive',
+                'storeOpen' => $item->active == 1 ? 'yes' : 'no',
+                'FeaturedStore' => $item->featured == 1 ? 'yes' : 'no',
             ];
         }
         return $data;
     }
 
-    public static function export_units($collection){
+    public static function export_units($collection)
+    {
         $data = [];
-        foreach($collection as $key=>$item){
+        foreach ($collection as $key => $item) {
             $data[] = [
-                'SL'=>$key+1,
+                'SL' => $key + 1,
                 translate('messages.id') => $item['id'],
                 translate('messages.unit') => $item['unit'],
             ];
@@ -2412,13 +2358,14 @@ class Helpers
         return $data;
     }
 
-    public static function export_customers($collection){
+    public static function export_customers($collection)
+    {
         $data = [];
-        foreach($collection as $key=>$item){
+        foreach ($collection as $key => $item) {
             $data[] = [
-                'SL'=>$key+1,
+                'SL' => $key + 1,
                 translate('messages.id') => $item['id'],
-                translate('messages.name') => $item->f_name.' '.$item->l_name,
+                translate('messages.name') => $item->f_name . ' ' . $item->l_name,
                 translate('messages.phone') => $item['phone'],
                 translate('messages.email') => $item['email'],
                 translate('messages.total_order') => $item['order_count'],
@@ -2428,20 +2375,21 @@ class Helpers
         return $data;
     }
 
-    public static function export_day_wise_report($collection){
+    public static function export_day_wise_report($collection)
+    {
         $data = [];
-        foreach($collection as $key=>$item){
+        foreach ($collection as $key => $item) {
             $data[] = [
-                'SL'=>$key+1,
+                'SL' => $key + 1,
                 translate('messages.order_id') => $item['order_id'],
-                translate('messages.store')=>$item->order->store?$item->order->store->name:translate('messages.invalid'),
-                translate('messages.customer_name')=>$item->order->customer?$item->order->customer['f_name'].' '.$item->order->customer['l_name']:translate('messages.invalid_customer_data'),
-                translate('total_item_amount')=>\App\CentralLogics\Helpers::format_currency($item->order['order_amount'] - $item->order['dm_tips']-$item->order['delivery_charge'] - $item['tax'] + $item->order['coupon_discount_amount'] + $item->order['store_discount_amount']),
-                translate('item_discount')=>\App\CentralLogics\Helpers::format_currency($item->order->details->sum('discount_on_item')),
-                translate('coupon_discount')=>\App\CentralLogics\Helpers::format_currency($item->order['coupon_discount_amount']),
-                translate('discounted_amount')=>\App\CentralLogics\Helpers::format_currency($item->order['coupon_discount_amount'] + $item->order['store_discount_amount']),
-                translate('messages.tax')=>\App\CentralLogics\Helpers::format_currency($item->order['total_tax_amount']),
-                translate('messages.delivery_charge')=>\App\CentralLogics\Helpers::format_currency($item['delivery_charge']),
+                translate('messages.store') => $item->order->store ? $item->order->store->name : translate('messages.invalid'),
+                translate('messages.customer_name') => $item->order->customer ? $item->order->customer['f_name'] . ' ' . $item->order->customer['l_name'] : translate('messages.invalid_customer_data'),
+                translate('total_item_amount') => \App\CentralLogics\Helpers::format_currency($item->order['order_amount'] - $item->order['dm_tips'] - $item->order['delivery_charge'] - $item['tax'] + $item->order['coupon_discount_amount'] + $item->order['store_discount_amount']),
+                translate('item_discount') => \App\CentralLogics\Helpers::format_currency($item->order->details->sum('discount_on_item')),
+                translate('coupon_discount') => \App\CentralLogics\Helpers::format_currency($item->order['coupon_discount_amount']),
+                translate('discounted_amount') => \App\CentralLogics\Helpers::format_currency($item->order['coupon_discount_amount'] + $item->order['store_discount_amount']),
+                translate('messages.tax') => \App\CentralLogics\Helpers::format_currency($item->order['total_tax_amount']),
+                translate('messages.delivery_charge') => \App\CentralLogics\Helpers::format_currency($item['delivery_charge']),
                 translate('messages.total_order_amount') => \App\CentralLogics\Helpers::format_currency($item['order_amount']),
                 translate('messages.admin_discount') => \App\CentralLogics\Helpers::format_currency($item['admin_expense']),
                 translate('messages.store_discount') => \App\CentralLogics\Helpers::format_currency($item->order['store_discount_amount']),
@@ -2450,7 +2398,7 @@ class Helpers
                 translate('admin_net_income') => \App\CentralLogics\Helpers::format_currency($item['admin_commission']),
                 translate('store_net_income') => \App\CentralLogics\Helpers::format_currency($item['store_amount'] - $item['tax']),
                 translate('messages.amount_received_by') => $item['received_by'],
-                translate('messages.payment_method')=>translate(str_replace('_', ' ', $item->order['payment_method'])),
+                translate('messages.payment_method') => translate(str_replace('_', ' ', $item->order['payment_method'])),
                 translate('messages.payment_status') => $item->status ? translate("messages.refunded") : translate("messages.completed"),
             ];
         }
@@ -2458,18 +2406,19 @@ class Helpers
     }
 
 
-    public static function export_expense_wise_report($collection){
+    public static function export_expense_wise_report($collection)
+    {
         $data = [];
-        foreach($collection as $key=>$item){
-            if(isset($item->order->customer)){
-                $customer_name= $item->order->customer->f_name.' '.$item->order->customer->l_name;
+        foreach ($collection as $key => $item) {
+            if (isset($item->order->customer)) {
+                $customer_name = $item->order->customer->f_name . ' ' . $item->order->customer->l_name;
             }
             $data[] = [
-                'SL'=>$key+1,
+                'SL' => $key + 1,
                 translate('messages.order_id') => $item['order_id'],
-                translate('messages.expense_date') =>  $item['created_at'],
+                translate('messages.expense_date') => $item['created_at'],
                 // translate('messages.expense_date') =>  $item->created_at->format('Y-m-d '.config('timeformat')),
-                translate('messages.type') => str::title( str_replace('_', ' ',  $item['type'])),
+                translate('messages.type') => str::title(str_replace('_', ' ', $item['type'])),
                 translate('messages.customer_name') => $customer_name,
                 translate('messages.amount') => $item['amount'],
             ];
@@ -2477,50 +2426,53 @@ class Helpers
         return $data;
     }
 
-    public static function export_item_wise_report($collection){
+    public static function export_item_wise_report($collection)
+    {
         $data = [];
-        foreach($collection as $key=>$item){
+        foreach ($collection as $key => $item) {
             $data[] = [
-                'SL'=>$key+1,
+                'SL' => $key + 1,
                 translate('messages.id') => $item['id'],
                 translate('messages.name') => $item['name'],
-                translate('messages.module') =>$item->module ? $item->module->module_name : '',
+                translate('messages.module') => $item->module ? $item->module->module_name : '',
                 translate('messages.store') => $item->store ? $item->store?->name : '',
                 translate('messages.order') => $item->orders_count,
                 translate('messages.price') => \App\CentralLogics\Helpers::format_currency($item->price),
                 translate('messages.total_amount_sold') => \App\CentralLogics\Helpers::format_currency($item->orders_sum_price),
                 translate('messages.total_discount_given') => \App\CentralLogics\Helpers::format_currency($item->orders_sum_discount_on_item),
-                translate('messages.average_sale_value') => $item->orders_count>0? \App\CentralLogics\Helpers::format_currency(($item->orders_sum_price-$item->orders_sum_discount_on_item)/$item->orders_count):0 ,
-                translate('messages.average_ratings') => round($item->avg_rating,1),
+                translate('messages.average_sale_value') => $item->orders_count > 0 ? \App\CentralLogics\Helpers::format_currency(($item->orders_sum_price - $item->orders_sum_discount_on_item) / $item->orders_count) : 0,
+                translate('messages.average_ratings') => round($item->avg_rating, 1),
             ];
         }
         return $data;
     }
 
-    public static function export_stock_wise_report($collection){
+    public static function export_stock_wise_report($collection)
+    {
         $data = [];
-        foreach($collection as $key=>$item){
+        foreach ($collection as $key => $item) {
             $data[] = [
-                'SL'=>$key+1,
+                'SL' => $key + 1,
                 translate('messages.id') => $item['id'],
                 translate('messages.name') => $item['name'],
-                translate('messages.store') => $item->store?$item->store?->name : '',
-                translate('messages.zone') => ($item->store && $item->store?->zone) ? $item->store?->zone->name:'',
+                translate('messages.store') => $item->store ? $item->store?->name : '',
+                translate('messages.zone') => ($item->store && $item->store?->zone) ? $item->store?->zone->name : '',
                 translate('messages.stock') => $item['stock'],
             ];
         }
         return $data;
     }
 
-    public static function export_delivery_men($collection){
+    public static function export_delivery_men($collection)
+    {
         $data = [];
-        foreach($collection as $key=>$item){
+        foreach ($collection as $key => $item) {
             $data[] = [
-                'SL'=>$key+1,
+                'SL' => $key + 1,
                 translate('messages.id') => $item['id'],
-                translate('messages.name') => $item->f_name.' '.$item->l_name,
+                translate('messages.name') => $item->f_name . ' ' . $item->l_name,
                 translate('messages.phone') => $item['phone'],
-                translate('messages.zone') => $item->zone?$item->zone->name:'',
+                translate('messages.zone') => $item->zone ? $item->zone->name : '',
                 translate('messages.total_order') => $item['order_count'],
                 translate('messages.currently_assigned_orders') => (int) $item['current_orders'],
                 translate('messages.status') => $item['status'],
@@ -2529,13 +2481,14 @@ class Helpers
         return $data;
     }
 
-    public static function hex_to_rbg($color){
+    public static function hex_to_rbg($color)
+    {
         list($r, $g, $b) = sscanf($color, "#%02x%02x%02x");
         $output = "$r, $g, $b";
         return $output;
     }
 
-    public static function expenseCreate($amount,$type,$datetime,$created_by,$order_id=null,$store_id=null,$description='',$delivery_man_id=null,$user_id=null)
+    public static function expenseCreate($amount, $type, $datetime, $created_by, $order_id = null, $store_id = null, $description = '', $delivery_man_id = null, $user_id = null)
     {
         $expense = new Expense();
         $expense->amount = $amount;
@@ -2556,13 +2509,13 @@ class Helpers
         $result = [];
         $variation_price = 0;
 
-        foreach($variations as $k=> $variation){
-            foreach($product_variations as  $product_variation){
-                if( isset($variation['values']) && isset($product_variation['values']) && $product_variation['name'] == $variation['name']  ){
+        foreach ($variations as $k => $variation) {
+            foreach ($product_variations as $product_variation) {
+                if (isset($variation['values']) && isset($product_variation['values']) && $product_variation['name'] == $variation['name']) {
                     $result[$k] = $product_variation;
                     $result[$k]['values'] = [];
-                    foreach($product_variation['values'] as $key=> $option){
-                        if(in_array($option['label'], $variation['values']['label'])){
+                    foreach ($product_variation['values'] as $key => $option) {
+                        if (in_array($option['label'], $variation['values']['label'])) {
                             $result[$k]['values'][] = $option;
                             $variation_price += $option['optionPrice'];
                         }
@@ -2571,7 +2524,7 @@ class Helpers
             }
         }
 
-        return ['price'=>$variation_price,'variations'=>$result];
+        return ['price' => $variation_price, 'variations' => $result];
     }
 
     public static function food_variation_price($product, $variations)
@@ -2584,10 +2537,10 @@ class Helpers
         //         $result = $value['price'];
         //     }
         // }
-        foreach($product as $product_variation){
-            foreach($product_variation['values'] as $option){
-                foreach($match as $variation){
-                    if($product_variation['name'] == $variation['name'] && isset($variation['values']) && in_array($option['label'], $variation['values']['label'])){
+        foreach ($product as $product_variation) {
+            foreach ($product_variation['values'] as $option) {
+                foreach ($match as $variation) {
+                    if ($product_variation['name'] == $variation['name'] && isset($variation['values']) && in_array($option['label'], $variation['values']['label'])) {
                         $result += $option['optionPrice'];
                     }
                 }
@@ -2599,7 +2552,7 @@ class Helpers
 
     public static function gen_mpdf($view, $file_prefix, $file_postfix)
     {
-        $mpdf = new \Mpdf\Mpdf(['tempDir' => __DIR__ . '/../../storage/tmp','default_font' => 'FreeSerif', 'mode' => 'utf-8', 'format' => [190, 250]]);
+        $mpdf = new \Mpdf\Mpdf(['tempDir' => __DIR__ . '/../../storage/tmp', 'default_font' => 'FreeSerif', 'mode' => 'utf-8', 'format' => [190, 250]]);
         /* $mpdf->AddPage('XL', '', '', '', '', 10, 10, 10, '10', '270', '');*/
         $mpdf->autoScriptToLang = true;
         $mpdf->autoLangToFont = true;
@@ -2614,7 +2567,7 @@ class Helpers
     {
         $res = file_get_contents("https://translate.googleapis.com/translate_a/single?client=gtx&ie=UTF-8&oe=UTF-8&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&dt=at&sl=" . $sl . "&tl=" . $tl . "&hl=hl&q=" . urlencode($q), $_SERVER['DOCUMENT_ROOT'] . "/transes.html");
         $res = json_decode($res);
-        return str_replace('_',' ',$res[0][0][0]);
+        return str_replace('_', ' ', $res[0][0][0]);
     }
 
     public static function getLanguageCode(string $country_code): string
@@ -2768,7 +2721,7 @@ class Helpers
         );
 
         foreach ($locales as $locale) {
-            $locale_region = explode('-',$locale);
+            $locale_region = explode('-', $locale);
             if ($country_code == $locale_region[0]) {
                 return $locale_region[0];
             }
@@ -2822,12 +2775,14 @@ class Helpers
     }
 
 
-    public static function product_tax($price , $tax, $is_include=false){
-        $price_tax = ($price * $tax) / (100 + ($is_include?$tax:0)) ;
+    public static function product_tax($price, $tax, $is_include = false)
+    {
+        $price_tax = ($price * $tax) / (100 + ($is_include ? $tax : 0));
         return $price_tax;
     }
 
-    public static function apple_client_secret(){
+    public static function apple_client_secret()
+    {
         // Set up the necessary variables
         $keyId = 'U7KA7F82UM';
         $teamId = '7WSYLQ8Y87';
@@ -2875,37 +2830,40 @@ class Helpers
         return $errors;
     }
 
-    public static function Export_generator($datas) {
+    public static function Export_generator($datas)
+    {
         foreach ($datas as $data) {
             yield $data;
         }
         return true;
     }
 
-    public static function export_addons($collection){
+    public static function export_addons($collection)
+    {
         $data = [];
-        foreach($collection as $key=>$item){
+        foreach ($collection as $key => $item) {
             $data[] = [
-                'Id'=>$item->id,
-                'Name'=>$item->name,
-                'Price'=>$item->price,
-                'StoreId'=>$item->store_id,
-                'Status'=>$item->status == 1 ? 'active' : 'inactive'
+                'Id' => $item->id,
+                'Name' => $item->name,
+                'Price' => $item->price,
+                'StoreId' => $item->store_id,
+                'Status' => $item->status == 1 ? 'active' : 'inactive'
             ];
         }
         return $data;
     }
-    public static function export_categories($collection){
+    public static function export_categories($collection)
+    {
         $data = [];
-        foreach($collection as $key=>$item){
+        foreach ($collection as $key => $item) {
             $data[] = [
-                'Id'=>$item->id,
-                'Name'=>$item->name,
-                'Image'=>$item->image,
-                'ParentId'=>$item->parent_id,
-                'Position'=>$item->position,
-                'Priority'=>$item->priority,
-                'Status'=>$item->status == 1 ? 'active' : 'inactive',
+                'Id' => $item->id,
+                'Name' => $item->name,
+                'Image' => $item->image,
+                'ParentId' => $item->parent_id,
+                'Position' => $item->position,
+                'Priority' => $item->priority,
+                'Status' => $item->status == 1 ? 'active' : 'inactive',
             ];
         }
         return $data;
@@ -2917,43 +2875,49 @@ class Helpers
         return $status;
     }
 
-    public static function text_variable_data_format($value,$user_name=null,$store_name=null,$delivery_man_name=null,$transaction_id=null,$order_id=null)
+    public static function text_variable_data_format($value, $user_name = null, $store_name = null, $delivery_man_name = null, $transaction_id = null, $order_id = null)
     {
         $data = $value;
         if ($value) {
-            if($user_name){
-                $data =  str_replace("{userName}", $user_name, $data);
+            if ($user_name) {
+                $data = str_replace("{userName}", $user_name, $data);
             }
 
-            if($store_name){
-                $data =  str_replace("{storeName}", $store_name, $data);
+            if ($store_name) {
+                $data = str_replace("{storeName}", $store_name, $data);
             }
 
-            if($delivery_man_name){
-                $data =  str_replace("{deliveryManName}", $delivery_man_name, $data);
+            if ($delivery_man_name) {
+                $data = str_replace("{deliveryManName}", $delivery_man_name, $data);
             }
 
-            if($transaction_id){
-                $data =  str_replace("{transactionId}", $transaction_id, $data);
+            if ($transaction_id) {
+                $data = str_replace("{transactionId}", $transaction_id, $data);
             }
 
-            if($order_id){
-                $data =  str_replace("{orderId}", $order_id, $data);
+            if ($order_id) {
+                $data = str_replace("{orderId}", $order_id, $data);
             }
         }
 
         return $data;
     }
 
-    public static function get_login_url($type){
-        $data=DataSetting::whereIn('key',['store_employee_login_url','store_login_url','admin_employee_login_url','admin_login_url'
-        ])->pluck('key','value')->toArray();
+    public static function get_login_url($type)
+    {
+        $data = DataSetting::whereIn('key', [
+            'store_employee_login_url',
+            'store_login_url',
+            'admin_employee_login_url',
+            'admin_login_url'
+        ])->pluck('key', 'value')->toArray();
 
-        return array_search($type,$data);
+        return array_search($type, $data);
     }
 
-    public static function react_activation_check($react_domain, $react_license_code){
-        $scheme = str_contains($react_domain, 'localhost')?'http://':'https://';
+    public static function react_activation_check($react_domain, $react_license_code)
+    {
+        $scheme = str_contains($react_domain, 'localhost') ? 'http://' : 'https://';
         $url = empty(parse_url($react_domain)['scheme']) ? $scheme . ltrim($react_domain, '/') : $react_domain;
         $response = Http::post('https://store.6amtech.com/api/v1/customer/license-check', [
             'domain_name' => str_ireplace('www.', '', parse_url($url, PHP_URL_HOST)),
@@ -3013,15 +2977,16 @@ class Helpers
         return false;
     }
 
-    public static function react_domain_status_check(){
+    public static function react_domain_status_check()
+    {
         $data = self::get_business_settings('react_setup');
-        if($data && isset($data['react_domain']) && isset($data['react_license_code'])){
-            if(isset($data['react_platform']) && $data['react_platform'] == 'codecanyon'){
-                $data['status'] = (int)self::activation_submit($data['react_license_code']);
-            }elseif(!self::react_activation_check($data['react_domain'], $data['react_license_code'])){
-                $data['status']=0;
-            }elseif($data['status'] != 1){
-                $data['status']=1;
+        if ($data && isset($data['react_domain']) && isset($data['react_license_code'])) {
+            if (isset($data['react_platform']) && $data['react_platform'] == 'codecanyon') {
+                $data['status'] = (int) self::activation_submit($data['react_license_code']);
+            } elseif (!self::react_activation_check($data['react_domain'], $data['react_license_code'])) {
+                $data['status'] = 0;
+            } elseif ($data['status'] != 1) {
+                $data['status'] = 1;
             }
             DB::table('business_settings')->updateOrInsert(['key' => 'react_setup'], [
                 'value' => json_encode($data)
@@ -3029,17 +2994,18 @@ class Helpers
         }
     }
 
-    public static function export_order_transaction_report($collection){
+    public static function export_order_transaction_report($collection)
+    {
         $data = [];
-        foreach($collection as $key=>$item){
+        foreach ($collection as $key => $item) {
             $data[] = [
-                'SL'=>$key+1,
+                'SL' => $key + 1,
                 translate('messages.id') => $item['id'],
                 translate('messages.vendor_id') => $item['vendor_id'],
                 translate('messages.delivery_man_id') => $item['delivery_man_id'],
                 translate('messages.order_id') => $item['order_id'],
                 translate('messages.order_amount') => $item['order_amount'],
-                translate('messages.store_amount') => $item['store_amount']-$item['tax'],
+                translate('messages.store_amount') => $item['store_amount'] - $item['tax'],
                 translate('messages.admin_commission') => $item['admin_commission'],
                 translate('messages.received_by') => $item['received_by'],
                 translate('messages.status') => $item['status'],
@@ -3061,105 +3027,115 @@ class Helpers
         return $data;
     }
 
-    public static function get_zones_name($zones){
-        if(is_array($zones)){
-            $data = Zone::whereIn('id',$zones)->pluck('name')->toArray();
-        }else{
-            $data = Zone::where('id',$zones)->pluck('name')->toArray();
+    public static function get_zones_name($zones)
+    {
+        if (is_array($zones)) {
+            $data = Zone::whereIn('id', $zones)->pluck('name')->toArray();
+        } else {
+            $data = Zone::where('id', $zones)->pluck('name')->toArray();
         }
         $data = implode(', ', $data);
         return $data;
     }
 
-    public static function get_stores_name($stores){
-        if(is_array($stores)){
-            $data = Store::whereIn('id',$stores)->pluck('name')->toArray();
-        }else{
-            $data = Store::where('id',$stores)->pluck('name')->toArray();
+    public static function get_stores_name($stores)
+    {
+        if (is_array($stores)) {
+            $data = Store::whereIn('id', $stores)->pluck('name')->toArray();
+        } else {
+            $data = Store::where('id', $stores)->pluck('name')->toArray();
         }
         $data = implode(', ', $data);
         return $data;
     }
 
-    public static function get_category_name($id){
-        $id=Json_decode($id,true);
-        $id=data_get($id,'0.id','NA');
-        return Category::where('id',$id)->first()?->name;
+    public static function get_category_name($id)
+    {
+        $id = Json_decode($id, true);
+        $id = data_get($id, '0.id', 'NA');
+        return Category::where('id', $id)->first()?->name;
     }
-    public static function get_sub_category_name($id){
-        $id=Json_decode($id,true);
-        $id=data_get($id,'1.id','NA');
-        return Category::where('id',$id)->first()?->name;
+    public static function get_sub_category_name($id)
+    {
+        $id = Json_decode($id, true);
+        $id = data_get($id, '1.id', 'NA');
+        return Category::where('id', $id)->first()?->name;
     }
-    public static function get_attributes($choice_options){
-        try{
-            $data=[];
-            foreach((array)json_decode($choice_options) as $key => $choice){
-                $data[$choice->title] =$choice->options;
+    public static function get_attributes($choice_options)
+    {
+        try {
+            $data = [];
+            foreach ((array) json_decode($choice_options) as $key => $choice) {
+                $data[$choice->title] = $choice->options;
             }
-            return str_ireplace(['\'', '"', '{','}', '[',']', ';', '<', '>', '?'], ' ',json_encode($data));
+            return str_ireplace(['\'', '"', '{', '}', '[', ']', ';', '<', '>', '?'], ' ', json_encode($data));
         } catch (\Exception $ex) {
-            info(["line___{$ex->getLine()}",$ex->getMessage()]);
+            info(["line___{$ex->getLine()}", $ex->getMessage()]);
             return 0;
         }
     }
 
-    public static function get_module_name($id){
-        return Module::where('id',$id)->first()?->module_name;
+    public static function get_module_name($id)
+    {
+        return Module::where('id', $id)->first()?->module_name;
     }
 
-    public static function get_food_variations($variations){
-        try{
-            $data=[];
-            $data2=[];
-            foreach((array)json_decode($variations,true) as $key => $choice){
-                foreach($choice['values'] as $k => $v){
-                    $data2[$k] =  $v['label'];
+    public static function get_food_variations($variations)
+    {
+        try {
+            $data = [];
+            $data2 = [];
+            foreach ((array) json_decode($variations, true) as $key => $choice) {
+                foreach ($choice['values'] as $k => $v) {
+                    $data2[$k] = $v['label'];
                     // if(!next($choice['values'] )) {
                     //     $data2[$k] =  $v['label'].";";
                     // }
                 }
                 $data[$choice['name']] = $data2;
             }
-            return str_ireplace(['\'', '"', '{','}', '[',']', '<', '>', '?'], ' ',json_encode($data));
+            return str_ireplace(['\'', '"', '{', '}', '[', ']', '<', '>', '?'], ' ', json_encode($data));
         } catch (\Exception $ex) {
-            info(["line___{$ex->getLine()}",$ex->getMessage()]);
+            info(["line___{$ex->getLine()}", $ex->getMessage()]);
             return 0;
         }
 
     }
 
-    public static function get_customer_name($id){
-        $user = User::where('id',$id)->first();
+    public static function get_customer_name($id)
+    {
+        $user = User::where('id', $id)->first();
 
-        return $user->f_name.' '.$user->l_name;
+        return $user->f_name . ' ' . $user->l_name;
     }
-    public static function get_addon_data($id){
-        try{
-            $data=[];
-            $addon= AddOn::whereIn('id',json_decode($id, true))->get(['name','price'])->toArray();
-            foreach($addon as $key => $value){
-                $data[$key]= $value['name'] .' - ' .\App\CentralLogics\Helpers::format_currency($value['price']);
+    public static function get_addon_data($id)
+    {
+        try {
+            $data = [];
+            $addon = AddOn::whereIn('id', json_decode($id, true))->get(['name', 'price'])->toArray();
+            foreach ($addon as $key => $value) {
+                $data[$key] = $value['name'] . ' - ' . \App\CentralLogics\Helpers::format_currency($value['price']);
             }
-            return str_ireplace(['\'', '"', '{','}', '[',']', '<', '>', '?'], ' ',json_encode($data, JSON_UNESCAPED_UNICODE));
+            return str_ireplace(['\'', '"', '{', '}', '[', ']', '<', '>', '?'], ' ', json_encode($data, JSON_UNESCAPED_UNICODE));
         } catch (\Exception $ex) {
-            info(["line___{$ex->getLine()}",$ex->getMessage()]);
+            info(["line___{$ex->getLine()}", $ex->getMessage()]);
             return 0;
         }
     }
 
 
 
-    public static function add_or_update_translations($request, $key_data,$name_field ,$model_name, $data_id,$data_value ){
-        try{
-            $model = 'App\\Models\\'.$model_name;
+    public static function add_or_update_translations($request, $key_data, $name_field, $model_name, $data_id, $data_value)
+    {
+        try {
+            $model = 'App\\Models\\' . $model_name;
             $default_lang = str_replace('_', '-', app()->getLocale());
             foreach ($request->lang as $index => $key) {
                 if ($default_lang == $key && !($request->{$name_field}[$index])) {
                     if ($key != 'default') {
                         Translation::updateorcreate(
                             [
-                                'translationable_type' =>  $model,
+                                'translationable_type' => $model,
                                 'translationable_id' => $data_id,
                                 'locale' => $key,
                                 'key' => $key_data
@@ -3182,21 +3158,22 @@ class Helpers
                 }
             }
             return true;
-        } catch(\Exception $e){
-            info(["line___{$e->getLine()}",$e->getMessage()]);
+        } catch (\Exception $e) {
+            info(["line___{$e->getLine()}", $e->getMessage()]);
             return false;
         }
     }
 
-    public static function offline_payment_formater($user_data){
+    public static function offline_payment_formater($user_data)
+    {
         $userInputs = [];
 
-        $user_inputes=  json_decode($user_data->payment_info, true);
-        $method_name= $user_inputes['method_name'];
-        $method_id= $user_inputes['method_id'];
+        $user_inputes = json_decode($user_data->payment_info, true);
+        $method_name = $user_inputes['method_name'];
+        $method_id = $user_inputes['method_id'];
 
         foreach ($user_inputes as $key => $value) {
-            if(!in_array($key,['method_name','method_id'])){
+            if (!in_array($key, ['method_name', 'method_id'])) {
                 $userInput = [
                     'user_input' => $key,
                     'user_data' => $value,
@@ -3216,28 +3193,32 @@ class Helpers
         $result = [
             'input' => $userInputs,
             'data' => $data,
-            'method_fields' =>json_decode($user_data->method_fields ,true),
+            'method_fields' => json_decode($user_data->method_fields, true),
         ];
 
         return $result;
     }
 
-    public static function time_date_format($data){
-        $time=config('timeformat') ?? 'H:i';
-        return  Carbon::parse($data)->locale(app()->getLocale())->translatedFormat('d M Y ' . $time);
+    public static function time_date_format($data)
+    {
+        $time = config('timeformat') ?? 'H:i';
+        return Carbon::parse($data)->locale(app()->getLocale())->translatedFormat('d M Y ' . $time);
     }
-    public static function date_format($data){
-        return  Carbon::parse($data)->locale(app()->getLocale())->translatedFormat('d M Y');
+    public static function date_format($data)
+    {
+        return Carbon::parse($data)->locale(app()->getLocale())->translatedFormat('d M Y');
     }
-    public static function time_format($data){
-        $time=config('timeformat') ?? 'H:i';
-        return  Carbon::parse($data)->locale(app()->getLocale())->translatedFormat($time);
+    public static function time_format($data)
+    {
+        $time = config('timeformat') ?? 'H:i';
+        return Carbon::parse($data)->locale(app()->getLocale())->translatedFormat($time);
     }
 
 
-    public static function onerror_image_helper($data, $src, $error_src ,$path){
+    public static function onerror_image_helper($data, $src, $error_src, $path)
+    {
 
-        if(isset($data) && strlen($data) >1 && Storage::disk('public')->exists($path.$data)){
+        if (isset($data) && strlen($data) > 1 && Storage::disk('public')->exists($path . $data)) {
             return $src;
         }
         return $error_src;

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Models\Contact;
 use App\Models\Item;
 use App\Models\User;
+use App\Models\Userkyc;
 use App\Models\Zone;
 use App\Models\Order;
 use App\Models\OrderDetail;
@@ -36,6 +38,95 @@ class CustomerController extends Controller
         ];
         return response()->json($data, 200);
     }
+
+    public function user_kyc(Request $request)
+    {
+        $user_id = $request->user()->id;
+
+        // Validate the incoming request
+        $validatedData = $request->validate([
+            'aadhar' => 'required|string|max:255',
+            'pan' => 'required|string|max:255',
+            'license_front' => 'nullable',
+            'license_back' => 'nullable',
+        ]);
+
+        $user_kyc = Userkyc::where('user_id', $user_id)->first();
+
+        if (!$user_kyc) {
+            $user_kyc = new Userkyc();
+            $user_kyc->user_id = $user_id;
+        }
+
+        $user_kyc->aadhar = $validatedData['aadhar'];
+        $user_kyc->pan = $validatedData['pan'];
+
+
+        if ($request->hasFile('license_front')) {
+            $image = $request->file('license_front');
+            $imageName = time() . '_front.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads/user/kyc'), $imageName);
+            $user_kyc->license_front = "/uploads/user/kyc/" . $imageName;
+        }
+
+        if ($request->hasFile('license_back')) {
+            $image = $request->file('license_back');
+            $imageName = time() . '_back.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads/user/kyc'), $imageName);
+            $user_kyc->license_back = "/uploads/user/kyc/" . $imageName;
+        }
+
+        $user_kyc->is_verified = "0";
+        $user_kyc->is_reject = "0";
+
+        $user_kyc->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'User KYC details stored successfully',
+            'data' => $user_kyc
+        ], 200);
+    }
+
+    public function user_kyc_status(Request $request)
+    {
+        $user_id = $request->user()->id;
+
+        // Validate the incoming request
+
+        $user_kyc = Userkyc::where('user_id', $user_id)->first();
+
+
+
+        return response()->json([
+            'success' => true,
+            'data' => $user_kyc
+        ], 200);
+    }
+
+    public function send_message(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'subject' => 'required|string|max:255',
+            'message' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+
+        $contact = new Contact();
+        $contact->name = $request->name;
+        $contact->email = $request->email;
+        $contact->subject = $request->subject;
+        $contact->message = $request->message;
+        $contact->save();
+
+        return response()->json(['success' => true, 'message' => 'Message sent successfully!'], 200);
+    }
+
 
     public function add_new_address(Request $request)
     {

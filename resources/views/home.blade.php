@@ -832,7 +832,6 @@
                             <i class="fa-solid fa-gauge"></i>
                             <i class="fa-solid fa-gauge"></i>
                         </div> --}}
-                                <p class="price mb-0 text-center">Rs. {{ $items->price }}
                                     {{-- @if ($items->discount != 0)
                             <small class="old-price mb-0" style="text-decoration: line-through; color:grey;">{{$items->discount}}</small> / day
                             @endif --}}

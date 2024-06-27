@@ -286,6 +286,11 @@ Route::group(['namespace' => 'Api\V1', 'middleware' => 'localization'], function
             Route::post('update-interest', 'CustomerController@update_interest');
             Route::put('cm-firebase-token', 'CustomerController@update_cm_firebase_token');
             Route::get('suggested-items', 'CustomerController@get_suggested_item');
+
+            Route::post('user-kyc', 'CustomerController@user_kyc');
+            Route::get('user-kyc-status', 'CustomerController@user_kyc_status');
+            Route::post('send-message', 'CustomerController@send_message');
+
             //Remove account
             Route::delete('remove-account', 'CustomerController@remove_account');
 
@@ -381,6 +386,9 @@ Route::group(['namespace' => 'Api\V1', 'middleware' => 'localization'], function
             Route::post('create-order', 'ItemController@createOrderStore');
             Route::get('payment-key', 'ItemController@payment');
             Route::get('all-orders', 'ItemController@get_all_orders');
+            Route::get('get-order', 'ItemController@get_order');
+            Route::get('get-gst', 'ItemController@get_gst');
+            Route::post ('vehicle-availability-search', 'ItemController@vehicle_availability_check');
         });
 
         Route::group(['prefix' => 'stores'], function () {

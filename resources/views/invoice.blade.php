@@ -1,6 +1,37 @@
-<div class="content container-fluid invoice-page initial-38">
+
+@extends('layouts.landing.app')
+
+@section('css')
+    <style>
+        .address,
+        .phone {
+            font-size: 17px;
+            font-weight: 600;
+            margin-top: 10px;
+            color: black;
+            text-transform: capitalize;
+        }
+
+        .order-info-details .d-flex {
+            gap: 5px;
+        }
+
+        .checkout--info dt {
+            color: black;
+        }
+
+        .checkout--info dd {
+            color: black;
+            font-weight: 500;
+        }
+    </style>
+@endsection
+
+@section('content')
+
+<div class="content container invoice-page initial-38">
     <div id="printableArea">
-        <div>
+        <div class="d-flex flex-column align-items-center">
             <div class="text-center">
                 <input type="button" class="btn btn-primary mt-3 non-printable" onclick="printDiv('printableArea')"
                     value="{{ translate('Proceed,_If_thermal_printer_is_ready.') }}" />
@@ -9,17 +40,17 @@
             </div>
 
             <hr class="non-printable">
-            <div class="print--invoice initial-38-1">
+            <div class="print--invoice initial-38-1 d-flex flex-column align-items-center">
                 @if ($order->store)
                     <div class="text-center pt-4 mb-3">
                         <img class="invoice-logo" src="{{ asset('/public/assets/admin/img/invoice-logo.png') }}"
                             alt="">
                         <div class="top-info">
                             <h2 class="store-name">{{ $order->store->name }}</h2>
-                            <div>
+                            <div class="address">
                                 {{ $order->store->address }}
                             </div>
-                            <div class="mt-1 d-flex justify-content-center">
+                            <div class="mt-1 d-flex justify-content-center phone">
                                 <span>{{ translate('messages.phone') }}</span> <span>:</span>
                                 <span>{{ $order->store->phone }}</span>
                             </div>
@@ -27,9 +58,9 @@
                     </div>
                 @endif
                 <div class="top-info">
-                    <img src="{{ asset('/public/assets/admin/img/invoice-star.png') }}" alt="" class="w-100">
+                    <img src="{{ asset('/public/assets/admin/img/invoice-star.png') }}" alt="">
                     <div class="text-uppercase text-center">{{ translate('messages.cash_receipt') }}</div>
-                    <img src="{{ asset('/public/assets/admin/img/invoice-star.png') }}" alt="" class="w-100">
+                    <img src="{{ asset('/public/assets/admin/img/invoice-star.png') }}" alt="">
                 </div>
                 <div class="order-info-id text-center">
                     <h5 class="d-flex justify-content-center"><span>{{ translate('order_id') }}</span> <span>:</span>
@@ -45,7 +76,7 @@
                         @endif
                     </div>
                 </div>
-                <div class="order-info-details">
+                <div class="order-info-details mt-4">
                     <div class="row mt-3">
                         @if ($order->order_type == 'parcel')
                             <div class="col-12">
@@ -104,7 +135,7 @@
                     <table class="table invoice--table text-black mt-3">
                         <thead class="border-0">
                             <tr class="border-0">
-                                <th>{{ translate('messages.desc') }}</th>
+                                <th>{{ translate('messages.Product Name') }}</th>
                                 <th class="w-10p"></th>
                                 <th>{{ translate('messages.price') }}</th>
                             </tr>
@@ -322,7 +353,7 @@
 
                     </dl>
                     @if ($order->payment_method != 'cash_on_delivery')
-                        <div class="d-flex flex-row justify-content-between border-top">
+                        <div class="d-flex flex-row justify-content-between border-top text-dark fw-500">
                             <span class="d-flex">
                                 <span>{{ translate('messages.Paid by') }}</span> <span>:</span>
                                 <span>{{ translate('messages.' . $order->payment_method) }}</span> </span>
@@ -348,3 +379,12 @@
     </div>
 </div>
 </div>
+
+<script>
+    function printDiv(divName) {
+        window.open('{{route("print.invoice",["id" => $order->id])}}', '_blank');
+    }
+
+</script>
+
+@endsection
