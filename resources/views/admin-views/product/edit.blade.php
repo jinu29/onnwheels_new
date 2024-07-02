@@ -86,6 +86,12 @@
                                             value="{{ $product?->getRawOriginal('name') }}" required>
                                     </div>
                                     <input type="hidden" name="lang[]" value="default">
+                                    <div class="form-group">
+                                        <label class="input-label" for="default_name">{{ translate('messages.vehicle_number') }}
+                                        </label>
+                                        <input type="text" name="vehicle_number" id="vehicle_number" class="form-control"
+                                            placeholder="{{ translate('messages.vehicle_number') }}" required  value="{{ $product->vehicle_number }}">
+                                    </div>
                                     <div class="form-group pt-2 mb-0">
                                         <label class="input-label"
                                             for="exampleFormControlInput1">{{ translate('messages.short_description') }}
@@ -447,7 +453,7 @@
                                 <div class="col-sm-4 col-6">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.weekend deposit') }}</label>
+                                            for="exampleFormControlInput1">{{ translate('messages.weekend price') }}</label>
                                         <input type="number" value="{{ $product->price }}" min="0"
                                             max="999999999999.99" name="price" class="form-control" step="0.01"
                                             placeholder="{{ translate('messages.Ex:') }} 100" required>
@@ -485,7 +491,12 @@
                                 </div>
                             </div>
 
-                            <div class="row mt-2">
+                            <h5 class="card-title" style="margin-top:20px;">
+                                {{-- <span class="card-header-icon"><i class="tio-dollar-outlined"></i></span> --}}
+                                <span>{{ translate('Hourly Package') }}</span>
+                            </h5>
+
+                            <div class="row mt-2"  style="margin-bottom: 50px;">
                                 <?php
                                 // JSON string containing the key-value pair
                                 $jsonString = $product['hours_price'];
@@ -530,9 +541,43 @@
                                             placeholder="{{ translate('messages.Ex:') }} 100" value="{{$hoursPriceArray["km_charges"] ?? 0}}">
                                     </div>
                                 </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.Hour Limit(MIN)') }}</label>
+                                        <input type="number" name="h_hour_limit" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100" value="{{$hoursPriceArray["hour_limit"] ?? 0}}">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.Weekend Hour Limit(MIN)') }}</label>
+                                        <input type="number" name="h_w_limit" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100" value="{{$hoursPriceArray["hour_weekend_limit"] ?? 0}}">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.Extra Hours') }}</label>
+                                        <input type="number" name="h_extra_hours" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100"  value="{{$hoursPriceArray["extra_hours"] ?? 0}}">
+                                    </div>
+                                </div>
                             </div>
 
-                            <div class="row mt-2">
+                            <h5 class="card-title" style="margin-top:20px;">
+                                {{-- <span class="card-header-icon"><i class="tio-dollar-outlined"></i></span> --}}
+                                <span>{{ translate('Day Package') }}</span>
+                            </h5>
+
+                            <div class="row mt-2" style="margin-bottom: 50px;">
                                 <?php
                                 // JSON string containing the key-value pair
                                 $jsonString = $product['days_price'];
@@ -577,9 +622,23 @@
                                             placeholder="{{ translate('messages.Ex:') }} 100" value="{{$dayPriceArray["km_charges"] ?? 0}}">
                                     </div>
                                 </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.Extra Hours') }}</label>
+                                        <input type="number" name="d_extra_hours" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100" value="{{$dayPriceArray["extra_hours"] ?? 0}}">
+                                    </div>
+                                </div>
                             </div>
 
-                            <div class="row mt-2">
+                            <h5 class="card-title" style="margin-top:20px;">
+                                {{-- <span class="card-header-icon"><i class="tio-dollar-outlined"></i></span> --}}
+                                <span>{{ translate('Weekly Package') }}</span>
+                            </h5>
+
+                            <div class="row mt-2" style="margin-bottom: 50px;">
                                 <?php
                                 // JSON string containing the key-value pair
                                 $jsonString = $product['week_price'];
@@ -624,8 +683,22 @@
                                             placeholder="{{ translate('messages.Ex:') }} 100" value="{{$weekPriceArray["km_charges"] ?? 0}}">
                                     </div>
                                 </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                        for="exampleFormControlInput1">{{ translate('messages.Extra Hours') }}</label>
+                                        <input type="number" name="w_extra_hours" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100" value="{{$weekPriceArray["extra_hours"] ?? 0}}">
+                                    </div>
+                                </div>
                             </div>
                             
+                            <h5 class="card-title" style="margin-top:20px;">
+                                {{-- <span class="card-header-icon"><i class="tio-dollar-outlined"></i></span> --}}
+                                <span>{{ translate('Monthly Package') }}</span>
+                            </h5>
+
                             <div class="row mt-2">
                                 <?php
                                 // JSON string containing the key-value pair
@@ -669,6 +742,15 @@
                                         <input type="number" name="m_km_charges" min="0" max="999999999999.99"
                                             step="0.01" class="form-control"
                                             placeholder="{{ translate('messages.Ex:') }} 100" value="{{$monthPriceArray["km_charges"] ?? 0}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                        for="exampleFormControlInput1">{{ translate('messages.Extra Hours') }}</label>
+                                        <input type="number" name="m_extra_hours" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100"  value="{{$monthPriceArray["extra_hours"] ?? 0}}">
                                     </div>
                                 </div>
                             </div>

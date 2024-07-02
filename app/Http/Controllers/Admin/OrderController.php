@@ -150,9 +150,20 @@ class OrderController extends Controller
     //     return view('admin-views.order.list', compact('orders', 'status', 'orderstatus', 'scheduled', 'vendor_ids', 'zone_ids', 'from_date', 'to_date', 'total', 'order_type'));
     // }
 
-    public function list()
+    public function list($status, Request $request)
     {
-        $orders = Order::latest()->get();
+        $key = explode(' ', $request['search']);
+        $orders = Order::latest()->when(isset($key), function ($query) use ($key) {
+            return $query->where(function ($q) use ($key) {
+                foreach ($key as $value) {
+                    $q->orWhere('id', 'like', "%{$value}%")
+                        ->orWhere('order_status', 'like', "%{$value}%")
+                        ->orWhere('transaction_reference', 'like', "%{$value}%");
+                }
+            });
+        })->get();
+
+        
         return view('admin-views.order.list', compact('orders'));
     }
 
@@ -304,25 +315,30 @@ class OrderController extends Controller
             $durationHours = $endDateTime->diffInHours($startDateTime);
 
             // Determine the pricing based on duration
-            $totalPrice = 0;
+            $km_price = 0;
+            $hour_price = 0;
             $type = '';
 
             if ($durationHours <= 23) {
-                $totalPrice = $hourPrice['km_charges'] ?? 0;
+                $km_price = $hourPrice['km_charges'] ?? 0;
+                $hour_price = $hourPrice['extra_hours'] ?? 0;
                 $type = "hour";
-            } elseif ($durationHours <= 7 * 24) { // 7 days
-                $totalPrice = $dayPrice['km_charges'] ?? 0;
+            } elseif ($durationHours <= 7 * 24) { // up to 7 days
+                $km_price = $dayPrice['km_charges'] ?? 0;
+                $hour_price = $dayPrice['extra_hours'] ?? 0;
                 $type = "day";
-            } elseif ($durationHours <= 30 * 24) { // 30 days (approximately 1 month)
-                $totalPrice = $weekPrice['km_charges'] ?? 0;
+            } elseif ($durationHours <= 30 * 24) { // up to 30 days (approximately 1 month)
+                $km_price = $weekPrice['km_charges'] ?? 0;
+                $hour_price = $weekPrice['extra_hours'] ?? 0;
                 $type = "week";
-            } else {
-                $totalPrice = $monthPrice['km_charges'] ?? 0;
+            } else { // more than 30 days
+                $km_price = $monthPrice['km_charges'] ?? 0;
+                $hour_price = $monthPrice['extra_hours'] ?? 0;
                 $type = "month";
             }
 
 
-            return view('admin-views.order.order-view', compact('order', 'deliveryMen', 'categories', 'products', 'category', 'keyword', 'editing', 'weekendPrice', 'orderDetails', 'type', 'totalPrice'));
+            return view('admin-views.order.order-view', compact('order', 'deliveryMen', 'categories', 'products', 'category', 'keyword', 'editing', 'weekendPrice', 'orderDetails', 'type', 'km_price', 'hour_price'));
         } else {
             Toastr::info(translate('messages.no_more_orders'));
             return back();
@@ -462,6 +478,7 @@ class OrderController extends Controller
         $kmExceed = $request->input('km_exceed');
         $typeExceed = $request->input('type_exceed');
         $penalty = $request->input('penalty');
+        $hourPrice = $request->input('hour_exceed');
         $kmCharges = $request->input('km_charges'); // Assuming you need this for calculation
 
         // Fetch the order detail
@@ -473,7 +490,7 @@ class OrderController extends Controller
 
         // Update order details
         // Calculate the updated price based on the provided inputs
-        $updatedPrice = $orderDetail->price + ($kmCharges * $kmExceed) + $penalty + ($orderDetail->price * $typeExceed);
+        $updatedPrice = $orderDetail->price + ($kmCharges * $kmExceed) + $penalty + ($hourPrice * $typeExceed);
 
         // Update the fields
         $orderDetail->price = $updatedPrice;

@@ -49,23 +49,32 @@ class ItemController extends Controller
         $validator = Validator::make($request->all(), [
             'name.0' => 'required',
             'name.*' => 'max:191',
+            'vehicle_number' => 'required',
             'category_id' => 'required',
             'hours' => 'nullable',
             'h_price' => 'nullable',
             'h_km_limit' => 'nullable',
             'h_km_charges' => 'nullable',
+            'h_hour_limit' => 'nullable',
+            'h_w_limit' => 'nullable',
+            'h_extra_hours' => 'nullable',
+
             'days' => 'nullable',
             'd_price' => 'nullable',
             'd_km_limit' => 'nullable',
             'd_km_charges' => 'nullable',
+            'd_extra_hours' => 'nullable',
+
             'week' => 'nullable',
             'w_price' => 'nullable',
             'w_km_limit' => 'nullable',
-            'w_km_charges' => 'nullable',
+            'w_extra_hours' => 'nullable',
+
             'month' => 'nullable',
             'm_price' => 'nullable',
             'm_km_limit' => 'nullable',
-            'm_km_charges' => 'nullable',
+            'm_extra_hours' => 'nullable',
+
             'km' => 'nullable',
             'km_price' => 'nullable|numeric|between:.01,999999999999.99',
             'km_limit' => 'nullable',
@@ -140,7 +149,7 @@ class ItemController extends Controller
 
         $item = new Item;
         $item->name = $request->name[array_search('default', $request->lang)];
-
+        $item->vehicle_number =  $request->input('vehicle_number');
         $category = [];
         if ($request->category_id != null) {
             array_push($category, [
@@ -168,28 +177,34 @@ class ItemController extends Controller
             "hour" => $request->input('hours'),
             "price" => $request->input('h_price'),
             "km_limit" => $request->input('h_km_limit'),
-            'km_charges' => $request->input('h_km_charges')
+            'km_charges' => $request->input('h_km_charges'),
+            'hour_limit' => $request->input('h_hour_limit'),
+            'hour_weekend_limit' => $request->input('h_w_limit'),
+            'extra_hours' => $request->input('h_extra_hours')
         ];
 
         $days_price = [
             "hour" => $request->input('days'),
             "price" => $request->input('d_price'),
             "km_limit" => $request->input('d_km_limit'),
-            'km_charges' => $request->input('d_km_charges')
+            'km_charges' => $request->input('d_km_charges'),
+            'extra_hours' => $request->input('d_extra_hours')
         ];
 
         $week_price = [
             "hour" => $request->input('week'),
             "price" => $request->input('w_price'), // Corrected this line
             "km_limit" => $request->input('w_km_limit'),
-            'km_charges' => $request->input('w_km_charges')
+            'km_charges' => $request->input('w_km_charges'),
+            'extra_hours' => $request->input('w_extra_hours')
         ];
 
         $month_price = [
             "hour" => $request->input('month'),
             "price" => $request->input('m_price'), // Corrected this line
             "km_limit" => $request->input('m_km_limit'),
-            'km_charges' => $request->input('m_km_charges')
+            'km_charges' => $request->input('m_km_charges'),
+            'extra_hours' => $request->input('m_extra_hours')
         ];
 
         $payload_1 = [
@@ -384,24 +399,34 @@ class ItemController extends Controller
             'name' => 'array',
             'name.0' => 'required',
             'name.*' => 'max:191',
+            'vehicle_number' => 'required',
             'category_id' => 'required',
             'price' => 'required|numeric|between:.01,999999999999.99',
             'hours' => 'nullable',
             'h_price' => 'nullable',
             'h_km_limit' => 'nullable',
             'h_km_charges' => 'nullable',
+            'h_hour_limit' => 'nullable',
+            'h_w_limit' => 'nullable',
+            'h_extra_hours' => 'nullable',
+
             'days' => 'nullable',
             'd_price' => 'nullable',
             'd_km_limit' => 'nullable',
             'd_km_charges' => 'nullable',
+            'd_extra_hours' => 'nullable',
+
             'week' => 'nullable',
             'w_price' => 'nullable',
             'w_km_limit' => 'nullable',
-            'w_km_charges' => 'nullable',
+            'w_extra_hours' => 'nullable',
+
             'month' => 'nullable',
             'm_price' => 'nullable',
             'm_km_limit' => 'nullable',
             'm_km_charges' => 'nullable',
+            'm_extra_hours' => 'nullable',
+
             'km' => 'nullable',
             'km_price' => 'nullable|numeric|between:.01,999999999999.99',
             'km_limit' => 'nullable',
@@ -449,6 +474,7 @@ class ItemController extends Controller
         }
 
         $item->name = $request->name[array_search('default', $request->lang)];
+        $item->vehicle_number =  $request->input('vehicle_number');
 
         $category = [];
         if ($request->category_id != null) {
@@ -479,28 +505,34 @@ class ItemController extends Controller
             "hour" => $request->input('hours'),
             "price" => $request->input('h_price'),
             "km_limit" => $request->input('h_km_limit'),
-            'km_charges' => $request->input('h_km_charges')
+            'km_charges' => $request->input('h_km_charges'),
+            'hour_limit' => $request->input('h_hour_limit'),
+            'hour_weekend_limit' => $request->input('h_w_limit'),
+            'extra_hours' => $request->input('h_extra_hours')
         ];
 
         $days_price = [
             "hour" => $request->input('days'),
             "price" => $request->input('d_price'),
             "km_limit" => $request->input('d_km_limit'),
-            'km_charges' => $request->input('d_km_charges')
+            'km_charges' => $request->input('d_km_charges'),
+            'extra_hours' => $request->input('d_extra_hours')
         ];
 
         $week_price = [
             "hour" => $request->input('week'),
             "price" => $request->input('w_price'), // Corrected this line
             "km_limit" => $request->input('w_km_limit'),
-            'km_charges' => $request->input('w_km_charges')
+            'km_charges' => $request->input('w_km_charges'),
+            'extra_hours' => $request->input('w_extra_hours')
         ];
 
         $month_price = [
             "hour" => $request->input('month'),
             "price" => $request->input('m_price'), // Corrected this line
             "km_limit" => $request->input('m_km_limit'),
-            'km_charges' => $request->input('m_km_charges')
+            'km_charges' => $request->input('m_km_charges'),
+            'extra_hours' => $request->input('m_extra_hours')
         ];
 
         $payload_1 = [

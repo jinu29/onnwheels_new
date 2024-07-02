@@ -1027,6 +1027,9 @@
             margin-top: 20px;
             font-size: 1.2em;
         }
+
+
+        
     </style>
 @endsection
 @section('content')
@@ -1105,16 +1108,16 @@
                         <div class="tabs">
                             <ul class="tab-links">
                                 <?php if (!is_null($hourPrice)): ?>
-                                <li><a href="#tab-hour">Hour</a></li>
+                                <li><a href="#tab-hour">Hourly</a></li>
                                 <?php endif; ?>
                                 <?php if (!is_null($dayPrice)): ?>
                                 <li><a href="#tab-day">Day</a></li>
                                 <?php endif; ?>
                                 <?php if (!is_null($weekPrice)): ?>
-                                <li><a href="#tab-week">7 Days</a></li>
+                                <li><a href="#tab-week">Weekly</a></li>
                                 <?php endif; ?>
                                 <?php if (!is_null($monthPrice)): ?>
-                                <li><a href="#tab-month">30 Days</a></li>
+                                <li><a href="#tab-month">Monthly</a></li>
                                 <?php endif; ?>
                             </ul>
 
@@ -1124,36 +1127,76 @@
                                     $hourPrice = json_decode($hourPrice, true);
                                 @endphp
                                 <div id="tab-hour" class="tab">
-                                    <label for="switchHour" id="labelHour" style="margin-top: 10px;">Hour</label>
-                                    <div class="row">
-                                        <div class="col s9 l8">
-                                            <span class="inner_text">Hourly Price</span>
+                                    <div class="inner_pricing_content">
+                                        <div>
+                                            <label for="switchHour" id="labelHour" style="margin-top: 10px;">Mon-Thu</label>
+                                            <small>
+                                                (Min
+                                                {{ $hourPrice['hour_limit'] }}
+                                                hrs booking)</small>
+                                            <div class="row">
+                                                <div class="col s9 l8">
+                                                    <span class="inner_text">Booking Time (0-
+                                                        24
+                                                        hrs)</span>
+                                                </div>
+                                                <div class="col s3 l4" style="padding:0rem;">
+                                                    <span class="inner_text">₹
+                                                        <b>{{ $hourPrice['price'] }}</b>/hr</span>
+                                                </div>
+                                            </div>
+
                                         </div>
-                                        <div class="col s3 l4" style="padding:0rem;">
-                                            <span class="inner_text">
-                                                ₹<b>{{ $hourPrice['price'] }}</b>/hr
+                                        <div style="margin-top: 20px;">
+                                            <label for="switchHour" id="labelHour">Fri-Sun</label>
+                                            <small>
+                                                (Min
+                                                {{ $hourPrice['hour_weekend_limit'] }} hrs booking)</small>
+                                            <div class="row">
+                                                <div class="col s9 l8">
+                                                    <span class="inner_text">Booking Time
+                                                        (&gt;{{ $hourPrice['hour_weekend_limit'] }}hrs)</span>
+                                                </div>
+                                                <div class="col s3 l4" style="padding:0rem;">
+                                                    <span class="inner_text">₹
+                                                        <b>{{ $hourPrice['price'] }}</b>/hr</span>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <label for="switchHour" id="labelHour" style="margin-top: 10px;">Extras</label>
-                                    <div class="row">
-                                        <div class="col s9 l8">
-                                            <span class="inner_text">Km limit</span>
-                                        </div>
-                                        <div class="col s3 l4" style="padding:0rem;">
-                                            <span class="inner_text">
-                                                <b>{{ $hourPrice['km_limit'] }}</b>/hr
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col s9 l8">
-                                            <span class="inner_text">Excess km charges</span>
-                                        </div>
-                                        <div class="col s3 l4" style="padding:0rem;">
-                                            <span class="inner_text">
-                                                ₹<b>{{ $hourPrice['km_charges'] }}</b>/km
+                                        <div style="margin-top: 20px;">
+                                            <label for="switchHour" id="labelHour">Extras</label>
+                                            <div class="row">
+                                                <div class="col s9 l8">
+                                                    <span class="inner_text">Km limit</span>
+                                                </div>
+                                                <div class="col s3 l4" style="padding:0rem;">
+                                                    <span class="inner_text">
+                                                        <b>{{ $hourPrice['km_limit'] }}</b>/hr</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col s9 l8">
+                                                    <span class="inner_text">Excess km charges</span>
+                                                </div>
+                                                <div class="col s3 l4" style="padding:0rem;">
+                                                    <span class="inner_text">₹
+                                                        <b>{{ $hourPrice['km_charges'] }}</b>/km</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col s9 l8">
+                                                    <span class="inner_text">Excess hour charges</span>
+                                                </div>
+                                                <div class="col s3 l4" style="padding:0rem;">
+                                                    <span class="inner_text">₹
+                                                        <b>{{ $hourPrice['extra_hours'] }}</b></span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+
+
                                 <?php endif; ?>
 
                                 <?php if (!is_null($dayPrice)): ?>
@@ -1161,36 +1204,71 @@
                                     $dayPrice = json_decode($dayPrice, true);
                                 @endphp
                                 <div id="tab-day" class="tab">
-                                    <label for="switchHour" id="labelHour" style="margin-top: 10px;">Day</label>
-                                    <div class="row">
-                                        <div class="col s9 l8">
-                                            <span class="inner_text">Day Price</span>
+
+                                    <div class="inner_pricing_content">
+                                        <div>
+                                            <label for="switchHour" id="labelHour"
+                                                style="margin-top: 10px;">Mon-Thu</label>
+
+                                            <div class="row">
+                                                <div class="col s9 l8">
+                                                    <span class="inner_text">Per Day (24 hours)</span>
+                                                </div>
+                                                <div class="col s3 l4" style="padding:0rem;">
+                                                    <span class="inner_text">₹
+                                                        <b>{{ $dayPrice['price'] }}</b></span>
+                                                </div>
+                                            </div>
+
                                         </div>
-                                        <div class="col s3 l4" style="padding:0rem;">
-                                            <span class="inner_text">
-                                                ₹<b>{{ $dayPrice['price'] }}</b>/day
+                                        <div style="margin-top: 20px;">
+                                            <label for="switchHour" id="labelHour">Fri-Sun</label>
+
+                                            <div class="row">
+                                                <div class="col s9 l8">
+                                                    <span class="inner_text">Per Day (24 hours)</span>
+                                                </div>
+                                                <div class="col s3 l4" style="padding:0rem;">
+                                                    <span class="inner_text">₹
+                                                        <b>{{ $dayPrice['price'] + $weekendPrice }}</b></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="margin-top: 20px;">
+                                            <label for="switchHour" id="labelHour">Extras</label>
+                                            <div class="row">
+                                                <div class="col s9 l8">
+                                                    <span class="inner_text">Km limit</span>
+                                                </div>
+                                                <div class="col s3 l4" style="padding:0rem;">
+                                                    <span class="inner_text">
+                                                        <b>{{ $dayPrice['km_limit'] }}</b>/day</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col s9 l8">
+                                                    <span class="inner_text">Excess km charges</span>
+                                                </div>
+                                                <div class="col s3 l4" style="padding:0rem;">
+                                                    <span class="inner_text">₹
+                                                        <b>{{ $dayPrice['km_charges'] }}</b>/km</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col s9 l8">
+                                                    <span class="inner_text">Excess hour charges</span>
+                                                </div>
+                                                <div class="col s3 l4" style="padding:0rem;">
+                                                    <span class="inner_text">₹
+                                                        <b>{{ $dayPrice['extra_hours'] }}</b></span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <label for="switchDay" id="labelDay" style="margin-top: 10px;">Extras</label>
-                                    <div class="row">
-                                        <div class="col s9 l8">
-                                            <span class="inner_text">Km limit</span>
-                                        </div>
-                                        <div class="col s3 l4" style="padding:0rem;">
-                                            <span class="inner_text">
-                                                <b>{{ $dayPrice['km_limit'] }}</b>/day
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col s9 l8">
-                                            <span class="inner_text">Excess km charges</span>
-                                        </div>
-                                        <div class="col s3 l4" style="padding:0rem;">
-                                            <span class="inner_text">
-                                                ₹<b>{{ $dayPrice['km_charges'] }}</b>/km
-                                        </div>
-                                    </div>
+
                                 </div>
+
+
                                 <?php endif; ?>
 
                                 <?php if (!is_null($weekPrice)): ?>
@@ -1198,35 +1276,56 @@
                                     $weekPrice = json_decode($weekPrice, true);
                                 @endphp
                                 <div id="tab-week" class="tab">
-                                    <label for="switchHour" id="labelHour" style="margin-top: 10px;">Week</label>
-                                    <div class="row">
-                                        <div class="col s9 l8">
-                                            <span class="inner_text">Week Price</span>
+
+                                    <div class="inner_pricing_content">
+                                        <div>
+                                            <label for="switchHour" id="labelHour"
+                                                style="margin-top: 10px;">Weekly</label>
+
+                                            <div class="row">
+                                                <div class="col s9 l8">
+                                                    <span class="inner_text">7 Days (500 hours)</span>
+                                                </div>
+                                                <div class="col s3 l4" style="padding:0rem;">
+                                                    <span class="inner_text">₹
+                                                        <b>{{ $weekPrice['price'] }}</b></span>
+                                                </div>
+                                            </div>
+
                                         </div>
-                                        <div class="col s3 l4" style="padding:0rem;">
-                                            <span class="inner_text">
-                                                ₹<b>{{ $weekPrice['price'] }}</b>/Week
+
+                                        <div style="margin-top: 20px;">
+                                            <label for="switchHour" id="labelHour">Extras</label>
+                                            <div class="row">
+                                                <div class="col s9 l8">
+                                                    <span class="inner_text">Km limit</span>
+                                                </div>
+                                                <div class="col s3 l4" style="padding:0rem;">
+                                                    <span class="inner_text">
+                                                        <b>{{ $weekPrice['km_limit'] }}</b>/week</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col s9 l8">
+                                                    <span class="inner_text">Excess km charges</span>
+                                                </div>
+                                                <div class="col s3 l4" style="padding:0rem;">
+                                                    <span class="inner_text">₹
+                                                        <b>{{ $weekPrice['km_charges'] }}</b>/km</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col s9 l8">
+                                                    <span class="inner_text">Excess hour charges</span>
+                                                </div>
+                                                <div class="col s3 l4" style="padding:0rem;">
+                                                    <span class="inner_text">₹
+                                                        <b>{{ $weekPrice['extra_hours'] }}</b></span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <label for="switchWeek" style="margin-top: 10px;" id="labelWeek">Extras</label>
-                                    <div class="row">
-                                        <div class="col s9 l8">
-                                            <span class="inner_text">Km limit</span>
-                                        </div>
-                                        <div class="col s3 l4" style="padding:0rem;">
-                                            <span class="inner_text">
-                                                <b>{{ $weekPrice['km_limit'] }}</b>/week
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col s9 l8">
-                                            <span class="inner_text">Excess km charges</span>
-                                        </div>
-                                        <div class="col s3 l4" style="padding:0rem;">
-                                            <span class="inner_text">
-                                                ₹<b>{{ $weekPrice['km_charges'] }}</b>/km
-                                        </div>
-                                    </div>
+
                                 </div>
                                 <?php endif; ?>
 
@@ -1235,33 +1334,53 @@
                                     $monthPrice = json_decode($monthPrice, true);
                                 @endphp
                                 <div id="tab-month" class="tab">
-                                    <label for="switchHour" id="labelHour" style="margin-top: 10px;">Month</label>
-                                    <div class="row">
-                                        <div class="col s9 l8">
-                                            <span class="inner_text">Month Price</span>
+
+                                    <div class="inner_pricing_content">
+                                        <div>
+                                            <label for="switchHour" id="labelHour"
+                                                style="margin-top: 10px;">Monthly</label>
+
+                                            <div class="row">
+                                                <div class="col s9 l8">
+                                                    <span class="inner_text">30 Days (1800 hours)</span>
+                                                </div>
+                                                <div class="col s3 l4" style="padding:0rem;">
+                                                    <span class="inner_text">₹
+                                                        <b>{{ $monthPrice['price'] }}</b></span>
+                                                </div>
+                                            </div>
+
                                         </div>
-                                        <div class="col s3 l4" style="padding:0rem;">
-                                            <span class="inner_text">
-                                                ₹<b>{{ $monthPrice['price'] }}</b>/Month
-                                        </div>
-                                    </div>
-                                    <label for="switchMonth" style="margin-top: 10px;" id="labelMonth">Extras</label>
-                                    <div class="row">
-                                        <div class="col s9 l8">
-                                            <span class="inner_text">Km limit</span>
-                                        </div>
-                                        <div class="col s3 l4" style="padding:0rem;">
-                                            <span class="inner_text">
-                                                <b>{{ $monthPrice['km_limit'] }}</b>/month
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col s9 l8">
-                                            <span class="inner_text">Excess km charges</span>
-                                        </div>
-                                        <div class="col s3 l4" style="padding:0rem;">
-                                            <span class="inner_text">
-                                                ₹<b>{{ $monthPrice['km_charges'] }}</b>/km
+
+                                        <div style="margin-top: 20px;">
+                                            <label for="switchHour" id="labelHour">Extras</label>
+                                            <div class="row">
+                                                <div class="col s9 l8">
+                                                    <span class="inner_text">Km limit</span>
+                                                </div>
+                                                <div class="col s3 l4" style="padding:0rem;">
+                                                    <span class="inner_text">
+                                                        <b>{{ $monthPrice['km_limit'] }}</b>/month</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col s9 l8">
+                                                    <span class="inner_text">Excess km charges</span>
+                                                </div>
+                                                <div class="col s3 l4" style="padding:0rem;">
+                                                    <span class="inner_text">₹
+                                                        <b>{{ $monthPrice['km_charges'] }}</b>/km</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col s9 l8">
+                                                    <span class="inner_text">Excess hour charges</span>
+                                                </div>
+                                                <div class="col s3 l4" style="padding:0rem;">
+                                                    <span class="inner_text">₹
+                                                        <b>{{ $monthPrice['extra_hours'] }}</b></span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1523,6 +1642,8 @@
         $('#demo').daterangepicker({
             "showISOWeekNumbers": true,
             "timePicker": true,
+            "timePicker24Hour": false,
+            "timePickerIncrement": 15,
             "autoUpdateInput": true,
             "locale": {
                 "cancelLabel": 'Clear',
@@ -1546,10 +1667,24 @@
             "startDate": moment().startOf('hour'),
             "endDate": moment().startOf('hour').add(1, 'hour'),
             "opens": "center",
+            "drops": "down",  // or "up" based on your preference
             "minDate": moment().startOf('hour')
         }, function(start, end, label) {
+            start = roundToNearestQuarterHour(start);
+            end = roundToNearestQuarterHour(end);
             calculatePrice(start, end);
         });
+
+        function roundToNearestQuarterHour(time) {
+            const minutes = time.minutes();
+            const roundedMinutes = Math.ceil(minutes / 15) * 15;
+            if (roundedMinutes === 60) {
+                time.add(1, 'hour').startOf('hour');
+            } else {
+                time.minutes(roundedMinutes).seconds(0);
+            }
+            return time;
+        }
 
         function calculatePrice(start, end) {
             const duration = moment.duration(end.diff(start));
@@ -1586,24 +1721,47 @@
             }
             // Calculate price for days
             else if (days >= 1) {
-                const fullDays = Math.floor(days);
-                const remainingHours = Math.floor((days - fullDays) * 24);
+                console.log("start", weekend)
 
-                price = fullDays * dayPrice.price + remainingHours * hourPrice.price;
+                const fullDays = Math.floor(days / 1);
+                const remainingDays = days % 1;
+                const remainingHours = (remainingDays % 1) * 24;
+
+                price = fullDays * dayPrice.price + Math.floor(remainingDays) * dayPrice.price + remainingHours *
+                    hourPrice.price;
 
                 // Calculate weekend price for daily rentals
                 let current = moment(start);
                 while (current <= end) {
                     const day = current.day();
                     if (day === 5 || day === 6 || day === 0) { // Friday, Saturday, Sunday
-                        console.log("days weekened", weekend)
-                        weekend = weekendPrice;
+                        console.log("weendd", weekendPrice)
+                        console.log("ddd", weekend)
+
+                        weekend += weekendPrice;
                     }
                     current.add(1, 'days');
                 }
+
             }
             // Calculate price for hours
             else {
+                // Check for minimum hours booking
+                const startDay = start.day();
+                if ((startDay >= 1 && startDay <= 4 && hours < hourPrice.hour_limit) || ((startDay === 5 || startDay === 6 || startDay ===
+                        0) && hours < hourPrice.hour_weekend_limit)) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Minimum booking hours not met.',
+                        type: 'warning',
+                        showCancelButton: true,
+                        cancelButtonColor: 'default',
+                        confirmButtonColor: '#FC6A57',
+                        reverseButtons: true
+                    });
+                    $('#price').hide();
+                    return;
+                }
                 price = hours * hourPrice.price;
 
                 // Calculate weekend price for hourly rentals
@@ -1611,8 +1769,7 @@
                 while (current <= end) {
                     const day = current.day();
                     if (day === 5 || day === 6 || day === 0) { // Friday, Saturday, Sunday
-                        console.log("hour weekened", weekend)
-                        weekend = weekendPrice;
+                        weekend += weekendPrice;
                     }
                     current.add(1, 'hours');
                 }
@@ -1633,7 +1790,6 @@
                 localStorage.setItem('weekendPrice', weekend.toFixed(2));
             }
         }
-
 
 
         document.getElementById('bookingForm').addEventListener('submit', function(event) {
@@ -1681,7 +1837,7 @@
     </script>
 
     //
-   
+
 
     <!--review-->
     <script>

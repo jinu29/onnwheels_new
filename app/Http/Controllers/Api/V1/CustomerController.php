@@ -9,6 +9,8 @@ use App\Models\Userkyc;
 use App\Models\Zone;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Scopes\StoreScope;
+use App\Scopes\ZoneScope;
 use Illuminate\Http\Request;
 use App\CentralLogics\Helpers;
 use App\Models\OrderReference;
@@ -126,6 +128,71 @@ class CustomerController extends Controller
 
         return response()->json(['success' => true, 'message' => 'Message sent successfully!'], 200);
     }
+
+    public function invoice($id)
+    {
+        $order = Order::withoutGlobalScope(ZoneScope::class)->with([
+            'details',
+            'store' => function ($query) {
+                return $query->withCount('orders');
+            },
+            'details.item' => function ($query) {
+                return $query->withoutGlobalScope(StoreScope::class);
+            },
+            'details.campaign' => function ($query) {
+                return $query->withoutGlobalScope(StoreScope::class);
+            }
+        ])->where('id', $id)->first();
+
+        if (!$order) {
+            return response()->json(['error' => 'Order not found'], 404);
+        }
+
+        $details = json_decode($order->details, true);
+        $orderDetails = $details;
+
+        // Extract weekend price
+        $weekendPrice = $details[0]['weekend_price'] ?? null;
+
+        $item = $order->details->first()->item;
+
+        // Decode JSON fields from item properties
+        $dayPrice = json_decode($item->days_price, true) ?? ['price' => 0];
+        $weekPrice = json_decode($item->week_price, true) ?? 0;
+        $monthPrice = json_decode($item->month_price, true) ?? 0;
+        $hourPrice = json_decode($item->hours_price, true) ?? ['price' => 0];
+
+        $startDateTime = Carbon::parse($details[0]['start_date']);
+        $endDateTime = Carbon::parse($details[0]['end_date']);
+        $durationHours = $endDateTime->diffInHours($startDateTime);
+
+        // Determine the pricing based on duration
+        $totalPrice = 0;
+        $type = '';
+
+        if ($durationHours <= 23) {
+            $totalPrice = $hourPrice['km_charges'] ?? 0;
+            $type = "hour";
+        } elseif ($durationHours <= 7 * 24) { // 7 days
+            $totalPrice = $dayPrice['km_charges'] ?? 0;
+            $type = "day";
+        } elseif ($durationHours <= 30 * 24) { // 30 days (approximately 1 month)
+            $totalPrice = $weekPrice['km_charges'] ?? 0;
+            $type = "week";
+        } else {
+            $totalPrice = $monthPrice['km_charges'] ?? 0;
+            $type = "month";
+        }
+
+        return response()->json([
+            'order' => $order,
+            'weekendPrice' => $weekendPrice,
+            'type' => $type,
+            'totalPrice' => $totalPrice,
+            'orderDetails' => $orderDetails
+        ]);
+    }
+
 
 
     public function add_new_address(Request $request)

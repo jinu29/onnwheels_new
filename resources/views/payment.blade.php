@@ -471,6 +471,7 @@
                         <input type="hidden" value="{{ $items->name }}" name="item_details">
                         <input type="hidden" value="{{ $items->id }}" id="itemIdInput" name="item_id">
                         <input type="hidden" value="{{ $items->store_id }}" id="itemStoreIdInput" name="store_id">
+                        <input type="hidden" value="{{ $items->vehicle_number }}" id="itemVehicleNumberInput" name="vehicle_number">
                         <div class="date d-flex align-items-center justify-content-between">
                             <p id="startdate" class="mb-0"></p>
                             <input type="hidden" value="default_value" id="inputStartDate" name="start_date">
@@ -751,6 +752,7 @@
 
                 var itemId = $('#itemIdInput').val();
                 var storeId = $('#itemStoreIdInput').val();
+                var vehicleNumber = $('#itemVehicleNumberInput').val();
 
                 var orderAmount = parseInt($('#totalPriceInput').val());
                 if (isNaN(orderAmount)) {
@@ -774,6 +776,7 @@
                             lat: latitude,
                             lng: longitude,
                             store_id: storeId,
+                            vehicle_number: vehicleNumber,
                             item_id: itemId,
                             unit_price: rented_unit_price,
                             payment_status: "Paid",

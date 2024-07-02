@@ -267,7 +267,7 @@
                             @endif
 
                             @if ($orderDetails[0]['type_exceed'] > 0)
-                                <dt class="col-6">{{ $type }} Exceed
+                                <dt class="col-6">Hour Exceed
                                 <dd class="col-6">
 
                                     {{ $orderDetails[0]['type_exceed'] }} {{ $type }}
@@ -297,7 +297,7 @@
                       
                         <dt class="col-6 total">{{ translate('messages.total') }}:</dt>
                         <dd class="col-6 total">
-                            {{ \App\CentralLogics\Helpers::format_currency($order->order_amount) }}</dd>
+                            {{ \App\CentralLogics\Helpers::format_currency($sub_total) }}</dd>
                         @if ($order?->payments)
                             @foreach ($order?->payments as $payment)
                                 @if ($payment->payment_status == 'paid')
@@ -327,7 +327,7 @@
                                 <span>{{ translate('messages.Paid by') }}</span> <span>:</span>
                                 <span>{{ translate('messages.' . $order->payment_method) }}</span> </span>
                             <span> <span>{{ translate('messages.amount') }}</span> <span>:</span>
-                                <span>{{ $order->adjusment + $order->order_amount }}</span> </span>
+                                <span>{{ $sub_total }}</span> </span>
                             <span> <span>{{ translate('messages.change') }}</span> <span>:</span>
                                 <span>{{ abs($order->adjusment) }}</span> </span>
                         </div>

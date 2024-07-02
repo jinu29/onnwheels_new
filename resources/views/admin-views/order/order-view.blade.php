@@ -57,6 +57,9 @@
                             <div>
                                 <h1 class="page-header-title d-flex align-items-center __gap-5px">
                                     {{ translate('messages.order') }} #{{ $order['id'] }}
+                                    <br>
+                                    <br>
+                                    {{ translate('messages.vehicle_number') }} {{ $orderDetails[0]['vehicle_number'] }}
                                     @if ($campaign_order)
                                         <span class="badge badge-soft-success ml-sm-3">
                                             {{ translate('messages.campaign_order') }}
@@ -1224,7 +1227,7 @@
                         </div>
                     @endif
                 @endif
-                @if (!in_array($order->order_status, ['refund_requested', 'refunded', 'refund_request_canceled', 'delivered']))
+                @if (!in_array($order->order_status, ['refund_requested', 'refunded', 'refund_request_canceled', 'completed']))
                     {{-- $order->order_status != 'refund_requested' &&
                         $order->order_status != 'refunded' &&
                         $order->order_status != 'refund_request_canceled' &&
@@ -1338,22 +1341,28 @@
                             <h6>Plan Type : {{ $type }}</h6>
 
                             <input type="hidden" value="{{ $order->id }}" class="form-control" name="order_id"
-                                value="{{ $totalPrice }}" placeholder="{{ translate('KM Exceed') }}">
-
-                            <label>KM Charges</label>
-                            <input type="text" disabled class="form-control" name="km_charges"
-                                value="{{ $totalPrice }}" placeholder="{{ translate('km_charges') }}">
-
-                            <label style="margin-top:10px;">KM Exceed</label>
-                            <input type="number" class="form-control" name="km_exceed" value="{{ $orderDetails[0]['km_exceed'] ?? 0 }}"
                                 placeholder="{{ translate('KM Exceed') }}">
 
-                            <label style="margin-top:10px;">{{ $type }} Exceed</label>
-                            <input type="number" class="form-control" name="type_exceed" value="{{ $orderDetails[0]['type_exceed'] ?? 0 }}"
+                            <input type="hidden" class="form-control" name="hour_exceed" value="{{ $hour_price }}"
+                                placeholder="{{ translate('KM Exceed') }}">
+
+                            <label>KM Charges (₹{{$km_price}}/km)</label>
+                            <input type="text" disabled class="form-control" name="km_charges"
+                                value="{{ $km_price }}" placeholder="{{ translate('km_charges') }}">
+
+                            <label style="margin-top:10px;">KM Exceed</label>
+                            <input type="number" class="form-control" name="km_exceed"
+                                value="{{ $orderDetails[0]['km_exceed'] ?? 0 }}"
+                                placeholder="{{ translate('KM Exceed') }}">
+
+                            <label style="margin-top:10px;">Hour Exceed (₹{{$hour_price}}/hr)</label>
+                            <input type="number" class="form-control" name="type_exceed"
+                                value="{{ $orderDetails[0]['type_exceed'] ?? 0 }}"
                                 placeholder="{{ translate('KM Exceed') }}">
 
                             <label style="margin-top:10px;">Penalty</label>
-                            <input type="number" class="form-control" name="penalty" value="{{ $orderDetails[0]['penalty'] ?? 0 }}"
+                            <input type="number" class="form-control" name="penalty"
+                                value="{{ $orderDetails[0]['penalty'] ?? 0 }}"
                                 placeholder="{{ translate('KM Exceed') }}">
 
                             <button style="margin-top:10px;" type="submit" class="btn btn--primary w-100">
@@ -3002,7 +3011,6 @@
         });
     </script>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
             $('#updateOrderForm').on('submit', function(event) {
@@ -3012,6 +3020,7 @@
                     order_id: $('input[name=order_id]').val(),
                     km_exceed: $('input[name=km_exceed]').val(),
                     type_exceed: $('input[name=type_exceed]').val(),
+                    hour_exceed: $('input[name=hour_exceed]').val(),
                     km_charges: $('input[name=km_charges]').val(),
                     penalty: $('input[name=penalty]').val(),
                     _token: '{{ csrf_token() }}'
@@ -3019,7 +3028,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: '{{ route('admin.update.order.details') }}', // Update the route name and parameter as per your setup
+                    url: '{{ route('admin.update.order.details') }}',
                     data: formData,
                     dataType: 'json',
                     success: function(response) {

@@ -53,6 +53,12 @@
                                         <input type="text" name="name[]" id="default_name" class="form-control"
                                             placeholder="{{ translate('messages.new_item') }}" required>
                                     </div>
+                                    <div class="form-group">
+                                        <label class="input-label" for="default_name">{{ translate('messages.vehicle_number') }}
+                                        </label>
+                                        <input type="text" name="vehicle_number" id="vehicle_number" class="form-control"
+                                            placeholder="{{ translate('messages.vehicle_number') }}" required>
+                                    </div>
                                     <input type="hidden" name="lang[]" value="default">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
@@ -157,12 +163,16 @@
 
                                 <div class="col-sm-6 col-lg-3">
                                     <div class="form-group mb-0">
-                                        <label class="input-label" for="station_id">{{ translate('messages.station') }}<span class="input-label-secondary"></span></label>
-                                        <select name="station_id[]" id="station_id" data-placeholder="{{ translate('messages.select_station') }}" class="js-data-example-ajax form-control" multiple="multiple">
+                                        <label class="input-label"
+                                            for="station_id">{{ translate('messages.station') }}<span
+                                                class="input-label-secondary"></span></label>
+                                        <select name="station_id[]" id="station_id"
+                                            data-placeholder="{{ translate('messages.select_station') }}"
+                                            class="js-data-example-ajax form-control" multiple="multiple">
                                         </select>
                                     </div>
                                 </div>
-                                
+
 
                                 <div class="col-sm-6 col-lg-3">
                                     <div class="form-group mb-0">
@@ -339,7 +349,7 @@
                                 <div class="col-sm-4 col-6">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.weekend deposit') }}</label>
+                                            for="exampleFormControlInput1">{{ translate('messages.weekend price') }}</label>
                                         <input type="number" min="0" max="999999999999.99" step="0.01"
                                             value="1" name="price" class="form-control"
                                             placeholder="{{ translate('messages.Ex:') }} 100" required>
@@ -372,7 +382,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mt-2">
+
+                            <h5 class="card-title" style="margin-top:20px;">
+                                {{-- <span class="card-header-icon"><i class="tio-dollar-outlined"></i></span> --}}
+                                <span>{{ translate('Hourly Package') }}</span>
+                            </h5>
+
+                            <div class="row mt-2" style="margin-bottom: 50px;">
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
@@ -380,7 +396,6 @@
                                         <input type="text" name="hours" class="form-control"
                                             placeholder="{{ translate('messages.Ex:') }} 1hrs">
                                     </div>
-
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
@@ -409,8 +424,45 @@
                                             placeholder="{{ translate('messages.Ex:') }} 100">
                                     </div>
                                 </div>
+
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.Hour Limit(MIN)') }}</label>
+                                        <input type="number" name="h_hour_limit" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.Weekend Hour Limit(MIN)') }}</label>
+                                        <input type="number" name="h_w_limit" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.Extra Hours') }}</label>
+                                        <input type="number" name="h_extra_hours" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100">
+                                    </div>
+                                </div>
                             </div>
-                            <div class="row mt-2">
+
+                            <h5 class="card-title" style="margin-top:20px;">
+                                {{-- <span class="card-header-icon"><i class="tio-dollar-outlined"></i></span> --}}
+                                <span>{{ translate('Day Package') }}</span>
+                            </h5>
+
+
+                            <div class="row mt-2" style="margin-bottom: 50px;">
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
@@ -447,8 +499,24 @@
                                             placeholder="{{ translate('messages.Ex:') }} 100">
                                     </div>
                                 </div>
+
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.Extra Hours') }}</label>
+                                        <input type="number" name="d_extra_hours" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100">
+                                    </div>
+                                </div>
                             </div>
-                            <div class="row mt-2">
+
+                            <h5 class="card-title" style="margin-top:20px;">
+                                {{-- <span class="card-header-icon"><i class="tio-dollar-outlined"></i></span> --}}
+                                <span>{{ translate('Weekly Package') }}</span>
+                            </h5>
+
+                            <div class="row mt-2" style="margin-bottom: 50px;">
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
@@ -485,7 +553,23 @@
                                             placeholder="{{ translate('messages.Ex:') }} 100">
                                     </div>
                                 </div>
+
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                        for="exampleFormControlInput1">{{ translate('messages.Extra Hours') }}</label>
+                                        <input type="number" name="w_extra_hours" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100">
+                                    </div>
+                                </div>
                             </div>
+
+                            <h5 class="card-title" style="margin-top:20px;">
+                                {{-- <span class="card-header-icon"><i class="tio-dollar-outlined"></i></span> --}}
+                                <span>{{ translate('Monthly Package') }}</span>
+                            </h5>
+
                             <div class="row mt-2">
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
@@ -519,6 +603,16 @@
                                         <label class="input-label"
                                             for="exampleFormControlInput1">{{ translate('messages.Month KM Charges') }}</label>
                                         <input type="number" name="m_km_charges" min="0" max="999999999999.99"
+                                            step="0.01" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 100">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                        for="exampleFormControlInput1">{{ translate('messages.Extra Hours') }}</label>
+                                        <input type="number" name="m_extra_hours" min="0" max="999999999999.99"
                                             step="0.01" class="form-control"
                                             placeholder="{{ translate('messages.Ex:') }} 100">
                                     </div>
@@ -572,7 +666,8 @@
                                         <select name="attribute_id[]" id="choice_attributes"
                                             class="form-control js-select2-custom" multiple="multiple">
                                             @foreach (\App\Models\Attribute::orderBy('name')->get() as $attribute)
-                                                <option value="{{ $attribute['id'] }}">{{ $attribute['name'] }}</option>
+                                                <option value="{{ $attribute['id'] }}">{{ $attribute['name'] }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -978,7 +1073,7 @@
                 }
             }
         });
-    
+
 
         $('#sub-categories').select2({
             ajax: {

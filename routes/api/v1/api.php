@@ -290,6 +290,7 @@ Route::group(['namespace' => 'Api\V1', 'middleware' => 'localization'], function
             Route::post('user-kyc', 'CustomerController@user_kyc');
             Route::get('user-kyc-status', 'CustomerController@user_kyc_status');
             Route::post('send-message', 'CustomerController@send_message');
+            Route::get('invoice/{id}', 'CustomerController@invoice');
 
             //Remove account
             Route::delete('remove-account', 'CustomerController@remove_account');
