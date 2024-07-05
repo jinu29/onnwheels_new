@@ -1027,9 +1027,6 @@
             margin-top: 20px;
             font-size: 1.2em;
         }
-
-
-        
     </style>
 @endsection
 @section('content')
@@ -1171,7 +1168,7 @@
                                                 </div>
                                                 <div class="col s3 l4" style="padding:0rem;">
                                                     <span class="inner_text">
-                                                        <b>{{ $hourPrice['km_limit'] }}</b>/hr</span>
+                                                        <b >{{ $hourPrice['km_limit'] }}</b>/hr</span>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -1180,7 +1177,7 @@
                                                 </div>
                                                 <div class="col s3 l4" style="padding:0rem;">
                                                     <span class="inner_text">₹
-                                                        <b>{{ $hourPrice['km_charges'] }}</b>/km</span>
+                                                        <b >{{ $hourPrice['km_charges'] }}</b>/km</span>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -1242,7 +1239,7 @@
                                                 </div>
                                                 <div class="col s3 l4" style="padding:0rem;">
                                                     <span class="inner_text">
-                                                        <b>{{ $dayPrice['km_limit'] }}</b>/day</span>
+                                                        <b >{{ $dayPrice['km_limit'] }}</b>/day</span>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -1302,7 +1299,7 @@
                                                 </div>
                                                 <div class="col s3 l4" style="padding:0rem;">
                                                     <span class="inner_text">
-                                                        <b>{{ $weekPrice['km_limit'] }}</b>/week</span>
+                                                        <b >{{ $weekPrice['km_limit'] }}</b>/week</span>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -1397,6 +1394,8 @@
 
                         <div class="price" id="price"></div>
 
+
+                        <div style="margin-top: 10px;"  id="extra-km-limit"></div>
 
                         <p style="margin-top: 20px;">Available at:</p>
                         <select class="form-control" id="available_stations" name="available_stations">
@@ -1667,7 +1666,7 @@
             "startDate": moment().startOf('hour'),
             "endDate": moment().startOf('hour').add(1, 'hour'),
             "opens": "center",
-            "drops": "down",  // or "up" based on your preference
+            "drops": "down", // or "up" based on your preference
             "minDate": moment().startOf('hour')
         }, function(start, end, label) {
             start = roundToNearestQuarterHour(start);
@@ -1686,6 +1685,7 @@
             return time;
         }
 
+
         function calculatePrice(start, end) {
             const duration = moment.duration(end.diff(start));
             const hours = duration.asHours();
@@ -1694,6 +1694,7 @@
             const months = duration.asMonths();
             let price = 0;
             let weekend = 0;
+            let totalKmLimit = 0;
 
             console.log("days", days);
             console.log("hours", hours);
@@ -1709,6 +1710,8 @@
 
                 price = fullMonths * monthPrice.price + remainingWeeks * weekPrice.price + Math.floor(remainingHours / 24) *
                     dayPrice.price + (remainingHours % 24) * hourPrice.price;
+                totalKmLimit = fullMonths * monthPrice.km_limit + remainingWeeks * weekPrice.km_limit + Math.floor(
+                    remainingHours / 24) * dayPrice.km_limit + (remainingHours % 24) * hourPrice.km_limit;
             }
             // Calculate price for weeks
             else if (days >= 7) {
@@ -1718,25 +1721,27 @@
 
                 price = fullWeeks * weekPrice.price + Math.floor(remainingDays) * dayPrice.price + remainingHours *
                     hourPrice.price;
+                totalKmLimit = fullWeeks * weekPrice.km_limit + Math.floor(remainingDays) * dayPrice.km_limit +
+                    remainingHours * hourPrice.km_limit;
             }
             // Calculate price for days
             else if (days >= 1) {
-                console.log("start", weekend)
+                console.log("start", weekend);
 
                 const fullDays = Math.floor(days / 1);
                 const remainingDays = days % 1;
                 const remainingHours = (remainingDays % 1) * 24;
 
-                price = fullDays * dayPrice.price + Math.floor(remainingDays) * dayPrice.price + remainingHours *
-                    hourPrice.price;
+                price = fullDays * dayPrice.price + remainingHours * hourPrice.price;
+                totalKmLimit = fullDays * dayPrice.km_limit + remainingHours * hourPrice.km_limit;
 
                 // Calculate weekend price for daily rentals
                 let current = moment(start);
                 while (current <= end) {
                     const day = current.day();
                     if (day === 5 || day === 6 || day === 0) { // Friday, Saturday, Sunday
-                        console.log("weendd", weekendPrice)
-                        console.log("ddd", weekend)
+                        console.log("weendd", weekendPrice);
+                        console.log("ddd", weekend);
 
                         weekend += weekendPrice;
                     }
@@ -1748,8 +1753,8 @@
             else {
                 // Check for minimum hours booking
                 const startDay = start.day();
-                if ((startDay >= 1 && startDay <= 4 && hours < hourPrice.hour_limit) || ((startDay === 5 || startDay === 6 || startDay ===
-                        0) && hours < hourPrice.hour_weekend_limit)) {
+                if ((startDay >= 1 && startDay <= 4 && hours < hourPrice.hour_limit) || ((startDay === 5 || startDay ===
+                        6 || startDay === 0) && hours < hourPrice.hour_weekend_limit)) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Minimum booking hours not met.',
@@ -1769,10 +1774,12 @@
                 while (current <= end) {
                     const day = current.day();
                     if (day === 5 || day === 6 || day === 0) { // Friday, Saturday, Sunday
-                        weekend += weekendPrice;
+                        weekend = weekendPrice;
                     }
                     current.add(1, 'hours');
                 }
+
+                totalKmLimit = hours * hourPrice.km_limit;
             }
 
             console.log("Weekend", weekend);
@@ -1784,6 +1791,7 @@
 
             if (price > 0) {
                 $('#price').text(`Total Price: ₹${price.toFixed(2)}`).show();
+                $('#extra-km-limit').text(`${totalKmLimit.toFixed(2)} km Limit`); // Update the extra km limit in the UI
                 localStorage.setItem('startDate', start.format('MMMM DD, YYYY @ h:mm A'));
                 localStorage.setItem('endDate', end.format('MMMM DD, YYYY @ h:mm A'));
                 localStorage.setItem('totalPrice', price.toFixed(2));

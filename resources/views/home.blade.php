@@ -10,11 +10,11 @@
             width: 100%;
             height: 450px;
             /* background-image: url(/public/assets/landing/image/Banner.png);
-            background-size: cover;
-            background-repeat: no-repeat;
-            display: flex;
-            align-items: center;
-            justify-content: center; */
+                                background-size: cover;
+                                background-repeat: no-repeat;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center; */
         }
 
         .slide {
@@ -27,15 +27,15 @@
 
         /* Booking */
         .booking-title {
-            color: white; 
-            font-size: 25px; 
-            font-weight: 600; 
-            margin-bottom:10px;
+            color: white;
+            font-size: 25px;
+            font-weight: 600;
+            margin-bottom: 10px;
         }
-         
+
         .booking {
             border: 0.5px solid #898787;
-            background-image: linear-gradient(#F89520,#304b63); 
+            background-image: linear-gradient(#F89520, #304b63);
             border-radius: 25px;
             margin-top: -1.8rem;
             padding: 30px 70px;
@@ -53,7 +53,7 @@
         .design {
             position: absolute;
         }
-        
+
         .step-title {
             text-align: center;
             display: flex;
@@ -96,14 +96,14 @@
             justify-content: center;
             gap: 15px;
             text-align: center;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 
-            0 -10px 15px -3px rgba(0, 0, 0, 0.1),
-            10px 0 15px -3px rgba(0, 0, 0, 0.1),
-            -10px 0 15px -3px rgba(0, 0, 0, 0.1),
-            0 4px 6px -2px rgba(0, 0, 0, 0.05),
-            0 -4px 6px -2px rgba(0, 0, 0, 0.05),
-            4px 0 6px -2px rgba(0, 0, 0, 0.05),
-            -4px 0 6px -2px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+                0 -10px 15px -3px rgba(0, 0, 0, 0.1),
+                10px 0 15px -3px rgba(0, 0, 0, 0.1),
+                -10px 0 15px -3px rgba(0, 0, 0, 0.1),
+                0 4px 6px -2px rgba(0, 0, 0, 0.05),
+                0 -4px 6px -2px rgba(0, 0, 0, 0.05),
+                4px 0 6px -2px rgba(0, 0, 0, 0.05),
+                -4px 0 6px -2px rgba(0, 0, 0, 0.05);
         }
 
         .step-image {
@@ -145,13 +145,13 @@
         .step-container .box:nth-child(4) {
             padding-left: 50px;
             margin-top: 50px;
-        } 
+        }
 
         .vec-one {
             width: 80px;
             position: absolute;
             top: 175px;
-        } 
+        }
 
         .vec-two {
             width: 150px;
@@ -429,7 +429,7 @@
         .about-title h4 {
             color: #003361;
             font-size: 25px;
-            font-weight: 700;   
+            font-weight: 700;
             margin-bottom: 40px;
         }
 
@@ -633,6 +633,14 @@
             }
 
         }
+
+        .time-input option[value*="15"]:not([value*=":15"]) {
+            display: none;
+        }
+
+        .time-input option[value*="45"]:not([value*=":45"]) {
+            display: none;
+        }
     </style>
 @endsection
 @section('content')
@@ -642,23 +650,29 @@
         <div class="slide"></div>
     </div>
 
-    <!-- Booking -->
+
+
+    {{-- Steps to book a ride --}}
+
     <div class="container">
         <div class="booking">
             <h1 class="booking-title">Book your Next Ride</h1>
             <form id="search-form">
                 <div class="row d-flex justify-content-between">
                     <div class="col-lg col-md-6 col-12 p-1 form-group">
-                        <input id="start-date" class="form-control w-100" type="date" placeholder="Choose a date" required>
+                        <input id="start-date" class="form-control w-100" type="date" placeholder="Choose a date"
+                            required>
                     </div>
                     <div class="col-lg col-md-6 col-12 p-1 form-group">
-                        <input id="start-time" class="form-control w-100 time-input" type="time" placeholder="Pick time" required>
+                        <input id="start-time" class="form-control w-100 time-input" type="time" step="1800"
+                            placeholder="Pick time" required>
                     </div>
                     <div class="col-lg col-md-6 col-12 p-1 form-group">
                         <input id="end-date" class="form-control w-100" type="date" placeholder="Pick date" required>
                     </div>
                     <div class="col-lg col-md-6 col-12 p-1 form-group">
-                        <input id="end-time" class="form-control w-100 time-input" type="time" placeholder="Pick time" required>
+                        <input id="end-time" class="form-control w-100 time-input" type="time" step="1800"
+                            placeholder="Pick time" required>
                     </div>
                     <div class="col-lg-2 col-md-12 col-12 p-1 text-center form-group">
                         <button type="button" id="search-button" class="btn w-100">Search</button>
@@ -669,70 +683,7 @@
         <div id="search-results" style="display: flex; overflow-x: hidden; margin-top:1.5rem;"></div>
     </div>
 
-    {{-- Steps to book a ride --}}
-    <div class="container" style="margin-top: 1rem;">
-        <div class="step-container">
-            <img class="vec-one" src="public/assets/landing/image/vector-1.png" alt="">
-            <img class="vec-two" src="public/assets/landing/image/vector-2.png" alt="">
-            <img class="vec-three" src="public/assets/landing/image/vector-3.png" alt="">
-            <img class="vec-grp" src="public/assets/landing/image/vector_grp.png" alt="">
-            <div class="step-title">
-                <h4><span>How to Bo</span>ok Your Ride?</h4>
-                <p class="mb-0">Book Your Ride in just four simple steps</p>
-            </div>
-            <div class="row" style="margin-top: 25px;">
-                <div class="col-lg-6 col-md-6 col-12 box">
-                    <div class="step-box">
-                        <div class="step-image">
-                            <img src="public/assets/landing/image/scooter.png" alt="Scooter">
-                            <img src="public/assets/landing/image/flag.png" alt="Scooter">
-                        </div>
-                        <div class="step-details">
-                            <h5>Choose Your Location</h5>
-                            <p class="mb-0">Select Your starting point with our extensive database of location</p>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-lg-6 col-md-6 col-12 box">
-                    <div class="step-box">
-                        <div class="step-image">
-                            <img src="public/assets/landing/image/scooter.png" alt="Scooter">
-                        </div>
-                        <div class="step-details">
-                            <h5>Choose A Bike</h5>
-                            <p class="mb-0">Check and pick your preffered ride</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-6 col-md-6 col-12 box">
-                    <div class="step-box">
-                        <div class="step-image">
-                            <img src="public/assets/landing/image/booking.png" alt="Scooter">
-                        </div>
-                        <div class="step-details">
-                            <h5>Make a Booking</h5>
-                            <p class="mb-0">confirm reservation hassie - free</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-6 col-md-6 col-12 box">
-                    <div class="step-box">
-                        <div class="step-image">
-                            <img src="public/assets/landing/image/scooter.png" alt="Scooter">
-                            <img src="public/assets/landing/image/box-vector.png" alt="Scooter">
-                        </div>
-                        <div class="step-details">
-                            <h5>enjoy the ride!</h5>
-                            <p class="mb-0">Hit the road embrace the adventure</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     {{-- About us --}}
     <div class="container" style="margin-top: 3rem;">
@@ -746,7 +697,9 @@
                         <h6>Experience the Freedom, Embrace the Exceptional</h6>
                         <h3>Unleash your journey: The Drivewise Advantage</h3>
                     </div>
-                    <p>Immerse yourself in a world of possibilities with our extensive range of vehicles. From sleek sedans to rugged SUVs and luxurious convertibles, we have the perfect wheels to match your style, preferences, and the demands of your adventure.</p>
+                    <p>Immerse yourself in a world of possibilities with our extensive range of vehicles. From sleek sedans
+                        to rugged SUVs and luxurious convertibles, we have the perfect wheels to match your style,
+                        preferences, and the demands of your adventure.</p>
                     <a class="advantage-btn" href="/about-us">
                         <button class="explore">Learn More</button>
                     </a>
@@ -832,11 +785,12 @@
                             <i class="fa-solid fa-gauge"></i>
                             <i class="fa-solid fa-gauge"></i>
                         </div> --}}
-                                    {{-- @if ($items->discount != 0)
+                                {{-- @if ($items->discount != 0)
                             <small class="old-price mb-0" style="text-decoration: line-through; color:grey;">{{$items->discount}}</small> / day
                             @endif --}}
                                 </p>
-                                <a href="{{ route('product.product_detail', $items->slug) }}" class="btn mb-0 mt-1">Book Now</a>
+                                <a href="{{ route('product.product_detail', $items->slug) }}" class="btn mb-0 mt-1">Book
+                                    Now</a>
                             </div>
                         </div>
                     </div>
@@ -1053,6 +1007,7 @@
         });
     </script>
 
+
     <script>
         $(document).ready(function() {
 
@@ -1082,7 +1037,7 @@
     </script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             // Get current date and time
             const now = new Date();
             const year = now.getFullYear();
@@ -1090,7 +1045,7 @@
             const day = String(now.getDate()).padStart(2, '0');
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
-            
+
             const currentDate = `${year}-${month}-${day}`;
             const currentTime = `${hours}:${minutes}`;
 
@@ -1114,7 +1069,7 @@
             setMinTime(startTimeInput, startDateInput.value);
             setMinTime(endTimeInput, endDateInput.value);
 
-            startDateInput.addEventListener('change', function () {
+            startDateInput.addEventListener('change', function() {
                 setMinTime(startTimeInput, startDateInput.value);
                 if (startDateInput.value > endDateInput.value) {
                     endDateInput.value = startDateInput.value;
@@ -1123,7 +1078,7 @@
                 setMinTime(endTimeInput, endDateInput.value);
             });
 
-            startTimeInput.addEventListener('change', function () {
+            startTimeInput.addEventListener('change', function() {
                 if (startDateInput.value === endDateInput.value) {
                     endTimeInput.min = startTimeInput.value;
                 } else {
@@ -1131,7 +1086,7 @@
                 }
             });
 
-            endDateInput.addEventListener('change', function () {
+            endDateInput.addEventListener('change', function() {
                 setMinTime(endTimeInput, endDateInput.value);
                 if (endDateInput.value < startDateInput.value) {
                     startDateInput.value = endDateInput.value;
@@ -1148,7 +1103,7 @@
         $(document).ready(function() {
             $('#search-button').click(function(e) {
                 e.preventDefault();
-    
+
                 // Check if the form is valid
                 if ($('#search-form')[0].checkValidity()) {
                     // If the form is valid, proceed with search
@@ -1156,15 +1111,15 @@
                     var startTime = $('#start-time').val();
                     var endDate = $('#end-date').val();
                     var endTime = $('#end-time').val();
-    
+
                     console.log("Start Date: " + startDate);
                     console.log("Start Time: " + startTime);
                     console.log("End Date: " + endDate);
                     console.log("End Time: " + endTime);
-    
+
                     var formattedStartDate = formatDateAndTime(startDate, startTime);
                     var formattedEndDate = formatDateAndTime(endDate, endTime);
-    
+
                     $.ajax({
                         url: '{{ route('search.vehicle') }}',
                         type: 'POST',
@@ -1176,37 +1131,46 @@
                         success: function(response) {
                             // Update the search results div with the response
                             $('#search-results').empty();
-    
+
                             // Check if response data is not empty
                             if (response.length > 0) {
                                 // Iterate over each item in the response
                                 response.forEach(function(item) {
                                     // Generate HTML to represent the item
-                                    var itemHTML = '<div class="col-lg-3 col-md-6 col-12 mb-3 style="display:flex; flex-direction:column; align-items:center;">' +
-                                    '<div class="card" style="display:flex; flex-direction:column; align-items:center;">' +
-                                    '<img class="card-img" src="{{ asset("storage/app/public/product/") }}/' +
-                                    item.image + '" alt="' + item.name + ' image">' +
-                                    '<div class="card-body" style="display:flex; flex-direction:column; align-items:center;">' +
-                                    '<h5 class="card-title" style="color: #013460;">' + item.name + '</h5>' +
-                                    '<div class="rating d-flex justify-content-center mb-0 text-center" style="font-size: 12px; color: rgb(248, 82, 82);">' +
-                                    '<i class="fa-solid fa-star"></i>' +
-                                    '<i class="fa-solid fa-star"></i>' +
-                                    '<i class="fa-solid fa-star"></i>' +
-                                    '<i class="fa-solid fa-star"></i>' +
-                                    '<i class="fa-regular fa-star-half-stroke"></i>' +
-                                    '</div>' +
-                                    '<p class="price mb-0 text-center" style="margin-top:10px;">Rs. ' + item.price + '</p>' +
-                                    '<a href="' + '{{ route("product.product_detail", ["slug" => $items->slug]) }}' + '" class="btn mb-0 mt-1">BookNow</a>' +
-                                    '</div>' +
-                                    '</div>' + // Closing div for card
-                                    '</div>';
+                                    var itemHTML =
+                                        '<div class="col-lg-3 col-md-6 col-12 mb-3 style="display:flex; flex-direction:column; align-items:center;">' +
+                                        '<div class="card" style="display:flex; flex-direction:column; align-items:center;">' +
+                                        '<img class="card-img" src="{{ asset('storage/app/public/product/') }}/' +
+                                        item.image + '" alt="' + item.name +
+                                        ' image">' +
+                                        '<div class="card-body" style="display:flex; flex-direction:column; align-items:center;">' +
+                                        '<h5 class="card-title" style="color: #013460;">' +
+                                        item.name + '</h5>' +
+                                        '<div class="rating d-flex justify-content-center mb-0 text-center" style="font-size: 12px; color: rgb(248, 82, 82);">' +
+                                        '<i class="fa-solid fa-star"></i>' +
+                                        '<i class="fa-solid fa-star"></i>' +
+                                        '<i class="fa-solid fa-star"></i>' +
+                                        '<i class="fa-solid fa-star"></i>' +
+                                        '<i class="fa-regular fa-star-half-stroke"></i>' +
+                                        '</div>' +
+                                        '<p class="price mb-0 text-center" style="margin-top:10px;">Rs. ' +
+                                        item.price + '</p>' +
+                                        '<a href="' +
+                                        '{{ route('product.product_detail', ['slug' => $items->slug]) }}' +
+                                        '" class="btn mb-0 mt-1">BookNow</a>' +
+                                        '</div>' +
+                                        '</div>' + // Closing div for card
+                                        '</div>';
 
                                     // Append the item HTML to the search results div
                                     $('#search-results').append(itemHTML);
 
                                     // Slide the newly added item horizontally
-                                    var newItem = $('#search-results').children().last();
-                                    newItem.css('margin-left', '-100%'); // Initially position the item to the left
+                                    var newItem = $('#search-results').children()
+                                        .last();
+                                    newItem.css('margin-left',
+                                        '-100%'
+                                    ); // Initially position the item to the left
 
                                     // Animate the sliding effect
                                     newItem.animate({
@@ -1229,7 +1193,7 @@
                     alert("Please fill out all required fields.");
                 }
             });
-    
+
             function formatDateAndTime(date, time) {
                 // Combine and format the date and time using Moment.js
                 var formattedDateTime = moment(date + ' ' + time, "YYYY-MM-DD HH:mm").format(
@@ -1238,26 +1202,20 @@
             }
         });
     </script>
-
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            formatTimeTo12Hour();
-        });
+        const timeInputs = document.querySelectorAll('.time-input');
 
-        function formatTimeTo12Hour() {
-            var timeInputs = document.querySelectorAll('.time-input');
-            timeInputs.forEach(function(input) {
-                var timeValue = input.value.split(':');
-                var hours = parseInt(timeValue[0]);
-                var minutes = timeValue[1];
-                var amOrPm = hours >= 12 ? 'PM' : 'AM';
-                hours = hours % 12;
-                hours = hours ? hours : 12; // If hours is 0, set it to 12
-                hours = hours < 10 ? '0' + hours : hours; // Add leading zero for single digit hours
-                input.value = hours + ':' + minutes + ' ' + amOrPm;
+        timeInputs.forEach(input => {
+            input.addEventListener('click', () => {
+                const dropdown = input.nextElementSibling; // Assuming dropdown follows input
+                const options = dropdown.querySelectorAll('option');
+                options.forEach(option => {
+                    const minute = parseInt(option.value.split(':')[1]); // Extract minute
+                    if (minute % 30 !== 0) {
+                        option.style.display = 'none'; // Hide options not divisible by 30
+                    }
+                });
             });
-        }
+        });
     </script>
-
-    
 @endsection

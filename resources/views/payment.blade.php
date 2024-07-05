@@ -519,13 +519,13 @@
                             <p id="amtTotalPriceDisplay"></p>
                         </div>
                     </div>
-                    <div class="box">
+                    {{-- <div class="box">
                         <p>Weekend Price</p>
                         <div class="amt">
                             <i class="fa-solid fa-indian-rupee-sign"></i>
                             <p id="weekendPriceDisplay"></p>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="box">
                         @php($gst = \App\Models\BusinessSetting::where('key', 'gst')->first())
                         <p>GST ({{ $gst ? $gst->value : 0 }}%)</p>

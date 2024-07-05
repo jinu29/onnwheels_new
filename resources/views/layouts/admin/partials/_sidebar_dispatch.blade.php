@@ -54,7 +54,7 @@
                 <!-- End Dashboards -->
                 <!-- Business Section-->
                 <li class="nav-item">
-                    <small class="nav-subtitle" title="{{ translate('messages.dispatch_section') }}">{{ translate('messages.dispatch_management') }}</small>
+                    <small class="nav-subtitle" title="{{ translate('messages.dispatch_section') }}">{{ translate('messages.delivery_management') }}</small>
                     <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                 </li>
 

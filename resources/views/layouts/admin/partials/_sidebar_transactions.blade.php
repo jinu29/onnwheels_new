@@ -120,7 +120,7 @@
                 <!-- Report -->
                 @if (\App\CentralLogics\Helpers::module_permission_check('report'))
                 <li class="nav-item">
-                    <small class="nav-subtitle" title="{{ translate('messages.report_and_analytics') }}">{{ translate('messages.report_and_analytics') }}</small>
+                    <small class="nav-subtitle" title="{{ translate('messages.report_and_analytics') }}">{{ translate('messages.report_management') }}</small>
                     <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                 </li>
 

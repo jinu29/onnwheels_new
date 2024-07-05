@@ -45,7 +45,7 @@
 
                 <!-- Business Settings -->
                 <li class="nav-item">
-                    <small class="nav-subtitle" title="{{ translate('messages.business_settings') }}">{{ translate('messages.business_management') }}</small>
+                    <small class="nav-subtitle" title="{{ translate('messages.business_settings') }}">{{ translate('messages.branch_management') }}</small>
                     <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                 </li>
                 @if (\App\CentralLogics\Helpers::module_permission_check('zone'))

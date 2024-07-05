@@ -153,7 +153,8 @@ class OrderController extends Controller
     public function list($status, Request $request)
     {
         $key = explode(' ', $request['search']);
-        $orders = Order::latest()->when(isset($key), function ($query) use ($key) {
+        
+        $ordersQuery = Order::latest()->when(isset($key), function ($query) use ($key) {
             return $query->where(function ($q) use ($key) {
                 foreach ($key as $value) {
                     $q->orWhere('id', 'like', "%{$value}%")
@@ -161,12 +162,21 @@ class OrderController extends Controller
                         ->orWhere('transaction_reference', 'like', "%{$value}%");
                 }
             });
-        })->get();
-
-        
-        return view('admin-views.order.list', compact('orders'));
+        })->when($status == 'confirmed', function ($query) {
+            return $query->where('order_status', 'confirmed');
+        })->when($status == 'delivered', function ($query) {
+            return $query->where('order_status', 'delivered');
+        })->when($status == 'return', function ($query) {
+            return $query->where('order_status', 'return');
+        })->when($status == 'completed', function ($query) {
+            return $query->where('order_status', 'completed');
+        });
+    
+        $total = $ordersQuery->count();
+        $orders = $ordersQuery->get();
+    
+        return view('admin-views.order.list', compact('orders', 'total'));
     }
-
 
     public function dispatch_list($module, $status, Request $request)
     {
@@ -744,7 +754,7 @@ class OrderController extends Controller
             $type = "month";
         }
         // return view('invoice', compact('order', 'weekendPrice', 'type', 'totalPrice', 'orderDetails'));
-        return view('admin-views.order.invoice-print',compact('order', 'weekendPrice', 'type', 'totalPrice', 'orderDetails'))->render();
+        return view('admin-views.order.invoice-print', compact('order', 'weekendPrice', 'type', 'totalPrice', 'orderDetails'))->render();
     }
 
     public function add_payment_ref_code(Request $request, $id)

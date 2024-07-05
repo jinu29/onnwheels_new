@@ -171,6 +171,22 @@ class Order extends Model
         return $query->where('order_status', 'pending');
     }
 
+    public function scopeConfirmed($query)
+    {
+        return $query->where('order_status', 'confirmed');
+    }
+
+    public function scopeReturn($query)
+    {
+        return $query->where('order_status', 'return');
+    }
+
+    public function scopeCompleted($query)
+    {
+        return $query->where('order_status', 'completed');
+    }
+
+
     public function scopeFailed($query)
     {
         return $query->where('order_status', 'failed');

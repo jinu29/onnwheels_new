@@ -181,13 +181,13 @@
                         <li class="nav-item {{ Request::is('admin/item/add-new') || (Request::is('admin/item/edit/*') && strpos(request()->fullUrl(), 'product_gellary=1') !== false  )  ? 'active' : '' }}">
                             <a class="nav-link " href="{{ route('admin.item.add-new') }}" title="{{ translate('messages.add_new') }}">
                                 <span class="tio-circle nav-indicator-icon"></span>
-                                <span class="text-truncate">{{ translate('messages.add_new') }}</span>
+                                <span class="text-truncate">{{ translate('messages.add_vehicle') }}</span>
                             </a>
                         </li>
                         <li class="nav-item {{ Request::is('admin/item/list') || (Request::is('admin/item/edit/*') && (strpos(request()->fullUrl(), 'temp_product=1') == false && strpos(request()->fullUrl(), 'product_gellary=1') == false  ) ) ? 'active' : '' }}">
                             <a class="nav-link " href="{{ route('admin.item.list') }}" title="{{ translate('messages.food_list') }}">
                                 <span class="tio-circle nav-indicator-icon"></span>
-                                <span class="text-truncate">{{ translate('messages.list') }}</span>
+                                <span class="text-truncate">{{ translate('messages.list_vehicle') }}</span>
                             </a>
                         </li>
                         @if (\App\CentralLogics\Helpers::get_mail_status('product_gallery'))
@@ -249,124 +249,59 @@
                                 <a class="nav-link" href="{{ route('admin.order.list', ['all']) }}" title="{{ translate('messages.all_orders') }}">
                                     <span class="tio-circle nav-indicator-icon"></span>
                                     <span class="text-truncate sidebar--badge-container">
-                                        {{ translate('messages.all') }}
+                                        {{ translate('messages.all_booking') }}
                                         <span class="badge badge-soft-info badge-pill ml-1">
                                             {{ \App\Models\Order::StoreOrder()->module(Config::get('module.current_module_id'))->count() }}
                                         </span>
                                     </span>
                                 </a>
                             </li>
-                            {{-- <li class="nav-item {{ Request::is('admin/order/list/scheduled') ? 'active' : '' }}">
-                                <a class="nav-link" href="{{ route('admin.order.list', ['scheduled']) }}" title="{{ translate('messages.scheduled_orders') }}">
+                            <li class="nav-item {{ Request::is('admin/order/list/confirmed') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('admin.order.list', ['confirmed']) }}" title="{{ translate('messages.confirmed') }}">
                                     <span class="tio-circle nav-indicator-icon"></span>
                                     <span class="text-truncate sidebar--badge-container">
-                                        {{ translate('messages.scheduled') }}
+                                        {{ translate('messages.confirmed_booking') }}
                                         <span class="badge badge-soft-info badge-pill ml-1">
-                                            {{ \App\Models\Order::Scheduled()->StoreOrder()->module(Config::get('module.current_module_id'))->count() }}
-                                        </span>
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="nav-item {{ Request::is('admin/order/list/pending') ? 'active' : '' }}">
-                                <a class="nav-link " href="{{ route('admin.order.list', ['pending']) }}" title="{{ translate('messages.pending_orders') }}">
-                                    <span class="tio-circle nav-indicator-icon"></span>
-                                    <span class="text-truncate sidebar--badge-container">
-                                        {{ translate('messages.pending') }}
-                                        <span class="badge badge-soft-info badge-pill ml-1">
-                                            {{ \App\Models\Order::Pending()->OrderScheduledIn(30)->StoreOrder()->module(Config::get('module.current_module_id'))->count() }}
-                                        </span>
-                                    </span>
-                                </a>
-                            </li>
-
-                            <li class="nav-item {{ Request::is('admin/order/list/accepted') ? 'active' : '' }}">
-                                <a class="nav-link " href="{{ route('admin.order.list', ['accepted']) }}" title="{{ translate('messages.accepted_orders') }}">
-                                    <span class="tio-circle nav-indicator-icon"></span>
-                                    <span class="text-truncate sidebar--badge-container">
-                                        {{ translate('messages.accepted') }}
-                                        <span class="badge badge-soft-success badge-pill ml-1">
-                                            {{ \App\Models\Order::AccepteByDeliveryman()->OrderScheduledIn(30)->StoreOrder()->module(Config::get('module.current_module_id'))->count() }}
-                                        </span>
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="nav-item {{ Request::is('admin/order/list/processing') ? 'active' : '' }}">
-                                <a class="nav-link " href="{{ route('admin.order.list', ['processing']) }}" title="{{ translate('messages.processing_orders') }}">
-                                    <span class="tio-circle nav-indicator-icon"></span>
-                                    <span class="text-truncate sidebar--badge-container">
-                                        {{ translate('messages.processing') }}
-                                        <span class="badge badge-soft-warning badge-pill ml-1">
-                                            {{ \App\Models\Order::Preparing()->OrderScheduledIn(30)->StoreOrder()->module(Config::get('module.current_module_id'))->count() }}
-                                        </span>
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="nav-item {{ Request::is('admin/order/list/item_on_the_way') ? 'active' : '' }}">
-                                <a class="nav-link text-capitalize" href="{{ route('admin.order.list', ['item_on_the_way']) }}" title="{{ translate('messages.order_on_the_way') }}">
-                                    <span class="tio-circle nav-indicator-icon"></span>
-                                    <span class="text-truncate sidebar--badge-container">
-                                        {{ translate('messages.order_on_the_way') }}
-                                        <span class="badge badge-soft-warning badge-pill ml-1">
-                                            {{ \App\Models\Order::ItemOnTheWay()->OrderScheduledIn(30)->StoreOrder()->module(Config::get('module.current_module_id'))->count() }}
+                                            {{ \App\Models\Order::Confirmed()->StoreOrder()->module(Config::get('module.current_module_id'))->count() }}
                                         </span>
                                     </span>
                                 </a>
                             </li>
                             <li class="nav-item {{ Request::is('admin/order/list/delivered') ? 'active' : '' }}">
-                                <a class="nav-link " href="{{ route('admin.order.list', ['delivered']) }}" title="{{ translate('messages.delivered_orders') }}">
+                                <a class="nav-link " href="{{ route('admin.order.list', ['delivered']) }}" title="{{ translate('messages.pending_orders') }}">
                                     <span class="tio-circle nav-indicator-icon"></span>
                                     <span class="text-truncate sidebar--badge-container">
-                                        {{ translate('messages.delivered') }}
+                                        {{ translate('messages.delivered_bookings') }}
+                                        <span class="badge badge-soft-info badge-pill ml-1">
+                                            {{ \App\Models\Order::Delivered()->OrderScheduledIn(30)->StoreOrder()->module(Config::get('module.current_module_id'))->count() }}
+                                        </span>
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item {{ Request::is('admin/order/list/return') ? 'active' : '' }}">
+                                <a class="nav-link " href="{{ route('admin.order.list', ['return']) }}" title="{{ translate('messages.accepted_orders') }}">
+                                    <span class="tio-circle nav-indicator-icon"></span>
+                                    <span class="text-truncate sidebar--badge-container">
+                                        {{ translate('messages.returned_bookings') }}
                                         <span class="badge badge-soft-success badge-pill ml-1">
-                                            {{ \App\Models\Order::Delivered()->StoreOrder()->module(Config::get('module.current_module_id'))->count() }}
+                                            {{ \App\Models\Order::Return()->StoreOrder()->module(Config::get('module.current_module_id'))->count() }}
                                         </span>
                                     </span>
                                 </a>
                             </li>
-                            <li class="nav-item {{ Request::is('admin/order/list/canceled') ? 'active' : '' }}">
-                                <a class="nav-link " href="{{ route('admin.order.list', ['canceled']) }}" title="{{ translate('messages.canceled_orders') }}">
+                            <li class="nav-item {{ Request::is('admin/order/list/completed') ? 'active' : '' }}">
+                                <a class="nav-link " href="{{ route('admin.order.list', ['completed']) }}" title="{{ translate('messages.processing_orders') }}">
                                     <span class="tio-circle nav-indicator-icon"></span>
                                     <span class="text-truncate sidebar--badge-container">
-                                        {{ translate('messages.canceled') }}
-                                        <span class="badge badge-soft-warning bg-light badge-pill ml-1">
-                                            {{ \App\Models\Order::Canceled()->StoreOrder()->module(Config::get('module.current_module_id'))->count() }}
+                                        {{ translate('messages.completed_bookings') }}
+                                        <span class="badge badge-soft-warning badge-pill ml-1">
+                                            {{ \App\Models\Order::Completed()->StoreOrder()->module(Config::get('module.current_module_id'))->count() }}
                                         </span>
                                     </span>
                                 </a>
                             </li>
-                            <li class="nav-item {{ Request::is('admin/order/list/failed') ? 'active' : '' }}">
-                                <a class="nav-link " href="{{ route('admin.order.list', ['failed']) }}" title="{{ translate('messages.payment_failed_orders') }}">
-                                    <span class="tio-circle nav-indicator-icon"></span>
-                                    <span class="text-truncate sidebar--badge-container text-capitalize">
-                                        {{ translate('messages.payment_failed') }}
-                                        <span class="badge badge-soft-danger bg-light badge-pill ml-1">
-                                            {{ \App\Models\Order::failed()->StoreOrder()->module(Config::get('module.current_module_id'))->count() }}
-                                        </span>
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="nav-item {{ Request::is('admin/order/list/refunded') ? 'active' : '' }}">
-                                <a class="nav-link " href="{{ route('admin.order.list', ['refunded']) }}" title="{{ translate('messages.refunded_orders') }}">
-                                    <span class="tio-circle nav-indicator-icon"></span>
-                                    <span class="text-truncate sidebar--badge-container">
-                                        {{ translate('messages.refunded') }}
-                                        <span class="badge badge-soft-danger bg-light badge-pill ml-1">
-                                            {{ \App\Models\Order::Refunded()->StoreOrder()->module(Config::get('module.current_module_id'))->count() }}
-                                        </span>
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="nav-item {{ Request::is('admin/order/offline/payment/list*') ? 'active' : '' }}">
-                                <a class="nav-link " href="{{ route('admin.order.offline_verification_list', ['all']) }}" title="{{ translate('Offline_Payments') }}">
-                                    <span class="tio-circle nav-indicator-icon"></span>
-                                    <span class="text-truncate sidebar--badge-container">
-                                        {{ translate('messages.Offline_Payments') }}
-                                        <span class="badge badge-soft-danger bg-light badge-pill ml-1">
-                                            {{ \App\Models\Order::has('offline_payments')->StoreOrder()->module(Config::get('module.current_module_id'))->count() }}
-                                        </span>
-                                    </span>
-                                </a>
-                            </li> --}}
+                            
                         </ul>
                     </li>
 
