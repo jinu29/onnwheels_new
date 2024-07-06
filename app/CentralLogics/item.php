@@ -28,7 +28,7 @@ class ProductLogic
 
     public static function get_all()
     {
-        $data = Item::paginate(10);
+        $data = Item::with('bike')->paginate(10);
 
         foreach ($data as $item) {
             $item->image_path = asset('storage/app/public/product') . '/' . $item->image;

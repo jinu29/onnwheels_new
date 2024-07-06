@@ -45,7 +45,7 @@
                                 @if($store)
                                 <option value="{{$store->id}}" selected>{{$store->name}}</option>
                                 @else
-                                <option value="all" selected>{{translate('messages.all_stores')}}</option>
+                                <option value="all" selected>{{translate('messages.all_platform')}}</option>
                                 @endif
                                 </select>
                             </div>
@@ -197,8 +197,7 @@
                         <th class="border-0">{{translate('sl')}}</th>
                         <th class="border-0">{{translate('messages.name')}}</th>
                         <th class="border-0">{{translate('messages.category')}}</th>
-                        <th class="border-0">{{translate('messages.store')}}</th>
-                        <th class="border-0 text-center">{{translate('messages.price')}}</th>
+                        <th class="border-0">{{translate('messages.platform')}}</th>
                         <th class="border-0 text-center">{{translate('messages.status')}}</th>
                         <th class="border-0 text-center">{{translate('messages.action')}}</th>
                     </tr>
@@ -213,15 +212,15 @@
                                     <img class="avatar avatar-lg mr-3 onerror-image"
 
                                     src="{{ \App\CentralLogics\Helpers::onerror_image_helper(
-                                        $item['image'] ?? '',
-                                        asset('storage/app/public/product').'/'.$item['image'] ?? '',
+                                        $item->bike->image ?? '',
+                                        $item->bike ? asset('storage/app/public/product/'.$item->bike->image) : '',
                                         asset('public/assets/admin/img/160x160/img2.jpg'),
                                         'product/'
                                     ) }}"
 
                                     data-onerror-image="{{asset('public/assets/admin/img/160x160/img2.jpg')}}" alt="{{$item->name}} image">
                                     <div class="media-body">
-                                        <h5 class="text-hover-primary mb-0">{{Str::limit($item['name'],20,'...')}}</h5>
+                                        <h5 class="text-hover-primary mb-0">{{ Str::limit($item->bike ? $item->bike->name : '', 20, '...') }}</h5>
                                     </div>
                                 </a>
                             </td>
@@ -236,11 +235,7 @@
                                 @endif
 
                             </td>
-                            <td>
-                                <div class="text-right mw--85px">
-                                    {{\App\CentralLogics\Helpers::format_currency($item['price'])}}
-                                </div>
-                            </td>
+                           
                             <td>
                                 <label class="toggle-switch toggle-switch-sm" for="stocksCheckbox{{$item->id}}">
                                     <input type="checkbox" class="toggle-switch-input redirect-url" data-url="{{route('admin.item.status',[$item['id'],$item->status?0:1])}}" id="stocksCheckbox{{$item->id}}" {{$item->status?'checked':''}}>

@@ -27,7 +27,7 @@
             @php($language = $language->value ?? null)
             @php($defaultLang = str_replace('_', '-', app()->getLocale()))
             <div class="row g-2">
-                <div class="col-md-6">
+                {{-- <div class="col-md-6">
                     <div class="card h-100">
                         <div class="card-body">
                             @if ($language)
@@ -133,7 +133,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="col-md-12">
                     <div class="card shadow--card-2 border-0">
@@ -160,6 +160,18 @@
                                     </div>
                                 </div> --}}
                                 <input type="hidden" name="store_id" value="6">
+
+                                <div class="col-sm-6 col-lg-3">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="bike_id">{{ translate('messages.bike') }}<span
+                                                class="input-label-secondary"></span></label>
+                                        <select name="bike_id" id="bike_id"
+                                            data-placeholder="{{ translate('messages.select_station') }}"
+                                            class="js-data-example-ajax form-control">
+                                        </select>
+                                    </div>
+                                </div>
 
                                 <div class="col-sm-6 col-lg-3">
                                     <div class="form-group mb-0">
@@ -213,51 +225,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                {{-- <div class="col-sm-6 col-lg-3" id="unit_input">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label text-capitalize"
-                                            for="unit">{{ translate('messages.unit') }}</label>
-                                        <select name="unit" id="unit" class="form-control js-select2-custom">
-                                            @foreach (\App\Models\Unit::all() as $unit)
-                                                <option value="{{ $unit->id }}">{{ $unit->unit }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div> --}}
-                                <div class="col-sm-6 col-lg-3" id="veg_input">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.item_type') }}</label>
-                                        <select name="veg" id="veg" class="form-control js-select2-custom"
-                                            required>
-                                            <option value="0">{{ translate('messages.non_veg') }}</option>
-                                            <option value="1">{{ translate('messages.veg') }}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-lg-3" id="stock_input">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="total_stock">{{ translate('messages.total_stock') }}</label>
-                                        <input type="number" placeholder="{{ translate('messages.Ex:_10') }}"
-                                            class="form-control" name="current_stock" min="0" id="quantity">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-lg-3" id="maximum_cart_quantity">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="maximum_cart_quantity">{{ translate('messages.Maximum_Purchase_Quantity_Limit') }}
-                                            <span class="input-label-secondary text--title" data-toggle="tooltip"
-                                                data-placement="right"
-                                                data-original-title="{{ translate('If_this_limit_is_exceeded,_customers_can_not_buy_the_item_in_a_single_purchase.') }}">
-                                                <i class="tio-info-outined"></i>
-                                            </span>
-                                        </label>
-                                        <input type="number" placeholder="{{ translate('messages.Ex:_10') }}"
-                                            class="form-control" name="maximum_cart_quantity" min="0"
-                                            id="cart_quantity">
-                                    </div>
-                                </div>
+                              
                                 {{-- <div class="col-sm-6 col-lg-3" id="organic">
                                     <div class="form-check mb-0 p-6">
                                         <input class="form-check-input" name="organic" type="checkbox" value="1" id="flexCheckDefault" checked>
@@ -1052,6 +1020,31 @@
         $('#station_id').select2({
             ajax: {
                 url: '{{ url('/') }}/admin/store/get-station', // Adjust the route as per your setup
+                data: function(params) {
+                    return {
+                        q: params.term, // search term
+                        page: params.page
+                    };
+                },
+                processResults: function(data) {
+                    return {
+                        results: data
+                    };
+                },
+                __port: function(params, success, failure) {
+                    let $request = $.ajax(params);
+
+                    $request.then(success);
+                    $request.fail(failure);
+
+                    return $request;
+                }
+            }
+        });
+
+        $('#bike_id').select2({
+            ajax: {
+                url: '{{ url('/') }}/admin/store/get-bikes', // Adjust the route as per your setup
                 data: function(params) {
                     return {
                         q: params.term, // search term

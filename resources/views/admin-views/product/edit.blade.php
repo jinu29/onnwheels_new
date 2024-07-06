@@ -59,163 +59,7 @@
             @php($language = $language->value ?? null)
             @php($defaultLang = str_replace('_', '-', app()->getLocale()))
             <div class="row g-2">
-                <div class="col-md-6">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            @if ($language)
-                                <ul class="nav nav-tabs border-0 mb-3">
-                                    <li class="nav-item">
-                                        <a class="nav-link lang_link active" href="#"
-                                            id="default-link">{{ translate('messages.default') }}</a>
-                                    </li>
-                                    @foreach (json_decode($language) as $lang)
-                                        <li class="nav-item">
-                                            <a class="nav-link lang_link" href="#"
-                                                id="{{ $lang }}-link">{{ \App\CentralLogics\Helpers::get_language_name($lang) . '(' . strtoupper($lang) . ')' }}</a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            @endif
-                            @if ($language)
-                                <div class="lang_form" id="default-form">
-                                    <div class="form-group">
-                                        <label class="input-label" for="default_name">{{ translate('messages.name') }}
-                                            ({{ translate('messages.default') }})</label>
-                                        <input type="text" name="name[]" id="default_name" class="form-control"
-                                            placeholder="{{ translate('messages.new_food') }}"
-                                            value="{{ $product?->getRawOriginal('name') }}" required>
-                                    </div>
-                                    <input type="hidden" name="lang[]" value="default">
-                                    <div class="form-group">
-                                        <label class="input-label" for="default_name">{{ translate('messages.vehicle_number') }}
-                                        </label>
-                                        <input type="text" name="vehicle_number" id="vehicle_number" class="form-control"
-                                            placeholder="{{ translate('messages.vehicle_number') }}" required  value="{{ $product->vehicle_number }}">
-                                    </div>
-                                    <div class="form-group pt-2 mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.short_description') }}
-                                            ({{ translate('messages.default') }})</label>
-                                        <textarea type="text" name="description[]" class="form-control ckeditor min--height-200">{!! $product?->getRawOriginal('description') !!}</textarea>
-                                    </div>
-                                </div>
-                                @foreach (json_decode($language) as $lang)
-                                    <?php
-                                    if (count($product['translations'])) {
-                                        $translate = [];
-                                        foreach ($product['translations'] as $t) {
-                                            if ($t->locale == $lang && $t->key == 'name') {
-                                                $translate[$lang]['name'] = $t->value;
-                                            }
-                                            if ($t->locale == $lang && $t->key == 'description') {
-                                                $translate[$lang]['description'] = $t->value;
-                                            }
-                                        }
-                                    }
-                                    ?>
-                                    <div class="d-none lang_form" id="{{ $lang }}-form">
-                                        <div class="form-group">
-                                            <label class="input-label"
-                                                for="{{ $lang }}_name">{{ translate('messages.name') }}
-                                                ({{ strtoupper($lang) }})
-                                            </label>
-                                            <input type="text" name="name[]" id="{{ $lang }}_name"
-                                                class="form-control" placeholder="{{ translate('messages.new_food') }}"
-                                                value="{{ $translate[$lang]['name'] ?? '' }}">
-                                        </div>
-                                        <input type="hidden" name="lang[]" value="{{ $lang }}">
-                                        <div class="form-group pt-2 mb-0">
-                                            <label class="input-label"
-                                                for="exampleFormControlInput1">{{ translate('messages.short_description') }}
-                                                ({{ strtoupper($lang) }})</label>
-                                            <textarea type="text" name="description[]" class="form-control ckeditor min--height-200">{!! $translate[$lang]['description'] ?? '' !!}</textarea>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            @else
-                                <div id="default-form">
-                                    <div class="form-group">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.name') }}
-                                            ({{ translate('messages.default') }})</label>
-                                        <input type="text" name="name[]" class="form-control"
-                                            placeholder="{{ translate('messages.new_food') }}"
-                                            value="{{ $product['name'] }}" required>
-                                    </div>
-                                    <input type="hidden" name="lang[]" value="default">
-                                    <div class="form-group pt-2 mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.short_description') }}</label>
-                                        <textarea type="text" name="description[]" class="form-control ckeditor min--height-200">{!! $product['description'] !!}</textarea>
-                                    </div>
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-md-6">
-                    <div class="card h-100">
-                        <div class="card-body d-flex flex-wrap align-items-center">
-                            <div class="w-100 d-flex flex-wrap __gap-15px">
-                                <div class="flex-grow-1 mx-auto">
-                                    <label class="text-dark d-block">
-                                        {{ translate('messages.item_image') }}
-                                        <small class="text-danger">* ( {{ translate('messages.ratio') }} 1:1 )</small>
-                                    </label>
-                                    <div class="d-flex flex-wrap __gap-12px __new-coba" id="coba">
-
-                                        <input type="hidden" id="removedImageKeysInput" name="removedImageKeys"
-                                            value="">
-                                        @foreach ($product->images as $key => $photo)
-                                            <div id="product_images_{{ $key }}"
-                                                class="spartan_item_wrapper min-w-100px max-w-100px">
-                                                <img class="img--square onerror-image"
-                                                    src="{{ \App\CentralLogics\Helpers::onerror_image_helper(
-                                                        $photo ?? '',
-                                                        asset('storage/app/public/product') . '/' . $photo ?? '',
-                                                        asset('public/assets/admin/img/upload.png'),
-                                                        'product/',
-                                                    ) }}"
-                                                    data-onerror-image="{{ asset('public/assets/admin/img/upload.png') }}"
-                                                    alt="Product image">
-                                                @if (request()->product_gellary == 1)
-                                                    <a href="#" data-key={{ $key }}
-                                                        data-photo="{{ $photo }}"
-                                                        class="spartan_remove_row function_remove_img"><i
-                                                            class="tio-add-to-trash"></i></a>
-                                                @else
-                                                    <a href="{{ route('admin.item.remove-image', ['id' => $product['id'], 'name' => $photo, 'temp_product' => $temp_product]) }}"
-                                                        class="spartan_remove_row"><i class="tio-add-to-trash"></i></a>
-                                                @endif
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                                <div class="flex-grow-1 mx-auto">
-                                    <label class="text-dark d-block">
-                                        {{ translate('messages.item_thumbnail') }}
-                                        <small class="text-danger">* ( {{ translate('messages.ratio') }} 1:1 )</small>
-                                    </label>
-                                    <label class="d-inline-block m-0">
-                                        <img class="img--100 onerror-image" id="viewer"
-                                            src="{{ \App\CentralLogics\Helpers::onerror_image_helper(
-                                                $product['image'] ?? '',
-                                                asset('storage/app/public/product') . '/' . $product['image'] ?? '',
-                                                asset('public/assets/admin/img/upload.png'),
-                                                'product/',
-                                            ) }}"
-                                            data-onerror-image="{{ asset('public/assets/admin/img/upload.png') }}"
-                                            alt="thumbnail" />
-                                        <input type="file" name="image" id="customFileEg1"
-                                            class="custom-file-input d-none"
-                                            accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="col-md-12">
                     <div class="card shadow--card-2 border-0">
                         <div class="card-header">
@@ -251,13 +95,31 @@
 
                                 <div class="col-sm-6 col-lg-3">
                                     <div class="form-group mb-0">
+                                        <label class="input-label" for="bike_id">{{ translate('messages.bike') }}<span
+                                                class="input-label-secondary"></span></label>
+                                        <select name="bike_id" id="bike_id"
+                                            data-placeholder="{{ translate('messages.select_station') }}"
+                                            class="js-data-example-ajax form-control">
+                                            <option value="" disabled selected>{{ translate('messages.select_bike') }}</option>
+                                            @foreach ($bikes as $bike)
+                                                <option value="{{ $bike->id }}" {{ $product->bike_id == $bike->id ? 'selected' : '' }}>
+                                                    {{ $bike->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                
+
+                                <div class="col-sm-6 col-lg-3">
+                                    <div class="form-group mb-0">
                                         <label class="input-label"
                                             for="station_id">{{ translate('messages.station') }}</label>
                                         <select name="station_id[]" id="station_id"
                                             data-placeholder="{{ translate('messages.select_station') }}"
                                             class="js-data-example-ajax form-control" multiple="multiple">
                                             @foreach ($stations as $station)
-                                                <option value="{{ $station->id }}"
+                                                <option value="{{ $station->id }}
                                                     {{ in_array($station->id, $product->stations->pluck('id')->toArray()) ? 'selected' : '' }}>
                                                     {{ $station->name }}</option>
                                             @endforeach
@@ -478,7 +340,7 @@
                                                 {{ translate('messages.amount') }}
                                             </option>
                                         </select>
-                                    </div>  
+                                    </div>
                                 </div>
                                 <div class="col-sm-4 col-6">
                                     <div class="form-group mb-0">
@@ -496,7 +358,7 @@
                                 <span>{{ translate('Hourly Package') }}</span>
                             </h5>
 
-                            <div class="row mt-2"  style="margin-bottom: 50px;">
+                            <div class="row mt-2" style="margin-bottom: 50px;">
                                 <?php
                                 // JSON string containing the key-value pair
                                 $jsonString = $product['hours_price'];
@@ -510,7 +372,8 @@
                                         <label class="input-label"
                                             for="exampleFormControlInput1">{{ translate('messages.Hours') }}</label>
                                         <input type="text" name="hours" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 1hrs" value="{{$hoursPriceArray["hour"] ?? 0}}">
+                                            placeholder="{{ translate('messages.Ex:') }} 1hrs"
+                                            value="{{ $hoursPriceArray['hour'] ?? 0 }}">
                                     </div>
 
                                 </div>
@@ -520,7 +383,8 @@
                                             for="exampleFormControlInput1">{{ translate('messages.Hours price') }}</label>
                                         <input type="number" name="h_price" min="0" max="999999999999.99"
                                             step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100" value="{{$hoursPriceArray["price"] ?? 0}}">
+                                            placeholder="{{ translate('messages.Ex:') }} 100"
+                                            value="{{ $hoursPriceArray['price'] ?? 0 }}">
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
@@ -529,7 +393,8 @@
                                             for="exampleFormControlInput1">{{ translate('messages.Hour KM limit') }}</label>
                                         <input type="number" name="h_km_limit" min="0" max="999999999999.99"
                                             step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100" value="{{$hoursPriceArray["km_limit"] ?? 0}}">
+                                            placeholder="{{ translate('messages.Ex:') }} 100"
+                                            value="{{ $hoursPriceArray['km_limit'] ?? 0 }}">
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
@@ -538,7 +403,8 @@
                                             for="exampleFormControlInput1">{{ translate('messages.Hour KM Charges') }}</label>
                                         <input type="number" name="h_km_charges" min="0" max="999999999999.99"
                                             step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100" value="{{$hoursPriceArray["km_charges"] ?? 0}}">
+                                            placeholder="{{ translate('messages.Ex:') }} 100"
+                                            value="{{ $hoursPriceArray['km_charges'] ?? 0 }}">
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
@@ -547,7 +413,8 @@
                                             for="exampleFormControlInput1">{{ translate('messages.Hour Limit(MIN)') }}</label>
                                         <input type="number" name="h_hour_limit" min="0" max="999999999999.99"
                                             step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100" value="{{$hoursPriceArray["hour_limit"] ?? 0}}">
+                                            placeholder="{{ translate('messages.Ex:') }} 100"
+                                            value="{{ $hoursPriceArray['hour_limit'] ?? 0 }}">
                                     </div>
                                 </div>
 
@@ -557,7 +424,8 @@
                                             for="exampleFormControlInput1">{{ translate('messages.Weekend Hour Limit(MIN)') }}</label>
                                         <input type="number" name="h_w_limit" min="0" max="999999999999.99"
                                             step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100" value="{{$hoursPriceArray["hour_weekend_limit"] ?? 0}}">
+                                            placeholder="{{ translate('messages.Ex:') }} 100"
+                                            value="{{ $hoursPriceArray['hour_weekend_limit'] ?? 0 }}">
                                     </div>
                                 </div>
 
@@ -567,7 +435,8 @@
                                             for="exampleFormControlInput1">{{ translate('messages.Extra Hours') }}</label>
                                         <input type="number" name="h_extra_hours" min="0" max="999999999999.99"
                                             step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100"  value="{{$hoursPriceArray["extra_hours"] ?? 0}}">
+                                            placeholder="{{ translate('messages.Ex:') }} 100"
+                                            value="{{ $hoursPriceArray['extra_hours'] ?? 0 }}">
                                     </div>
                                 </div>
                             </div>
@@ -591,7 +460,8 @@
                                         <label class="input-label"
                                             for="exampleFormControlInput1">{{ translate('messages.Day') }}</label>
                                         <input type="text" name="days" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 1hrs" value="{{$dayPriceArray["hour"] ?? 0}}">
+                                            placeholder="{{ translate('messages.Ex:') }} 1hrs"
+                                            value="{{ $dayPriceArray['hour'] ?? 0 }}">
                                     </div>
 
                                 </div>
@@ -601,7 +471,8 @@
                                             for="exampleFormControlInput1">{{ translate('messages.Day price') }}</label>
                                         <input type="number" name="d_price" min="0" max="999999999999.99"
                                             step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100" value="{{$dayPriceArray["price"] ?? 0}}">
+                                            placeholder="{{ translate('messages.Ex:') }} 100"
+                                            value="{{ $dayPriceArray['price'] ?? 0 }}">
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
@@ -610,7 +481,8 @@
                                             for="exampleFormControlInput1">{{ translate('messages.Day KM limit') }}</label>
                                         <input type="number" name="d_km_limit" min="0" max="999999999999.99"
                                             step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100" value="{{$dayPriceArray["km_limit"] ?? 0}}">
+                                            placeholder="{{ translate('messages.Ex:') }} 100"
+                                            value="{{ $dayPriceArray['km_limit'] ?? 0 }}">
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
@@ -619,7 +491,8 @@
                                             for="exampleFormControlInput1">{{ translate('messages.Day KM Charges') }}</label>
                                         <input type="number" name="d_km_charges" min="0" max="999999999999.99"
                                             step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100" value="{{$dayPriceArray["km_charges"] ?? 0}}">
+                                            placeholder="{{ translate('messages.Ex:') }} 100"
+                                            value="{{ $dayPriceArray['km_charges'] ?? 0 }}">
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
@@ -628,7 +501,8 @@
                                             for="exampleFormControlInput1">{{ translate('messages.Extra Hours') }}</label>
                                         <input type="number" name="d_extra_hours" min="0" max="999999999999.99"
                                             step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100" value="{{$dayPriceArray["extra_hours"] ?? 0}}">
+                                            placeholder="{{ translate('messages.Ex:') }} 100"
+                                            value="{{ $dayPriceArray['extra_hours'] ?? 0 }}">
                                     </div>
                                 </div>
                             </div>
@@ -652,7 +526,8 @@
                                         <label class="input-label"
                                             for="exampleFormControlInput1">{{ translate('messages.Week') }}</label>
                                         <input type="text" name="week" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 1hrs" value="{{$weekPriceArray["hour"] ?? 0}}">
+                                            placeholder="{{ translate('messages.Ex:') }} 1hrs"
+                                            value="{{ $weekPriceArray['hour'] ?? 0 }}">
                                     </div>
 
                                 </div>
@@ -662,7 +537,8 @@
                                             for="exampleFormControlInput1">{{ translate('messages.Week price') }}</label>
                                         <input type="number" name="w_price" min="0" max="999999999999.99"
                                             step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100" value="{{$weekPriceArray["price"] ?? 0}}">
+                                            placeholder="{{ translate('messages.Ex:') }} 100"
+                                            value="{{ $weekPriceArray['price'] ?? 0 }}">
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
@@ -671,7 +547,8 @@
                                             for="exampleFormControlInput1">{{ translate('messages.Week KM limit') }}</label>
                                         <input type="number" name="w_km_limit" min="0" max="999999999999.99"
                                             step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100" value="{{$weekPriceArray["km_limit"] ?? 0}}">
+                                            placeholder="{{ translate('messages.Ex:') }} 100"
+                                            value="{{ $weekPriceArray['km_limit'] ?? 0 }}">
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
@@ -680,20 +557,22 @@
                                             for="exampleFormControlInput1">{{ translate('messages.Week KM Charges') }}</label>
                                         <input type="number" name="w_km_charges" min="0" max="999999999999.99"
                                             step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100" value="{{$weekPriceArray["km_charges"] ?? 0}}">
+                                            placeholder="{{ translate('messages.Ex:') }} 100"
+                                            value="{{ $weekPriceArray['km_charges'] ?? 0 }}">
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
-                                        for="exampleFormControlInput1">{{ translate('messages.Extra Hours') }}</label>
+                                            for="exampleFormControlInput1">{{ translate('messages.Extra Hours') }}</label>
                                         <input type="number" name="w_extra_hours" min="0" max="999999999999.99"
                                             step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100" value="{{$weekPriceArray["extra_hours"] ?? 0}}">
+                                            placeholder="{{ translate('messages.Ex:') }} 100"
+                                            value="{{ $weekPriceArray['extra_hours'] ?? 0 }}">
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <h5 class="card-title" style="margin-top:20px;">
                                 {{-- <span class="card-header-icon"><i class="tio-dollar-outlined"></i></span> --}}
                                 <span>{{ translate('Monthly Package') }}</span>
@@ -713,7 +592,8 @@
                                         <label class="input-label"
                                             for="exampleFormControlInput1">{{ translate('messages.month') }}</label>
                                         <input type="text" name="month" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 1hrs" value="{{$monthPriceArray["hour"] ?? 0}}">
+                                            placeholder="{{ translate('messages.Ex:') }} 1hrs"
+                                            value="{{ $monthPriceArray['hour'] ?? 0 }}">
                                     </div>
 
                                 </div>
@@ -723,7 +603,8 @@
                                             for="exampleFormControlInput1">{{ translate('messages.Month price') }}</label>
                                         <input type="number" name="m_price" min="0" max="999999999999.99"
                                             step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100" value="{{$monthPriceArray["price"] ?? 0}}">
+                                            placeholder="{{ translate('messages.Ex:') }} 100"
+                                            value="{{ $monthPriceArray['price'] ?? 0 }}">
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
@@ -732,7 +613,8 @@
                                             for="exampleFormControlInput1">{{ translate('messages.Month KM limit') }}</label>
                                         <input type="number" name="m_km_limit" min="0" max="999999999999.99"
                                             step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100" value="{{$monthPriceArray["km_limit"] ?? 0}}">
+                                            placeholder="{{ translate('messages.Ex:') }} 100"
+                                            value="{{ $monthPriceArray['km_limit'] ?? 0 }}">
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
@@ -741,16 +623,18 @@
                                             for="exampleFormControlInput1">{{ translate('messages.Month KM Charges') }}</label>
                                         <input type="number" name="m_km_charges" min="0" max="999999999999.99"
                                             step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100" value="{{$monthPriceArray["km_charges"] ?? 0}}">
+                                            placeholder="{{ translate('messages.Ex:') }} 100"
+                                            value="{{ $monthPriceArray['km_charges'] ?? 0 }}">
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
-                                        for="exampleFormControlInput1">{{ translate('messages.Extra Hours') }}</label>
+                                            for="exampleFormControlInput1">{{ translate('messages.Extra Hours') }}</label>
                                         <input type="number" name="m_extra_hours" min="0" max="999999999999.99"
                                             step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100"  value="{{$monthPriceArray["extra_hours"] ?? 0}}">
+                                            placeholder="{{ translate('messages.Ex:') }} 100"
+                                            value="{{ $monthPriceArray['extra_hours'] ?? 0 }}">
                                     </div>
                                 </div>
                             </div>
@@ -1217,6 +1101,32 @@
             }
         }
     });
+
+    $('#bike_id').select2({
+        ajax: {
+            url: '{{ url('/') }}/admin/store/get-bikes', // Adjust the route as per your setup
+            data: function(params) {
+                return {
+                    q: params.term, // search term
+                    page: params.page
+                };
+            },
+            processResults: function(data) {
+                return {
+                    results: data
+                };
+            },
+            __port: function(params, success, failure) {
+                let $request = $.ajax(params);
+
+                $request.then(success);
+                $request.fail(failure);
+
+                return $request;
+            }
+        }
+    });
+
 
     $(document).ready(function() {
         @if (count(json_decode($product['add_ons'], true)) > 0)

@@ -1,6 +1,7 @@
 @extends('layouts.admin.app')
 
-@section('title', translate('Order Details'))
+@section('title', translate('Booking Details'))
+      
 
 @section('content')
     <?php
@@ -18,11 +19,11 @@
                 <div class="col-sm mb-2 mb-sm-0">
                     <h1 class="page-header-title">
                         <span class="page-header-icon">
-                            <img src="{{ asset('/public/assets/admin/img/shopping-basket.png') }}" class="w--20"
-                                alt="">
+                            {{-- <img src="{{ asset('/public/assets/admin/img/shopping-basket.png') }}" class="w--20"
+                                alt=""> --}}    
                         </span>
                         <span>
-                            {{ translate('order_details') }} <span
+                            {{ translate('booking_details') }} <span
                                 class="badge badge-soft-dark rounded-circle ml-1">{{ $order->details->count() }}</span>
                         </span>
                     </h1>
@@ -56,7 +57,7 @@
                         <div class="order-invoice-left d-flex d-sm-block justify-content-between">
                             <div>
                                 <h1 class="page-header-title d-flex align-items-center __gap-5px">
-                                    {{ translate('messages.order') }} #{{ $order['id'] }}
+                                    {{ translate('messages.booking_id') }} #{{ $order['id'] }}
                                     <br>
                                     <br>
                                     {{ translate('messages.vehicle_number') }} {{ $orderDetails[0]['vehicle_number'] }}
@@ -569,7 +570,7 @@
                                                     $detail->item = json_decode($detail->item_details, true);
                                                 }
                                                 // Retrieve the item details based on the item_id
-                                                $detail->item = \App\Models\Item::where('id', $detail->item_id)->first();
+                                                $detail->item = \App\Models\Item::where('id', $detail->item_id)->with('bike')->first();
                                                 
                                                 ?>
 
@@ -583,31 +584,18 @@
                                                     </td>
                                                     <td>
                                                         <div class="media media--sm">
-                                                            @if ($editing)
-                                                                <div class="avatar avatar-xl mr-3 cursor-pointer quick-view-cart-item"
-                                                                    data-key="{{ $key }}"
-                                                                    title="{{ translate('messages.click_to_edit_this_item') }}">
-                                                                    <span
-                                                                        class="avatar-status avatar-lg-status avatar-status-dark"><i
-                                                                            class="tio-edit"></i></span>
-                                                                    <img class="img-fluid rounded aspect-ratio-1 onerror-image"
-                                                                        src="{{ \App\CentralLogics\Helpers::onerror_image_helper($detail->item['image'], asset('storage/app/public/product/') . '/' . $detail->item['image'], asset('public/assets/admin/img/160x160/img2.jpg'), 'product/') }}"
-                                                                        data-onerror-image="{{ asset('public/assets/admin/img/160x160/img2.jpg') }}"
-                                                                        alt="Image Description">
-                                                                </div>
-                                                            @else
+                                                         
                                                                 <a class="avatar avatar-xl mr-3"
                                                                     href="{{ route('admin.item.view', [isset($detail->item) ? $detail->item['id'] : '', 'module_id' => $order->module_id]) }}">
                                                                     <img class="img-fluid rounded aspect-ratio-1 onerror-image"
-                                                                        src="{{ \App\CentralLogics\Helpers::onerror_image_helper($detail->item['image'], asset('storage/app/public/product/') . '/' . $detail->item['image'], asset('public/assets/admin/img/160x160/img2.jpg'), 'product/') }}"
+                                                                        src="{{ \App\CentralLogics\Helpers::onerror_image_helper($detail->item->bike->image ?? '', asset('storage/app/public/product/') . '/' . $detail->item->bike->image, asset('public/assets/admin/img/160x160/img2.jpg'), 'product/') }}"
                                                                         data-onerror-image="{{ asset('public/assets/admin/img/160x160/img2.jpg') }}"
                                                                         alt="Image Description">
                                                                 </a>
-                                                            @endif
                                                             <div class="media-body">
                                                                 <div>
                                                                     <strong class="line--limit-1">
-                                                                        {{ $detail->item['name'] }}</strong>
+                                                                        {{ $detail->item->bike->name }}</strong>
                                                                     <h6>
                                                                         {{ $detail['quantity'] }} x
                                                                         {{ \App\CentralLogics\Helpers::format_currency($detail['price']) }}

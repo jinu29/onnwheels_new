@@ -134,7 +134,7 @@ class HomeController extends Controller
             $review = AdminTestimonial::where('status', 1)->get();
             $category = Category::where('status', 1)->where('featured', 1)->get();
 
-            $item = Item::where('status', 1)->get();
+            $item = Item::where('status', 1)->with('bike')->get();
 
             // dd($item);
 
@@ -400,7 +400,7 @@ class HomeController extends Controller
     public function product_detail($slug)
     {
 
-        $items = Item::where('slug', $slug)->with('stations')->first();
+        $items = Item::where('slug', $slug)->with('stations', 'bike')->first();
         $product = Item::all();
 
         if ($items != null) {
@@ -415,7 +415,7 @@ class HomeController extends Controller
         $user = User::with('userkyc')->find($userId);
 
         if ($user) {
-            $items = Item::where('slug', $slug)->first();
+            $items = Item::where('slug', $slug)->with('bike')->first();
             $selectedStation = $request->input('available_stations');
 
             $station = Station::where('id', $selectedStation)->first();
@@ -456,7 +456,7 @@ class HomeController extends Controller
     public function rental_bike(Request $request)
     {
         $categories = Category::all();
-        $query = Item::where('status', 1);
+        $query = Item::where('status', 1)->with('bike');
 
         if ($request->has('category_id')) {
             $query->where('category_id', $request->category_id);

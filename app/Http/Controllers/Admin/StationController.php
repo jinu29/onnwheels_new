@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bike;
 use App\Models\Station;
 use App\Models\Zone;
 use Illuminate\Http\Request;
@@ -61,6 +62,22 @@ class StationController extends Controller
     {
         $search = $request->input('term');
         $stations = Station::where('name', 'LIKE', "%{$search}%")->get();
+
+        $formattedStations = [];
+        foreach ($stations as $station) {
+            $formattedStations[] = ['id' => $station->id, 'text' => $station->name];
+        }
+
+        return response()->json($formattedStations);
+    }
+
+    public function search_bikes(Request $request)
+    {
+        $search = $request->input('term');
+        $stations = Bike::where('name', 'LIKE', "%{$search}%")
+            ->orWhere('model', 'LIKE', "%{$search}%")
+            ->orWhere('vehicle_number', 'LIKE', "%{$search}%")
+            ->get();
 
         $formattedStations = [];
         foreach ($stations as $station) {

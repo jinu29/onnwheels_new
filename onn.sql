@@ -15,6 +15,10 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
+-- Dumping database structure for test
+CREATE DATABASE IF NOT EXISTS `test` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `test`;
+
 -- Dumping structure for table test.account_transactions
 CREATE TABLE IF NOT EXISTS `account_transactions` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
@@ -270,6 +274,25 @@ CREATE TABLE IF NOT EXISTS `banners` (
 
 -- Dumping data for table test.banners: ~0 rows (approximately)
 
+-- Dumping structure for table test.bikes
+CREATE TABLE IF NOT EXISTS `bikes` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `vehicle_number` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `images` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `rc_number` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table test.bikes: ~1 rows (approximately)
+INSERT INTO `bikes` (`id`, `name`, `model`, `vehicle_number`, `image`, `images`, `rc_number`, `created_at`, `updated_at`, `description`) VALUES
+	(2, 'KTM Bike', 'KTM', 'TN06AB676', '2024-07-06-6688e997a6360.png', '["2024-07-06-6688e9978a36f.png","2024-07-06-6688e99793beb.png"]', '9079879', '2024-07-06 06:52:07', '2024-07-06 06:52:07', 'good');
+
 -- Dumping structure for table test.business_settings
 CREATE TABLE IF NOT EXISTS `business_settings` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
@@ -278,7 +301,7 @@ CREATE TABLE IF NOT EXISTS `business_settings` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=142 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=143 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table test.business_settings: ~137 rows (approximately)
 INSERT INTO `business_settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES
@@ -323,7 +346,7 @@ INSERT INTO `business_settings` (`id`, `key`, `value`, `created_at`, `updated_at
 	(40, 'schedule_order', NULL, NULL, NULL),
 	(41, 'app_minimum_version', '0', NULL, NULL),
 	(42, 'tax', NULL, NULL, NULL),
-	(43, 'admin_commission', '10', NULL, NULL),
+	(43, 'gst', '9', NULL, NULL),
 	(44, 'country', 'IN', NULL, NULL),
 	(45, 'app_url', 'https://www.google.com', NULL, NULL),
 	(46, 'default_location', '{"lat":"11.005630705394983","lng":"76.99195165092134"}', NULL, NULL),
@@ -339,7 +362,7 @@ INSERT INTO `business_settings` (`id`, `key`, `value`, `created_at`, `updated_at
 	(56, 'app_url_android', NULL, '2021-09-21 22:54:10', '2021-09-21 22:54:10'),
 	(57, 'flutterwave', '{"status":1,"public_key":"FLWPUBK_TEST-3f6a0b6c3d621c4ecbb9beeff516c92b-X","secret_key":"FLWSECK_TEST-ec27426eb062491500a9eb95723b5436-X","hash":"FLWSECK_TEST951e36220f66"}', '2021-09-21 22:54:10', '2021-09-21 22:54:10'),
 	(58, 'dm_maximum_orders', '2', '2021-09-24 17:46:13', '2021-09-24 17:46:13'),
-	(59, 'order_confirmation_model', 'deliveryman', '2021-10-17 00:05:08', '2021-10-17 00:05:08'),
+	(59, 'order_confirmation_model', NULL, '2021-10-17 00:05:08', '2021-10-17 00:05:08'),
 	(60, 'popular_food', '1', '2021-10-17 00:05:08', '2021-10-17 00:05:08'),
 	(61, 'popular_restaurant', '1', '2021-10-17 00:05:08', '2021-10-17 00:05:08'),
 	(62, 'new_restaurant', '1', '2021-10-17 00:05:08', '2021-10-17 00:05:08'),
@@ -403,7 +426,7 @@ INSERT INTO `business_settings` (`id`, `key`, `value`, `created_at`, `updated_at
 	(122, 'additional_charge_name', 'Additional Charge', NULL, NULL),
 	(123, 'additional_charge', NULL, NULL, NULL),
 	(124, 'prescription_order_status', NULL, NULL, NULL),
-	(125, 'delivery_charge_comission', '0', NULL, NULL),
+	(125, 'sgst', '9', NULL, NULL),
 	(126, 'opening_time', NULL, NULL, NULL),
 	(127, 'closing_time', NULL, NULL, NULL),
 	(128, 'landing_page', '1', '2023-08-15 23:56:24', '2023-08-15 23:56:24'),
@@ -419,7 +442,8 @@ INSERT INTO `business_settings` (`id`, `key`, `value`, `created_at`, `updated_at
 	(138, 'apple_login', '[{"login_medium":"apple","client_id":"","client_secret":"","team_id":"","key_id":"","service_file":"","redirect_url":"","status":""}]', '2024-05-01 18:30:55', '2024-05-01 18:30:55'),
 	(139, 'guest_checkout_status', '0', NULL, NULL),
 	(140, 'backgroundChange', '{"primary_1_hex":"#003361","primary_1_rgb":"0, 51, 97","primary_2_hex":"#333e4f","primary_2_rgb":"51, 62, 79"}', NULL, NULL),
-	(141, 'kycconfig', '{"prod_url":"https:\\/\\/api.eko.in:25002\\/ekoicici","developer_key":"793db230ef4ac2eb691e3087f73fe749","secret_key":"y4k0KzCD1cCfUNnOqz7WsshrduUZC51YH61sxj8zxdM","secret_key_timestamp":"1704791808198","initiator_id":"7708080885","customer_id":null,"authenticator_key":null,"user_code":"34870001"}', '2024-05-06 23:57:05', '2024-05-06 23:57:05');
+	(141, 'kycconfig', '{"prod_url":"https:\\/\\/api.eko.in:25002\\/ekoicici","developer_key":"793db230ef4ac2eb691e3087f73fe749","secret_key":"y4k0KzCD1cCfUNnOqz7WsshrduUZC51YH61sxj8zxdM","secret_key_timestamp":"1704791808198","initiator_id":"7708080885","customer_id":null,"authenticator_key":null,"user_code":"34870001"}', '2024-05-06 23:57:05', '2024-05-06 23:57:05'),
+	(142, 'admin_commission', NULL, NULL, NULL);
 
 -- Dumping structure for table test.campaigns
 CREATE TABLE IF NOT EXISTS `campaigns` (
@@ -526,9 +550,12 @@ CREATE TABLE IF NOT EXISTS `contacts` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.contacts: ~0 rows (approximately)
+-- Dumping data for table test.contacts: ~2 rows (approximately)
+INSERT INTO `contacts` (`id`, `name`, `email`, `subject`, `message`, `seen`, `feedback`, `reply`, `created_at`, `updated_at`) VALUES
+	(1, 'akhil', 'admin@gmail.com', 'e', 'ee', 0, '0', NULL, '2024-06-27 05:44:00', '2024-06-27 05:44:00'),
+	(2, 'John Doe', 'john.doe@example.com', 'Test Subject', 'This is a test message.', 0, '0', NULL, '2024-06-27 05:51:21', '2024-06-27 05:51:21');
 
 -- Dumping structure for table test.conversations
 CREATE TABLE IF NOT EXISTS `conversations` (
@@ -1208,9 +1235,9 @@ CREATE TABLE IF NOT EXISTS `items` (
   `discount_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'percent',
   `available_time_starts` time DEFAULT NULL,
   `available_time_ends` time DEFAULT NULL,
-  `veg` tinyint(1) NOT NULL DEFAULT '0',
-  `status` tinyint(1) NOT NULL DEFAULT '1',
-  `store_id` bigint unsigned NOT NULL,
+  `veg` tinyint(1) DEFAULT '0',
+  `status` tinyint(1) DEFAULT '1',
+  `store_id` bigint unsigned DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `order_count` int NOT NULL DEFAULT '0',
@@ -1229,23 +1256,33 @@ CREATE TABLE IF NOT EXISTS `items` (
   `is_approved` tinyint(1) NOT NULL DEFAULT '1',
   `hours_price` json DEFAULT NULL,
   `distance_price` json DEFAULT NULL,
+  `month_price` json DEFAULT NULL,
+  `week_price` json DEFAULT NULL,
+  `days_price` json DEFAULT NULL,
+  `vehicle_number` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `bike_id` bigint DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `items_module_id_foreign` (`module_id`),
   CONSTRAINT `items_module_id_foreign` FOREIGN KEY (`module_id`) REFERENCES `modules` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.items: ~10 rows (approximately)
-INSERT INTO `items` (`id`, `name`, `description`, `image`, `category_id`, `category_ids`, `variations`, `add_ons`, `attributes`, `choice_options`, `price`, `tax`, `tax_type`, `discount`, `discount_type`, `available_time_starts`, `available_time_ends`, `veg`, `status`, `store_id`, `created_at`, `updated_at`, `order_count`, `avg_rating`, `rating_count`, `rating`, `module_id`, `stock`, `unit_id`, `images`, `food_variations`, `slug`, `recommended`, `organic`, `maximum_cart_quantity`, `is_approved`, `hours_price`, `distance_price`) VALUES
-	(19, 'Yamaha v3', 'The Yamaha v3 is a high-performance sport bike manufactured by Honda. It\'s renowned for its lightweight chassis, sharp handling, and powerful inline-four engine. This motorcycle is popular among riders who appreciate its track-focused design and agility, making it a favorite for both street riding and racing enthusiasts.', '2024-05-22-664d7fc57d231.png', 5, '[{"id":"5","position":1}]', '[]', '[]', '[]', '[]', 500.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 3, '2024-05-08 13:42:44', '2024-05-21 18:47:03', 0, 0.00000000000000, 0, NULL, 1, 10, NULL, '["2024-05-22-664d7fc578d3f.png","2024-05-22-664d7fc57c4d4.png","2024-05-22-664d7fc57cab5.png"]', '[]', 'cbr-600-r', 0, 0, 1, 1, '"{\\"1\\":\\"500\\"}"', '"{\\"\\":null}"'),
-	(20, 'Royal Enfield Classic 350', 'The Royal Enfield Classic 350 is an iconic motorcycle known for its retro styling and timeless appeal. It features a classic design reminiscent of vintage British motorcycles with modern reliability. The bike is powered by a 346cc single-cylinder engine, delivering a smooth and torquey performance suitable for city commuting and leisurely rides.', '2024-05-22-664d7f680a630.png', 5, '[{"id":"5","position":1}]', '[]', '[]', '[]', '[]', 150.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 3, '2024-05-08 13:45:51', '2024-05-21 18:45:36', 0, 0.00000000000000, 0, NULL, 1, 15, NULL, '["2024-05-22-664d7f68063e1.png","2024-05-22-664d7f6809134.png","2024-05-22-664d7f68096dc.png"]', '[]', 'royal-enfield-classic-350', 0, 0, 1, 1, '"{\\"1\\":\\"150\\"}"', '"{\\"\\":null}"'),
-	(21, 'Bajaj Pulsar NS200', 'The Bajaj Pulsar NS200 is a popular naked sportbike known for its striking design and agile performance. It features a 199.5cc liquid-cooled single-cylinder engine that delivers around 24 horsepower, paired with a six-speed gearbox for smooth acceleration and flexibility. The NS200 stands out with its aggressive styling, highlighted by sharp lines, a muscular fuel tank, and a distinctive front headlamp design.', '2024-05-22-664d7f222821e.png', 5, '[{"id":"5","position":1}]', '[]', '[]', '[]', '[]', 250.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 3, '2024-05-08 15:00:19', '2024-05-28 18:33:29', 1, 0.00000000000000, 0, NULL, 1, 10, NULL, '["2024-05-22-664d7f2223ae7.png","2024-05-22-664d7f2226f9e.png","2024-05-22-664d7f222758a.png"]', '[]', 'bajaj-pulsar-ns200', 0, 0, 1, 1, '"{\\"48\\":\\"600\\"}"', '"{\\"1\\":\\"100\\"}"'),
-	(22, 'KTM 250', 'The KTM is powered by a 250 cc single-cylinder, air-cooled engine (with oil cooler in some variants), delivering good power and torque. It\'s known for its refinement and linear power delivery.', '2024-05-22-664d7e77bb0ce.png', 5, '[{"id":"5","position":1}]', '[]', '[]', '[]', '[]', 250.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 3, '2024-05-08 15:04:28', '2024-05-21 18:41:31', 0, 0.00000000000000, 0, NULL, 1, 10, NULL, '["2024-05-22-664d7e77b6a6c.png","2024-05-22-664d7e77b9524.png","2024-05-22-664d7e77b9b54.png"]', '[]', 'apache-rtr-160', 0, 0, 1, 1, '"{\\"1\\":\\"250\\"}"', '"{\\"\\":null}"'),
-	(23, 'Pulsar 180', 'Hero MotoCorp was originally founded as Hero Cycles in 1956 in Ludhiana, India. In 1984, Hero collaborated with Honda of Japan to establish Hero Honda Motors Limited, which became one of the most successful joint ventures in India\'s automotive industry. In 2011, Hero MotoCorp was formed after the split from Honda, and it continues to be a dominant player in the Indian two-wheeler market.', '2024-05-22-664d7dd54dc8a.png', 5, '[{"id":"5","position":1}]', '[]', '[]', '[]', '[]', 200.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 3, '2024-05-08 15:06:57', '2024-05-21 18:39:38', 0, 0.00000000000000, 0, NULL, 1, 15, NULL, '["2024-05-22-664d7dd549fc9.png","2024-05-22-664d7dd54c76a.png","2024-05-22-664d7dd54cd5d.png","2024-05-22-664d7dd54d3ae.png"]', '[]', 'hero-motocorp', 0, 0, 1, 1, '"{\\"1\\":\\"200\\"}"', '"{\\"\\":null}"'),
-	(24, 'Apache RTR', 'The Ninja brand was introduced in the 1980s and quickly gained popularity for its high-performance sport bikes. Over the years, Kawasaki has continuously updated and expanded the Ninja lineup, offering a range of models catering to different riding styles and skill levels.', '2024-05-22-664d7d86c4946.png', 5, '[{"id":"5","position":1}]', '[]', '[]', '[]', '[]', 260.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 3, '2024-05-08 15:20:33', '2024-05-21 18:38:49', 0, 0.00000000000000, 0, NULL, 1, 10, NULL, '["2024-05-22-664d7d86bf895.png","2024-05-22-664d7d86c2b16.png","2024-05-22-664d7d86c3373.png"]', '[]', 'kawasaki-ninja', 0, 0, 1, 1, '"{\\"1\\":\\"260\\"}"', '"{\\"\\":null}"'),
-	(25, 'Honda SP 125', 'The SP 125 is powered by a 124cc, single-cylinder, fuel-injected engine. This engine is known for its smooth power delivery, good low-end torque, and fuel efficiency. It meets BS6 emission norms, ensuring cleaner and greener performance.', '2024-05-22-664d7c9fa0451.png', 5, '[{"id":"5","position":1}]', '[]', '[]', '[]', '[]', 320.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 3, '2024-05-08 15:27:55', '2024-05-26 23:00:53', 0, 0.00000000000000, 0, NULL, 1, 10, NULL, '["2024-05-22-664d7c9f9c91b.png","2024-05-22-664d7c9f9fd52.png","2024-05-22-664d7cd4e4123.png"]', '[]', 'honda-sp-125', 0, 0, 1, 1, '"{\\"1\\":\\"320\\"}"', '"{\\"\\":null}"'),
-	(26, 'Ducati 360', 'Ducati is an Italian motorcycle manufacturing company headquartered in Bologna, Italy. The company is directly owned by Italian automotive manufacturer Lamborghini, whose German parent company is Audi.', '2024-05-27-66545a6e068b3.png', 7, '[{"id":"7","position":1}]', '[]', '[]', '[]', '[]', 1000.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 3, '2024-05-26 23:33:26', '2024-05-27 00:30:22', 0, 0.00000000000000, 0, NULL, 1, 0, NULL, '["2024-05-27-66545a6df34a2.png","2024-05-27-66545a6e06174.png"]', '[]', 'ducati-360', 0, 0, NULL, 1, '"{\\"24\\":\\"1000\\"}"', '"{\\"1\\":\\"500\\"}"'),
-	(27, 'bike', 'ssdasd', '2024-06-08-6663fbe3e5f10.png', 5, '[{"id":"5","position":1}]', '[]', '[]', '[]', '[]', 2000.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 6, '2024-06-08 06:36:19', '2024-06-08 06:36:19', 0, 0.00000000000000, 0, NULL, 1, 1, NULL, '["2024-06-08-6663fbe3e11c1.png"]', '[]', 'bike', 0, 0, NULL, 1, '"{\\"24\\":\\"2000\\"}"', '"{\\"1\\":\\"1000\\"}"'),
-	(28, 'Apache RTR 150', 'TVS Apache RTR 160 is a street bike available in 4 variants and 6 colours. The TVS Apache RTR 160 is powered by 159.7cc BS6 engine which develops a power of 15.82 bhp and a torque of 13.85 Nm. With both front and rear disc brakes, TVS Apache RTR 160 comes up with anti-locking braking system.', '2024-06-20-667400bee7d7e.png', 6, '[{"id":"6","position":1}]', '[]', '[]', '[]', '[]', 2000.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 6, '2024-06-20 10:13:18', '2024-06-20 10:13:18', 0, 0.00000000000000, 0, NULL, 1, 0, NULL, '["2024-06-20-667400bedecbf.png","2024-06-20-667400bee7736.png"]', '[]', 'apache-rtr-150', 0, 0, NULL, 1, '"{\\"24\\":\\"2000\\"}"', '"{\\"1\\":\\"500\\"}"');
+-- Dumping data for table test.items: ~15 rows (approximately)
+INSERT INTO `items` (`id`, `name`, `description`, `image`, `category_id`, `category_ids`, `variations`, `add_ons`, `attributes`, `choice_options`, `price`, `tax`, `tax_type`, `discount`, `discount_type`, `available_time_starts`, `available_time_ends`, `veg`, `status`, `store_id`, `created_at`, `updated_at`, `order_count`, `avg_rating`, `rating_count`, `rating`, `module_id`, `stock`, `unit_id`, `images`, `food_variations`, `slug`, `recommended`, `organic`, `maximum_cart_quantity`, `is_approved`, `hours_price`, `distance_price`, `month_price`, `week_price`, `days_price`, `vehicle_number`, `bike_id`) VALUES
+	(19, 'Yamaha v3', 'The Yamaha v3 is a high-performance sport bike manufactured by Honda. It\'s renowned for its lightweight chassis, sharp handling, and powerful inline-four engine. This motorcycle is popular among riders who appreciate its track-focused design and agility, making it a favorite for both street riding and racing enthusiasts.', '2024-05-22-664d7fc57d231.png', 5, '[{"id":"5","position":1}]', '[]', '[]', '[]', '[]', 500.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 3, '2024-05-08 13:42:44', '2024-05-21 18:47:03', 0, 0.00000000000000, 0, NULL, 1, 10, NULL, '["2024-05-22-664d7fc578d3f.png","2024-05-22-664d7fc57c4d4.png","2024-05-22-664d7fc57cab5.png"]', '[]', 'cbr-600-r', 0, 0, 1, 1, '"{\\"1\\":\\"500\\"}"', '"{\\"\\":null}"', NULL, NULL, NULL, NULL, NULL),
+	(20, 'Royal Enfield Classic 350', 'The Royal Enfield Classic 350 is an iconic motorcycle known for its retro styling and timeless appeal. It features a classic design reminiscent of vintage British motorcycles with modern reliability. The bike is powered by a 346cc single-cylinder engine, delivering a smooth and torquey performance suitable for city commuting and leisurely rides.', '2024-05-22-664d7f680a630.png', 5, '[{"id":"5","position":1}]', '[]', '[]', '[]', '[]', 150.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 3, '2024-05-08 13:45:51', '2024-05-21 18:45:36', 0, 0.00000000000000, 0, NULL, 1, 15, NULL, '["2024-05-22-664d7f68063e1.png","2024-05-22-664d7f6809134.png","2024-05-22-664d7f68096dc.png"]', '[]', 'royal-enfield-classic-350', 0, 0, 1, 1, '"{\\"1\\":\\"150\\"}"', '"{\\"\\":null}"', NULL, NULL, NULL, NULL, NULL),
+	(21, 'Bajaj Pulsar NS200', 'The Bajaj Pulsar NS200 is a popular naked sportbike known for its striking design and agile performance. It features a 199.5cc liquid-cooled single-cylinder engine that delivers around 24 horsepower, paired with a six-speed gearbox for smooth acceleration and flexibility. The NS200 stands out with its aggressive styling, highlighted by sharp lines, a muscular fuel tank, and a distinctive front headlamp design.', '2024-05-22-664d7f222821e.png', 5, '[{"id":"5","position":1}]', '[]', '[]', '[]', '[]', 250.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 3, '2024-05-08 15:00:19', '2024-05-28 18:33:29', 1, 0.00000000000000, 0, NULL, 1, 10, NULL, '["2024-05-22-664d7f2223ae7.png","2024-05-22-664d7f2226f9e.png","2024-05-22-664d7f222758a.png"]', '[]', 'bajaj-pulsar-ns200', 0, 0, 1, 1, '"{\\"48\\":\\"600\\"}"', '"{\\"1\\":\\"100\\"}"', NULL, NULL, NULL, NULL, NULL),
+	(22, 'KTM 250', 'The KTM is powered by a 250 cc single-cylinder, air-cooled engine (with oil cooler in some variants), delivering good power and torque. It\'s known for its refinement and linear power delivery.', '2024-05-22-664d7e77bb0ce.png', 5, '[{"id":"5","position":1}]', '[]', '[]', '[]', '[]', 250.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 3, '2024-05-08 15:04:28', '2024-05-21 18:41:31', 0, 0.00000000000000, 0, NULL, 1, 10, NULL, '["2024-05-22-664d7e77b6a6c.png","2024-05-22-664d7e77b9524.png","2024-05-22-664d7e77b9b54.png"]', '[]', 'apache-rtr-160', 0, 0, 1, 1, '"{\\"1\\":\\"250\\"}"', '"{\\"\\":null}"', NULL, NULL, NULL, NULL, NULL),
+	(23, 'Pulsar 180', 'Hero MotoCorp was originally founded as Hero Cycles in 1956 in Ludhiana, India. In 1984, Hero collaborated with Honda of Japan to establish Hero Honda Motors Limited, which became one of the most successful joint ventures in India\'s automotive industry. In 2011, Hero MotoCorp was formed after the split from Honda, and it continues to be a dominant player in the Indian two-wheeler market.', '2024-05-22-664d7dd54dc8a.png', 5, '[{"id":"5","position":1}]', '[]', '[]', '[]', '[]', 200.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 3, '2024-05-08 15:06:57', '2024-05-21 18:39:38', 0, 0.00000000000000, 0, NULL, 1, 15, NULL, '["2024-05-22-664d7dd549fc9.png","2024-05-22-664d7dd54c76a.png","2024-05-22-664d7dd54cd5d.png","2024-05-22-664d7dd54d3ae.png"]', '[]', 'hero-motocorp', 0, 0, 1, 1, '"{\\"1\\":\\"200\\"}"', '"{\\"\\":null}"', NULL, NULL, NULL, NULL, NULL),
+	(24, 'Apache RTR', 'The Ninja brand was introduced in the 1980s and quickly gained popularity for its high-performance sport bikes. Over the years, Kawasaki has continuously updated and expanded the Ninja lineup, offering a range of models catering to different riding styles and skill levels.', '2024-05-22-664d7d86c4946.png', 5, '[{"id":"5","position":1}]', '[]', '[]', '[]', '[]', 260.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 3, '2024-05-08 15:20:33', '2024-05-21 18:38:49', 0, 0.00000000000000, 0, NULL, 1, 10, NULL, '["2024-05-22-664d7d86bf895.png","2024-05-22-664d7d86c2b16.png","2024-05-22-664d7d86c3373.png"]', '[]', 'kawasaki-ninja', 0, 0, 1, 1, '"{\\"1\\":\\"260\\"}"', '"{\\"\\":null}"', NULL, NULL, NULL, NULL, NULL),
+	(25, 'Honda SP 125', 'The SP 125 is powered by a 124cc, single-cylinder, fuel-injected engine. This engine is known for its smooth power delivery, good low-end torque, and fuel efficiency. It meets BS6 emission norms, ensuring cleaner and greener performance.', '2024-05-22-664d7c9fa0451.png', 5, '[{"id":"5","position":1}]', '[]', '[]', '[]', '[]', 320.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 3, '2024-05-08 15:27:55', '2024-05-26 23:00:53', 0, 0.00000000000000, 0, NULL, 1, 10, NULL, '["2024-05-22-664d7c9f9c91b.png","2024-05-22-664d7c9f9fd52.png","2024-05-22-664d7cd4e4123.png"]', '[]', 'honda-sp-125', 0, 0, 1, 1, '"{\\"1\\":\\"320\\"}"', '"{\\"\\":null}"', NULL, NULL, NULL, NULL, NULL),
+	(26, 'Ducati 360', 'Ducati is an Italian motorcycle manufacturing company headquartered in Bologna, Italy. The company is directly owned by Italian automotive manufacturer Lamborghini, whose German parent company is Audi.', '2024-05-27-66545a6e068b3.png', 7, '[{"id":"7","position":1}]', '[]', '[]', '[]', '[]', 1000.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 3, '2024-05-26 23:33:26', '2024-05-27 00:30:22', 0, 0.00000000000000, 0, NULL, 1, 0, NULL, '["2024-05-27-66545a6df34a2.png","2024-05-27-66545a6e06174.png"]', '[]', 'ducati-360', 0, 0, NULL, 1, '"{\\"24\\":\\"1000\\"}"', '"{\\"1\\":\\"500\\"}"', NULL, NULL, NULL, NULL, NULL),
+	(27, 'bike', 'ssdasd', '2024-06-08-6663fbe3e5f10.png', 5, '[{"id":"5","position":1}]', '[]', '[]', '[]', '[]', 2000.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 6, '2024-06-08 06:36:19', '2024-06-08 06:36:19', 0, 0.00000000000000, 0, NULL, 1, 1, NULL, '["2024-06-08-6663fbe3e11c1.png"]', '[]', 'bike', 0, 0, NULL, 1, '"{\\"24\\":\\"2000\\"}"', '"{\\"1\\":\\"1000\\"}"', NULL, NULL, NULL, NULL, NULL),
+	(28, 'Apache RTR 150', 'TVS Apache RTR 160 is a street bike available in 4 variants and 6 colours. The TVS Apache RTR 160 is powered by 159.7cc BS6 engine which develops a power of 15.82 bhp and a torque of 13.85 Nm. With both front and rear disc brakes, TVS Apache RTR 160 comes up with anti-locking braking system.', '2024-06-20-667400bee7d7e.png', 6, '[{"id":"6","position":1}]', '[]', '[]', '[]', '[]', 2000.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 6, '2024-06-20 10:13:18', '2024-06-20 10:13:18', 0, 0.00000000000000, 0, NULL, 1, 0, NULL, '["2024-06-20-667400bedecbf.png","2024-06-20-667400bee7736.png"]', '[]', 'apache-rtr-150', 0, 0, NULL, 1, '"{\\"24\\":\\"2000\\"}"', '"{\\"1\\":\\"500\\"}"', NULL, NULL, NULL, NULL, NULL),
+	(30, 'bike new', 'new bike', '2024-06-24-667912ed0f8a4.png', 5, '[{"id":"5","position":1}]', '[]', '[]', '[]', '[]', 200.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 6, '2024-06-24 06:32:13', '2024-06-24 06:32:13', 0, 0.00000000000000, 0, NULL, 1, 0, NULL, '["2024-06-24-667912ed0c0c1.png","2024-06-24-667912ed0ebba.png"]', '[]', 'bike-new', 0, 0, NULL, 1, '"{\\"1\\":\\"200\\"}"', '"{\\"1\\":\\"200\\"}"', NULL, NULL, NULL, NULL, NULL),
+	(31, 'demo bike new', 'asdasd', '2024-06-24-6679222d6152d.png', 6, '[{"id":"6","position":1}]', '[]', '[]', '[]', '[]', 200.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 6, '2024-06-24 07:37:17', '2024-06-27 07:03:30', 0, 0.00000000000000, 0, NULL, 1, 0, NULL, '["2024-06-24-6679222d5c7c6.png","2024-06-24-6679222d5ffec.png","2024-06-24-6679222d60eeb.png"]', '[]', 'demo-bike-new', 0, 0, NULL, 1, '"{\\"hour\\":\\"1\\",\\"price\\":\\"500\\",\\"km_limit\\":\\"100\\",\\"km_charges\\":\\"50\\"}"', '"{\\"hour\\":null,\\"price\\":null,\\"km_limit\\":null,\\"km_charges\\":null}"', '"{\\"hour\\":\\"1\\",\\"price\\":\\"23000\\",\\"km_limit\\":\\"3000\\",\\"km_charges\\":\\"100\\"}"', '"{\\"hour\\":\\"1\\",\\"price\\":\\"8000\\",\\"km_limit\\":\\"1800\\",\\"km_charges\\":\\"70\\"}"', '"{\\"hour\\":\\"1\\",\\"price\\":\\"1000\\",\\"km_limit\\":\\"500\\",\\"km_charges\\":\\"100\\"}"', NULL, NULL),
+	(32, 'Nice Bike', 'Cool', '2024-07-01-66824bf727c8b.png', 5, '[{"id":"5","position":1}]', '[]', '[]', '[]', '[]', 100.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 6, '2024-07-01 06:25:59', '2024-07-02 05:26:06', 0, 0.00000000000000, 0, NULL, 1, 0, NULL, '["2024-07-01-66824bf71ef21.png","2024-07-01-66824bf7276ad.png"]', '[]', 'nice-bike', 0, 0, NULL, 1, '"{\\"hour\\":\\"1\\",\\"price\\":\\"50\\",\\"km_limit\\":\\"10\\",\\"km_charges\\":\\"4\\",\\"hour_limit\\":\\"4\\",\\"hour_weekend_limit\\":\\"10\\",\\"extra_hours\\":\\"75\\"}"', '"{\\"hour\\":null,\\"price\\":null,\\"km_limit\\":null,\\"km_charges\\":null}"', '"{\\"hour\\":\\"1\\",\\"price\\":\\"6150\\",\\"km_limit\\":\\"1800\\",\\"km_charges\\":\\"4\\",\\"extra_hours\\":\\"75\\"}"', '"{\\"hour\\":\\"1\\",\\"price\\":\\"3150\\",\\"km_limit\\":\\"560\\",\\"km_charges\\":\\"4\\",\\"extra_hours\\":\\"75\\"}"', '"{\\"hour\\":\\"1\\",\\"price\\":\\"400\\",\\"km_limit\\":\\"150\\",\\"km_charges\\":\\"4\\",\\"extra_hours\\":\\"75\\"}"', 'TN06AB676', NULL),
+	(33, 'good bike', 'good one', '2024-07-02-668394934bd44.png', 6, '[{"id":"6","position":1}]', '[]', '[]', '[]', '[]', 10.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 6, '2024-07-02 05:48:03', '2024-07-03 10:46:08', 0, 0.00000000000000, 0, NULL, 1, 0, NULL, '["2024-07-02-6683949346d2d.png","2024-07-02-668394934b031.png"]', '[]', 'good-bike', 0, 0, NULL, 1, '"{\\"hour\\":\\"1\\",\\"price\\":\\"50\\",\\"km_limit\\":\\"100\\",\\"km_charges\\":\\"5\\",\\"hour_limit\\":\\"2\\",\\"hour_weekend_limit\\":\\"1\\",\\"extra_hours\\":\\"10\\"}"', '"{\\"hour\\":null,\\"price\\":null,\\"km_limit\\":null,\\"km_charges\\":null}"', '"{\\"hour\\":\\"1\\",\\"price\\":\\"4500\\",\\"km_limit\\":\\"2000\\",\\"km_charges\\":\\"5\\",\\"extra_hours\\":\\"10\\"}"', '"{\\"hour\\":\\"1\\",\\"price\\":\\"4000\\",\\"km_limit\\":\\"1000\\",\\"km_charges\\":\\"5\\",\\"extra_hours\\":\\"10\\"}"', '"{\\"hour\\":\\"1\\",\\"price\\":\\"400\\",\\"km_limit\\":\\"500\\",\\"km_charges\\":\\"5\\",\\"extra_hours\\":\\"10\\"}"', 'TN06AB676', NULL),
+	(34, NULL, NULL, NULL, 6, '[{"id":"6","position":1}]', '[]', '[]', '[]', '[]', 200.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 6, '2024-07-06 04:33:20', '2024-07-06 06:58:49', 0, 0.00000000000000, 0, NULL, 1, 0, NULL, '[]', '[]', 'ktm-bike34', 0, 0, NULL, 1, '"{\\"hour\\":\\"1\\",\\"price\\":\\"100\\",\\"km_limit\\":\\"50\\",\\"km_charges\\":\\"5\\",\\"hour_limit\\":\\"4\\",\\"hour_weekend_limit\\":\\"6\\",\\"extra_hours\\":\\"10\\"}"', '"{\\"hour\\":null,\\"price\\":null,\\"km_limit\\":null,\\"km_charges\\":null}"', '"{\\"hour\\":\\"1\\",\\"price\\":\\"3000\\",\\"km_limit\\":\\"1200\\",\\"km_charges\\":\\"6\\",\\"extra_hours\\":\\"6\\"}"', '"{\\"hour\\":\\"1\\",\\"price\\":\\"2000\\",\\"km_limit\\":\\"500\\",\\"km_charges\\":\\"6\\",\\"extra_hours\\":\\"10\\"}"', '"{\\"hour\\":\\"1\\",\\"price\\":\\"1000\\",\\"km_limit\\":\\"100\\",\\"km_charges\\":\\"5\\",\\"extra_hours\\":\\"10\\"}"', NULL, 2);
 
 -- Dumping structure for table test.item_campaigns
 CREATE TABLE IF NOT EXISTS `item_campaigns` (
@@ -1299,13 +1336,21 @@ CREATE TABLE IF NOT EXISTS `item_station` (
   KEY `item_station_station_id_foreign` (`station_id`),
   CONSTRAINT `item_station_item_id_foreign` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`) ON DELETE CASCADE,
   CONSTRAINT `item_station_station_id_foreign` FOREIGN KEY (`station_id`) REFERENCES `stations` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.item_station: ~3 rows (approximately)
+-- Dumping data for table test.item_station: ~8 rows (approximately)
 INSERT INTO `item_station` (`id`, `item_id`, `station_id`, `created_at`, `updated_at`) VALUES
 	(3, 27, 1, NULL, NULL),
 	(4, 28, 3, NULL, NULL),
-	(5, 28, 1, NULL, NULL);
+	(5, 28, 1, NULL, NULL),
+	(8, 30, 1, NULL, NULL),
+	(9, 30, 3, NULL, NULL),
+	(10, 31, 1, NULL, NULL),
+	(11, 32, 1, NULL, NULL),
+	(12, 32, 3, NULL, NULL),
+	(13, 33, 1, NULL, NULL),
+	(14, 33, 3, NULL, NULL),
+	(17, 34, 3, NULL, NULL);
 
 -- Dumping structure for table test.item_tag
 CREATE TABLE IF NOT EXISTS `item_tag` (
@@ -1374,7 +1419,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=137 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=138 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table test.migrations: ~132 rows (approximately)
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
@@ -1511,7 +1556,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 	(133, '2023_11_23_093859_create_parcel_delivery_instructions_table', 45),
 	(134, '2024_01_17_105010_create_order_references_table', 46),
 	(135, '2024_04_29_065936_add_location_to_users_table', 47),
-	(136, '2024_06_07_165550_create_stations_table', 48);
+	(136, '2024_06_07_165550_create_stations_table', 48),
+	(137, '2024_07_05_123555_create_bikes_table', 49);
 
 -- Dumping structure for table test.modules
 CREATE TABLE IF NOT EXISTS `modules` (
@@ -1703,14 +1749,20 @@ CREATE TABLE IF NOT EXISTS `oauth_access_tokens` (
   KEY `oauth_access_tokens_user_id_index` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.oauth_access_tokens: ~22 rows (approximately)
+-- Dumping data for table test.oauth_access_tokens: ~36 rows (approximately)
 INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes`, `revoked`, `created_at`, `updated_at`, `expires_at`) VALUES
+	('009b9e94bde8312d1a37aa5aa52ea2b61f11c8bcfc5982ddd2eb0f9d05f43e9ee4440820dc79ad04', 27, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-06-27 06:20:35', '2024-06-27 06:20:35', '2025-06-27 11:50:35'),
+	('057bfddf575957ce3e51d2e01db06ba92f9fc832f7ca399c0c9ff53e5d2a51ae1c709e29565db49c', 24, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-06-27 06:18:12', '2024-06-27 06:18:12', '2025-06-27 11:48:12'),
 	('072cb62032eb247cbe5d588139acc4d88a4405b34ee6b0c4ed53011e657423ef9e9f34066806c64f', 26, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-10 20:39:10', '2024-05-10 20:39:10', '2025-05-11 02:09:10'),
 	('19945962d133f6fa14f0d2347a0eb60f98e15619ae107303edd27b264634ed4f5b48549757230e8f', 25, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-06 00:50:02', '2024-05-06 00:50:02', '2025-05-06 06:20:02'),
 	('2051f4ac3ca0836d7e60b8d2cba902deb1bd3ab257e77d1f35e1a0e912e738b13f04e7597d47cb59', 26, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-10 21:13:45', '2024-05-10 21:13:45', '2025-05-11 02:43:45'),
 	('253753c00f92df0f6ef4af4d424c55bed61bfea7bb04f78d0952cecdac43b5c10b7407be2a49750b', 26, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-10 20:32:10', '2024-05-10 20:32:10', '2025-05-11 02:02:10'),
+	('25bf30599d2dcda231ebdd9f8a3926b80c73b32be7a6d3043fdc15a8a61c9fbe266cd38a9ce8da86', 27, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-06-27 06:21:11', '2024-06-27 06:21:11', '2025-06-27 11:51:11'),
 	('2b0dad1e0b67faa210a92c674fbb7f66a05256dbfc256d353312837cf160e1b0845db5bf308d871e', 26, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-10 20:36:59', '2024-05-10 20:36:59', '2025-05-11 02:06:59'),
+	('36da515b7433162715399d3a1e32db2aafeea77d27473851724bec22db1a0eb2c98327a08d5b8b27', 27, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-06-27 06:21:44', '2024-06-27 06:21:44', '2025-06-27 11:51:44'),
+	('3db4770b785d7ed933485b2581d509cc078430f1939ab9fe15bf31e250dcd63be08c9c2812989d40', 27, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-06-27 06:19:57', '2024-06-27 06:19:57', '2025-06-27 11:49:57'),
 	('3ddd41531a438b1e4aa16a98ae21b89fcc913cf5d23cf2b77c0fe9c33373383bd070012c9dfe9c5b', 26, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-10 20:37:48', '2024-05-10 20:37:48', '2025-05-11 02:07:48'),
+	('3fddce634a6816fd2bf72531f8058d314f9fe6402762282fa48f6e94d7a7e883964d7d484092cf4b', 24, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-06-26 10:11:18', '2024-06-26 10:11:18', '2025-06-26 15:41:18'),
 	('4d34ea2a1d79b087ba5718b865199ef398af9e0380fb5e0361bab8c17998ac44f4c2cdbc9f19b1e5', 25, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-06 00:51:28', '2024-05-06 00:51:28', '2025-05-06 06:21:28'),
 	('502c420379b243f1e8f57b1f39dcbf03c722beeb3509415d9d24cbe462040e8fe0eebab953b6c089', 26, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-10 20:34:03', '2024-05-10 20:34:03', '2025-05-11 02:04:03'),
 	('607a68605ee9b7772316a6b46a19d8a0bdd18048c9a5a72703bedc7b3f3e5eedc149e6fc98e4c0d8', 26, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-10 20:45:23', '2024-05-10 20:45:23', '2025-05-11 02:15:23'),
@@ -1721,15 +1773,21 @@ INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes
 	('75016fe79d273ee59de181c67771ab970c132a723349d35a7610f0430b03b770a56163d9c3862a90', 26, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-10 21:16:24', '2024-05-10 21:16:24', '2025-05-11 02:46:24'),
 	('762fd2fe0fce720b1cdc15d2cdd0b86bb25ce27f8d3eb4c8652529840625bb715cfc935eb22e70ed', 24, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-05 22:36:21', '2024-05-05 22:36:21', '2025-05-06 04:06:21'),
 	('7e8108b2256addb1393e019592c1eb268bf5879db0910213857e07387caea9b49e8b4f854d8c0cca', 26, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-10 20:23:51', '2024-05-10 20:23:51', '2025-05-11 01:53:51'),
+	('889c03d353173d8e1d224e47874589ce0090ac815f7089d1cc92ada4f89a706cc22037da8b6e11ca', 24, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-06-27 05:51:05', '2024-06-27 05:51:06', '2025-06-27 11:21:05'),
 	('88d8dc679b2b002c9d500cd3f6647277b5fdb6a98710a8b90e6f52fd91b87504068e8b8d0f86a481', 25, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-06 02:24:57', '2024-05-06 02:24:57', '2025-05-06 07:54:57'),
+	('9157ca349e653dfb5f004c208f63051fe17dc82ac579c7c5d0ba3f365309d2d889f3605bfa043cf6', 27, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-06-27 06:20:12', '2024-06-27 06:20:12', '2025-06-27 11:50:12'),
 	('b8579a28b56ac5a6a8b377a75e50fdcc451281e402b5487e4a1d9c281ab04158ddd73d6b0ecbbccb', 24, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-05 23:34:58', '2024-05-05 23:34:58', '2025-05-06 05:04:58'),
+	('bbac1a41d2fb8554e3ac3bd8802fc7a3efe30fba231ed3b327538f9fcd3d7f5a0dc8b240c23a3e76', 27, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-06-27 06:21:30', '2024-06-27 06:21:30', '2025-06-27 11:51:30'),
 	('cf2071271dbc9211f09d2b2259a5c90374dca2f5e3370b34156534972326c98fccb98adfe1099dd1', 26, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-10 21:12:06', '2024-05-10 21:12:06', '2025-05-11 02:42:06'),
 	('d285c84c52237a6dc24ce971637f720284fec4d3a545657d7101f52787b7e793b631f59b324fd985', 26, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-10 20:20:38', '2024-05-10 20:20:39', '2025-05-11 01:50:38'),
 	('d79570ed4cef8fc6c46451699084ee2084fa74f53b230027049583b2308382281346404730aec7ac', 26, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-10 20:33:55', '2024-05-10 20:33:55', '2025-05-11 02:03:55'),
+	('d7e3df5b31afac16b2d1c65367a81faefaf78c35236a639b710a8f88b9aec6ddc9499ce7ff61f8ca', 27, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-06-29 04:27:04', '2024-06-29 04:27:04', '2025-06-29 09:57:04'),
 	('e1c83a702d7203bdd20179221723b4c508006d5076565e767f96d8e76d6da5010be33f654231f6e4', 24, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-08 18:54:03', '2024-05-08 18:54:03', '2025-05-09 00:24:03'),
 	('e3886611dd1722454e9ff7d45707bfa56f73a6123e9198ddce882bc3c27e4e86a110e4e31a913277', 26, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-10 20:34:21', '2024-05-10 20:34:21', '2025-05-11 02:04:21'),
 	('f06de702ae06a2d71ab6a41de19cfc6c91d2c72c56f017ed31754d1fa1112c966d77036b484770e9', 26, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-10 20:20:56', '2024-05-10 20:20:56', '2025-05-11 01:50:56'),
 	('f32467cde78a08136baae42ff7915ac40ac30b68558eec31f1eb4be4773e4a838e3d1ce33ebb9503', 26, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-05-10 20:39:35', '2024-05-10 20:39:35', '2025-05-11 02:09:35'),
+	('fd3c7b9a6d9d68fdaffc7c0df530f9bef3095e564d8ada974404ef5c65d20edada4b775e73b627cb', 27, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-06-27 06:21:53', '2024-06-27 06:21:53', '2025-06-27 11:51:53'),
+	('fe539ae6e50f3accec7f598261315675ab57b0fa753b0514354df0a747864a621d0cfa56ae4bdfcf', 24, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-06-27 06:08:01', '2024-06-27 06:08:01', '2025-06-27 11:38:01'),
 	('feb6e703481d7787962510fbed06a02783bb13152f62d165335fbec5d4d5e600e7425b418aa9c047', 26, 3, 'RestaurantCustomerAuth', '[]', 0, '2024-06-21 06:09:53', '2024-06-21 06:09:53', '2025-06-21 11:39:53');
 
 -- Dumping structure for table test.oauth_auth_codes
@@ -1901,21 +1959,13 @@ CREATE TABLE IF NOT EXISTS `orders` (
   KEY `zone_id` (`zone_id`),
   KEY `orders_module_id_foreign` (`module_id`),
   CONSTRAINT `orders_module_id_foreign` FOREIGN KEY (`module_id`) REFERENCES `modules` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=100023 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=100035 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.orders: ~11 rows (approximately)
+-- Dumping data for table test.orders: ~2 rows (approximately)
 INSERT INTO `orders` (`id`, `user_id`, `order_amount`, `coupon_discount_amount`, `coupon_discount_title`, `payment_status`, `order_status`, `total_tax_amount`, `payment_method`, `transaction_reference`, `delivery_address_id`, `delivery_man_id`, `coupon_code`, `order_note`, `order_type`, `checked`, `store_id`, `created_at`, `updated_at`, `delivery_charge`, `schedule_at`, `callback`, `otp`, `pending`, `accepted`, `confirmed`, `processing`, `handover`, `picked_up`, `delivered`, `canceled`, `refund_requested`, `refunded`, `delivery_address`, `scheduled`, `store_discount_amount`, `original_delivery_charge`, `failed`, `adjusment`, `edited`, `delivery_time`, `zone_id`, `module_id`, `order_attachment`, `parcel_category_id`, `receiver_details`, `charge_payer`, `distance`, `dm_tips`, `free_delivery_by`, `refund_request_canceled`, `prescription_order`, `tax_status`, `dm_vehicle_id`, `cancellation_reason`, `canceled_by`, `coupon_created_by`, `discount_on_product_by`, `processing_time`, `unavailable_item_note`, `cutlery`, `delivery_instruction`, `tax_percentage`, `additional_charge`, `order_proof`, `partially_paid_amount`, `is_guest`, `flash_admin_discount_amount`, `flash_store_discount_amount`) VALUES
-	(100012, 27, 250.00, 0.00, NULL, 'paid', 'pending', 0.00, NULL, 'pay_ODRWm4CiEMpf91', NULL, NULL, NULL, NULL, 'delivery', 0, NULL, '2024-05-21 20:06:15', '2024-05-21 20:06:15', 0.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'LuLu Hypermarket Coimbatore, Avinashi Road, GM Nagar, Pudur, Pappanaickenpalayam, Tamil Nadu, India', 0, 0.00, 0.00, NULL, 0.00, 0, NULL, NULL, 1, NULL, NULL, NULL, NULL, 0.000, 0.00, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 'vendor', NULL, NULL, 0, NULL, NULL, 0.000, NULL, 0.000, 0, 0.000, 0.000),
-	(100013, 27, 6250.00, 0.00, NULL, 'paid', 'pending', 0.00, NULL, 'pay_ODRgZjJhwFo8Au', NULL, NULL, NULL, NULL, 'delivery', 0, NULL, '2024-05-21 20:15:32', '2024-05-21 20:15:32', 0.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'LuLu Hypermarket Coimbatore, Avinashi Road, GM Nagar, Pudur, Pappanaickenpalayam, Tamil Nadu, India', 0, 0.00, 0.00, NULL, 0.00, 0, NULL, NULL, 1, NULL, NULL, NULL, NULL, 0.000, 0.00, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 'vendor', NULL, NULL, 0, NULL, NULL, 0.000, NULL, 0.000, 0, 0.000, 0.000),
-	(100014, 27, 400.00, 0.00, NULL, 'paid', 'pending', 0.00, NULL, 'pay_ODVosNk08hD3aB', NULL, NULL, NULL, NULL, 'delivery', 0, NULL, '2024-05-22 00:18:09', '2024-05-22 00:18:09', 0.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'LuLu Hypermarket Coimbatore, Avinashi Road, GM Nagar, Pudur, Coimbatore, Pappanaickenpalayam, Tamil Nadu, India', 0, 0.00, 0.00, NULL, 0.00, 0, NULL, NULL, 1, NULL, NULL, NULL, NULL, 0.000, 0.00, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 'vendor', NULL, NULL, 0, NULL, NULL, 0.000, NULL, 0.000, 0, 0.000, 0.000),
-	(100015, 27, 3750.00, 0.00, NULL, 'paid', 'pending', 0.00, NULL, 'pay_ODVtiUcSMbxJ2H', NULL, NULL, NULL, NULL, 'delivery', 0, 2, '2024-05-22 00:22:43', '2024-05-22 00:22:43', 0.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Lulu Mall, Lucknow, Amar Shaheed Path, Golf City, Sector B Ansal API, Lucknow, Uttar Pradesh, India', 0, 0.00, 0.00, NULL, 0.00, 0, NULL, NULL, 1, NULL, NULL, NULL, NULL, 0.000, 0.00, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 'vendor', NULL, NULL, 0, NULL, NULL, 0.000, NULL, 0.000, 0, 0.000, 0.000),
-	(100016, 27, 1500.00, 0.00, NULL, 'paid', 'confirmed', 0.00, 'null', 'pay_OFUqlQXjv3xKkC', NULL, NULL, NULL, NULL, 'delivery', 1, 3, '2024-05-27 00:39:12', '2024-05-28 01:08:36', 0.00, NULL, NULL, NULL, NULL, NULL, '2024-05-28 01:08:36', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'LuLu Hypermarket Coimbatore, Avinashi Road, GM Nagar, Pudur, Pappanaickenpalayam, Tamil Nadu, India', 0, 0.00, 0.00, NULL, 0.00, 0, NULL, NULL, 1, NULL, NULL, NULL, NULL, 0.000, 0.00, NULL, NULL, 0, NULL, 1, NULL, NULL, NULL, 'vendor', NULL, NULL, 0, NULL, NULL, 0.000, NULL, 0.000, 0, 0.000, 0.000),
-	(100017, 27, 15000.00, 0.00, NULL, 'paid', 'delivered', 0.00, NULL, 'pay_OGBeX8378OylBN', NULL, NULL, NULL, NULL, 'delivery', 1, 3, '2024-05-28 18:31:25', '2024-05-30 20:56:21', 0.00, NULL, NULL, NULL, NULL, NULL, '2024-05-28 18:33:18', NULL, NULL, NULL, '2024-05-28 18:33:29', NULL, NULL, NULL, 'Lulu Mall Bengaluru, Gopalapura, Binnipete, Bengaluru, Karnataka, India', 0, 0.00, 0.00, NULL, 0.00, 0, NULL, NULL, 1, NULL, NULL, NULL, NULL, 0.000, 0.00, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 'vendor', NULL, NULL, 0, NULL, NULL, 0.000, NULL, 0.000, 0, 0.000, 0.000),
-	(100018, 27, 300.00, 0.00, NULL, 'paid', 'pending', 0.00, NULL, 'pay_OH09J0dM1xxx0l', NULL, NULL, NULL, NULL, 'delivery', 1, 3, '2024-05-30 19:55:12', '2024-05-30 20:56:21', 0.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'LuLu Forex, Mother Teresa Sarani, Park Street area, Kolkata, West Bengal, India', 0, 0.00, 0.00, NULL, 0.00, 0, NULL, NULL, 1, NULL, NULL, NULL, NULL, 0.000, 0.00, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 'vendor', NULL, NULL, 0, NULL, NULL, 0.000, NULL, 0.000, 0, 0.000, 0.000),
-	(100019, 27, 200.00, 0.00, NULL, 'paid', 'pending', 0.00, NULL, 'pay_OH0fjIVVFhkfB0', NULL, NULL, NULL, NULL, 'delivery', 1, 3, '2024-05-30 20:25:54', '2024-05-30 20:56:21', 0.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{"contact_person_name":"Keerthi","contact_person_number":"9384955593","contact_person_email":"kiruthika4301@gmail.com","address_type":"Delivery","address":"LuLu Hypermarket Coimbatore, Avinashi Road, GM Nagar, Pudur, Coimbatore, Pappanaickenpalayam, Tamil Nadu, India","road":"","house":"","longitude":"76.987876","latitude":"11.0123154"}', 0, 0.00, 0.00, NULL, 0.00, 0, NULL, NULL, 1, NULL, NULL, NULL, NULL, 0.000, 0.00, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 'vendor', NULL, NULL, 0, NULL, NULL, 0.000, NULL, 0.000, 0, 0.000, 0.000),
-	(100020, 27, 2083.33, 0.00, NULL, 'paid', 'pending', 0.00, NULL, 'pay_OP0q7OuKs9xRny', NULL, NULL, NULL, NULL, 'delivery', 0, 6, '2024-06-20 12:17:29', '2024-06-20 12:17:29', 0.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{"contact_person_name":"Keerthi","contact_person_number":"9384955593","contact_person_email":"kiruthika4301@gmail.com","address_type":"Delivery","address":"Indiranagar - Metro Station","road":"","house":"","longitude":"77.62130131","latitude":"12.97682558"}', 0, 0.00, 0.00, NULL, 0.00, 0, NULL, NULL, 1, NULL, NULL, NULL, NULL, 0.000, 0.00, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 'vendor', NULL, NULL, 0, NULL, NULL, 0.000, NULL, 0.000, 0, 0.000, 0.000),
-	(100021, 1, 100.00, 0.00, NULL, 'paid', 'pending', 0.00, NULL, 'txn_1234567890', NULL, NULL, NULL, NULL, 'delivery', 0, 5, '2024-06-21 11:15:58', '2024-06-21 11:15:58', 0.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{"contact_person_name":"John Doe","contact_person_number":"1234567890","contact_person_email":"john.doe@example.com","address_type":"Delivery","address":"123 Main St","road":"","house":"","longitude":"78.9629","latitude":"20.5937"}', 0, 0.00, 0.00, NULL, 0.00, 0, NULL, NULL, 1, NULL, NULL, NULL, NULL, 0.000, 0.00, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 'vendor', NULL, NULL, 0, NULL, NULL, 0.000, NULL, 0.000, 0, 0.000, 0.000),
-	(100022, 1, 100.00, 0.00, NULL, 'paid', 'pending', 0.00, NULL, 'txn_1234567890', NULL, NULL, NULL, NULL, 'delivery', 0, 5, '2024-06-21 11:17:39', '2024-06-21 11:17:39', 0.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{"contact_person_name":"dharshana","contact_person_number":"1234567890","contact_person_email":"john.doe@example.com","address_type":"Delivery","address":"123 Main St","road":"","house":"","longitude":"78.9629","latitude":"20.5937"}', 0, 0.00, 0.00, NULL, 0.00, 0, NULL, NULL, 1, NULL, NULL, NULL, NULL, 0.000, 0.00, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 'vendor', NULL, NULL, 0, NULL, NULL, 0.000, NULL, 0.000, 0, 0.000, 0.000);
+	(100032, 27, 2988.00, 0.00, NULL, 'paid', 'confirmed', 0.00, NULL, 'pay_OTek4CWIlxO7Eb', NULL, NULL, NULL, NULL, 'delivery', 0, 6, '2024-07-02 05:55:23', '2024-07-02 05:55:23', 0.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{"contact_person_name":"Keerthi","contact_person_number":"9384955593","contact_person_email":"kiruthika4301@gmail.com","address_type":"Delivery","address":"koramangala","road":"","house":"","longitude":"77.55959439","latitude":"12.93989902"}', 0, 0.00, 0.00, NULL, 0.00, 0, NULL, NULL, 1, NULL, NULL, NULL, NULL, 0.000, 0.00, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 'vendor', NULL, NULL, 0, NULL, NULL, 0.000, NULL, 0.000, 0, 0.000, 0.000),
+	(100033, 27, 531.00, 0.00, NULL, 'paid', 'completed', 0.00, NULL, 'pay_OThlBgpfuaC2LB', NULL, NULL, NULL, NULL, 'delivery', 0, 6, '2024-07-02 08:52:31', '2024-07-02 10:12:14', 0.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{"contact_person_name":"Keerthi","contact_person_number":"9384955593","contact_person_email":"kiruthika4301@gmail.com","address_type":"Delivery","address":"koramangala","road":"","house":"","longitude":"77.55959439","latitude":"12.93989902"}', 0, 0.00, 0.00, NULL, 0.00, 0, NULL, NULL, 1, NULL, NULL, NULL, NULL, 0.000, 0.00, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 'vendor', NULL, NULL, 0, NULL, NULL, 0.000, NULL, 0.000, 0, 0.000, 0.000),
+	(100034, 27, 2170.00, 0.00, NULL, 'paid', 'confirmed', 0.00, NULL, 'pay_OVJcCTINcE6Cnn', NULL, NULL, NULL, NULL, 'delivery', 0, 6, '2024-07-06 10:33:21', '2024-07-06 10:33:21', 0.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{"contact_person_name":"Keerthi","contact_person_number":"9384955593","contact_person_email":"kiruthika4301@gmail.com","address_type":"Delivery","address":"Indiranagar - Metro Station","road":"","house":"","longitude":"77.62130131","latitude":"12.97682558"}', 0, 0.00, 0.00, NULL, 0.00, 0, NULL, NULL, 1, NULL, NULL, NULL, NULL, 0.000, 0.00, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, 'vendor', NULL, NULL, 0, NULL, NULL, 0.000, NULL, 0.000, 0, 0.000, 0.000);
 
 -- Dumping structure for table test.order_cancel_reasons
 CREATE TABLE IF NOT EXISTS `order_cancel_reasons` (
@@ -1967,22 +2017,20 @@ CREATE TABLE IF NOT EXISTS `order_details` (
   `start_date` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `end_date` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `distance` int DEFAULT NULL,
+  `weekend_price` decimal(24,2) DEFAULT NULL,
+  `unit_price` decimal(24,2) DEFAULT NULL,
+  `km_exceed` decimal(24,2) DEFAULT NULL,
+  `type_exceed` decimal(24,2) DEFAULT NULL,
+  `penalty` decimal(24,2) DEFAULT NULL,
+  `vehicle_number` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.order_details: ~11 rows (approximately)
-INSERT INTO `order_details` (`id`, `item_id`, `order_id`, `price`, `item_details`, `variation`, `add_ons`, `discount_on_item`, `discount_type`, `quantity`, `tax_amount`, `variant`, `created_at`, `updated_at`, `item_campaign_id`, `total_add_on_price`, `start_date`, `end_date`, `distance`) VALUES
-	(81, 22, 100012, 250.00, NULL, NULL, NULL, NULL, 'amount', 1, 1.00, NULL, '2024-05-21 20:06:15', '2024-05-21 20:06:15', NULL, 0.00, 'May 22, 2024  3:00 PM', 'May 22, 2024  4:00 PM', NULL),
-	(82, 22, 100013, 6250.00, NULL, NULL, NULL, NULL, 'amount', 1, 1.00, NULL, '2024-05-21 20:15:32', '2024-05-21 20:15:32', NULL, 0.00, 'May 22, 2024  12:00 PM', 'May 23, 2024  1:00 PM', NULL),
-	(83, 21, 100014, 400.00, NULL, NULL, NULL, NULL, 'amount', 1, 1.00, NULL, '2024-05-22 00:18:09', '2024-05-22 00:18:09', NULL, 0.00, NULL, NULL, 4),
-	(84, 20, 100015, 3750.00, NULL, NULL, NULL, NULL, 'amount', 1, 1.00, NULL, '2024-05-22 00:22:44', '2024-05-22 00:22:44', NULL, 0.00, 'May 22, 2024  4:00 PM', 'May 23, 2024  5:00 PM', NULL),
-	(85, 26, 100016, 1500.00, NULL, NULL, NULL, NULL, 'amount', 1, 1.00, NULL, '2024-05-27 00:39:12', '2024-05-27 00:39:12', NULL, 0.00, NULL, NULL, 3),
-	(86, 21, 100017, 15000.00, NULL, NULL, NULL, NULL, 'amount', 1, 1.00, NULL, '2024-05-28 18:31:25', '2024-05-28 18:31:25', NULL, 0.00, 'May 29, 2024  10:00 AM', 'May 30, 2024  11:00 AM', NULL),
-	(87, 21, 100018, 300.00, NULL, NULL, NULL, NULL, 'amount', 1, 1.00, NULL, '2024-05-30 19:55:12', '2024-05-30 19:55:12', NULL, 0.00, NULL, NULL, 3),
-	(88, 21, 100019, 200.00, NULL, NULL, NULL, NULL, 'amount', 1, 1.00, NULL, '2024-05-30 20:25:54', '2024-05-30 20:25:54', NULL, 0.00, NULL, NULL, 2),
-	(89, 28, 100020, 2083.33, NULL, NULL, NULL, NULL, 'amount', 1, 1.00, NULL, '2024-06-20 12:17:30', '2024-06-20 12:17:30', NULL, 0.00, 'June 20, 2024  5:00 PM', 'June 21, 2024  6:00 PM', NULL),
-	(90, 10, 100021, 100.00, NULL, NULL, NULL, NULL, 'amount', 1, 1.00, NULL, '2024-06-21 11:15:58', '2024-06-21 11:15:58', NULL, 0.00, '2024-06-21', '2024-06-22', 6),
-	(91, 10, 100022, 100.00, NULL, NULL, NULL, NULL, 'amount', 1, 1.00, NULL, '2024-06-21 11:17:39', '2024-06-21 11:17:39', NULL, 0.00, '2024-06-21', '2024-06-22', 6);
+-- Dumping data for table test.order_details: ~3 rows (approximately)
+INSERT INTO `order_details` (`id`, `item_id`, `order_id`, `price`, `item_details`, `variation`, `add_ons`, `discount_on_item`, `discount_type`, `quantity`, `tax_amount`, `variant`, `created_at`, `updated_at`, `item_campaign_id`, `total_add_on_price`, `start_date`, `end_date`, `distance`, `weekend_price`, `unit_price`, `km_exceed`, `type_exceed`, `penalty`, `vehicle_number`) VALUES
+	(101, 33, 100032, 3052.00, NULL, NULL, NULL, NULL, 'amount', 1, 1.00, NULL, '2024-07-02 05:55:23', '2024-07-05 12:23:18', NULL, 0.00, 'July 05, 2024  11:00 AM', 'July 05, 2024  9:00 PM', NULL, 1100.00, 1600.00, 1.00, 1.00, 0.00, 'TN06AB676'),
+	(102, 33, 100033, 531.00, NULL, NULL, NULL, NULL, 'amount', 1, 1.00, NULL, '2024-07-02 08:52:31', '2024-07-02 08:52:31', NULL, 0.00, 'July 03, 2024  1:00 PM', 'July 04, 2024  2:00 PM', NULL, 0.00, 450.00, NULL, NULL, NULL, 'TN06AB676'),
+	(103, 34, 100034, 2180.00, NULL, NULL, NULL, NULL, 'amount', 1, 1.00, NULL, '2024-07-06 10:33:21', '2024-07-06 11:04:52', NULL, 0.00, 'July 06, 2024  4:00 PM', 'July 07, 2024  5:00 PM', NULL, 400.00, 1500.00, 0.00, 1.00, 0.00, 'TN06AB676');
 
 -- Dumping structure for table test.order_payments
 CREATE TABLE IF NOT EXISTS `order_payments` (
@@ -1995,21 +2043,13 @@ CREATE TABLE IF NOT EXISTS `order_payments` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.order_payments: ~8 rows (approximately)
+-- Dumping data for table test.order_payments: ~2 rows (approximately)
 INSERT INTO `order_payments` (`id`, `order_id`, `transaction_ref`, `amount`, `payment_status`, `payment_method`, `created_at`, `updated_at`) VALUES
-	(4, 100012, 'pay_ODRWm4CiEMpf91', 250.00, 'Paid', 'Razorpay', '2024-05-21 20:06:15', '2024-05-21 20:06:15'),
-	(5, 100013, 'pay_ODRgZjJhwFo8Au', 6250.00, 'Paid', 'Razorpay', '2024-05-21 20:15:32', '2024-05-21 20:15:32'),
-	(6, 100014, 'pay_ODVosNk08hD3aB', 400.00, 'Paid', 'Razorpay', '2024-05-22 00:18:09', '2024-05-22 00:18:09'),
-	(7, 100015, 'pay_ODVtiUcSMbxJ2H', 3750.00, 'Paid', 'Razorpay', '2024-05-22 00:22:44', '2024-05-22 00:22:44'),
-	(8, 100016, 'pay_OFUqlQXjv3xKkC', 1500.00, 'Paid', 'Razorpay', '2024-05-27 00:39:12', '2024-05-27 00:39:12'),
-	(9, 100017, 'pay_OGBeX8378OylBN', 15000.00, 'Paid', 'Razorpay', '2024-05-28 18:31:25', '2024-05-28 18:31:25'),
-	(10, 100018, 'pay_OH09J0dM1xxx0l', 300.00, 'Paid', 'Razorpay', '2024-05-30 19:55:12', '2024-05-30 19:55:12'),
-	(11, 100019, 'pay_OH0fjIVVFhkfB0', 200.00, 'Paid', 'Razorpay', '2024-05-30 20:25:54', '2024-05-30 20:25:54'),
-	(12, 100020, 'pay_OP0q7OuKs9xRny', 2083.33, 'Paid', 'Razorpay', '2024-06-20 12:17:30', '2024-06-20 12:17:30'),
-	(13, 100021, 'txn_1234567890', 100.00, 'Paid', 'Razorpay', '2024-06-21 11:15:58', '2024-06-21 11:15:58'),
-	(14, 100022, 'txn_1234567890', 100.00, 'Paid', 'Razorpay', '2024-06-21 11:17:39', '2024-06-21 11:17:39');
+	(24, 100032, 'pay_OTek4CWIlxO7Eb', 2988.00, 'Paid', 'Razorpay', '2024-07-02 05:55:23', '2024-07-02 05:55:23'),
+	(25, 100033, 'pay_OThlBgpfuaC2LB', 531.00, 'Paid', 'Razorpay', '2024-07-02 08:52:31', '2024-07-02 08:52:31'),
+	(26, 100034, 'pay_OVJcCTINcE6Cnn', 2170.00, 'Paid', 'Razorpay', '2024-07-06 10:33:21', '2024-07-06 10:33:21');
 
 -- Dumping structure for table test.order_references
 CREATE TABLE IF NOT EXISTS `order_references` (
@@ -2020,21 +2060,13 @@ CREATE TABLE IF NOT EXISTS `order_references` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.order_references: ~4 rows (approximately)
+-- Dumping data for table test.order_references: ~0 rows (approximately)
 INSERT INTO `order_references` (`id`, `order_id`, `is_reviewed`, `is_review_canceled`, `created_at`, `updated_at`) VALUES
-	(12, 100012, 0, 0, '2024-05-21 20:06:15', '2024-05-21 20:06:15'),
-	(13, 100013, 0, 0, '2024-05-21 20:15:32', '2024-05-21 20:15:32'),
-	(14, 100014, 0, 0, '2024-05-22 00:18:09', '2024-05-22 00:18:09'),
-	(15, 100015, 0, 0, '2024-05-22 00:22:44', '2024-05-22 00:22:44'),
-	(16, 100016, 0, 0, '2024-05-27 00:39:12', '2024-05-27 00:39:12'),
-	(17, 100017, 0, 0, '2024-05-28 18:31:25', '2024-05-28 18:31:25'),
-	(18, 100018, 0, 0, '2024-05-30 19:55:12', '2024-05-30 19:55:12'),
-	(19, 100019, 0, 0, '2024-05-30 20:25:54', '2024-05-30 20:25:54'),
-	(20, 100020, 0, 0, '2024-06-20 12:17:30', '2024-06-20 12:17:30'),
-	(21, 100021, 0, 0, '2024-06-21 11:15:58', '2024-06-21 11:15:58'),
-	(22, 100022, 0, 0, '2024-06-21 11:17:39', '2024-06-21 11:17:39');
+	(32, 100032, 0, 0, '2024-07-02 05:55:23', '2024-07-02 05:55:23'),
+	(33, 100033, 0, 0, '2024-07-02 08:52:31', '2024-07-02 08:52:31'),
+	(34, 100034, 0, 0, '2024-07-06 10:33:21', '2024-07-06 10:33:21');
 
 -- Dumping structure for table test.order_transactions
 CREATE TABLE IF NOT EXISTS `order_transactions` (
@@ -2068,8 +2100,6 @@ CREATE TABLE IF NOT EXISTS `order_transactions` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table test.order_transactions: ~0 rows (approximately)
-INSERT INTO `order_transactions` (`id`, `vendor_id`, `delivery_man_id`, `order_id`, `order_amount`, `store_amount`, `admin_commission`, `received_by`, `status`, `created_at`, `updated_at`, `delivery_charge`, `original_delivery_charge`, `tax`, `zone_id`, `module_id`, `parcel_catgory_id`, `dm_tips`, `delivery_fee_comission`, `admin_expense`, `store_expense`, `discount_amount_by_store`, `additional_charge`) VALUES
-	(1, 3, NULL, 100017, 15000.00, 13500.00, 1500.00, 'admin', NULL, '2024-05-28 18:33:29', '2024-05-28 18:33:29', 0.00, 0.00, 0.00, NULL, 1, NULL, 0.00, 0.00, 0.000, 0.000, 0.000, 0.000);
 
 -- Dumping structure for table test.parcel_categories
 CREATE TABLE IF NOT EXISTS `parcel_categories` (
@@ -2174,12 +2204,12 @@ CREATE TABLE IF NOT EXISTS `phone_verifications` (
   `temp_block_time` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `phone_verifications_phone_unique` (`phone`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table test.phone_verifications: ~4 rows (approximately)
 INSERT INTO `phone_verifications` (`id`, `phone`, `token`, `created_at`, `updated_at`, `otp_hit_count`, `is_blocked`, `is_temp_blocked`, `temp_block_time`) VALUES
 	(4, '9655800621', '7110', '2024-05-04 02:20:14', '2024-05-04 02:20:14', 0, 0, 0, NULL),
-	(6, '9655804621', '2556', '2024-06-21 10:41:43', '2024-06-21 10:41:43', 0, 0, 0, NULL),
+	(6, '9655804621', '7482', '2024-06-27 05:50:55', '2024-06-27 05:50:55', 0, 0, 0, NULL),
 	(8, '9597755160', '8203', '2024-05-06 02:24:34', '2024-05-06 02:24:34', 0, 0, 0, NULL),
 	(9, '9655804620', '9055', '2024-05-10 20:20:39', '2024-05-10 20:20:39', 0, 0, 0, NULL);
 
@@ -2503,9 +2533,9 @@ CREATE TABLE IF NOT EXISTS `translations` (
   PRIMARY KEY (`id`),
   KEY `translations_translationable_id_index` (`translationable_id`),
   KEY `translations_locale_index` (`locale`)
-) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.translations: ~60 rows (approximately)
+-- Dumping data for table test.translations: ~77 rows (approximately)
 INSERT INTO `translations` (`id`, `translationable_type`, `translationable_id`, `locale`, `key`, `value`, `created_at`, `updated_at`) VALUES
 	(1, 'App\\Models\\Module', 1, 'en', 'module_name', 'onnwheels', NULL, NULL),
 	(2, 'App\\Models\\Module', 1, 'en', 'description', '<p>Demo module description.</p>', NULL, NULL),
@@ -2579,7 +2609,15 @@ INSERT INTO `translations` (`id`, `translationable_type`, `translationable_id`, 
 	(80, 'App\\Models\\Item', 27, 'en', 'name', 'bike', NULL, NULL),
 	(81, 'App\\Models\\Item', 27, 'en', 'description', 'ssdasd', NULL, NULL),
 	(82, 'App\\Models\\Item', 28, 'en', 'name', 'Apache RTR 150', NULL, NULL),
-	(83, 'App\\Models\\Item', 28, 'en', 'description', 'TVS Apache RTR 160 is a street bike available in 4 variants and 6 colours. The TVS Apache RTR 160 is powered by 159.7cc BS6 engine which develops a power of 15.82 bhp and a torque of 13.85 Nm. With both front and rear disc brakes, TVS Apache RTR 160 comes up with anti-locking braking system.', NULL, NULL);
+	(83, 'App\\Models\\Item', 28, 'en', 'description', 'TVS Apache RTR 160 is a street bike available in 4 variants and 6 colours. The TVS Apache RTR 160 is powered by 159.7cc BS6 engine which develops a power of 15.82 bhp and a torque of 13.85 Nm. With both front and rear disc brakes, TVS Apache RTR 160 comes up with anti-locking braking system.', NULL, NULL),
+	(86, 'App\\Models\\Item', 30, 'en', 'name', 'bike new', NULL, NULL),
+	(87, 'App\\Models\\Item', 30, 'en', 'description', 'new bike', NULL, NULL),
+	(88, 'App\\Models\\Item', 31, 'en', 'name', 'demo bike new', NULL, NULL),
+	(89, 'App\\Models\\Item', 31, 'en', 'description', 'asdasd', NULL, NULL),
+	(90, 'App\\Models\\Item', 32, 'en', 'name', 'Nice Bike', NULL, NULL),
+	(91, 'App\\Models\\Item', 32, 'en', 'description', 'Cool', NULL, NULL),
+	(92, 'App\\Models\\Item', 33, 'en', 'name', 'good bike', NULL, NULL),
+	(93, 'App\\Models\\Item', 33, 'en', 'description', 'good one', NULL, NULL);
 
 -- Dumping structure for table test.units
 CREATE TABLE IF NOT EXISTS `units` (
@@ -2608,12 +2646,12 @@ CREATE TABLE IF NOT EXISTS `userkycs` (
   PRIMARY KEY (`id`),
   KEY `userkycs_user_id_foreign` (`user_id`),
   CONSTRAINT `userkycs_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table test.userkycs: ~2 rows (approximately)
 INSERT INTO `userkycs` (`id`, `user_id`, `aadhar`, `pan`, `license_front`, `license_back`, `is_verified`, `is_reject`, `status`, `created_at`, `updated_at`) VALUES
-	(36, 28, '4444 4444 4444', 'METPS1334C', '/uploads/user/kyc/1716553558_front.webp', '/uploads/user/kyc/1716553558_back.webp', 1, 0, NULL, '2024-05-24 01:55:58', '2024-05-24 01:57:41'),
-	(37, 27, '4444 4444 4444', 'HXOPK3749G', '/uploads/user/kyc/1717151666_front.webp', '/uploads/user/kyc/1717151666_back.webp', 1, 0, 'invalid license', '2024-05-29 22:39:24', '2024-05-31 13:09:36');
+	(39, 27, '4444 4444 4444', 'HXOPK3749G', '/uploads/user/kyc/1719397790_front.webp', '/uploads/user/kyc/1719397790_back.jfif', 1, 0, NULL, '2024-06-26 10:29:50', '2024-07-02 04:49:15'),
+	(40, 24, '123456789012', 'ABCDE1234F', '/uploads/user/kyc/1719398382_front.png', '/uploads/user/kyc/1719398382_back.png', 1, 0, NULL, '2024-06-26 10:33:14', '2024-07-02 04:47:05');
 
 -- Dumping structure for table test.users
 CREATE TABLE IF NOT EXISTS `users` (
@@ -2648,15 +2686,16 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `users_phone_unique` (`phone`),
   UNIQUE KEY `users_ref_code_unique` (`ref_code`),
   KEY `users_zone_id_index` (`zone_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.users: ~5 rows (approximately)
+-- Dumping data for table test.users: ~6 rows (approximately)
 INSERT INTO `users` (`id`, `f_name`, `l_name`, `phone`, `email`, `image`, `is_phone_verified`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `interest`, `cm_firebase_token`, `status`, `order_count`, `login_medium`, `social_id`, `zone_id`, `wallet_balance`, `loyalty_point`, `ref_code`, `current_language_key`, `ref_by`, `temp_token`, `latitude`, `longitude`) VALUES
 	(24, 'John', 'Doe', '9655804621', '3mo8rts@example.com', NULL, 1, NULL, '$2y$10$YVJ4d0zGDhhruMHt5tvIB.1N9ht7J45TgRRjDo6gemEOq5vPQ2SZa', NULL, '2024-05-05 22:16:19', '2024-05-06 00:19:35', NULL, NULL, 1, 0, NULL, NULL, NULL, 0.000, 0.000, 'KPZNDPJKUG', 'en', NULL, NULL, 11.0027796, 76.9936588),
 	(25, 'John', 'Doe', '9597755160', 'jana@example.com', NULL, 1, NULL, '$2y$10$R2unxKgJ02Ef1UxCJ5WVieuCR3es1TDhAOoFmHU12ZPYsr4rPUDk2', NULL, '2024-05-06 00:50:02', '2024-05-06 00:50:35', NULL, NULL, 1, 0, NULL, NULL, NULL, 0.000, 0.000, 'PEVB9OOB55', 'en', NULL, NULL, NULL, NULL),
 	(26, 'akhil', NULL, '9655804620', 'akhil@example.com', NULL, 0, NULL, '$2y$10$Xghhj/SkTqdsAXxlcW1UeunruMCJ3bjWo4K9ZTGBv6A.xhw3L8V9y', NULL, '2024-05-10 20:20:37', '2024-05-10 22:40:39', NULL, NULL, 1, 0, NULL, NULL, 2, 0.000, 0.000, '1VOKB7JCEY', 'en', NULL, NULL, 11.0027796, 76.9936588),
 	(27, 'Keerthi', NULL, '9384955593', 'kiruthika4301@gmail.com', NULL, 1, NULL, '$2y$10$5uJSaGvTObokZuh4BZASj.C33Z3IFZyT26gOpSXnzlvmxgBK2gEkq', NULL, '2024-05-15 19:34:32', '2024-06-20 09:45:53', NULL, NULL, 1, 1, NULL, NULL, NULL, 0.000, 0.000, 'BV2OITVIFU', 'en', NULL, NULL, 11.0168445, 76.9558321),
-	(28, 'jana', NULL, '9025075398', 'jana@gmail.com', NULL, 1, NULL, '$2y$10$f5XW04j.zSiL/A8AkuHGwurgBC0JaekXEJvFWHbzr9bv9i7gvDFqu', NULL, '2024-05-24 01:19:14', '2024-05-24 01:19:27', NULL, NULL, 1, 0, NULL, NULL, NULL, 0.000, 0.000, 'MFQ7VIDJST', 'en', NULL, NULL, NULL, NULL);
+	(28, 'jana', NULL, '9025075398', 'jana@gmail.com', NULL, 1, NULL, '$2y$10$f5XW04j.zSiL/A8AkuHGwurgBC0JaekXEJvFWHbzr9bv9i7gvDFqu', NULL, '2024-05-24 01:19:14', '2024-05-24 01:19:27', NULL, NULL, 1, 0, NULL, NULL, NULL, 0.000, 0.000, 'MFQ7VIDJST', 'en', NULL, NULL, NULL, NULL),
+	(29, 'akhil', NULL, '8989787878', 'akhil@gmail.com', NULL, 1, NULL, '$2y$10$fop2l4IwT4Ma4rnctu9j5.LClUdExl9lEBF9Wq6ddrDbKsLXVJq9C', NULL, '2024-06-28 07:29:01', '2024-06-28 07:29:15', NULL, NULL, 1, 0, NULL, NULL, NULL, 0.000, 0.000, 'WKNA21ELKY', 'en', NULL, NULL, NULL, NULL);
 
 -- Dumping structure for table test.user_infos
 CREATE TABLE IF NOT EXISTS `user_infos` (
@@ -2688,12 +2727,14 @@ CREATE TABLE IF NOT EXISTS `user_notifications` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.user_notifications: ~0 rows (approximately)
+-- Dumping data for table test.user_notifications: ~4 rows (approximately)
 INSERT INTO `user_notifications` (`id`, `data`, `status`, `user_id`, `vendor_id`, `delivery_man_id`, `created_at`, `updated_at`) VALUES
 	(1, '{"title":"Order push title","description":"New order push description","order_id":100016,"image":"","type":"new_order"}', 1, NULL, 3, NULL, '2024-05-28 01:08:37', '2024-05-28 01:08:37'),
-	(2, '{"title":"Order push title","description":"New order push description","order_id":100017,"image":"","type":"new_order"}', 1, NULL, 3, NULL, '2024-05-28 18:33:19', '2024-05-28 18:33:19');
+	(2, '{"title":"Order push title","description":"New order push description","order_id":100017,"image":"","type":"new_order"}', 1, NULL, 3, NULL, '2024-05-28 18:33:19', '2024-05-28 18:33:19'),
+	(3, '{"title":"Order push title","description":"New order push description","order_id":100025,"image":"","type":"new_order"}', 1, NULL, 6, NULL, '2024-06-26 06:41:20', '2024-06-26 06:41:20'),
+	(4, '{"title":"Order push title","description":"New order push description","order_id":100025,"image":"","type":"new_order"}', 1, NULL, 6, NULL, '2024-06-26 07:00:01', '2024-06-26 07:00:01');
 
 -- Dumping structure for table test.vendors
 CREATE TABLE IF NOT EXISTS `vendors` (

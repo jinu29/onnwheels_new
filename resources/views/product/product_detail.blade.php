@@ -1052,13 +1052,19 @@
                     <div class="card">
                         <div class="demo">
                             <ul id="lightSlider">
-                                @foreach ($items->images as $item)
-                                    <li data-thumb="{{ asset('storage/app/public/product') . '/' . $item ?? '', asset('public/assets/admin/img/160x160/img2.jpg'), 'product/' }}"
-                                        style="width: 100%;">
-                                        <img
-                                            src="{{ asset('storage/app/public/product') . '/' . $item ?? '', asset('public/assets/admin/img/160x160/img2.jpg'), 'product/' }}">
+                                @if ($items->bike && count($items->bike->images) > 0)
+                                    @foreach ($items->bike->images as $item)
+                                        <li data-thumb="{{ asset('storage/app/public/product/' . $item) }}">
+                                            <img src="{{ asset('storage/app/public/product/' . $item) }}"
+                                                alt="Product Image">
+                                        </li>
+                                    @endforeach
+                                @else
+                                    <li>
+                                        No images available
                                     </li>
-                                @endforeach
+                                @endif
+
                             </ul>
                         </div>
                     </div>
@@ -1066,8 +1072,14 @@
                 <div class="col-md-7">
                     <div class="product-details">
                         <div class="product-title">
-                            <h4>{{ $items->name }}</h4>
-                            <input type="hidden" value="{{ $items->name }}" name="">
+
+                            @if ($items->bike)
+                                <h4>{{ $items->bike->name }}</h4>
+                                <input type="hidden" value="{{ $items->name }}" name="">
+                            @else
+                                <h4 class="product-title mb-0">No bike associated</h4>
+                            @endif
+
                         </div>
                         <div class="d-flex flex-row align-items-center">
                             <div class="p-ratings">
@@ -1168,7 +1180,7 @@
                                                 </div>
                                                 <div class="col s3 l4" style="padding:0rem;">
                                                     <span class="inner_text">
-                                                        <b >{{ $hourPrice['km_limit'] }}</b>/hr</span>
+                                                        <b>{{ $hourPrice['km_limit'] }}</b>/hr</span>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -1177,7 +1189,7 @@
                                                 </div>
                                                 <div class="col s3 l4" style="padding:0rem;">
                                                     <span class="inner_text">₹
-                                                        <b >{{ $hourPrice['km_charges'] }}</b>/km</span>
+                                                        <b>{{ $hourPrice['km_charges'] }}</b>/km</span>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -1239,7 +1251,7 @@
                                                 </div>
                                                 <div class="col s3 l4" style="padding:0rem;">
                                                     <span class="inner_text">
-                                                        <b >{{ $dayPrice['km_limit'] }}</b>/day</span>
+                                                        <b>{{ $dayPrice['km_limit'] }}</b>/day</span>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -1299,7 +1311,7 @@
                                                 </div>
                                                 <div class="col s3 l4" style="padding:0rem;">
                                                     <span class="inner_text">
-                                                        <b >{{ $weekPrice['km_limit'] }}</b>/week</span>
+                                                        <b>{{ $weekPrice['km_limit'] }}</b>/week</span>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -1395,7 +1407,7 @@
                         <div class="price" id="price"></div>
 
 
-                        <div style="margin-top: 10px;"  id="extra-km-limit"></div>
+                        <div style="margin-top: 10px;" id="extra-km-limit"></div>
 
                         <p style="margin-top: 20px;">Available at:</p>
                         <select class="form-control" id="available_stations" name="available_stations">
@@ -1737,15 +1749,20 @@
 
                 // Calculate weekend price for daily rentals
                 let current = moment(start);
+                let includeWeekend = false;
                 while (current <= end) {
                     const day = current.day();
                     if (day === 5 || day === 6 || day === 0) { // Friday, Saturday, Sunday
-                        console.log("weendd", weekendPrice);
-                        console.log("ddd", weekend);
-
-                        weekend += weekendPrice;
+                        includeWeekend = true;
                     }
-                    current.add(1, 'days');
+                    if (day >= 1 && day <= 4) { // Monday to Thursday
+                        includeWeekend = false;
+                        break;
+                    }
+                    current.add(1, 'hours');
+                }
+                if (includeWeekend) {
+                    weekend = weekendPrice * Math.ceil(hours / 24);
                 }
 
             }
@@ -1771,12 +1788,20 @@
 
                 // Calculate weekend price for hourly rentals
                 let current = moment(start);
+                let includeWeekend = false;
                 while (current <= end) {
                     const day = current.day();
                     if (day === 5 || day === 6 || day === 0) { // Friday, Saturday, Sunday
-                        weekend = weekendPrice;
+                        includeWeekend = true;
+                    }
+                    if (day >= 1 && day <= 4) { // Monday to Thursday
+                        includeWeekend = false;
+                        break;
                     }
                     current.add(1, 'hours');
+                }
+                if (includeWeekend) {
+                    weekend = weekendPrice * Math.ceil(hours / 24);
                 }
 
                 totalKmLimit = hours * hourPrice.km_limit;

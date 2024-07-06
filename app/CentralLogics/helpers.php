@@ -196,101 +196,48 @@ class Helpers
     public static function product_data_formatting($data, $multi_data = false, $trans = false, $local = 'en', $temp_product = false)
     {
         $storage = [];
-        if ($multi_data == true) {
-            foreach ($data as $item) {
-                $variations = [];
-                if ($item->title) {
-                    $item['name'] = $item->title;
-                    unset($item['title']);
-                }
-                if ($item->start_time) {
-                    $item['available_time_starts'] = $item->start_time->format('H:i');
-                    unset($item['start_time']);
-                }
-                if ($item->end_time) {
-                    $item['available_time_ends'] = $item->end_time->format('H:i');
-                    unset($item['end_time']);
-                }
 
-                if ($item->start_date) {
-                    $item['available_date_starts'] = $item->start_date->format('Y-m-d');
-                    unset($item['start_date']);
-                }
-                if ($item->end_date) {
-                    $item['available_date_ends'] = $item->end_date->format('Y-m-d');
-                    unset($item['end_date']);
-                }
-                $item['recommended'] = (int) $item->recommended;
-                $categories = [];
-                foreach (json_decode($item['category_ids']) as $value) {
-                    $category_name = Category::where('id', $value->id)->pluck('name');
-                    $categories[] = ['id' => (string) $value->id, 'position' => $value->position, 'name' => data_get($category_name, '0', 'NA')];
-                }
-                $item['category_ids'] = $categories;
-                $item['attributes'] = json_decode($item['attributes']);
-                $item['choice_options'] = json_decode($item['choice_options']);
-                $item['add_ons'] = self::addon_data_formatting(AddOn::withoutGlobalScope('translate')->whereIn('id', json_decode($item['add_ons'], true))->active()->get(), true, $trans, $local);
-                foreach (json_decode($item['variations'], true) as $var) {
-                    array_push($variations, [
-                        'type' => $var['type'],
-                        'price' => (float) $var['price'],
-                        'stock' => (int) ($var['stock'] ?? 0)
-                    ]);
-                }
-                $item['variations'] = $variations;
-             
-                array_push($storage, $item);
-            }
-            $data = $storage;
-        } else {
-            $variations = [];
-            $categories = [];
-            foreach (json_decode($data['category_ids']) as $value) {
-                $category_name = Category::where('id', $value->id)->pluck('name');
-                $categories[] = ['id' => (string) $value->id, 'position' => $value->position, 'name' => data_get($category_name, '0', 'NA')];
-            }
-            $data['category_ids'] = $categories;
-
-            $data['attributes'] = json_decode($data['attributes']);
-            $data['choice_options'] = json_decode($data['choice_options']);
-            $data['add_ons'] = self::addon_data_formatting(AddOn::whereIn('id', json_decode($data['add_ons']))->active()->get(), true, $trans, $local);
-            foreach (json_decode($data['variations'], true) as $var) {
-                array_push($variations, [
-                    'type' => $var['type'],
-                    'price' => (float) $var['price'],
-                    'stock' => (int) ($var['stock'] ?? 0)
-                ]);
-            }
-            if ($data->title) {
-                $data['name'] = $data->title;
-                unset($data['title']);
-            }
-            if ($data->start_time) {
-                $data['available_time_starts'] = $data->start_time->format('H:i');
-                unset($data['start_time']);
-            }
-            if ($data->end_time) {
-                $data['available_time_ends'] = $data->end_time->format('H:i');
-                unset($data['end_time']);
-            }
-            if ($data->start_date) {
-                $data['available_date_starts'] = $data->start_date->format('Y-m-d');
-                unset($data['start_date']);
-            }
-            if ($data->end_date) {
-                $data['available_date_ends'] = $data->end_date->format('Y-m-d');
-                unset($data['end_date']);
-            }
-            $data['variations'] = $variations;
-            $data['food_variations'] = $data['food_variations']?json_decode($data['food_variations'], true):'';
-            $data['store_name'] = $data->store->name;
-            $data['is_campaign'] = $data->store?->campaigns_count>0?1:0;
-            $data['module_type'] = $data->module->module_type;
-            $data['zone_id'] = $data->store->zone_id;
-          
-            unset($data['store']);
-            unset($data['rating']);
+        $variations = [];
+        $categories = [];
+        foreach (json_decode($data['category_ids']) as $value) {
+            $category_name = Category::where('id', $value->id)->pluck('name');
+            $categories[] = ['id' => (string) $value->id, 'position' => $value->position, 'name' => data_get($category_name, '0', 'NA')];
         }
+        $data['category_ids'] = $categories;
+
+        $data['attributes'] = json_decode($data['attributes']);
+        $data['choice_options'] = json_decode($data['choice_options']);
+        $data['add_ons'] = self::addon_data_formatting(AddOn::whereIn('id', json_decode($data['add_ons']))->active()->get(), true, $trans, $local);
+        foreach (json_decode($data['variations'], true) as $var) {
+            array_push($variations, [
+                'type' => $var['type'],
+                'price' => (float) $var['price'],
+                'stock' => (int) ($var['stock'] ?? 0)
+            ]);
+        }
+        if ($data->title) {
+            $data['name'] = $data->title;
+            unset($data['title']);
+        }
+    
+        if ($data->start_date) {
+            $data['available_date_starts'] = $data->start_date->format('Y-m-d');
+            unset($data['start_date']);
+        }
+        if ($data->end_date) {
+            $data['available_date_ends'] = $data->end_date->format('Y-m-d');
+            unset($data['end_date']);
+        }
+        $data['variations'] = $variations;
+        $data['food_variations'] = $data['food_variations'] ? json_decode($data['food_variations'], true) : '';
+        $data['store_name'] = $data->store->name;
+        $data['is_campaign'] = $data->store?->campaigns_count > 0 ? 1 : 0;
+        $data['module_type'] = $data->module->module_type;
+        $data['zone_id'] = $data->store->zone_id;
+
+        unset($data['store']);
+        unset($data['rating']);
+
 
         return $data;
     }
@@ -1642,11 +1589,13 @@ class Helpers
     {
         $path = base_path('.env');
         if (file_exists($path)) {
-            file_put_contents($path, str_replace(
-                $key . '=' . env($key),
-                $key . '=' . $value,
-                file_get_contents($path)
-            )
+            file_put_contents(
+                $path,
+                str_replace(
+                    $key . '=' . env($key),
+                    $key . '=' . $value,
+                    file_get_contents($path)
+                )
             );
         }
     }
@@ -1655,11 +1604,13 @@ class Helpers
     {
         $path = base_path('.env');
         if (file_exists($path)) {
-            file_put_contents($path, str_replace(
-                $key_from . '=' . env($key_from),
-                $key_to . '=' . $value,
-                file_get_contents($path)
-            )
+            file_put_contents(
+                $path,
+                str_replace(
+                    $key_from . '=' . env($key_from),
+                    $key_to . '=' . $value,
+                    file_get_contents($path)
+                )
             );
         }
     }

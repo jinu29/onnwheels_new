@@ -463,15 +463,16 @@
             <div class="col-lg-8">
                 <div class="row border mx-lg-2 rounded d-flex align-items-center">
                     <div class="col-lg-5 p-4">
-                        <img src="{{ asset('storage/app/public/product') . '/' . $items['image'] ?? '', asset('public/assets/admin/img/160x160/img2.jpg'), 'product/' }}"
+                        <img src="{{ asset('storage/app/public/product') . '/' . $items->bike->image ?? '', asset('public/assets/admin/img/160x160/img2.jpg'), 'product/' }}"
                             class="mt-5" width="100%">
                     </div>
                     <div class="col-lg-7">
-                        <h4>{{ $items->name }}</h4>
-                        <input type="hidden" value="{{ $items->name }}" name="item_details">
+                        <h4>{{ $items->bike ? $items->bike->name : '' }}</h4>
+                        <input type="hidden" value="{{ $items->bike ? $items->bike->name : '' }}" name="item_details">
                         <input type="hidden" value="{{ $items->id }}" id="itemIdInput" name="item_id">
                         <input type="hidden" value="{{ $items->store_id }}" id="itemStoreIdInput" name="store_id">
-                        <input type="hidden" value="{{ $items->vehicle_number }}" id="itemVehicleNumberInput" name="vehicle_number">
+                        <input type="hidden" value="{{ $items->bike ? $items->bike->vehicle_number : '' }}"
+                            id="itemVehicleNumberInput" name="vehicle_number">
                         <div class="date d-flex align-items-center justify-content-between">
                             <p id="startdate" class="mb-0"></p>
                             <input type="hidden" value="default_value" id="inputStartDate" name="start_date">
@@ -748,7 +749,7 @@
                 }
 
                 var orderAmount = $('#totalPriceInput').val();
-                var rented_unit_price =  $('#rentingPrice').val();
+                var rented_unit_price = $('#rentingPrice').val();
 
                 var itemId = $('#itemIdInput').val();
                 var storeId = $('#itemStoreIdInput').val();

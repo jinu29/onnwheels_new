@@ -1,4 +1,3 @@
-
 @section('css')
     <style>
         .products {
@@ -234,18 +233,35 @@
             <div class="card text-center mb-3">
                 <div class="card-body p-2 d-flex flex-column text-center">
                     {{-- <img src="/public/assets/landing/image/best-renting1.png"> --}}
-                    <a href="{{route('product.product_detail', $items->slug)}}">
-                        <img style="width: 100%;" class="avatar avatar-lg mr-3 onerror-image" src="{{ \App\CentralLogics\Helpers::onerror_image_helper($items['image'] ?? '', asset('storage/app/public/product').'/'.$items['image'] ?? '', asset('public/assets/admin/img/160x160/img2.jpg'),'product/') }}" data-onerror-image="{{asset('public/assets/admin/img/160x160/img2.jpg')}}" alt="{{$items->name}} image">
-                    </a>
+
+
+                    @if ($items)
+                        <a href="{{ route('product.product_detail', $items->slug) }}">
+                            <img style="width: 100%;" class="avatar avatar-lg mr-3 onerror-image"
+                                src="{{ \App\CentralLogics\Helpers::onerror_image_helper(
+                                    $items->bike->image ?? '',
+                                    asset('storage/app/public/product') . '/' . ($items->bike->image ?? ''),
+                                    asset('public/assets/admin/img/160x160/img2.jpg'),
+                                    'product/',
+                                ) }}"
+                                data-onerror-image="{{ asset('public/assets/admin/img/160x160/img2.jpg') }}"
+                                alt="{{ $items->bike->name ?? 'Product' }} image">
+                        </a>
+                    @endif
                     <div class="card-details d-flex flex-column p-1 mt-1 text-center" style="gap: 12px;">
                         {{-- <i class="fa-regular fa-heart"></i> --}}
                         @if ($items->discount != 0)
                             <p class="new">{{ $items->discount }} %</p>
                         @endif
                         <div class="card-title text-center mb-0">
-                            <h4 class="product-title mb-0 text-truncate">{{ $items->name }}</h4>
+                            @if ($items && $items->bike)
+                                <h4 class="product-title mb-0 text-truncate">{{ $items->bike->name }}</h4>
+                            @else
+                                <h4 class="product-title mb-0">No bike associated</h4>
+                            @endif
                         </div>
-                        <div class="rating d-flex justify-content-center mb-0 text-center" style="font-size: 12px; color: rgb(248, 82, 82);">
+                        <div class="rating d-flex justify-content-center mb-0 text-center"
+                            style="font-size: 12px; color: rgb(248, 82, 82);">
                             <i class="fa-solid fa-star"></i>
                             <i class="fa-solid fa-star"></i>
                             <i class="fa-solid fa-star"></i>
@@ -254,11 +270,10 @@
                         </div>
                         <p class="price mb-0 text-center">Rs. {{ $items->price }}
                         </p>
-                        <a href="{{route('product.product_detail', $items->slug)}}" class="btn mb-0 mt-1">Book Now</a>
+                        <a href="{{ route('product.product_detail', $items->slug) }}" class="btn mb-0 mt-1">Book Now</a>
                     </div>
                 </div>
             </div>
         </div>
     @endforeach
 </div>
-   

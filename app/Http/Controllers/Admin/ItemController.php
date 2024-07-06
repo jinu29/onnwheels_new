@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 
+use App\Models\Bike;
 use App\Models\Station;
 use Carbon\Carbon;
 use App\Models\Tag;
@@ -40,16 +41,15 @@ class ItemController extends Controller
     {
         $categories = Category::where(['position' => 0])->get();
         $stations = Station::all();
-        return view('admin-views.product.index', compact('categories', 'stations'));
+        $bikes = Bike::all();
+        return view('admin-views.product.index', compact('categories', 'stations', 'bikes'));
     }
 
     public function store(Request $request)
     {
         // dd($request->all());
         $validator = Validator::make($request->all(), [
-            'name.0' => 'required',
-            'name.*' => 'max:191',
-            'vehicle_number' => 'required',
+            'bike_id' => 'required',
             'category_id' => 'required',
             'hours' => 'nullable',
             'h_price' => 'nullable',
@@ -79,21 +79,11 @@ class ItemController extends Controller
             'km_price' => 'nullable|numeric|between:.01,999999999999.99',
             'km_limit' => 'nullable',
             'km_charges' => 'nullable',
-            'image' => 'required_unless:product_gellary,1',
             'price' => 'required|numeric|between:.01,999999999999.99',
             'discount' => 'nullable|numeric|min:0',
             'store_id' => 'required',
-            'description.*' => 'max:1000',
-            'name.0' => 'required',
-            'description.0' => 'required',
-        ], [
-            'description.*.max' => translate('messages.description_length_warning'),
-            'name.0.required' => translate('messages.item_name_required'),
-            'category_id.required' => translate('messages.category_required'),
-            'image.required_unless' => translate('messages.Image_is_required'),
-            'name.0.required' => translate('default_name_is_required'),
-            'description.0.required' => translate('default_description_is_required'),
         ]);
+
         if ($request['discount_type'] == 'percent') {
             $dis = ($request['price'] / 100) * $request['discount'];
         } else {
@@ -148,8 +138,9 @@ class ItemController extends Controller
         }
 
         $item = new Item;
-        $item->name = $request->name[array_search('default', $request->lang)];
-        $item->vehicle_number =  $request->input('vehicle_number');
+        $item->bike_id = $request->input('bike_id');
+
+
         $category = [];
         if ($request->category_id != null) {
             array_push($category, [
@@ -171,7 +162,6 @@ class ItemController extends Controller
         }
         $item->category_ids = json_encode($category);
         $item->category_id = $request->sub_category_id ? $request->sub_category_id : $request->category_id;
-        $item->description = $request->description[array_search('default', $request->lang)];
 
         $payload = [
             "hour" => $request->input('hours'),
@@ -310,6 +300,8 @@ class ItemController extends Controller
 
         $item->food_variations = json_encode($food_variations);
         $item->variations = json_encode($variations);
+        // $slug = Str::slug($bike_name);
+        // $item->slug = $item->slug ? $item->slug : "{$slug}{$item->id}";
         $item->price = $request->price;
         $item->image = $request->has('image') ? Helpers::upload('product/', 'png', $request->file('image')) : $newFileName ?? null;
         $item->available_time_starts = $request->available_time_starts ?? '00:00:00';
@@ -380,8 +372,9 @@ class ItemController extends Controller
         }
 
         $stations = Station::all();
+        $bikes = Bike::all();
 
-        return view('admin-views.product.edit', compact('product', 'sub_category', 'category', 'temp_product', 'stations'));
+        return view('admin-views.product.edit', compact('product', 'sub_category', 'category', 'temp_product', 'stations', 'bikes'));
     }
 
     public function status(Request $request)
@@ -396,12 +389,8 @@ class ItemController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'array',
-            'name.0' => 'required',
-            'name.*' => 'max:191',
-            'vehicle_number' => 'required',
+            'bike_id' => 'required',
             'category_id' => 'required',
-            'price' => 'required|numeric|between:.01,999999999999.99',
             'hours' => 'nullable',
             'h_price' => 'nullable',
             'h_km_limit' => 'nullable',
@@ -424,24 +413,15 @@ class ItemController extends Controller
             'month' => 'nullable',
             'm_price' => 'nullable',
             'm_km_limit' => 'nullable',
-            'm_km_charges' => 'nullable',
             'm_extra_hours' => 'nullable',
 
             'km' => 'nullable',
             'km_price' => 'nullable|numeric|between:.01,999999999999.99',
             'km_limit' => 'nullable',
             'km_charges' => 'nullable',
-            'store_id' => 'nullable|integer',
-            'description' => 'array',
-            'description.*' => 'max:1000',
+            'price' => 'required|numeric|between:.01,999999999999.99',
             'discount' => 'nullable|numeric|min:0',
-            'name.0' => 'required',
-            'description.0' => 'required',
-        ], [
-            'description.*.max' => translate('messages.description_length_warning'),
-            'category_id.required' => translate('messages.category_required'),
-            'name.0.required' => translate('default_name_is_required'),
-            'description.0.required' => translate('default_description_is_required'),
+            'store_id' => 'required',
         ]);
 
         if ($request['discount_type'] == 'percent') {
@@ -473,8 +453,10 @@ class ItemController extends Controller
             }
         }
 
-        $item->name = $request->name[array_search('default', $request->lang)];
-        $item->vehicle_number =  $request->input('vehicle_number');
+        $item->bike_id = $request->input('bike_id');
+
+        $bike = Bike::findOrFail($request->input('bike_id'));
+        $bike_name = $bike->name;
 
         $category = [];
         if ($request->category_id != null) {
@@ -498,7 +480,6 @@ class ItemController extends Controller
 
         $item->category_id = $request->sub_category_id ? $request->sub_category_id : $request->category_id;
         $item->category_ids = json_encode($category);
-        $item->description = $request->description[array_search('default', $request->lang)];
 
 
         $payload = [
@@ -634,7 +615,7 @@ class ItemController extends Controller
                 array_push($food_variations, $temp_variation);
             }
         }
-        $slug = Str::slug($request->name[array_search('default', $request->lang)]);
+        $slug = Str::slug($bike_name);
         $item->slug = $item->slug ? $item->slug : "{$slug}{$item->id}";
         $item->food_variations = json_encode($food_variations);
         $item->variations = $request->has('attribute_id') ? json_encode($variations) : json_encode([]);
@@ -678,6 +659,7 @@ class ItemController extends Controller
         }
         $item->save();
         $item->tags()->sync($tag_ids);
+        
         if ($item->module->module_type == 'pharmacy') {
             DB::table('pharmacy_item_details')
                 ->updateOrInsert(
@@ -939,6 +921,7 @@ class ItemController extends Controller
                     }
                 });
             })
+            ->with('bike')
             ->where('is_approved', 1)
             ->module(Config::get('module.current_module_id'))
             ->type($type)
@@ -1834,5 +1817,97 @@ class ItemController extends Controller
         return view('admin-views.product.product_gallery', compact('items', 'store', 'category', 'type'));
     }
 
+    public function add_bike()
+    {
+        $bikes = Bike::paginate(10);
+        return view('admin-views.product.add_product', compact('bikes'));
+    }
+
+    public function bike_store(Request $request)
+    {
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'model' => 'required|string|max:255',
+            'vehicle_number' => 'required|string|max:10',
+            'rc_number' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        $item = new Bike();
+        // Handle the main image upload
+        if (!empty($request->file('item_images'))) {
+            foreach ($request->item_images as $img) {
+                $image_name = Helpers::upload('product/', 'png', $img);
+                $images[] = $image_name;
+            }
+        }
+
+
+        $item->name = $request->name;
+        $item->model = $request->model;
+        $item->vehicle_number = $request->vehicle_number;
+        $item->image = $request->has('image') ? Helpers::update('product/', $item->image, 'png', $request->file('image')) : $item->image;
+        $item->rc_number = $request->rc_number;
+        $item->images = $images;
+        $item->description = $request->description;
+
+        $item->save();
+
+
+        return redirect()->back()->with('success', 'Bike created successfully.');
+    }
+
+    public function bike_edit($id)
+    {
+        $bike = Bike::findOrFail($id);
+        return view('admin-views.product.edit_product', compact('bike'));
+    }
+
+    public function bike_update(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'model' => 'required|string|max:255',
+            'vehicle_number' => 'required|string|max:10',
+            'rc_number' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        $item = Bike::findOrFail($id);
+
+        // Handle the main image upload
+        if ($request->hasFile('image')) {
+            $item->image = Helpers::update('product/', $item->image, 'png', $request->file('image'));
+        }
+
+        // Handle additional images upload
+        $images = $item->images ?? [];
+        if (!empty($request->file('item_images'))) {
+            foreach ($request->file('item_images') as $img) {
+                $image_name = Helpers::upload('product/', 'png', $img);
+                $images[] = $image_name;
+            }
+        }
+
+        $item->name = $request->name;
+        $item->model = $request->model;
+        $item->vehicle_number = $request->vehicle_number;
+        $item->rc_number = $request->rc_number;
+        $item->images = $images;
+        $item->description = $request->description;
+
+        $item->save();
+
+        return redirect()->back()->with('success', 'Bike updated successfully.');
+    }
+
+    public function destroy(Bike $bike)
+    {
+        // Delete the bike
+        $bike->delete();
+
+        return redirect()->back()->with('success', 'Bike deleted successfully.');
+    }
 
 }

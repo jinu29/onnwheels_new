@@ -21,6 +21,7 @@ class Item extends Model
         'avg_rating' => 'float',
         'set_menu' => 'integer',
         'category_id' => 'integer',
+        'bike_id' => 'integer',
         'store_id' => 'integer',
         'reviews_count' => 'integer',
         'recommended' => 'integer',
@@ -72,6 +73,10 @@ class Item extends Model
         return $this->belongsToMany(Station::class, 'item_station');
     }
 
+    public function bike()
+    {
+        return $this->belongsTo(Bike::class);
+    }
     public function translations()
     {
         return $this->morphMany(Translation::class, 'translationable');
@@ -219,11 +224,17 @@ class Item extends Model
     protected static function boot()
     {
         parent::boot();
+
         static::created(function ($item) {
-            $item->slug = $item->generateSlug($item->name);
-            $item->save();
+            $bike = $item->bike;
+
+            if ($bike) {
+                $item->slug = $item->generateSlug($bike->name);
+                $item->save();
+            }
         });
     }
+
     private function generateSlug($name)
     {
         $slug = Str::slug($name);

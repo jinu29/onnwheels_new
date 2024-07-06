@@ -423,7 +423,7 @@ class ItemController extends Controller
             //         ->get(['min_price', 'max_price']);
             // }
 
-            $item = Item::where('id', $id)->with('stations')->first();
+            $item = Item::where('id', $id)->with('stations','bike')->first();
 
             $item = Helpers::product_data_formatting($item, false, false, app()->getLocale());
             // $item['store_details'] = $store;
