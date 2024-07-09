@@ -57,7 +57,7 @@
                     {{-- <li class="nav-item">
                         <small class="nav-subtitle" title="{{ translate('messages.employee_handle') }}">{{ translate('pos section') }}</small>
                         <small class="tio-more-horizontal nav-subtitle-replacer"></small>
-                    </li> --}}
+                    </li> 
                     <!-- Pos -->
                     {{-- @if(\App\CentralLogics\Helpers::module_permission_check('pos'))
                     <li class="navbar-vertical-aside-has-menu {{Request::is('admin/pos*')?'active':''}}">

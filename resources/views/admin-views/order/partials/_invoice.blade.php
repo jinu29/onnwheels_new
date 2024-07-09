@@ -283,10 +283,19 @@
                             @endif
 
 
+                            @if ($orderDetails[0]['hour_exceed_cost'] > 0)
+                                <dt class="col-6">Hour Exceed
+                                <dd class="col-6">
+
+                                    {{ $orderDetails[0]['excess_hours'] }}KM (₹
+                                    {{ $orderDetails[0]['hour_exceed_cost'] }})
+                                </dd>
+                            @endif
+
+
                             <dd class="col-12">
                                 <hr>
                             </dd>
-                           
                         @else
                             <dt class="col-6">{{ translate('messages.delivery_man_tips') }}:</dt>
                             <dd class="col-6">
@@ -294,7 +303,7 @@
                                 + {{ \App\CentralLogics\Helpers::format_currency($delivery_man_tips) }}
                             </dd>
                         @endif
-                      
+
                         <dt class="col-6 total">{{ translate('messages.total') }}:</dt>
                         <dd class="col-6 total">
                             {{ \App\CentralLogics\Helpers::format_currency($sub_total) }}</dd>

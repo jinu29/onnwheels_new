@@ -218,13 +218,13 @@
                                     <label class="form-check-label qcont text-dark" for="parcel">{{translate('messages.parcel')}}</label>
                                 </div>
                             </div>
-                            <div class="check-item">
+                            {{-- <div class="check-item">
                                 <div class="form-group form-check form--check">
                                     <input type="checkbox" name="modules[]" value="pos" class="form-check-input"
                                            id="pos">
                                     <label class="form-check-label qcont text-dark" for="pos">{{translate('messages.pos')}}</label>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="check-item">
                                 <div class="form-group form-check form--check">
                                     <input type="checkbox" name="modules[]" value="unit" class="form-check-input"

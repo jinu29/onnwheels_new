@@ -153,7 +153,7 @@ class OrderController extends Controller
     public function list($status, Request $request)
     {
         $key = explode(' ', $request['search']);
-        
+
         $ordersQuery = Order::latest()->when(isset($key), function ($query) use ($key) {
             return $query->where(function ($q) use ($key) {
                 foreach ($key as $value) {
@@ -171,10 +171,10 @@ class OrderController extends Controller
         })->when($status == 'completed', function ($query) {
             return $query->where('order_status', 'completed');
         });
-    
+
         $total = $ordersQuery->count();
         $orders = $ordersQuery->get();
-    
+
         return view('admin-views.order.list', compact('orders', 'total'));
     }
 
@@ -469,6 +469,15 @@ class OrderController extends Controller
         // Update order status and additional attributes
         $order->order_status = $request->order_status;
 
+        if ($request->order_status == 'delivered') {
+            $order->timer_start = now();
+            $order->timer_end = null;
+            $order->elapsed_time = null;
+        } elseif ($request->order_status == 'return' && $order->timer_start) {
+            $order->timer_end = now();
+            $order->elapsed_time = $order->timer_end->diffInSeconds($order->timer_start);
+        }
+
         $order->save();
 
         // Send order notification
@@ -481,6 +490,30 @@ class OrderController extends Controller
         return back();
     }
 
+    public function startTimer(Request $request)
+    {
+        $order = Order::find($request->id);
+        if ($order && !$order->timer_start) {
+            $order->timer_start = now();
+            $order->timer_end = null;
+            $order->elapsed_time = null;
+            $order->save();
+        }
+        return back();
+    }
+
+    public function stopTimer(Request $request)
+    {
+        $order = Order::find($request->id);
+        if ($order && $order->timer_start && !$order->timer_end) {
+            $order->timer_end = now();
+            $order->elapsed_time = $order->timer_end->diffInSeconds($order->timer_start);
+            $order->save();
+        }
+        return back();
+    }
+
+
     public function updateOrderDetails(Request $request)
     {
         // Extract data from the request
@@ -491,25 +524,60 @@ class OrderController extends Controller
         $hourPrice = $request->input('hour_exceed');
         $kmCharges = $request->input('km_charges'); // Assuming you need this for calculation
 
-        // Fetch the order detail
+        // Fetch the order and order details
+        $order = Order::find($orderId);
         $orderDetail = OrderDetail::where('order_id', $orderId)->first();
 
-        if (!$orderDetail) {
-            return response()->json(['success' => false, 'message' => 'Order detail not found'], 404);
+        if (!$orderDetail || !$order) {
+            return response()->json(['success' => false, 'message' => 'Order detail or order not found'], 404);
         }
 
-        // Update order details
-        // Calculate the updated price based on the provided inputs
-        $updatedPrice = $orderDetail->price + ($kmCharges * $kmExceed) + $penalty + ($hourPrice * $typeExceed);
+        // Calculate the total booked hours
+        $startDateTime = \Carbon\Carbon::parse($orderDetail->start_date);
+        $endDateTime = \Carbon\Carbon::parse($orderDetail->end_date);
+        $bookedDuration = $endDateTime->diffInHours($startDateTime);
 
-        // Update the fields
-        $orderDetail->price = $updatedPrice;
-        $orderDetail->km_exceed = $kmExceed;
-        $orderDetail->type_exceed = $typeExceed;
-        $orderDetail->penalty = $penalty;
+        // Calculate the elapsed hours using timer_start and timer_end
+        $timerStart = $order->timer_start ? \Carbon\Carbon::parse($order->timer_start) : null;
+        $timerEnd = $order->timer_end ? \Carbon\Carbon::parse($order->timer_end) : null;
 
-        // Save the updated order detail
-        $orderDetail->save();
+        if ($timerStart && $timerEnd) {
+            $elapsedDuration = $timerEnd->diffInHours($timerStart);
+
+            // Calculate excess hours if elapsed hours exceed booked hours
+            $excessHours = max($elapsedDuration - $bookedDuration, 0);
+
+            // Calculate the cost for excess hours
+            $hourExceedCost = $hourPrice * $excessHours;
+
+            // Calculate the updated price
+            $updatedPrice = $orderDetail->price + ($kmCharges * $kmExceed) + $penalty + $hourExceedCost;
+
+            // Update the fields
+            $orderDetail->price = $updatedPrice;
+            $orderDetail->km_exceed = $kmExceed;
+            $orderDetail->type_exceed = $typeExceed;
+            $orderDetail->penalty = $penalty;
+            $orderDetail->excess_hours = $excessHours;
+            $orderDetail->hour_exceed_cost = $hourExceedCost;
+
+            // Save the updated order detail
+            $orderDetail->save();
+        } else {
+            // Handle the case where timer_start or timer_end is not set
+            $updatedPrice = $orderDetail->price + ($kmCharges * $kmExceed) + $penalty + ($hourPrice * $typeExceed);
+
+            // Update the fields
+            $orderDetail->price = $updatedPrice;
+            $orderDetail->km_exceed = $kmExceed;
+            $orderDetail->type_exceed = $typeExceed;
+            $orderDetail->penalty = $penalty;
+            $orderDetail->excess_hours = 0;
+            $orderDetail->hour_exceed_cost = 0;
+
+            // Save the updated order detail
+            $orderDetail->save();
+        }
 
         // Return a JSON response indicating success
         return response()->json(['success' => true, 'message' => 'Order details updated successfully']);
@@ -1723,7 +1791,6 @@ class OrderController extends Controller
             if ($order->is_guest == 0) {
                 $this->sent_mail_on_offline_payment(status: 'COD', name: $order?->customer?->f_name . ' ' . $order?->customer?->l_name, email: $order?->customer?->email, order_id: $order->id);
             }
-
         } else {
             $order->offline_payments()->update([
                 'status' => 'denied',

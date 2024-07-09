@@ -208,7 +208,7 @@
 
                 <!-- Employee-->
 
-                {{-- <li class="nav-item">
+                <li class="nav-item">
                     <small class="nav-subtitle" title="{{ translate('messages.employee_handle') }}">{{ translate('messages.employee') }}
                         {{ translate('management') }}</small>
                     <small class="tio-more-horizontal nav-subtitle-replacer"></small>
@@ -245,7 +245,7 @@
 
                     </ul>
                 </li>
-                @endif --}}
+                @endif
                 <!-- End Employee -->
 
 

@@ -1,7 +1,7 @@
 @extends('layouts.admin.app')
 
 @section('title', translate('Booking Details'))
-      
+
 
 @section('content')
     <?php
@@ -20,7 +20,7 @@
                     <h1 class="page-header-title">
                         <span class="page-header-icon">
                             {{-- <img src="{{ asset('/public/assets/admin/img/shopping-basket.png') }}" class="w--20"
-                                alt=""> --}}    
+                                alt=""> --}}
                         </span>
                         <span>
                             {{ translate('booking_details') }} <span
@@ -570,7 +570,9 @@
                                                     $detail->item = json_decode($detail->item_details, true);
                                                 }
                                                 // Retrieve the item details based on the item_id
-                                                $detail->item = \App\Models\Item::where('id', $detail->item_id)->with('bike')->first();
+                                                $detail->item = \App\Models\Item::where('id', $detail->item_id)
+                                                    ->with('bike')
+                                                    ->first();
                                                 
                                                 ?>
 
@@ -584,14 +586,14 @@
                                                     </td>
                                                     <td>
                                                         <div class="media media--sm">
-                                                         
-                                                                <a class="avatar avatar-xl mr-3"
-                                                                    href="{{ route('admin.item.view', [isset($detail->item) ? $detail->item['id'] : '', 'module_id' => $order->module_id]) }}">
-                                                                    <img class="img-fluid rounded aspect-ratio-1 onerror-image"
-                                                                        src="{{ \App\CentralLogics\Helpers::onerror_image_helper($detail->item->bike->image ?? '', asset('storage/app/public/product/') . '/' . $detail->item->bike->image, asset('public/assets/admin/img/160x160/img2.jpg'), 'product/') }}"
-                                                                        data-onerror-image="{{ asset('public/assets/admin/img/160x160/img2.jpg') }}"
-                                                                        alt="Image Description">
-                                                                </a>
+
+                                                            <a class="avatar avatar-xl mr-3"
+                                                                href="{{ route('admin.item.view', [isset($detail->item) ? $detail->item['id'] : '', 'module_id' => $order->module_id]) }}">
+                                                                <img class="img-fluid rounded aspect-ratio-1 onerror-image"
+                                                                    src="{{ \App\CentralLogics\Helpers::onerror_image_helper($detail->item->bike->image ?? '', asset('storage/app/public/product/') . '/' . $detail->item->bike->image, asset('public/assets/admin/img/160x160/img2.jpg'), 'product/') }}"
+                                                                    data-onerror-image="{{ asset('public/assets/admin/img/160x160/img2.jpg') }}"
+                                                                    alt="Image Description">
+                                                            </a>
                                                             <div class="media-body">
                                                                 <div>
                                                                     <strong class="line--limit-1">
@@ -960,6 +962,14 @@
                                             </dd>
                                         @endif
 
+                                        @if ($orderDetails[0]['hour_exceed_cost'] > 0)
+                                            <dt class="col-6">Hour Exceed
+                                            <dd class="col-6">
+
+                                                {{ $orderDetails[0]['excess_hours'] }}KM  (₹ {{ $orderDetails[0]['hour_exceed_cost'] }}) 
+                                            </dd>
+                                        @endif
+
 
                                         <dd class="col-12">
                                             <hr>
@@ -1313,10 +1323,38 @@
                                         </button>
                                     </div>
                                 @endif --}}
+
+                                <div class="w-100 text-center mt-3">
+
+                                    <div id="timer-container"
+                                        style="background-color: #f8f9fa; padding: 10px; border-radius: 5px; display: none;">
+                                        <h3>Timer: <span id="timer"></span></h3>
+                                    </div>
+                                    @if ($order->order_status == 'delivered')
+                                        <form action="{{ route('admin.order.start-timer') }}" method="POST"
+                                            style="display:inline;">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{ $order['id'] }}">
+                                            <button type="submit"
+                                                class="btn btn-primary">{{ translate('Start Timer') }}</button>
+                                        </form>
+                                        <form action="{{ route('admin.order.stop-timer') }}" method="POST"
+                                            style="display:inline;">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{ $order['id'] }}">
+                                            <button type="submit"
+                                                class="btn btn-danger">{{ translate('Stop Timer') }}</button>
+                                        </form>
+                                    @endif
+                                </div>
+
                             @endif
                         </div>
                     </div>
                 @endif
+
+                <!-- Manual timer control buttons -->
+
 
 
                 <form id="updateOrderForm">
@@ -1334,7 +1372,7 @@
                             <input type="hidden" class="form-control" name="hour_exceed" value="{{ $hour_price }}"
                                 placeholder="{{ translate('KM Exceed') }}">
 
-                            <label>KM Charges (₹{{$km_price}}/km)</label>
+                            <label>KM Charges (₹{{ $km_price }}/km)</label>
                             <input type="text" disabled class="form-control" name="km_charges"
                                 value="{{ $km_price }}" placeholder="{{ translate('km_charges') }}">
 
@@ -1343,7 +1381,7 @@
                                 value="{{ $orderDetails[0]['km_exceed'] ?? 0 }}"
                                 placeholder="{{ translate('KM Exceed') }}">
 
-                            <label style="margin-top:10px;">Hour Exceed (₹{{$hour_price}}/hr)</label>
+                            <label style="margin-top:10px;">Hour Exceed (₹{{ $hour_price }}/hr)</label>
                             <input type="number" class="form-control" name="type_exceed"
                                 value="{{ $orderDetails[0]['type_exceed'] ?? 0 }}"
                                 placeholder="{{ translate('KM Exceed') }}">
@@ -2106,6 +2144,55 @@
 @endsection
 
 @push('script_2')
+    <script>
+        function startTimer(duration, display) {
+            var timer = duration,
+                hours, minutes, seconds;
+            setInterval(function() {
+                hours = parseInt(timer / 3600, 10)
+                minutes = parseInt((timer % 3600) / 60, 10)
+                seconds = parseInt(timer % 60, 10);
+
+                hours = hours < 10 ? "0" + hours : hours;
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.text(hours + ":" + minutes + ":" + seconds);
+
+                timer++;
+            }, 1000);
+        }
+
+        $(document).ready(function() {
+            @if ($order->order_status == 'delivered' && $order->timer_start && !$order->timer_end)
+                console.log("hi")
+                var timerContainer = $('#timer-container');
+                var display = $('#timer');
+                var timerStart = new Date('{{ $order->timer_start }}').getTime() / 1000;
+                var now = new Date().getTime() / 1000;
+                var elapsed = Math.floor(now - timerStart);
+                timerContainer.show();
+                startTimer(elapsed, display);
+            @endif
+
+            @if ($order->timer_end)
+                var timerContainer = $('#timer-container');
+                var display = $('#timer');
+                var elapsed = '{{ $order->elapsed_time }}';
+
+                var hours = parseInt(elapsed / 3600, 10);
+                var minutes = parseInt((elapsed % 3600) / 60, 10);
+                var seconds = parseInt(elapsed % 60, 10);
+
+                hours = hours < 10 ? "0" + hours : hours;
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.text(hours + ":" + minutes + ":" + seconds);
+                timerContainer.show();
+            @endif
+        });
+    </script>
     <script>
         $('#search-form').on('submit', function(e) {
             e.preventDefault();

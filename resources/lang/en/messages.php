@@ -4107,4 +4107,10 @@
   'Booking Details' => 'Booking Details',
   'booking_details' => 'Booking details',
   'booking_id' => 'Booking id',
+  'Start Timer' => 'Start Timer',
+  'Stop Timer' => 'Stop Timer',
+  'employee_added_successfully' => 'Employee added successfully',
+  'access_denied' => 'Access denied',
+  'Transaction Overview' => 'Transaction Overview',
+  'Hello, here you can manage your transactions.' => 'Hello  here you can manage your transactions.',
 );
