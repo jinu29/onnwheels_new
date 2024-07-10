@@ -93,7 +93,7 @@
                                     <div class="subtxt">{{ $data['new_customers'] }} {{ translate('newly added') }}</div>
                         </div>
                     </div>
-                    <div class="col-12">
+                    {{-- <div class="col-12">
                         <div class="row g-2">
                             <div class="col-sm-6 col-lg-3">
                                 <a class="order--card h-100" href="{{route('admin.order.list',['searching_for_deliverymen'])}}">
@@ -206,7 +206,7 @@
                                 </a>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                 </div>
             </div>
@@ -309,12 +309,12 @@
                                     {{translate('messages.store')}} {{$data['stores']}}
                                 </span>
                             </div>
-                            <div class="chart--label">
+                            {{-- <div class="chart--label">
                                 <span class="indicator chart-bg-3"></span>
                                 <span class="info">
                                     {{translate('messages.delivery_man')}} {{$data['delivery_man']}}
                                 </span>
-                            </div>
+                            </div> --}}
                         </div>
 
                     </div>
@@ -322,21 +322,21 @@
                 </div>
             </div>
 
-            <div class="col-lg-4 col-md-6">
+            {{-- <div class="col-lg-4 col-md-6">
                 <!-- Card -->
                 <div class="card h-100" id="top-restaurants-view">
                     @include('admin-views.partials._top-restaurants',['top_restaurants'=>$data['top_restaurants']])
                 </div>
                 <!-- End Card -->
-            </div>
+            </div> --}}
 
-            <div class="col-lg-4 col-md-6">
+            {{-- <div class="col-lg-4 col-md-6">
                 <!-- Card -->
                 <div class="card h-100" id="popular-restaurants-view">
                     @include('admin-views.partials._popular-restaurants',['popular'=>$data['popular']])
                 </div>
                 <!-- End Card -->
-            </div>
+            </div> --}}
 
             <div class="col-lg-4 col-md-6">
                 <!-- Card -->
@@ -346,21 +346,21 @@
                 <!-- End Card -->
             </div>
 
-            <div class="col-lg-4 col-md-6">
+            {{-- <div class="col-lg-4 col-md-6">
                 <!-- Card -->
                 <div class="card h-100" id="top-rated-foods-view">
                     @include('admin-views.partials._top-rated-foods',['top_rated_foods'=>$data['top_rated_foods']])
                 </div>
                 <!-- End Card -->
-            </div>
+            </div> --}}
 
-            <div class="col-lg-4 col-md-6">
+            {{-- <div class="col-lg-4 col-md-6">
                 <!-- Card -->
                 <div class="card h-100" id="top-deliveryman-view">
                     @include('admin-views.partials._top-deliveryman',['top_deliveryman'=>$data['top_deliveryman']])
                 </div>
                 <!-- End Card -->
-            </div>
+            </div> --}}
 
             <div class="col-lg-4 col-md-6">
                 <!-- Card -->

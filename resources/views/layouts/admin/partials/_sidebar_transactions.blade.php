@@ -43,7 +43,7 @@
                 </form>
                 <ul class="navbar-nav navbar-nav-lg nav-tabs">
                 <!-- Business Section-->
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <small class="nav-subtitle" title="{{ translate('messages.business_section') }}">{{ translate('messages.business_management') }}</small>
                     <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                 </li>
@@ -115,7 +115,7 @@
                                 class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{ translate('messages.withdraw_method') }}</span>
                         </a>
                     </li>
-                @endif
+                @endif --}}
 
                 <!-- Report -->
                 @if (\App\CentralLogics\Helpers::module_permission_check('report'))
@@ -131,7 +131,7 @@
                     </a>
                 </li>
 
-                <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/transactions/report/item-wise-report') ? 'active' : '' }}">
+                {{-- <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/transactions/report/item-wise-report') ? 'active' : '' }}">
                     <a class="nav-link " href="{{ route('admin.transactions.report.item-wise-report') }}" title="{{ translate('messages.item_report') }}">
                         <span class="tio-chart-bar-1 nav-icon"></span>
                         <span class="text-truncate">{{ translate('messages.item_report') }}</span>
@@ -165,8 +165,7 @@
                         <span class="tio-chart-bar-4 nav-icon"></span>
                         <span class="text-truncate text-capitalize">{{ translate('messages.limited_stock_item') }}</span>
                     </a>
-                </li>
-
+                </li> --}}
 
                 <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/transactions/report/order-report') ? 'active' : '' }}">
                     <a class="nav-link " href="{{ route('admin.transactions.report.order-report') }}" title="{{ translate('messages.order_report') }}">
