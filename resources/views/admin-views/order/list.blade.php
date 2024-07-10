@@ -109,11 +109,11 @@
                     </div>
                     @endif
                     <!-- Unfold -->
-                    <div class="hs-unfold mr-2">
+                    {{-- <div class="hs-unfold mr-2">
                         <a class="js-hs-unfold-invoker btn btn-sm btn-white h--40px filter-button-show" href="javascript:;">
                             <i class="tio-filter-list mr-1"></i> {{ translate('messages.filter') }} <span class="badge badge-success badge-pill ml-1" id="filter_count"></span>
                         </a>
-                    </div>
+                    </div> --}}
                     <!-- End Unfold -->
                     <!-- Unfold -->
                     <div class="hs-unfold">

@@ -4130,7 +4130,6 @@
   'Added On' => 'Added On',
   'KM Reading' => 'KM Reading',
   'Insurance Expirt Date' => 'Insurance Expirt Date',
-  'Without configuring this section map functionality will not work properly. Thus the whole
-                                 system will not work as it planned' => 'Without configuring this section map functionality will not work properly. Thus the whole
-                                 system will not work as it planned',
+  'Customer Management' => 'Customer Management',
+  'Business Module System Setup' => 'Business Module System Setup',
 );
