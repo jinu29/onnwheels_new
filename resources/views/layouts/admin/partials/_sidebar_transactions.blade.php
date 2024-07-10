@@ -127,7 +127,7 @@
                 <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/transactions/report/day-wise-report') ? 'active' : '' }}">
                     <a class="nav-link " href="{{ route('admin.transactions.report.day-wise-report') }}" title="{{ translate('messages.transection_report') }}">
                         <span class="tio-chart-pie-1 nav-icon"></span>
-                        <span class="text-truncate">{{ translate('messages.transection_report') }}</span>
+                        <span class="text-truncate">{{ translate('messages.transaction_report') }}</span>
                     </a>
                 </li>
 

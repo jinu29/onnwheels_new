@@ -521,6 +521,7 @@ class HomeController extends Controller
             $order->delivery_address = $customer_address;
             $order->store_id = $request->input('store_id');
             $order->order_status = 'confirmed';
+            $order->payment_method = 'digital_payment';
             $order->order_amount = $request->input('order_amount');
             $order->payment_status = strtolower($request->payment_status);
             $order->transaction_reference = $request->input('transaction_reference');

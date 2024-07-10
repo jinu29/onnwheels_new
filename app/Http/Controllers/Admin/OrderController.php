@@ -154,26 +154,34 @@ class OrderController extends Controller
     {
         $key = explode(' ', $request['search']);
 
-        $ordersQuery = Order::latest()->when(isset($key), function ($query) use ($key) {
-            return $query->where(function ($q) use ($key) {
-                foreach ($key as $value) {
-                    $q->orWhere('id', 'like', "%{$value}%")
-                        ->orWhere('order_status', 'like', "%{$value}%")
-                        ->orWhere('transaction_reference', 'like', "%{$value}%");
-                }
+
+        $ordersQuery = Order::with('details')->latest()
+            ->when(isset($key), function ($query) use ($key) {
+                return $query->where(function ($q) use ($key) {
+                    foreach ($key as $value) {
+                        $q->orWhere('id', 'like', "%{$value}%")
+                            ->orWhere('order_status', 'like', "%{$value}%")
+                            ->orWhere('transaction_reference', 'like', "%{$value}%");
+                    }
+                });
+            })->when($status == 'confirmed', function ($query) {
+                return $query->where('order_status', 'confirmed');
+            })->when($status == 'delivered', function ($query) {
+                return $query->where('order_status', 'delivered');
+            })->when($status == 'return', function ($query) {
+                return $query->where('order_status', 'return');
+            })->when($status == 'completed', function ($query) {
+                return $query->where('order_status', 'completed');
+            })->when($status == 'abandoned', function ($query) {
+                return $query->where('order_status', 'abandoned');
+            })->when($status == 'Canceled', function ($query) {
+                return $query->where('order_status', 'Canceled');
             });
-        })->when($status == 'confirmed', function ($query) {
-            return $query->where('order_status', 'confirmed');
-        })->when($status == 'delivered', function ($query) {
-            return $query->where('order_status', 'delivered');
-        })->when($status == 'return', function ($query) {
-            return $query->where('order_status', 'return');
-        })->when($status == 'completed', function ($query) {
-            return $query->where('order_status', 'completed');
-        });
 
         $total = $ordersQuery->count();
         $orders = $ordersQuery->get();
+
+        // dd($orders->item);
 
         return view('admin-views.order.list', compact('orders', 'total'));
     }
@@ -478,7 +486,55 @@ class OrderController extends Controller
             $order->elapsed_time = $order->timer_end->diffInSeconds($order->timer_start);
         }
 
+        if ($request->order_status == 'completed') {
+
+            if ($order->transaction == null) {
+                $unpaid_payment = OrderPayment::where('payment_status', 'unpaid')->where('order_id', $order->id)->first()?->payment_method;
+                $unpaid_pay_method = 'digital_payment';
+                if ($unpaid_payment) {
+                    $unpaid_pay_method = $unpaid_payment;
+                }
+                if ($order->payment_method == "digital_payment" || $unpaid_pay_method == 'digital_payment') {
+                    if ($order->order_type == 'delivery') {
+                        $ol = OrderLogic::create_transaction($order, 'store', null);
+                    }
+                } else {
+                    $ol = OrderLogic::create_transaction($order, 'admin', null);
+                }
+                if (!$ol) {
+                    Toastr::warning(translate('messages.faield_to_create_order_transaction'));
+                    return back();
+                }
+            } else if ($order->delivery_man_id) {
+                $order->transaction->update(['delivery_man_id' => $order->delivery_man_id]);
+            }
+
+            $order->payment_status = 'paid';
+            if ($order->delivery_man) {
+                $dm = $order->delivery_man;
+                $dm->increment('order_count');
+                $dm->current_orders = $dm->current_orders > 1 ? $dm->current_orders - 1 : 0;
+                $dm->save();
+            }
+            $order->details->each(function ($item, $key) {
+                if ($item->item) {
+                    $item->item->increment('order_count');
+                }
+            });
+            $order->customer->increment('order_count');
+            if ($order->store) {
+                $order->store->increment('order_count');
+            }
+            if ($order->parcel_category) {
+                $order->parcel_category->increment('orders_count');
+            }
+
+            OrderLogic::update_unpaid_order_payment(order_id: $order->id, payment_method: $order->payment_method);
+
+        }
+
         $order->save();
+
 
         // Send order notification
         if (!Helpers::send_order_notification($order)) {

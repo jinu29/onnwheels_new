@@ -279,7 +279,7 @@
                                             @foreach ($orders as $index => $order)
                                                 <tr>
                                                     <td>{{ $index + 1 }}</td>
-                                                    <td>{{ $order->items[0]->name }}</td>
+                                                    <td>{{ $order->items[0]->bike->name }}</td>
                                                     <td>{{ $order->order_amount ?? 'N/A' }}</td>
                                                     <td>{{ $order->order_status ?? 'N/A' }}</td>
                                                     <td class="delivery-boy" type="button" data-toggle="modal">

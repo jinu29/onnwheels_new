@@ -215,6 +215,7 @@
                             <th class="border-0">{{ translate('messages.Reg Number') }}</th>
                             <th class="border-0">{{ translate('messages.Model') }}</th>
                             <th class="border-0">{{ translate('messages.Engine No') }}</th>
+                            <th class="border-0">{{ translate('messages.Chasis No') }}</th>
                             <th class="border-0">{{ translate('messages.Station Name') }}</th>
                             <th class="border-0">{{ translate('messages.IMEI') }}</th>
                             <th class="border-0">{{ translate('messages.GPS') }}</th>
@@ -252,6 +253,10 @@
 
                                 <td>
                                     {{ $item->bike ? $item->bike->engine_number : '' }}
+                                </td>
+
+                                <td>
+                                    {{ $item->bike ? $item->bike->chasis_number : '' }}
                                 </td>
 
                                 <td>

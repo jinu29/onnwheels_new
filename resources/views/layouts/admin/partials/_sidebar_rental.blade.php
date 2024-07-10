@@ -309,6 +309,30 @@
                                 </a>
                             </li>
                             
+                            <li class="nav-item {{ Request::is('admin/order/list/abandoned') ? 'active' : '' }}">
+                                <a class="nav-link " href="{{ route('admin.order.list', ['abandoned']) }}" title="{{ translate('messages.processing_orders') }}">
+                                    <span class="tio-circle nav-indicator-icon"></span>
+                                    <span class="text-truncate sidebar--badge-container">
+                                        {{ translate('messages.abandoned_bookings') }}
+                                        <span class="badge badge-soft-warning badge-pill ml-1">
+                                            {{ \App\Models\Order::Abandoned()->StoreOrder()->module(Config::get('module.current_module_id'))->count() }}
+                                        </span>
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item {{ Request::is('admin/order/list/Canceled') ? 'active' : '' }}">
+                                <a class="nav-link " href="{{ route('admin.order.list', ['Canceled']) }}" title="{{ translate('messages.processing_orders') }}">
+                                    <span class="tio-circle nav-indicator-icon"></span>
+                                    <span class="text-truncate sidebar--badge-container">
+                                        {{ translate('messages.cancelled_bookings') }}
+                                        <span class="badge badge-soft-warning badge-pill ml-1">
+                                            {{ \App\Models\Order::Canceled()->StoreOrder()->module(Config::get('module.current_module_id'))->count() }}
+                                        </span>
+                                    </span>
+                                </a>
+                            </li>
+                            
                         </ul>
                     </li>
 

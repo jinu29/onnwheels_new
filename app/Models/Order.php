@@ -170,6 +170,10 @@ class Order extends Model
     {
         return $query->where('order_status', 'pending');
     }
+    public function scopeAbandoned($query)
+    {
+        return $query->where('order_status', 'abandoned');
+    }
 
     public function scopeConfirmed($query)
     {

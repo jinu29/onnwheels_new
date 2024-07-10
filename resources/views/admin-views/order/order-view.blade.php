@@ -966,7 +966,8 @@
                                             <dt class="col-6">Hour Exceed
                                             <dd class="col-6">
 
-                                                {{ $orderDetails[0]['excess_hours'] }}KM  (₹ {{ $orderDetails[0]['hour_exceed_cost'] }}) 
+                                                {{ $orderDetails[0]['excess_hours'] }}KM (₹
+                                                {{ $orderDetails[0]['hour_exceed_cost'] }})
                                             </dd>
                                         @endif
 
@@ -1285,6 +1286,8 @@
                                                     'delivered' => translate('messages.delivered'),
                                                     'return' => translate('messages.return'),
                                                     'completed' => translate('messages.completed'),
+                                                    'abandoned' => translate('messages.abandoned'),
+                                                    'cancelled' => translate('messages.cancelled'),
                                                     default => translate('messages.status'),
                                                 };
                                                 ?>
@@ -1309,6 +1312,15 @@
                                                     data-url="{{ route('admin.order.status', ['id' => $order['id'], 'order_status' => 'completed']) }}"
                                                     data-message="{{ translate('Change status to completed ?') }}"
                                                     href="javascript:">{{ translate('messages.completed') }}</a>
+                                                <a class="dropdown-item {{ $order['order_status'] == 'abandoned' ? 'active' : '' }} route-alert"
+                                                    data-url="{{ route('admin.order.status', ['id' => $order['id'], 'order_status' => 'abandoned']) }}"
+                                                    data-message="{{ translate('Change status to abandoned ?') }}"
+                                                    href="javascript:">{{ translate('messages.abandoned') }}</a>
+
+                                                <a class="dropdown-item {{ $order['order_status'] == 'Canceled' ? 'active' : '' }} route-alert"
+                                                    data-url="{{ route('admin.order.status', ['id' => $order['id'], 'order_status' => 'Canceled']) }}"
+                                                    data-message="{{ translate('Change status to Canceled ?') }}"
+                                                    href="javascript:">{{ translate('messages.Canceled') }}</a>
                                             </div>
 
 
