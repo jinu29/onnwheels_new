@@ -921,11 +921,11 @@ class ItemController extends Controller
                     }
                 });
             })
-            ->with('bike')
+            ->with('bike', 'stations')
             ->where('is_approved', 1)
             ->module(Config::get('module.current_module_id'))
             ->type($type)
-            ->latest()->paginate(config('default_pagination'));
+            ->latest()->paginate(10);
         $store = $store_id != 'all' ? Store::findOrFail($store_id) : null;
         $category = $category_id != 'all' ? Category::findOrFail($category_id) : null;
         $sub_categories = $category_id != 'all' ? Category::where('parent_id', $category_id)->get(['id', 'name']) : [];
@@ -1830,6 +1830,12 @@ class ItemController extends Controller
             'name' => 'required|string|max:255',
             'model' => 'required|string|max:255',
             'vehicle_number' => 'required|string|max:10',
+            'engine_number' => 'required|string',
+            'chasis_number' => 'required|string',
+            'imei' => 'required|string',
+            'gps' => 'required|string',
+            'km_reading' => 'required|string',
+            'insurance_expiry_date' => 'required|date',
             'rc_number' => 'required|string|max:255',
             'description' => 'nullable|string',
         ]);
@@ -1847,6 +1853,12 @@ class ItemController extends Controller
         $item->name = $request->name;
         $item->model = $request->model;
         $item->vehicle_number = $request->vehicle_number;
+        $item->engine_number = $request->engine_number;
+        $item->chasis_number = $request->chasis_number;
+        $item->imei = $request->imei;
+        $item->gps = $request->gps;
+        $item->km_reading = $request->km_reading;
+        $item->insurance_expiry_date = $request->insurance_expiry_date;
         $item->image = $request->has('image') ? Helpers::update('product/', $item->image, 'png', $request->file('image')) : $item->image;
         $item->rc_number = $request->rc_number;
         $item->images = $images;
@@ -1870,6 +1882,12 @@ class ItemController extends Controller
             'name' => 'required|string|max:255',
             'model' => 'required|string|max:255',
             'vehicle_number' => 'required|string|max:10',
+            'engine_number' => 'required|string',
+            'chasis_number' => 'required|string',
+            'imei' => 'required|string',
+            'gps' => 'required|string',
+            'km_reading' => 'required|string',
+            'insurance_expiry_date' => 'required|date',
             'rc_number' => 'required|string|max:255',
             'description' => 'nullable|string',
         ]);
@@ -1893,6 +1911,12 @@ class ItemController extends Controller
         $item->name = $request->name;
         $item->model = $request->model;
         $item->vehicle_number = $request->vehicle_number;
+        $item->engine_number = $request->engine_number;
+        $item->chasis_number = $request->chasis_number;
+        $item->imei = $request->imei;
+        $item->gps = $request->gps;
+        $item->km_reading = $request->km_reading;
+        $item->insurance_expiry_date = $request->insurance_expiry_date;
         $item->rc_number = $request->rc_number;
         $item->images = $images;
         $item->description = $request->description;

@@ -8,141 +8,203 @@
 @endpush
 
 @section('content')
-<div class="content container-fluid">
-    <div class="page-header">
-        <div class="row align-items-center">
-            <div class="col-sm">
-                <h1 class="page-header-title">{{ translate('Edit Bike') }}</h1>
-            </div>
-        </div>
-    </div>
-
-    <form action="{{ route('admin.item.bikes.update', $bike->id) }}" method="post" id="bike_form" enctype="multipart/form-data">
-        @csrf
-        @method('POST') <!-- You may need to change this to PUT or PATCH depending on your route definition -->
-        @php($language = \App\Models\BusinessSetting::where('key', 'language')->first())
-        @php($language = $language->value ?? null)
-        @php($defaultLang = str_replace('_', '-', app()->getLocale()))
-        <div class="row g-2">
-            <div class="col-md-6">
-                <div class="card h-100">
-                    <div class="card-body">
-                        @if ($language)
-                            <ul class="nav nav-tabs border-0 mb-3">
-                                <li class="nav-item">
-                                    <a class="nav-link lang_link active" href="#"
-                                        id="default-link">{{ translate('messages.default') }}</a>
-                                </li>
-                            </ul>
-                        @endif
-                        @if ($language)
-                            <div class="lang_form" id="default-form">
-                                <div class="form-group">
-                                    <label class="input-label" for="default_name">{{ translate('messages.name') }}</label>
-                                    <input type="text" name="name" id="default_name" class="form-control"
-                                        value="{{ $bike->name }}" placeholder="{{ translate('messages.new_item') }}" required>
-                                </div>
-                                <div class="form-group">
-                                    <label class="input-label" for="default_name">{{ translate('messages.model_name') }}</label>
-                                    <input type="text" name="model" id="modal_name" class="form-control"
-                                        value="{{ $bike->model }}" placeholder="{{ translate('messages.model_name') }}" required>
-                                </div>
-                                <div class="form-group">
-                                    <label class="input-label" for="default_name">{{ translate('messages.vehicle_number') }}</label>
-                                    <input type="text" name="vehicle_number" id="vehicle_number" class="form-control"
-                                        value="{{ $bike->vehicle_number }}" placeholder="{{ translate('messages.vehicle_number') }}" required>
-                                </div>
-                                <div class="form-group">
-                                    <label class="input-label" for="default_name">{{ translate('messages.RC_number') }}</label>
-                                    <input type="text" name="rc_number" id="rc_number" class="form-control"
-                                        value="{{ $bike->rc_number }}" placeholder="{{ translate('messages.rc_number') }}" required>
-                                </div>
-                                <input type="hidden" name="lang[]" value="default">
-                                <div class="form-group mb-0">
-                                    <label class="input-label"
-                                        for="exampleFormControlInput1">{{ translate('messages.short_description') }}
-                                        ({{ translate('messages.default') }})</label>
-                                    <textarea type="text" name="description" class="form-control min-h-90px ckeditor">{{ $bike->description }}</textarea>
-                                </div>
-                            </div>
-                        @endif
-                    </div>
+    <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col-sm">
+                    <h1 class="page-header-title">{{ translate('Edit Bike') }}</h1>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="card h-100">
-                    <div class="card-body d-flex flex-wrap align-items-center">
-                        <div class="w-100 d-flex flex-wrap __gap-15px">
-                            <div class="flex-grow-1 mx-auto">
-                                <label class="text-dark d-block">
-                                    {{ translate('messages.item_image') }}
-                                    <small class="text-danger">* ( {{ translate('messages.ratio') }} 1:1 )</small>
-                                </label>
-                                <div class="d-flex flex-wrap __gap-12px __new-coba" id="coba">
+        </div>
 
-                                    <input type="hidden" id="removedImageKeysInput" name="removedImageKeys"
-                                        value="">
-                                    @foreach ($bike->images as $key => $photo)
-                                        <div id="product_images_{{ $key }}"
-                                            class="spartan_item_wrapper min-w-100px max-w-100px">
-                                            <img class="img--square onerror-image"
-                                                src="{{ \App\CentralLogics\Helpers::onerror_image_helper(
-                                                    $photo ?? '',
-                                                    asset('storage/app/public/product') . '/' . $photo ?? '',
-                                                    asset('public/assets/admin/img/upload.png'),
-                                                    'product/',
-                                                ) }}"
-                                                data-onerror-image="{{ asset('public/assets/admin/img/upload.png') }}"
-                                                alt="Product image">
-                                            @if (request()->product_gellary == 1)
-                                                <a href="#" data-key={{ $key }}
-                                                    data-photo="{{ $photo }}"
-                                                    class="spartan_remove_row function_remove_img"><i
-                                                        class="tio-add-to-trash"></i></a>
-                                            @else
-                                                <a href="{{ route('admin.item.remove-image', ['id' => $bike['id'], 'name' => $bike, 'temp_product' => false]) }}"
-                                                    class="spartan_remove_row"><i class="tio-add-to-trash"></i></a>
-                                            @endif
-                                            
-                                        </div>
-                                    @endforeach
+        <form action="{{ route('admin.item.bikes.update', $bike->id) }}" method="post" enctype="multipart/form-data">
+            @csrf
+            @method('POST') <!-- You may need to change this to PUT or PATCH depending on your route definition -->
+            @php($language = \App\Models\BusinessSetting::where('key', 'language')->first())
+            @php($language = $language->value ?? null)
+            @php($defaultLang = str_replace('_', '-', app()->getLocale()))
+            <div class="row g-2">
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            @if ($language)
+                                <ul class="nav nav-tabs border-0 mb-3">
+                                    <li class="nav-item">
+                                        <a class="nav-link lang_link active" href="#"
+                                            id="default-link">{{ translate('messages.default') }}</a>
+                                    </li>
+                                </ul>
+                            @endif
+                            @if ($language)
+                                <div class="lang_form" id="default-form">
+                                    <div class="form-group">
+                                        <label class="input-label"
+                                            for="default_name">{{ translate('messages.name') }}</label>
+                                        <input type="text" name="name" id="default_name" class="form-control"
+                                            value="{{ $bike->name }}" placeholder="{{ translate('messages.new_item') }}"
+                                            required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="input-label"
+                                            for="default_name">{{ translate('messages.model_name') }}</label>
+                                        <input type="text" name="model" id="modal_name" class="form-control"
+                                            value="{{ $bike->model }}"
+                                            placeholder="{{ translate('messages.model_name') }}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="input-label"
+                                            for="default_name">{{ translate('messages.vehicle_number') }}</label>
+                                        <input type="text" name="vehicle_number" id="vehicle_number" class="form-control"
+                                            value="{{ $bike->vehicle_number }}"
+                                            placeholder="{{ translate('messages.vehicle_number') }}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="input-label"
+                                            for="default_name">{{ translate('messages.RC_number') }}</label>
+                                        <input type="text" name="rc_number" id="rc_number" class="form-control"
+                                            value="{{ $bike->rc_number }}"
+                                            placeholder="{{ translate('messages.rc_number') }}" required>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="input-label"
+                                            for="default_name">{{ translate('messages.Engine_Number') }}
+                                        </label>
+                                        <input type="text" name="engine_number" id="engine_number" class="form-control"
+                                            placeholder="{{ translate('messages.engine_number') }}"
+                                            value="{{ $bike->engine_number }}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="input-label"
+                                            for="default_name">{{ translate('messages.Chasis_Number') }}
+                                        </label>
+                                        <input type="text" name="chasis_number" id="chasis_number" class="form-control"
+                                            placeholder="{{ translate('messages.chasis_number') }}"
+                                            value="{{ $bike->chasis_number }}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="input-label" for="default_name">{{ translate('messages.IMEI') }}
+                                        </label>
+                                        <input type="text" name="imei" id="imei" class="form-control"
+                                            placeholder="{{ translate('messages.IMEI') }}" value="{{ $bike->imei }}"
+                                            required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="input-label" for="default_name">{{ translate('messages.GPS') }}
+                                        </label>
+                                        <input type="text" name="gps" id="gps" class="form-control"
+                                            placeholder="{{ translate('messages.GPS') }}" value="{{ $bike->gps }}"
+                                            required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="input-label"
+                                            for="default_name">{{ translate('messages.KM_Reading') }}
+                                        </label>
+                                        <input type="text" name="km_reading" id="km_reading" class="form-control"
+                                            placeholder="{{ translate('messages.km_reading') }}"
+                                            value="{{ $bike->km_reading }}" required>
+                                    </div>
+
+
+                                    @php(    $insuranceExpiryDate = $bike->insurance_expiry_date ? \Carbon\Carbon::parse($bike->insurance_expiry_date)->format('Y-m-d') : '')
+                                    
+
+                                    <div class="form-group">
+                                        <label class="input-label"
+                                            for="insurance_expiry_date">{{ translate('messages.Insurance_expiry_date') }}</label>
+                                        <input type="date" name="insurance_expiry_date" id="insurance_expiry_date"
+                                            class="form-control"
+                                            placeholder="{{ translate('messages.Insurance_expiry_date') }}"
+                                            value="{{ old('insurance_expiry_date', $insuranceExpiryDate) }}" required>
+                                    </div>
+
+                                    <input type="hidden" name="lang[]" value="default">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="exampleFormControlInput1">{{ translate('messages.short_description') }}
+                                            ({{ translate('messages.default') }})</label>
+                                        <textarea type="text" name="description" class="form-control min-h-90px ckeditor">{{ $bike->description }}</textarea>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="flex-grow-1 mx-auto">
-                                <label class="text-dark d-block">
-                                    {{ translate('messages.item_thumbnail') }}
-                                    <small class="text-danger">* ( {{ translate('messages.ratio') }} 1:1 )</small>
-                                </label>
-                                <label class="d-inline-block m-0">
-                                    <img class="img--100 onerror-image" id="viewer"
-                                        src="{{ \App\CentralLogics\Helpers::onerror_image_helper(
-                                               $bike->image ?? '',
-                                            asset('storage/app/public/product') . '/' . $bike->image ?? '',
-                                            asset('public/assets/admin/img/upload.png'),
-                                            'product/',
-                                        ) }}"
-                                        data-onerror-image="{{ asset('public/assets/admin/img/upload.png') }}"
-                                        alt="thumbnail" />
-                                    <input type="file" name="image" id="customFileEg1"
-                                        class="custom-file-input d-none"
-                                        accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
-                                </label>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-wrap align-items-center">
+                            <div class="w-100 d-flex flex-wrap __gap-15px">
+                                <div class="flex-grow-1 mx-auto">
+                                    <label class="text-dark d-block">
+                                        {{ translate('messages.item_image') }}
+                                        <small class="text-danger">* ( {{ translate('messages.ratio') }} 1:1 )</small>
+                                    </label>
+                                    <div class="d-flex flex-wrap __gap-12px __new-coba" id="coba">
+
+                                        <input type="hidden" id="removedImageKeysInput" name="removedImageKeys"
+                                            value="">
+                                        @foreach ($bike->images as $key => $photo)
+                                            <div id="product_images_{{ $key }}"
+                                                class="spartan_item_wrapper min-w-100px max-w-100px">
+                                                <img class="img--square onerror-image"
+                                                    src="{{ \App\CentralLogics\Helpers::onerror_image_helper(
+                                                        $photo ?? '',
+                                                        asset('storage/app/public/product') . '/' . $photo ?? '',
+                                                        asset('public/assets/admin/img/upload.png'),
+                                                        'product/',
+                                                    ) }}"
+                                                    data-onerror-image="{{ asset('public/assets/admin/img/upload.png') }}"
+                                                    alt="Product image">
+                                                @if (request()->product_gellary == 1)
+                                                    <a href="#" data-key={{ $key }}
+                                                        data-photo="{{ $photo }}"
+                                                        class="spartan_remove_row function_remove_img"><i
+                                                            class="tio-add-to-trash"></i></a>
+                                                @else
+                                                    <a href="{{ route('admin.item.remove-image', ['id' => $bike['id'], 'name' => $bike, 'temp_product' => false]) }}"
+                                                        class="spartan_remove_row"><i class="tio-add-to-trash"></i></a>
+                                                @endif
+
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 mx-auto">
+                                    <label class="text-dark d-block">
+                                        {{ translate('messages.item_thumbnail') }}
+                                        <small class="text-danger">* ( {{ translate('messages.ratio') }} 1:1 )</small>
+                                    </label>
+                                    <label class="d-inline-block m-0">
+                                        <img class="img--100 onerror-image" id="viewer"
+                                            src="{{ \App\CentralLogics\Helpers::onerror_image_helper(
+                                                $bike->image ?? '',
+                                                asset('storage/app/public/product') . '/' . $bike->image ?? '',
+                                                asset('public/assets/admin/img/upload.png'),
+                                                'product/',
+                                            ) }}"
+                                            data-onerror-image="{{ asset('public/assets/admin/img/upload.png') }}"
+                                            alt="thumbnail" />
+                                        <input type="file" name="image" id="customFileEg1"
+                                            class="custom-file-input d-none"
+                                            accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-md-12">
-                <div class="btn--container justify-content-end">
-                    <button type="reset" id="reset_btn"
-                        class="btn btn--reset">{{ translate('messages.reset') }}</button>
-                    <button type="submit" class="btn btn--primary">{{ translate('messages.update') }}</button>
+                <div class="col-md-12">
+                    <div class="btn--container justify-content-end">
+                        <button type="reset" id="reset_btn"
+                            class="btn btn--reset">{{ translate('messages.reset') }}</button>
+                        <button type="submit" class="btn btn--primary">{{ translate('messages.update') }}</button>
+                    </div>
                 </div>
             </div>
-        </div>
-    </form>
-</div>
+        </form>
+    </div>
 
 @endsection
 

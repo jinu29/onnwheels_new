@@ -15,10 +15,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
--- Dumping database structure for test
-CREATE DATABASE IF NOT EXISTS `test` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `test`;
-
 -- Dumping structure for table test.account_transactions
 CREATE TABLE IF NOT EXISTS `account_transactions` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
@@ -288,12 +284,19 @@ CREATE TABLE IF NOT EXISTS `bikes` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `engine_number` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `chasis_number` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `imei` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `gps` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `km_reading` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `insurance_expiry_date` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.bikes: ~0 rows (approximately)
-INSERT INTO `bikes` (`id`, `name`, `model`, `vehicle_number`, `image`, `images`, `rc_number`, `created_at`, `updated_at`, `description`) VALUES
-	(2, 'KTM Bike', 'KTM', 'TN06AB676', '2024-07-06-6688e997a6360.png', '["2024-07-06-6688e9978a36f.png","2024-07-06-6688e99793beb.png"]', '9079879', '2024-07-06 06:52:07', '2024-07-06 06:52:07', 'good');
+-- Dumping data for table test.bikes: ~2 rows (approximately)
+INSERT INTO `bikes` (`id`, `name`, `model`, `vehicle_number`, `image`, `images`, `rc_number`, `created_at`, `updated_at`, `description`, `engine_number`, `chasis_number`, `imei`, `gps`, `km_reading`, `insurance_expiry_date`) VALUES
+	(2, 'KTM Bike', 'KTM', 'TN06AB676', '2024-07-06-6688e997a6360.png', '["2024-07-06-6688e9978a36f.png","2024-07-06-6688e99793beb.png"]', '9079879', '2024-07-06 06:52:07', '2024-07-10 05:55:32', 'good', 'MD2A18AY2JWF20006', 'AY2JWF20006', '1000104527381', 'Loconav', '1001', '2024-07-26 18:30:00'),
+	(3, 'Apache RTR', 'Apache', 'TN06AB671', '2024-07-10-668e204ba516c.png', '["2024-07-10-668e204ba0358.png","2024-07-10-668e204ba395b.png"]', '9079879', '2024-07-10 05:46:51', '2024-07-10 05:46:51', 'asdasd', 'MD2A18AY2JWF20006', 'AY2JWF20006', '1000104527381', 'Loconav', '1001', '2025-01-09 18:30:00');
 
 -- Dumping structure for table test.business_settings
 CREATE TABLE IF NOT EXISTS `business_settings` (
@@ -414,7 +417,7 @@ INSERT INTO `business_settings` (`id`, `key`, `value`, `created_at`, `updated_at
 	(108, 'ref_earning_exchange_rate', '0', '2022-07-05 03:26:20', '2022-07-05 03:26:20'),
 	(109, 'loyalty_point_item_purchase_point', '0', '2022-07-05 03:26:20', '2022-07-05 03:26:20'),
 	(110, 'loyalty_point_minimum_point', '0', '2022-07-05 03:26:20', '2022-07-05 03:26:20'),
-	(111, 'refund_active_status', '0', '2022-07-05 03:26:20', '2022-07-05 03:26:20'),
+	(111, 'refund_active_status', '1', '2022-07-05 03:26:20', '2024-07-10 06:56:42'),
 	(112, 'dm_tips_status', NULL, '2022-07-05 03:26:20', '2022-07-05 03:26:20'),
 	(113, 'system_language', '[{"id":1,"direction":"ltr","code":"en","status":1,"default":true}]', '2023-08-15 23:29:41', '2023-08-15 23:29:41'),
 	(114, 'site_direction', NULL, NULL, NULL),
@@ -1270,9 +1273,6 @@ CREATE TABLE IF NOT EXISTS `items` (
 
 -- Dumping data for table test.items: ~15 rows (approximately)
 INSERT INTO `items` (`id`, `name`, `description`, `image`, `category_id`, `category_ids`, `variations`, `add_ons`, `attributes`, `choice_options`, `price`, `tax`, `tax_type`, `discount`, `discount_type`, `available_time_starts`, `available_time_ends`, `veg`, `status`, `store_id`, `created_at`, `updated_at`, `order_count`, `avg_rating`, `rating_count`, `rating`, `module_id`, `stock`, `unit_id`, `images`, `food_variations`, `slug`, `recommended`, `organic`, `maximum_cart_quantity`, `is_approved`, `hours_price`, `distance_price`, `month_price`, `week_price`, `days_price`, `vehicle_number`, `bike_id`) VALUES
-	(19, 'Yamaha v3', 'The Yamaha v3 is a high-performance sport bike manufactured by Honda. It\'s renowned for its lightweight chassis, sharp handling, and powerful inline-four engine. This motorcycle is popular among riders who appreciate its track-focused design and agility, making it a favorite for both street riding and racing enthusiasts.', '2024-05-22-664d7fc57d231.png', 5, '[{"id":"5","position":1}]', '[]', '[]', '[]', '[]', 500.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 3, '2024-05-08 13:42:44', '2024-05-21 18:47:03', 0, 0.00000000000000, 0, NULL, 1, 10, NULL, '["2024-05-22-664d7fc578d3f.png","2024-05-22-664d7fc57c4d4.png","2024-05-22-664d7fc57cab5.png"]', '[]', 'cbr-600-r', 0, 0, 1, 1, '"{\\"1\\":\\"500\\"}"', '"{\\"\\":null}"', NULL, NULL, NULL, NULL, NULL),
-	(20, 'Royal Enfield Classic 350', 'The Royal Enfield Classic 350 is an iconic motorcycle known for its retro styling and timeless appeal. It features a classic design reminiscent of vintage British motorcycles with modern reliability. The bike is powered by a 346cc single-cylinder engine, delivering a smooth and torquey performance suitable for city commuting and leisurely rides.', '2024-05-22-664d7f680a630.png', 5, '[{"id":"5","position":1}]', '[]', '[]', '[]', '[]', 150.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 3, '2024-05-08 13:45:51', '2024-05-21 18:45:36', 0, 0.00000000000000, 0, NULL, 1, 15, NULL, '["2024-05-22-664d7f68063e1.png","2024-05-22-664d7f6809134.png","2024-05-22-664d7f68096dc.png"]', '[]', 'royal-enfield-classic-350', 0, 0, 1, 1, '"{\\"1\\":\\"150\\"}"', '"{\\"\\":null}"', NULL, NULL, NULL, NULL, NULL),
-	(21, 'Bajaj Pulsar NS200', 'The Bajaj Pulsar NS200 is a popular naked sportbike known for its striking design and agile performance. It features a 199.5cc liquid-cooled single-cylinder engine that delivers around 24 horsepower, paired with a six-speed gearbox for smooth acceleration and flexibility. The NS200 stands out with its aggressive styling, highlighted by sharp lines, a muscular fuel tank, and a distinctive front headlamp design.', '2024-05-22-664d7f222821e.png', 5, '[{"id":"5","position":1}]', '[]', '[]', '[]', '[]', 250.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 3, '2024-05-08 15:00:19', '2024-05-28 18:33:29', 1, 0.00000000000000, 0, NULL, 1, 10, NULL, '["2024-05-22-664d7f2223ae7.png","2024-05-22-664d7f2226f9e.png","2024-05-22-664d7f222758a.png"]', '[]', 'bajaj-pulsar-ns200', 0, 0, 1, 1, '"{\\"48\\":\\"600\\"}"', '"{\\"1\\":\\"100\\"}"', NULL, NULL, NULL, NULL, NULL),
 	(22, 'KTM 250', 'The KTM is powered by a 250 cc single-cylinder, air-cooled engine (with oil cooler in some variants), delivering good power and torque. It\'s known for its refinement and linear power delivery.', '2024-05-22-664d7e77bb0ce.png', 5, '[{"id":"5","position":1}]', '[]', '[]', '[]', '[]', 250.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 3, '2024-05-08 15:04:28', '2024-05-21 18:41:31', 0, 0.00000000000000, 0, NULL, 1, 10, NULL, '["2024-05-22-664d7e77b6a6c.png","2024-05-22-664d7e77b9524.png","2024-05-22-664d7e77b9b54.png"]', '[]', 'apache-rtr-160', 0, 0, 1, 1, '"{\\"1\\":\\"250\\"}"', '"{\\"\\":null}"', NULL, NULL, NULL, NULL, NULL),
 	(23, 'Pulsar 180', 'Hero MotoCorp was originally founded as Hero Cycles in 1956 in Ludhiana, India. In 1984, Hero collaborated with Honda of Japan to establish Hero Honda Motors Limited, which became one of the most successful joint ventures in India\'s automotive industry. In 2011, Hero MotoCorp was formed after the split from Honda, and it continues to be a dominant player in the Indian two-wheeler market.', '2024-05-22-664d7dd54dc8a.png', 5, '[{"id":"5","position":1}]', '[]', '[]', '[]', '[]', 200.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 3, '2024-05-08 15:06:57', '2024-05-21 18:39:38', 0, 0.00000000000000, 0, NULL, 1, 15, NULL, '["2024-05-22-664d7dd549fc9.png","2024-05-22-664d7dd54c76a.png","2024-05-22-664d7dd54cd5d.png","2024-05-22-664d7dd54d3ae.png"]', '[]', 'hero-motocorp', 0, 0, 1, 1, '"{\\"1\\":\\"200\\"}"', '"{\\"\\":null}"', NULL, NULL, NULL, NULL, NULL),
 	(24, 'Apache RTR', 'The Ninja brand was introduced in the 1980s and quickly gained popularity for its high-performance sport bikes. Over the years, Kawasaki has continuously updated and expanded the Ninja lineup, offering a range of models catering to different riding styles and skill levels.', '2024-05-22-664d7d86c4946.png', 5, '[{"id":"5","position":1}]', '[]', '[]', '[]', '[]', 260.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 3, '2024-05-08 15:20:33', '2024-05-21 18:38:49', 0, 0.00000000000000, 0, NULL, 1, 10, NULL, '["2024-05-22-664d7d86bf895.png","2024-05-22-664d7d86c2b16.png","2024-05-22-664d7d86c3373.png"]', '[]', 'kawasaki-ninja', 0, 0, 1, 1, '"{\\"1\\":\\"260\\"}"', '"{\\"\\":null}"', NULL, NULL, NULL, NULL, NULL),
@@ -1283,7 +1283,7 @@ INSERT INTO `items` (`id`, `name`, `description`, `image`, `category_id`, `categ
 	(30, 'bike new', 'new bike', '2024-06-24-667912ed0f8a4.png', 5, '[{"id":"5","position":1}]', '[]', '[]', '[]', '[]', 200.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 6, '2024-06-24 06:32:13', '2024-06-24 06:32:13', 0, 0.00000000000000, 0, NULL, 1, 0, NULL, '["2024-06-24-667912ed0c0c1.png","2024-06-24-667912ed0ebba.png"]', '[]', 'bike-new', 0, 0, NULL, 1, '"{\\"1\\":\\"200\\"}"', '"{\\"1\\":\\"200\\"}"', NULL, NULL, NULL, NULL, NULL),
 	(31, 'demo bike new', 'asdasd', '2024-06-24-6679222d6152d.png', 6, '[{"id":"6","position":1}]', '[]', '[]', '[]', '[]', 200.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 6, '2024-06-24 07:37:17', '2024-06-27 07:03:30', 0, 0.00000000000000, 0, NULL, 1, 0, NULL, '["2024-06-24-6679222d5c7c6.png","2024-06-24-6679222d5ffec.png","2024-06-24-6679222d60eeb.png"]', '[]', 'demo-bike-new', 0, 0, NULL, 1, '"{\\"hour\\":\\"1\\",\\"price\\":\\"500\\",\\"km_limit\\":\\"100\\",\\"km_charges\\":\\"50\\"}"', '"{\\"hour\\":null,\\"price\\":null,\\"km_limit\\":null,\\"km_charges\\":null}"', '"{\\"hour\\":\\"1\\",\\"price\\":\\"23000\\",\\"km_limit\\":\\"3000\\",\\"km_charges\\":\\"100\\"}"', '"{\\"hour\\":\\"1\\",\\"price\\":\\"8000\\",\\"km_limit\\":\\"1800\\",\\"km_charges\\":\\"70\\"}"', '"{\\"hour\\":\\"1\\",\\"price\\":\\"1000\\",\\"km_limit\\":\\"500\\",\\"km_charges\\":\\"100\\"}"', NULL, NULL),
 	(32, 'Nice Bike', 'Cool', '2024-07-01-66824bf727c8b.png', 5, '[{"id":"5","position":1}]', '[]', '[]', '[]', '[]', 100.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 6, '2024-07-01 06:25:59', '2024-07-02 05:26:06', 0, 0.00000000000000, 0, NULL, 1, 0, NULL, '["2024-07-01-66824bf71ef21.png","2024-07-01-66824bf7276ad.png"]', '[]', 'nice-bike', 0, 0, NULL, 1, '"{\\"hour\\":\\"1\\",\\"price\\":\\"50\\",\\"km_limit\\":\\"10\\",\\"km_charges\\":\\"4\\",\\"hour_limit\\":\\"4\\",\\"hour_weekend_limit\\":\\"10\\",\\"extra_hours\\":\\"75\\"}"', '"{\\"hour\\":null,\\"price\\":null,\\"km_limit\\":null,\\"km_charges\\":null}"', '"{\\"hour\\":\\"1\\",\\"price\\":\\"6150\\",\\"km_limit\\":\\"1800\\",\\"km_charges\\":\\"4\\",\\"extra_hours\\":\\"75\\"}"', '"{\\"hour\\":\\"1\\",\\"price\\":\\"3150\\",\\"km_limit\\":\\"560\\",\\"km_charges\\":\\"4\\",\\"extra_hours\\":\\"75\\"}"', '"{\\"hour\\":\\"1\\",\\"price\\":\\"400\\",\\"km_limit\\":\\"150\\",\\"km_charges\\":\\"4\\",\\"extra_hours\\":\\"75\\"}"', 'TN06AB676', NULL),
-	(33, 'good bike', 'good one', '2024-07-02-668394934bd44.png', 6, '[{"id":"6","position":1}]', '[]', '[]', '[]', '[]', 10.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 6, '2024-07-02 05:48:03', '2024-07-03 10:46:08', 0, 0.00000000000000, 0, NULL, 1, 0, NULL, '["2024-07-02-6683949346d2d.png","2024-07-02-668394934b031.png"]', '[]', 'good-bike', 0, 0, NULL, 1, '"{\\"hour\\":\\"1\\",\\"price\\":\\"50\\",\\"km_limit\\":\\"100\\",\\"km_charges\\":\\"5\\",\\"hour_limit\\":\\"2\\",\\"hour_weekend_limit\\":\\"1\\",\\"extra_hours\\":\\"10\\"}"', '"{\\"hour\\":null,\\"price\\":null,\\"km_limit\\":null,\\"km_charges\\":null}"', '"{\\"hour\\":\\"1\\",\\"price\\":\\"4500\\",\\"km_limit\\":\\"2000\\",\\"km_charges\\":\\"5\\",\\"extra_hours\\":\\"10\\"}"', '"{\\"hour\\":\\"1\\",\\"price\\":\\"4000\\",\\"km_limit\\":\\"1000\\",\\"km_charges\\":\\"5\\",\\"extra_hours\\":\\"10\\"}"', '"{\\"hour\\":\\"1\\",\\"price\\":\\"400\\",\\"km_limit\\":\\"500\\",\\"km_charges\\":\\"5\\",\\"extra_hours\\":\\"10\\"}"', 'TN06AB676', NULL),
+	(33, 'good bike', 'good one', '2024-07-02-668394934bd44.png', 6, '[{"id":"6","position":1}]', '[]', '[]', '[]', '[]', 10.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 6, '2024-07-02 05:48:03', '2024-07-10 05:47:22', 0, 0.00000000000000, 0, NULL, 1, 0, NULL, '["2024-07-02-6683949346d2d.png","2024-07-02-668394934b031.png"]', '[]', 'good-bike', 0, 0, NULL, 1, '"{\\"hour\\":\\"1\\",\\"price\\":\\"50\\",\\"km_limit\\":\\"100\\",\\"km_charges\\":\\"5\\",\\"hour_limit\\":\\"2\\",\\"hour_weekend_limit\\":\\"1\\",\\"extra_hours\\":\\"10\\"}"', '"{\\"hour\\":null,\\"price\\":null,\\"km_limit\\":null,\\"km_charges\\":null}"', '"{\\"hour\\":\\"1\\",\\"price\\":\\"4500\\",\\"km_limit\\":\\"2000\\",\\"km_charges\\":\\"5\\",\\"extra_hours\\":\\"10\\"}"', '"{\\"hour\\":\\"1\\",\\"price\\":\\"4000\\",\\"km_limit\\":\\"1000\\",\\"km_charges\\":\\"5\\",\\"extra_hours\\":\\"10\\"}"', '"{\\"hour\\":\\"1\\",\\"price\\":\\"400\\",\\"km_limit\\":\\"500\\",\\"km_charges\\":\\"5\\",\\"extra_hours\\":\\"10\\"}"', 'TN06AB676', 3),
 	(34, NULL, NULL, NULL, 6, '[{"id":"6","position":1}]', '[]', '[]', '[]', '[]', 200.00, 0.00, 'percent', 0.00, 'percent', '00:00:00', '23:59:59', 0, 1, 6, '2024-07-06 04:33:20', '2024-07-09 07:19:52', 0, 0.00000000000000, 0, NULL, 1, 0, NULL, '[]', '[]', 'ktm-bike34', 0, 0, NULL, 1, '"{\\"hour\\":\\"1\\",\\"price\\":\\"100\\",\\"km_limit\\":\\"50\\",\\"km_charges\\":\\"5\\",\\"hour_limit\\":\\"1\\",\\"hour_weekend_limit\\":\\"6\\",\\"extra_hours\\":\\"10\\"}"', '"{\\"hour\\":null,\\"price\\":null,\\"km_limit\\":null,\\"km_charges\\":null}"', '"{\\"hour\\":\\"1\\",\\"price\\":\\"3000\\",\\"km_limit\\":\\"1200\\",\\"km_charges\\":\\"6\\",\\"extra_hours\\":\\"6\\"}"', '"{\\"hour\\":\\"1\\",\\"price\\":\\"2000\\",\\"km_limit\\":\\"500\\",\\"km_charges\\":\\"6\\",\\"extra_hours\\":\\"10\\"}"', '"{\\"hour\\":\\"1\\",\\"price\\":\\"1000\\",\\"km_limit\\":\\"100\\",\\"km_charges\\":\\"5\\",\\"extra_hours\\":\\"10\\"}"', NULL, 2);
 
 -- Dumping structure for table test.item_campaigns
@@ -1350,7 +1350,6 @@ INSERT INTO `item_station` (`id`, `item_id`, `station_id`, `created_at`, `update
 	(10, 31, 1, NULL, NULL),
 	(11, 32, 1, NULL, NULL),
 	(12, 32, 3, NULL, NULL),
-	(13, 33, 1, NULL, NULL),
 	(14, 33, 3, NULL, NULL),
 	(22, 34, 3, NULL, NULL);
 
@@ -2056,7 +2055,7 @@ CREATE TABLE IF NOT EXISTS `order_payments` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.order_payments: ~3 rows (approximately)
+-- Dumping data for table test.order_payments: ~5 rows (approximately)
 INSERT INTO `order_payments` (`id`, `order_id`, `transaction_ref`, `amount`, `payment_status`, `payment_method`, `created_at`, `updated_at`) VALUES
 	(24, 100032, 'pay_OTek4CWIlxO7Eb', 2988.00, 'Paid', 'Razorpay', '2024-07-02 05:55:23', '2024-07-02 05:55:23'),
 	(25, 100033, 'pay_OThlBgpfuaC2LB', 531.00, 'Paid', 'Razorpay', '2024-07-02 08:52:31', '2024-07-02 08:52:31'),
@@ -2075,7 +2074,7 @@ CREATE TABLE IF NOT EXISTS `order_references` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.order_references: ~3 rows (approximately)
+-- Dumping data for table test.order_references: ~5 rows (approximately)
 INSERT INTO `order_references` (`id`, `order_id`, `is_reviewed`, `is_review_canceled`, `created_at`, `updated_at`) VALUES
 	(32, 100032, 0, 0, '2024-07-02 05:55:23', '2024-07-02 05:55:23'),
 	(33, 100033, 0, 0, '2024-07-02 08:52:31', '2024-07-02 08:52:31'),
@@ -2550,7 +2549,7 @@ CREATE TABLE IF NOT EXISTS `translations` (
   KEY `translations_locale_index` (`locale`)
 ) ENGINE=InnoDB AUTO_INCREMENT=95 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.translations: ~81 rows (approximately)
+-- Dumping data for table test.translations: ~82 rows (approximately)
 INSERT INTO `translations` (`id`, `translationable_type`, `translationable_id`, `locale`, `key`, `value`, `created_at`, `updated_at`) VALUES
 	(1, 'App\\Models\\Module', 1, 'en', 'module_name', 'onnwheels', NULL, NULL),
 	(2, 'App\\Models\\Module', 1, 'en', 'description', '<p>Demo module description.</p>', NULL, NULL),
@@ -2610,12 +2609,6 @@ INSERT INTO `translations` (`id`, `translationable_type`, `translationable_id`, 
 	(66, 'App\\Models\\Item', 23, 'en', 'description', 'Hero MotoCorp was originally founded as Hero Cycles in 1956 in Ludhiana, India. In 1984, Hero collaborated with Honda of Japan to establish Hero Honda Motors Limited, which became one of the most successful joint ventures in India\'s automotive industry. In 2011, Hero MotoCorp was formed after the split from Honda, and it continues to be a dominant player in the Indian two-wheeler market.', NULL, NULL),
 	(67, 'App\\Models\\Item', 22, 'en', 'name', 'KTM 250', NULL, NULL),
 	(68, 'App\\Models\\Item', 22, 'en', 'description', 'The KTM is powered by a 250 cc single-cylinder, air-cooled engine (with oil cooler in some variants), delivering good power and torque. It\'s known for its refinement and linear power delivery.', NULL, NULL),
-	(69, 'App\\Models\\Item', 21, 'en', 'name', 'Bajaj Pulsar NS200', NULL, NULL),
-	(70, 'App\\Models\\Item', 21, 'en', 'description', 'The Bajaj Pulsar NS200 is a popular naked sportbike known for its striking design and agile performance. It features a 199.5cc liquid-cooled single-cylinder engine that delivers around 24 horsepower, paired with a six-speed gearbox for smooth acceleration and flexibility. The NS200 stands out with its aggressive styling, highlighted by sharp lines, a muscular fuel tank, and a distinctive front headlamp design.', NULL, NULL),
-	(71, 'App\\Models\\Item', 20, 'en', 'name', 'Royal Enfield Classic 350', NULL, NULL),
-	(72, 'App\\Models\\Item', 20, 'en', 'description', 'The Royal Enfield Classic 350 is an iconic motorcycle known for its retro styling and timeless appeal. It features a classic design reminiscent of vintage British motorcycles with modern reliability. The bike is powered by a 346cc single-cylinder engine, delivering a smooth and torquey performance suitable for city commuting and leisurely rides.', NULL, NULL),
-	(73, 'App\\Models\\Item', 19, 'en', 'name', 'Yamaha v3', NULL, NULL),
-	(74, 'App\\Models\\Item', 19, 'en', 'description', 'The Yamaha v3 is a high-performance sport bike manufactured by Honda. It\'s renowned for its lightweight chassis, sharp handling, and powerful inline-four engine. This motorcycle is popular among riders who appreciate its track-focused design and agility, making it a favorite for both street riding and racing enthusiasts.', NULL, NULL),
 	(75, 'App\\Models\\Item', 26, 'en', 'name', 'Ducati 360', NULL, NULL),
 	(76, 'App\\Models\\Item', 26, 'en', 'description', 'Ducati is an Italian motorcycle manufacturing company headquartered in Bologna, Italy. The company is directly owned by Italian automotive manufacturer Lamborghini, whose German parent company is Audi.', NULL, NULL),
 	(77, 'App\\Models\\Zone', 4, 'en', 'name', 'bangalore', NULL, NULL),
@@ -2666,7 +2659,7 @@ CREATE TABLE IF NOT EXISTS `userkycs` (
 
 -- Dumping data for table test.userkycs: ~2 rows (approximately)
 INSERT INTO `userkycs` (`id`, `user_id`, `aadhar`, `pan`, `license_front`, `license_back`, `is_verified`, `is_reject`, `status`, `created_at`, `updated_at`) VALUES
-	(39, 27, '4444 4444 4444', 'HXOPK3749G', '/uploads/user/kyc/1719397790_front.webp', '/uploads/user/kyc/1719397790_back.jfif', 1, 0, NULL, '2024-06-26 10:29:50', '2024-07-02 04:49:15'),
+	(39, 27, '4444 4444 4444', 'HXOPK3749G', '/uploads/user/kyc/1719397790_front.webp', '/uploads/user/kyc/1719397790_back.jfif', 0, 2, 'ss', '2024-06-26 10:29:50', '2024-07-10 07:34:38'),
 	(40, 24, '123456789012', 'ABCDE1234F', '/uploads/user/kyc/1719398382_front.png', '/uploads/user/kyc/1719398382_back.png', 1, 0, NULL, '2024-06-26 10:33:14', '2024-07-02 04:47:05');
 
 -- Dumping structure for table test.users
@@ -2745,7 +2738,7 @@ CREATE TABLE IF NOT EXISTS `user_notifications` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table test.user_notifications: ~4 rows (approximately)
+-- Dumping data for table test.user_notifications: ~5 rows (approximately)
 INSERT INTO `user_notifications` (`id`, `data`, `status`, `user_id`, `vendor_id`, `delivery_man_id`, `created_at`, `updated_at`) VALUES
 	(1, '{"title":"Order push title","description":"New order push description","order_id":100016,"image":"","type":"new_order"}', 1, NULL, 3, NULL, '2024-05-28 01:08:37', '2024-05-28 01:08:37'),
 	(2, '{"title":"Order push title","description":"New order push description","order_id":100017,"image":"","type":"new_order"}', 1, NULL, 3, NULL, '2024-05-28 18:33:19', '2024-05-28 18:33:19'),

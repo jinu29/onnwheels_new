@@ -61,16 +61,51 @@
                                             placeholder="{{ translate('messages.vehicle_number') }}" required>
                                     </div>
                                     <div class="form-group">
-                                        <label class="input-label" for="default_name">{{ translate('messages.RC_number') }}
+                                        <label class="input-label" for="default_name">{{ translate('messages.RC_Number') }}
                                         </label>
                                         <input type="text" name="rc_number" id="rc_number" class="form-control"
                                             placeholder="{{ translate('messages.rc_number') }}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="input-label" for="default_name">{{ translate('messages.Engine_Number') }}
+                                        </label>
+                                        <input type="text" name="engine_number" id="engine_number" class="form-control"
+                                            placeholder="{{ translate('messages.engine_number') }}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="input-label" for="default_name">{{ translate('messages.Chasis_Number') }}
+                                        </label>
+                                        <input type="text" name="chasis_number" id="chasis_number" class="form-control"
+                                            placeholder="{{ translate('messages.chasis_number') }}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="input-label" for="default_name">{{ translate('messages.IMEI') }}
+                                        </label>
+                                        <input type="text" name="imei" id="imei" class="form-control"
+                                            placeholder="{{ translate('messages.IMEI') }}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="input-label" for="default_name">{{ translate('messages.GPS') }}
+                                        </label>
+                                        <input type="text" name="gps" id="gps" class="form-control"
+                                            placeholder="{{ translate('messages.GPS') }}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="input-label" for="default_name">{{ translate('messages.KM_Reading') }}
+                                        </label>
+                                        <input type="text" name="km_reading" id="km_reading" class="form-control"
+                                            placeholder="{{ translate('messages.km_reading') }}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="input-label" for="default_name">{{ translate('messages.Insurance_expiry_date') }}
+                                        </label>
+                                        <input type="date" name="insurance_expiry_date" id="insurance_expiry_date" class="form-control"
+                                            placeholder="{{ translate('messages.Insurance_expiry_date') }}" required>
                                     </div>
                                     <input type="hidden" name="lang[]" value="default">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
                                             for="exampleFormControlInput1">{{ translate('messages.short_description') }}
-                                            ({{ translate('messages.default') }})</label>
                                         <textarea type="text" name="description" class="form-control min-h-90px ckeditor"></textarea>
                                     </div>
                                 </div>

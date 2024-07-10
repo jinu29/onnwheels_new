@@ -1092,7 +1092,7 @@
                             <span class="rating">5.0</span>
                         </div>
                         <div class="desp">
-                            <p>{{ $items->description }}</p>
+                            <p>{{ $items->bike->description }}</p>
                         </div>
 
                         {{-- @php
