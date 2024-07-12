@@ -250,7 +250,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::get('get-addons', 'VendorController@get_addons')->name('get_addons');
             Route::get('station', 'StationController@index')->name('station');
             Route::post('station', 'StationController@station_store')->name('station-store');
-            Route::get('station/list', 'StationController@station_list')->name('station-list');
+            Route::get('station/list/{status?}', 'StationController@station_list')->name('station-list');
             Route::get('station/{id}/edit', 'StationController@edit')->name('station-edit');
             Route::post('station/{id}/update', 'StationController@update')->name('station-update');
             Route::delete('station/{id}', 'StationController@destroy')->name('station-delete');
