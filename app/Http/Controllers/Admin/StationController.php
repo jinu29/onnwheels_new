@@ -88,9 +88,27 @@ class StationController extends Controller
     }
 
 
-    public function station_list(Request $request)
+    public function station_list(Request $request, $status)
     {
-        $stations = Station::paginate(10); // Using pagination for better performance
+        $query = Station::query();
+
+        switch ($status) {
+            case 'all':
+                // No additional filtering needed for 'all'
+                break;
+            case 'active':
+                $query->where('status', 0); // Assuming 'status' 0 means active
+                break;
+            case 'inactive':
+                $query->where('status', 1); // Assuming 'status' 1 means inactive
+                break;
+            default:
+                // Default to 'all' if an invalid status is provided
+                break;
+        }
+
+        $stations = $query->paginate(10); // Using pagination for better performance
+
         return view('admin-views.station.list', compact('stations'));
     }
     /**

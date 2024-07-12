@@ -593,22 +593,22 @@
 
                     <ul class="js-navbar-vertical-aside-submenu nav nav-sub" style="display:{{ Request::is('admin/store*') ? 'block' : 'none' }}">
 
-                        <li class="nav-item {{Request::is('admin/store/station/list')  || (Request::is('admin/item/edit/*') && (strpos(request()->fullUrl(), 'temp_product=1') == false && strpos(request()->fullUrl(), 'product_gellary=1') == false  ) ) ? 'active' : '' }}">
-                            <a class="nav-link " href="{{ route('admin.store.station-list') }}" >
+                        <li class="nav-item {{Request::is('admin/store/station/list/all')  || (Request::is('admin/item/edit/*') && (strpos(request()->fullUrl(), 'temp_product=1') == false && strpos(request()->fullUrl(), 'product_gellary=1') == false  ) ) ? 'active' : '' }}">
+                            <a class="nav-link " href="{{ route('admin.store.station-list',['all']) }}" >
                                 <span class="tio-circle nav-indicator-icon"></span>
                                 <span class="text-truncate">{{ translate('messages.total_hub_station') }}</span>
                             </a>
                         </li>
 
-                        <li class="nav-item {{ Request::is('admin/store/station/list') || (Request::is('admin/item/edit/*') && strpos(request()->fullUrl(), 'product_gellary=1') !== false  )  ? 'active' : '' }}">
-                            <a class="nav-link " href="{{ route('admin.item.add-new') }}" title="{{ translate('messages.add_new') }}">
+                        <li class="nav-item {{ Request::is('admin/store/station/list/active') || (Request::is('admin/item/edit/*') && strpos(request()->fullUrl(), 'product_gellary=1') !== false  )  ? 'active' : '' }}">
+                            <a class="nav-link " href="{{ route('admin.store.station-list',['active']) }}" title="{{ translate('messages.add_new') }}">
                                 <span class="tio-circle nav-indicator-icon"></span>
                                 <span class="text-truncate">{{ translate('messages.active_stations') }}</span>
                             </a>
                         </li>
 
-                        <li class="nav-item {{ Request::is('admin/store/station/list') || (Request::is('admin/item/edit/*') && (strpos(request()->fullUrl(), 'temp_product=1') == false && strpos(request()->fullUrl(), 'product_gellary=1') == false  ) ) ? 'active' : '' }}">
-                            <a class="nav-link " href="{{ route('admin.item.list',['all']) }}" title="{{ translate('messages.food_list') }}">
+                        <li class="nav-item {{ Request::is('admin/store/station/list/inactive') || (Request::is('admin/item/edit/*') && (strpos(request()->fullUrl(), 'temp_product=1') == false && strpos(request()->fullUrl(), 'product_gellary=1') == false  ) ) ? 'active' : '' }}">
+                            <a class="nav-link " href="{{ route('admin.store.station-list',['inactive']) }}" title="{{ translate('messages.food_list') }}">
                            
                                 <span class="tio-circle nav-indicator-icon"></span>
                                     <span class="text-truncate sidebar--badge-container">
