@@ -115,8 +115,8 @@
                             </div>
                         </div>
                     </li> --}}
-                    
-                    @if (\App\CentralLogics\Helpers::module_permission_check('order'))
+
+                    {{-- @if (\App\CentralLogics\Helpers::module_permission_check('order'))
                         <li class="nav-item __nav-item">
                             <a href="{{ route('admin.dispatch.dashboard') }}" id="tourb-8"
                                 class="__nav-link {{ Request::is('admin/dispatch*') ? 'active' : '' }}">
@@ -125,7 +125,7 @@
                                 <span>{{ translate('Delivery Management') }}</span>
                             </a>
                         </li>
-                    @endif
+                    @endif --}}
 
                     {{-- <li class="nav-item max-sm-m-0 ml-auto mr-lg-3">
                         <a class="btn btn-icon rounded-circle nav-msg-icon" href="{{ route('admin.message.list') }}">
@@ -137,6 +137,7 @@
                             @endif
                         </a>
                     </li> --}}
+
                     {{-- <li class="nav-item max-sm-m-0">
                         <div class="hs-unfold">
                             <div>
@@ -171,6 +172,7 @@
                             </div>
                         </div>
                     </li> --}}
+
                     {{-- @php($mod = \App\Models\Module::find(Config::get('module.current_module_id')))
                     <li class="nav-item __nav-item">
                         <a href="{{ route('admin.dashboard') }}" class="__nav-link module--nav-icon" id="tourb-0"
