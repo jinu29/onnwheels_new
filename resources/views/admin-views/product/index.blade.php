@@ -361,8 +361,8 @@
                                     <div class="form-group mb-0">
                                         <label class="input-label"
                                             for="exampleFormControlInput1">{{ translate('messages.Hours') }}</label>
-                                        <input type="text" name="hours" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 1hrs">
+                                            <input type="text" name="hours" class="form-control" placeholder="{{ translate('messages.Ex:') }} 1hrs" value="1" disabled>
+
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
@@ -436,7 +436,7 @@
                                         <label class="input-label"
                                             for="exampleFormControlInput1">{{ translate('messages.Day') }}</label>
                                         <input type="text" name="days" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 1hrs">
+                                            placeholder="{{ translate('messages.Ex:') }} 1hrs"  value="1" disabled> 
                                     </div>
 
                                 </div>
@@ -490,7 +490,7 @@
                                         <label class="input-label"
                                             for="exampleFormControlInput1">{{ translate('messages.Week') }}</label>
                                         <input type="text" name="week" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 1hrs">
+                                            placeholder="{{ translate('messages.Ex:') }} 1hrs"  value="1" disabled>
                                     </div>
 
                                 </div>
@@ -544,7 +544,7 @@
                                         <label class="input-label"
                                             for="exampleFormControlInput1">{{ translate('messages.month') }}</label>
                                         <input type="text" name="month" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 1hrs">
+                                            placeholder="{{ translate('messages.Ex:') }} 1hrs"  value="1" disabled>
                                     </div>
 
                                 </div>

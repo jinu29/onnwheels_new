@@ -4146,4 +4146,9 @@
   'transaction_by' => 'Transaction by',
   'abandoned_bookings' => 'Abandoned bookings',
   'cancelled_bookings' => 'Cancelled bookings',
+  'Chasis No' => 'Chasis No',
+  'Change status to abandoned ?' => 'Change status to abandoned  ',
+  'abandoned' => 'Abandoned',
+  'Change status to Canceled ?' => 'Change status to Canceled  ',
+  'Canceled' => 'Canceled',
 );
