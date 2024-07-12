@@ -69,7 +69,8 @@
 
 {{-- @dd($module_type)   --}}
 
-@include("layouts.admin.partials._sidebar_{$module_type}")
+{{-- @include("layouts.admin.partials._sidebar_{$module_type}") --}}
+@include("layouts.admin.partials._sidebar_rental")
 
 <!-- END ONLY DEV -->
 

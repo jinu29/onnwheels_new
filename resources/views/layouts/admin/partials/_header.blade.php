@@ -20,24 +20,24 @@
                 <!-- Navbar -->
                 <ul class="navbar-nav align-items-center justify-content-between flex-row flex-grow-1 __navbar-nav" style="color:#003361;">
 
-                    <li class="nav-item __nav-item">
+                    {{-- <li class="nav-item __nav-item">
                         <a href="{{ route('admin.users.dashboard') }}" id="tourb-6"
                             class="__nav-link {{ Request::is('admin/users*') ? 'active' : '' }}">
                             <img src="{{ asset('/public/assets/admin/img/new-img/user.svg') }}" alt="public/img">
                             <span style="color:#003361;">{{ translate('Customer Management') }}</span>
                         </a>
-                    </li>
+                    </li> --}}
 
-                    <li class="nav-item __nav-item">
+                    {{-- <li class="nav-item __nav-item">
                         <a href="{{ route('admin.transactions.report.day-wise-report') }}" id="tourb-7"
                             class="__nav-link {{ Request::is('admin/transactions*') ? 'active' : '' }}">
                             <img src="{{ asset('/public/assets/admin/img/new-img/transaction-and-report.svg') }}"
                                 alt="public/img">
                             <span>{{ translate('Transactions & Reports') }}</span>
                         </a>
-                    </li>
+                    </li> --}}
 
-                    <li class="nav-item __nav-item">
+                    {{-- <li class="nav-item __nav-item">
                         <a href="{{ route('admin.business-settings.business-setup') }}" id="tourb-3"
                             class="__nav-link {{ Request::is('admin/business-settings*') ? 'active' : '' }}">
                             <img src="{{ asset('/public/assets/admin/img/new-img/setting-icon.svg') }}"
@@ -114,7 +114,7 @@
                                 </div>
                             </div>
                         </div>
-                    </li>
+                    </li> --}}
                     {{-- @if (\App\CentralLogics\Helpers::module_permission_check('order'))
                         <li class="nav-item __nav-item">
                             <a href="{{ route('admin.dispatch.dashboard') }}" id="tourb-8"
@@ -170,7 +170,7 @@
                             </div>
                         </div>
                     </li> --}}
-                    @php($mod = \App\Models\Module::find(Config::get('module.current_module_id')))
+                    {{-- @php($mod = \App\Models\Module::find(Config::get('module.current_module_id')))
                     <li class="nav-item __nav-item">
                         <a href="{{ route('admin.dashboard') }}" class="__nav-link module--nav-icon" id="tourb-0"
                             data-url="{{ route('admin.dashboard') }}">
@@ -187,7 +187,7 @@
 
                         </a>
 
-                    </li>
+                    </li> --}}
                 </ul>
                 <!-- End Navbar -->
             </div>

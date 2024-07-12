@@ -57,7 +57,6 @@
                     </a>
                 </li>
                 @endif
-
                 
                 @if (\App\CentralLogics\Helpers::module_permission_check('settings'))
                 <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/business-settings/business-setup*') || Request::is('admin/business-settings/language*') ? 'active' : '' }}">
