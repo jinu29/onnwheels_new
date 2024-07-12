@@ -97,6 +97,12 @@
                                             placeholder="{{ translate('messages.km_reading') }}" required>
                                     </div>
                                     <div class="form-group">
+                                        <label class="input-label" for="default_name">{{ translate('messages.Odo_Meter') }}
+                                        </label>
+                                        <input type="text" name="odo_meter" id="odo_meter" class="form-control"
+                                            placeholder="{{ translate('messages.odo_meter') }}" required>
+                                    </div>
+                                    <div class="form-group">
                                         <label class="input-label" for="default_name">{{ translate('messages.Insurance_expiry_date') }}
                                         </label>
                                         <input type="date" name="insurance_expiry_date" id="insurance_expiry_date" class="form-control"

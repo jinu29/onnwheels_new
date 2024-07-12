@@ -89,12 +89,12 @@
                                     </a>
                                 </li>
 
-                                <li class="nav-item {{ request()->input('position') == 1 && Request::is('admin/category/add') ? 'active' : '' }}">
+                                {{-- <li class="nav-item {{ request()->input('position') == 1 && Request::is('admin/category/add') ? 'active' : '' }}">
                                     <a class="nav-link " href="{{ route('admin.category.add',['position'=>1]) }}" title="{{ translate('messages.sub_category') }}">
                                         <span class="tio-circle nav-indicator-icon"></span>
                                         <span class="text-truncate">{{ translate('messages.sub_category') }}</span>
                                     </a>
-                                </li>
+                                </li> --}}
 
                                 {{-- <li class="nav-item {{ Request::is('admin/category/bulk-import') ? 'active' : '' }}">
                                     <a class="nav-link " href="{{ route('admin.category.bulk-import') }}" title="{{ translate('messages.bulk_import') }}">
@@ -190,10 +190,55 @@
                                 <span class="text-truncate">{{ translate('messages.add_vehicle') }}</span>
                             </a>
                         </li>
-                        <li class="nav-item {{ Request::is('admin/item/list') || (Request::is('admin/item/edit/*') && (strpos(request()->fullUrl(), 'temp_product=1') == false && strpos(request()->fullUrl(), 'product_gellary=1') == false  ) ) ? 'active' : '' }}">
-                            <a class="nav-link " href="{{ route('admin.item.list') }}" title="{{ translate('messages.food_list') }}">
+                        <li class="nav-item {{ Request::is('admin/item/list/all') || (Request::is('admin/item/edit/*') && (strpos(request()->fullUrl(), 'temp_product=1') == false && strpos(request()->fullUrl(), 'product_gellary=1') == false  ) ) ? 'active' : '' }}">
+                            <a class="nav-link " href="{{ route('admin.item.list',['all']) }}" title="{{ translate('messages.food_list') }}">
+                           
                                 <span class="tio-circle nav-indicator-icon"></span>
-                                <span class="text-truncate">{{ translate('messages.list_vehicle') }}</span>
+                                    <span class="text-truncate sidebar--badge-container">
+                                        {{ translate('messages.all_vehicle') }} 
+                                         <span class="badge badge-soft-info badge-pill ml-1">
+                                            {{ \App\Models\Item::AllCount() }}  
+                                        </span>
+                                    </span>
+
+                            </a>
+                        </li>
+
+                        <li class="nav-item {{ Request::is('admin/item/list/active') || (Request::is('admin/item/edit/*') && (strpos(request()->fullUrl(), 'temp_product=1') == false && strpos(request()->fullUrl(), 'product_gellary=1') == false  ) ) ? 'active' : '' }}">
+                            <a class="nav-link " href="{{ route('admin.item.list',['active']) }}" title="{{ translate('messages.food_list') }}">
+                                <span class="tio-circle nav-indicator-icon"></span>
+                                <span class="text-truncate sidebar--badge-container">
+                                    {{ translate('messages.active_vehicle') }}
+                                     <span class="badge badge-soft-success badge-pill ml-1">
+                                        {{ \App\Models\Item::ActiveCount() }}  
+                                    </span>
+                                </span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item {{ Request::is('admin/item/list/inactive') || (Request::is('admin/item/edit/*') && (strpos(request()->fullUrl(), 'temp_product=1') == false && strpos(request()->fullUrl(), 'product_gellary=1') == false  ) ) ? 'active' : '' }}">
+                            <a class="nav-link " href="{{ route('admin.item.list',['inactive']) }}" title="{{ translate('messages.food_list') }}">
+                               
+                                <span class="tio-circle nav-indicator-icon"></span>
+                                <span class="text-truncate sidebar--badge-container">
+                                    {{ translate('messages.inactive_vehicle') }}
+                                     <span class="badge badge-soft-warning badge-pill ml-1">
+                                        {{ \App\Models\Item::InactiveCount() }}  
+                                    </span>
+                                </span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item {{ Request::is('admin/item/list/block') || (Request::is('admin/item/edit/*') && (strpos(request()->fullUrl(), 'temp_product=1') == false && strpos(request()->fullUrl(), 'product_gellary=1') == false  ) ) ? 'active' : '' }}">
+                            <a class="nav-link " href="{{ route('admin.item.list',['block']) }}" title="{{ translate('messages.food_list') }}">
+                               
+                                <span class="tio-circle nav-indicator-icon"></span>
+                                <span class="text-truncate sidebar--badge-container">
+                                    {{ translate('messages.block_vehicle') }}
+                                     <span class="badge badge-soft-danger badge-pill ml-1">
+                                        {{ \App\Models\Item::BlockedCount() }}  
+                                    </span>
+                                </span>
                             </a>
                         </li>
                        
@@ -499,8 +544,8 @@
                     <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/store/list') ? 'active' : '' }}">
                         <a class="js-navbar-vertical-aside-menu-link nav-link" href="{{ route('admin.store.list') }}" title="{{ translate('messages.partner_list') }}">
                             <span class="tio-layout nav-icon"></span>
-                            <span class="text-truncate">{{ translate('messages.partner') }}
-                                {{ translate('list') }}</span>
+                            <span class="text-truncate">{{ translate('messages.view') }}
+                                {{ translate('partners') }}</span>
                         </a>
                     </li>
                     {{-- <li class="navbar-item {{ Request::is('admin/store/recommended-store') ? 'active' : '' }}">
@@ -525,6 +570,7 @@
                 <!-- End Store -->
 
                 {{-- Station Management --}}
+                @if (\App\CentralLogics\Helpers::module_permission_check('station'))
                 <li class="nav-item">
                     <small class="nav-subtitle" title="{{ translate('messages.store_section') }}">{{ translate('messages.Station_management') }}</small>
                     <small class="tio-more-horizontal nav-subtitle-replacer"></small>
@@ -535,18 +581,49 @@
                     <a class="js-navbar-vertical-aside-menu-link nav-link" href="{{ route('admin.store.station') }}">
                         <span class="tio-add-circle nav-icon"></span>
                         <span class="text-truncate">
-                            {{ translate('messages.add_station') }}
+                            {{ translate('messages.add_hub_station') }}
                         </span> 
                     </a>
                 </li>
-                <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/store/station/list') ? 'active' : '' }}">
-                    <a class="js-navbar-vertical-aside-menu-link nav-link" href="{{ route('admin.store.station-list') }}">
+
+                <li class="navbar-vertical-aside-has-menu">
+                    <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:">
                         <span class="tio-layout nav-icon"></span>
                         <span class="text-truncate">{{ translate('messages.station') }}
                             {{ translate('list') }}</span>
                     </a>
+
+                    <ul class="js-navbar-vertical-aside-submenu nav nav-sub" style="display:{{ Request::is('admin/store*') ? 'block' : 'none' }}">
+
+                        <li class="nav-item {{Request::is('admin/store/station/list')  || (Request::is('admin/item/edit/*') && (strpos(request()->fullUrl(), 'temp_product=1') == false && strpos(request()->fullUrl(), 'product_gellary=1') == false  ) ) ? 'active' : '' }}">
+                            <a class="nav-link " href="{{ route('admin.store.station-list') }}" >
+                                <span class="tio-circle nav-indicator-icon"></span>
+                                <span class="text-truncate">{{ translate('messages.total_hub_station') }}</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item {{ Request::is('admin/store/station/list') || (Request::is('admin/item/edit/*') && strpos(request()->fullUrl(), 'product_gellary=1') !== false  )  ? 'active' : '' }}">
+                            <a class="nav-link " href="{{ route('admin.item.add-new') }}" title="{{ translate('messages.add_new') }}">
+                                <span class="tio-circle nav-indicator-icon"></span>
+                                <span class="text-truncate">{{ translate('messages.active_stations') }}</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item {{ Request::is('admin/store/station/list') || (Request::is('admin/item/edit/*') && (strpos(request()->fullUrl(), 'temp_product=1') == false && strpos(request()->fullUrl(), 'product_gellary=1') == false  ) ) ? 'active' : '' }}">
+                            <a class="nav-link " href="{{ route('admin.item.list',['all']) }}" title="{{ translate('messages.food_list') }}">
+                           
+                                <span class="tio-circle nav-indicator-icon"></span>
+                                    <span class="text-truncate sidebar--badge-container">
+                                        {{ translate('messages.inactive_stations') }} 
+                                       
+                                    </span>
+
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
+                @endif
 
                 <li class="nav-item py-5">
 

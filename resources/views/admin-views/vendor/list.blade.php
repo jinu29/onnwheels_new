@@ -168,15 +168,16 @@
                     <thead class="thead-light">
                     <tr>
                         <th class="border-0">{{translate('sl')}}</th>
-                        <th class="border-0">{{translate('messages.store_information')}}</th>
+                        <th class="border-0">{{translate('messages.hub_station_name')}}</th>
+                        <th class="border-0">{{translate('messages.hub_information')}}</th>
                         <th class="border-0">{{translate('messages.module')}}</th>
-                        <th class="border-0">{{translate('messages.owner_information')}}</th>
-                        <th class="border-0">{{translate('messages.zone')}}</th>
-                        <th class="text-uppercase border-0">{{translate('messages.featured')}}</th>
+                        <th class="border-0">{{translate('messages.partner_information')}}</th>
+                        <th class="border-0">{{translate('messages.city_name')}}</th>
+                        {{-- <th class="text-uppercase border-0">{{translate('messages.featured')}}</th> --}}
                         <th class="text-uppercase border-0">{{translate('messages.status')}}</th>
                         <th class="text-center border-0">{{translate('messages.action')}}</th>
                     </tr>
-                    </thead>
+                    </thead>    
 
                     <tbody id="set-rows">
                     @foreach($stores as $key=>$store)
@@ -207,6 +208,11 @@
                             </td>
                             <td>
                                 <span class="d-block font-size-sm text-body">
+                                    {{Str::limit($store->name,20,'...')}}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="d-block font-size-sm text-body">
                                     {{Str::limit($store->module->module_name,20,'...')}}
                                 </span>
                             </td>
@@ -221,14 +227,14 @@
                             <td>
                                 {{$store->zone?$store->zone->name:translate('messages.zone_deleted')}}
                             </td>
-                            <td>
+                            {{-- <td>
                                 <label class="toggle-switch toggle-switch-sm" for="featuredCheckbox{{$store->id}}">
                                     <input type="checkbox" data-url="{{route('admin.store.featured',[$store->id,$store->featured?0:1])}}" class="toggle-switch-input redirect-url" id="featuredCheckbox{{$store->id}}" {{$store->featured?'checked':''}}>
                                     <span class="toggle-switch-label">
                                         <span class="toggle-switch-indicator"></span>
                                     </span>
                                 </label>
-                            </td>
+                            </td> --}}
 
                             <td>
                                 @if(isset($store->vendor->status))

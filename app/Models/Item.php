@@ -73,6 +73,26 @@ class Item extends Model
         return $this->belongsToMany(Station::class, 'item_station');
     }
 
+    public function scopeAllCount($query)
+    {
+        return $query->count();
+    }
+
+    public function scopeActiveCount($query)
+    {
+        return $query->where('status', 1)->where('blocked', 0)->count();
+    }
+
+    public function scopeInactiveCount($query)
+    {
+        return $query->where('status', 0)->where('blocked', 0)->count();
+    }
+
+    public function scopeBlockedCount($query)
+    {
+        return $query->where('blocked', 1)->count();
+    }
+
     public function bike()
     {
         return $this->belongsTo(Bike::class);

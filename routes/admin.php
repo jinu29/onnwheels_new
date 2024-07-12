@@ -93,10 +93,11 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
 
             Route::get('edit/{id}', 'ItemController@edit')->name('edit');
             Route::post('update/{id}', 'ItemController@update')->name('update');
-            Route::get('list', 'ItemController@list')->name('list');
+            Route::get('list/{status?}', 'ItemController@list')->name('list');
             Route::get('add-bike', 'ItemController@add_bike')->name('add.bike');
             Route::delete('delete/{id}', 'ItemController@delete')->name('delete');
             Route::get('status/{id}/{status}', 'ItemController@status')->name('status');
+            Route::get('block/{id}/{blocked}', 'ItemController@block')->name('block');
             Route::get('review-status/{id}/{status}', 'ItemController@reviews_status')->name('reviews.status');
             Route::post('search', 'ItemController@search')->name('search');
             Route::post('store/{store_id}/search', 'ItemController@search_store')->name('store-search');

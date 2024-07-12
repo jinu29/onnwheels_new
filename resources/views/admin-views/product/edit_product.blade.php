@@ -105,7 +105,12 @@
                                             placeholder="{{ translate('messages.km_reading') }}"
                                             value="{{ $bike->km_reading }}" required>
                                     </div>
-
+                                    <div class="form-group">
+                                        <label class="input-label" for="default_name">{{ translate('messages.Odo_Meter') }}
+                                        </label>
+                                        <input type="text" name="odo_meter" id="odo_meter" class="form-control"
+                                            placeholder="{{ translate('messages.odo_meter') }}"  value="{{ $bike->odo_meter }}"  required>
+                                    </div>
 
                                     @php(    $insuranceExpiryDate = $bike->insurance_expiry_date ? \Carbon\Carbon::parse($bike->insurance_expiry_date)->format('Y-m-d') : '')
                                     

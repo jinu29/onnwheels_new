@@ -34,7 +34,7 @@
                 $pharmacy = 1;
             }
         @endphp
-        <div class="card mb-3">
+        {{-- <div class="card mb-3">
             <!-- Header -->
             <div class="card-header py-2 border-0">
                 <h1>{{ translate('search_data') }}</h1>
@@ -120,7 +120,7 @@
 
             </div>
 
-        </div>
+        </div> --}}
 
         <div class="card">
             <!-- Header -->
@@ -171,7 +171,7 @@
                         </div>
                     </div>
                     <!-- End Unfold -->
-                    @if (Config::get('module.current_module_type') != 'food')
+                    {{-- @if (Config::get('module.current_module_type') != 'food')
                         <div>
                             <a href="{{ route('admin.report.stock-report') }}"
                                 class="btn btn--primary font-regular">{{ translate('messages.limited_stock') }}</a>
@@ -182,7 +182,7 @@
                             <a href="{{ route('admin.item.approval_list') }}"
                                 class="btn btn--primary font-regular">{{ translate('messages.New_Product_Request') }}</a>
                         </div>
-                    @endif
+                    @endif --}}
                 </div>
                 <!-- End Row -->
             </div>
@@ -220,9 +220,11 @@
                             <th class="border-0">{{ translate('messages.IMEI') }}</th>
                             <th class="border-0">{{ translate('messages.GPS') }}</th>
                             <th class="border-0">{{ translate('messages.Added On') }}</th>
+                            <th class="border-0">{{ translate('messages.Updated Odo Meter') }}</th>
                             <th class="border-0">{{ translate('messages.KM Reading') }}</th>
                             <th class="border-0">{{ translate('messages.Insurance Expirt Date') }}</th>
                             <th class="border-0 text-center">{{ translate('messages.status') }}</th>
+                            <th class="border-0 text-center">{{ translate('messages.Block') }}</th>
                             <th class="border-0 text-center">{{ translate('messages.action') }}</th>
                         </tr>
                     </thead>
@@ -281,6 +283,10 @@
                                 </td>
 
                                 <td>
+                                    {{ $item->bike ? $item->bike->odo_meter : '' }}
+                                </td>
+
+                                <td>
                                     {{ $item->bike ? $item->bike->km_reading : '' }}
                                 </td>
 
@@ -296,6 +302,16 @@
                                         <input type="checkbox" class="toggle-switch-input redirect-url"
                                             data-url="{{ route('admin.item.status', [$item['id'], $item->status ? 0 : 1]) }}"
                                             id="stocksCheckbox{{ $item->id }}" {{ $item->status ? 'checked' : '' }}>
+                                        <span class="toggle-switch-label mx-auto">
+                                            <span class="toggle-switch-indicator"></span>
+                                        </span>
+                                    </label>
+                                </td>
+                                <td>
+                                    <label class="toggle-switch toggle-switch-sm" for="blockCheckbox{{ $item->id }}">
+                                        <input type="checkbox" class="toggle-switch-input redirect-url"
+                                            data-url="{{ route('admin.item.block', [$item->id, $item->blocked ? 0 : 1]) }}"
+                                            id="blockCheckbox{{ $item->id }}" {{ $item->blocked ? 'checked' : '' }}>
                                         <span class="toggle-switch-label mx-auto">
                                             <span class="toggle-switch-indicator"></span>
                                         </span>

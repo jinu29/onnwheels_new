@@ -386,6 +386,17 @@ class ItemController extends Controller
         return back();
     }
 
+    public function block($id, $blocked)
+    {
+
+        $item = Item::withoutGlobalScope(StoreScope::class)->findOrFail($id);
+        $item->blocked = $blocked;
+        $item->save();
+        Toastr::success(translate('messages.item_updated'));
+        return back();
+    }
+
+
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
@@ -659,7 +670,7 @@ class ItemController extends Controller
         }
         $item->save();
         $item->tags()->sync($tag_ids);
-        
+
         if ($item->module->module_type == 'pharmacy') {
             DB::table('pharmacy_item_details')
                 ->updateOrInsert(
@@ -879,7 +890,7 @@ class ItemController extends Controller
         ]);
     }
 
-    public function list(Request $request)
+    public function list(Request $request, $status)
     {
         $store_id = $request->query('store_id', 'all');
         $category_id = $request->query('category_id', 'all');
@@ -889,6 +900,8 @@ class ItemController extends Controller
 
         $type = $request->query('type', 'all');
         $key = explode(' ', $request['search']);
+
+        // Filter items based on status
         $items = Item::withoutGlobalScope(StoreScope::class)
             ->when($request->query('module_id', null), function ($query) use ($request) {
                 return $query->module($request->query('module_id'));
@@ -917,19 +930,33 @@ class ItemController extends Controller
             ->when($request['search'], function ($query) use ($key) {
                 return $query->where(function ($q) use ($key) {
                     foreach ($key as $value) {
-                        $q->where('name', 'like', "%{$value}%");
+                        $q->where('name', 'like', "%{$value}%")
+                            ->orWhereHas('bike', function ($q) use ($value) {
+                                $q->where('name', 'like', "%{$value}%");
+                            });
                     }
                 });
             })
+            ->when($status === 'active', function ($query) {
+                return $query->where('status', 1)->where('blocked', 0);
+            })
+            ->when($status === 'inactive', function ($query) {
+                return $query->where('status', 0)->where('blocked', 0);
+            })
+            ->when($status === 'block', function ($query) {
+                return $query->where('blocked', 1);
+            })
             ->with('bike', 'stations')
-            ->where('is_approved', 1)
             ->module(Config::get('module.current_module_id'))
             ->type($type)
-            ->latest()->paginate(10);
+            ->latest()
+            ->paginate(10);
+
         $store = $store_id != 'all' ? Store::findOrFail($store_id) : null;
         $category = $category_id != 'all' ? Category::findOrFail($category_id) : null;
         $sub_categories = $category_id != 'all' ? Category::where('parent_id', $category_id)->get(['id', 'name']) : [];
         $condition = $condition_id != 'all' ? CommonCondition::findOrFail($condition_id) : [];
+
 
         return view('admin-views.product.list', compact('items', 'store', 'category', 'type', 'sub_categories', 'condition'));
     }
@@ -1833,6 +1860,7 @@ class ItemController extends Controller
             'engine_number' => 'required|string',
             'chasis_number' => 'required|string',
             'imei' => 'required|string',
+            'odo_meter' => 'required|integer',
             'gps' => 'required|string',
             'km_reading' => 'required|string',
             'insurance_expiry_date' => 'required|date',
@@ -1855,6 +1883,7 @@ class ItemController extends Controller
         $item->vehicle_number = $request->vehicle_number;
         $item->engine_number = $request->engine_number;
         $item->chasis_number = $request->chasis_number;
+        $item->odo_meter = $request->odo_meter;
         $item->imei = $request->imei;
         $item->gps = $request->gps;
         $item->km_reading = $request->km_reading;
@@ -1885,6 +1914,7 @@ class ItemController extends Controller
             'engine_number' => 'required|string',
             'chasis_number' => 'required|string',
             'imei' => 'required|string',
+            'odo_meter' => 'required|integer',
             'gps' => 'required|string',
             'km_reading' => 'required|string',
             'insurance_expiry_date' => 'required|date',
@@ -1914,6 +1944,7 @@ class ItemController extends Controller
         $item->engine_number = $request->engine_number;
         $item->chasis_number = $request->chasis_number;
         $item->imei = $request->imei;
+        $item->odo_meter = $request->odo_meter;
         $item->gps = $request->gps;
         $item->km_reading = $request->km_reading;
         $item->insurance_expiry_date = $request->insurance_expiry_date;
