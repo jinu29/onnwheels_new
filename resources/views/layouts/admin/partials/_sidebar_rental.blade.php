@@ -655,6 +655,39 @@
                     </a>
                 </li>
 
+                 <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/users/customer/wallet*') ? 'active' : '' }}">
+
+                    <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:" title="{{ translate('messages.customer_wallet') }}">
+                        <i class="tio-wallet nav-icon"></i>
+                        <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate  text-capitalize">
+                            {{ translate('messages.customer_wallet') }}
+                        </span>
+                    </a>
+
+                    <ul class="js-navbar-vertical-aside-submenu nav nav-sub" style="display:{{ Request::is('admin/users/customer/wallet*') ? 'block' : 'none' }}">
+                        <li class="nav-item {{ Request::is('admin/users/customer/wallet/add-fund') ? 'active' : '' }}">
+                            <a class="nav-link " href="{{ route('admin.users.customer.wallet.add-fund') }}" title="{{ translate('messages.add_fund') }}">
+                                <span class="tio-circle nav-indicator-icon"></span>
+                                <span class="text-truncate text-capitalize">{{ translate('messages.add_fund') }}</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item {{ Request::is('admin/users/customer/wallet/report*') ? 'active' : '' }}">
+                            <a class="nav-link " href="{{ route('admin.users.customer.wallet.report') }}" title="{{ translate('messages.report') }}">
+                                <span class="tio-circle nav-indicator-icon"></span>
+                                <span class="text-truncate text-capitalize">{{ translate('messages.report') }}</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item {{ Request::is('admin/users/customer/wallet/bonus*') ? 'active' : '' }}">
+                            <a class="nav-link " href="{{ route('admin.users.customer.wallet.bonus.add-new') }}" title="{{ translate('messages.bonus') }}">
+                                <span class="tio-circle nav-indicator-icon"></span>
+                                <span class="text-truncate text-capitalize">{{ translate('messages.bonus') }}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
                 @endif
 
                 <!-- DeliveryMan -->
@@ -765,12 +798,34 @@
                     </a>
                 </li>
 
+               <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/transactions/report/item-wise-report') ? 'active' : '' }}">
+                    <a class="nav-link " href="{{ route('admin.transactions.report.item-wise-report') }}" title="{{ translate('messages.item_report') }}">
+                        <span class="tio-chart-bar-1 nav-icon"></span>
+                        <span class="text-truncate">{{ translate('messages.vehicle_wise_report') }}</span>
+                    </a>
+                </li>
+
                 <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/transactions/report/order-report') ? 'active' : '' }}">
                     <a class="nav-link " href="{{ route('admin.transactions.report.order-report') }}" title="{{ translate('messages.order_report') }}">
                         <span class="tio-chart-bar-4 nav-icon"></span>
-                        <span class="text-truncate text-capitalize">{{ translate('messages.order_report') }}</span>
+                        <span class="text-truncate text-capitalize">{{ translate('messages.booking_report') }}</span>
                     </a>
                 </li>
+
+                <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/transactions/report/expense-report') ? 'active' : '' }}">
+                    <a class="nav-link " href="{{ route('admin.transactions.report.expense-report') }}" title="{{ translate('messages.expense_report') }}">
+                        <span class="tio-money nav-icon"></span>
+                        <span class="text-truncate">{{ translate('messages.expense_report') }}</span>
+                    </a>
+                </li>
+
+                <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/transactions/report/hub-report') ? 'active' : '' }}">
+                    <a class="nav-link " href="{{ route('admin.transactions.report.low-stock-report') }}" title="{{ translate('messages.limited_stock_item') }}">
+                        <span class="tio-chart-bar-4 nav-icon"></span>
+                        <span class="text-truncate text-capitalize">{{ translate('messages.hub_wise_report') }}</span>
+                    </a>
+                </li> 
+                
                 @endif
 
                 <!-- Business Settings -->

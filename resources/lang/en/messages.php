@@ -4169,4 +4169,21 @@
   'total_hub_station' => 'Total hub station',
   'active_stations' => 'Active stations',
   'inactive_stations' => 'Inactive stations',
+  'vehicle_wise_report' => 'Vehicle wise report',
+  'all_time' => 'All time',
+  'item_name' => 'Item name',
+  'total_order_count' => 'Total order count',
+  'unit_price' => 'Unit price',
+  'total_ratings_given' => 'Total ratings given',
+  'Without configuring this section map functionality will not work properly. Thus the whole
+                                 system will not work as it planned' => 'Without configuring this section map functionality will not work properly. Thus the whole
+                                 system will not work as it planned',
+  'vendor_name' => 'Vendor name',
+  'booking_report' => 'Booking report',
+  'hub_wise_report' => 'Hub wise report',
+  'hub_wise_item' => 'Hub wise item',
+  'hub_report' => 'Hub report',
+  'hub_name' => 'Hub name',
+  'hub_city' => 'Hub city',
+  'Current hub_orders' => 'Current hub orders',
 );

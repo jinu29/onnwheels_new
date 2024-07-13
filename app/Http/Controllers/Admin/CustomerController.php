@@ -194,7 +194,7 @@ class CustomerController extends Controller
             }
         })
             ->limit(8)
-            ->get([DB::raw('id, CONCAT(f_name, " ", l_name, " (", phone ,")") as text')]);
+            ->get([DB::raw('id, CONCAT(f_name, " (", phone ,")") as text')]);
         if ($request->all)
             $data[] = (object) ['id' => false, 'text' => translate('messages.all')];
 

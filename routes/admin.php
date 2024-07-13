@@ -978,7 +978,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
                 Route::get('expense-report', 'ReportController@expense_report')->name('expense-report');
                 Route::get('expense-export', 'ReportController@expense_export')->name('expense-export');
                 Route::post('expense-report-search', 'ReportController@expense_search')->name('expense-report-search');
-                Route::get('low-stock-report', 'ReportController@low_stock_report')->name('low-stock-report');
+                Route::get('hub-report', 'ReportController@hub_report')->name('low-stock-report');
                 Route::post('low-stock-report', 'ReportController@low_stock_search')->name('low-stock-search');
                 Route::get('low-stock-wise-report-search', 'ReportController@low_stock_wise_export')->name('low-stock-wise-report-export');
                 Route::get('disbursement-report/{tab?}', 'ReportController@disbursement_report')->name('disbursement_report');

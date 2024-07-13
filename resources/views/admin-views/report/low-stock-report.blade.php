@@ -1,6 +1,6 @@
 @extends('layouts.admin.app')
 
-@section('title',translate('low_stock_report'))
+@section('title',translate('hub_report'))
 
 @section('content')
 
@@ -12,7 +12,7 @@
                 <img src="{{asset('public/assets/admin/img/report.png')}}" class="w--22" alt="">
             </span>
             <span>
-                {{translate('low_stock_report')}}
+                {{translate('hub_report')}}
             </span>
         </h1>
     </div>
@@ -40,7 +40,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="min--200">
+                {{-- <div class="min--200">
                     <select name="store_id" data-placeholder="{{translate('messages.select_store')}}" class="js-data-example-ajax form-control set-filter" data-url="{{ url()->full() }}" data-filter="store_id">
                         @if(isset($store))
                         <option value="{{$store->id}}" selected>{{$store->name}}</option>
@@ -48,16 +48,16 @@
                         <option value="all" selected>{{translate('messages.all_stores')}}</option>
                         @endif
                     </select>
-                </div>
+                </div> --}}
                 <!-- Unfold -->
                 <div class="hs-unfold mr-2">
-                    <a class="js-hs-unfold-invoker btn btn-sm btn-white dropdown-toggle min-height-40" href="javascript:;"
+                    {{-- <a class="js-hs-unfold-invoker btn btn-sm btn-white dropdown-toggle min-height-40" href="javascript:;"
                         data-hs-unfold-options='{
                                 "target": "#usersExportDropdown",
                                 "type": "css-animation"
                             }'>
                         <i class="tio-download-to mr-1"></i> {{ translate('messages.export') }}
-                    </a>
+                    </a> --}}
 
                     <div id="usersExportDropdown"
                         class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-sm-right">
@@ -104,75 +104,28 @@
                 <thead class="thead-light">
                     <tr>
                         <th class="border-0">{{translate('sl')}}</th>
-                        <th class="border-0 w--2">{{translate('messages.name')}}</th>
-                        <th class="border-0 w--2">{{translate('messages.store')}}</th>
-                        <th class="border-0">{{translate('messages.zone')}}</th>
-                        <th class="border-0">{{translate('Current stock')}}</th>
-                        <th class="border-0">{{translate('messages.action')}}</th>
+                        <th class="border-0 w--2">{{translate('messages.hub_name')}}</th>
+                        <th class="border-0">{{translate('messages.hub_city')}}</th>
+                        <th class="border-0">{{translate('Current hub_orders')}}</th>
+                        <th class="border-0">{{translate('messages.address')}}</th>
                     </tr>
                 </thead>
 
                 <tbody id="set-rows">
-
-                    @foreach($items as $key=>$item)
+                    @foreach($stations as $key => $station)
                     <tr>
-                        <td>{{$key+$items->firstItem()}}</td>
-                        <td>
-                            <a class="media align-items-center" href="{{route('admin.item.view',[$item['id'],'module_id'=>$item['module_id']])}}">
-                                <img class="avatar avatar-lg mr-3 onerror-image"
-
-                                 src="{{ \App\CentralLogics\Helpers::onerror_image_helper(
-                                    $item['image'] ?? '',
-                                    asset('storage/app/public/product').'/'.$item['image'] ?? '',
-                                    asset('public/assets/admin/img/160x160/img2.jpg'),
-                                    'product/'
-                                ) }}"
-
-                                 data-onerror-image="{{asset('public/assets/admin/img/160x160/img2.jpg')}}" alt="{{$item->name}} image">
-                                <div class="media-body">
-                                    <h5 class="text-hover-primary mb-0 max-width-200px word-break line--limit-2">{{$item['name']}}</h5>
-                                </div>
-                            </a>
-                        </td>
-                        <td>
-                            @if($item->store)
-                            {{Str::limit($item->store?->name,25,'...')}}
-                            @else
-                            {{translate('messages.store_deleted')}}
-                            @endif
-                        </td>
-                        <td>
-                            @if($item->store)
-                            {{$item->store->zone->name}}
-                            @else
-                            {{translate('messages.not_found')}}
-                            @endif
-                        </td>
-                        <td>
-                            {{ $item->stock>=0?$item->stock:0 }}
-                        </td>
-                        <td>
-                            <a class="btn action-btn btn--primary btn-outline-primary update-quantity" href="javascript:" title="{{translate('messages.edit_quantity')}}" data-id="{{ $item->id }}" data-toggle="modal" data-target="#update-quantity"><i class="tio-edit"></i>
-                            </a>
-                        </td>
+                        <td>{{ $key + $stations->firstItem() }}</td>
+                        <td>{{ $station->name }}</td>
+                        <td>{{ $station->zone->name ?? translate('messages.not_found') }}</td>
+                        <td>{{ $station->order_count }}</td>
+                        <td>{{ $station->address }}</td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
-            @if(count($items) !== 0)
-            <hr>
-            @endif
-            <div class="page-area">
-                {!! $items->links() !!}
+            <div class="d-flex justify-content-center">
+                {!! $stations->withQueryString()->links() !!}
             </div>
-            @if(count($items) === 0)
-            <div class="empty--data">
-                <img src="{{asset('/public/assets/admin/svg/illustrations/sorry.svg')}}" alt="public">
-                <h5>
-                    {{translate('no_data_found')}}
-                </h5>
-            </div>
-            @endif
         </div>
         <!-- End Table -->
     </div>

@@ -40,7 +40,7 @@
             <th>{{translate('messages.item_image')}}</th>
             <th>{{translate('messages.item_name')}}</th>
             <th>{{translate('messages.module')}}</th>
-            <th>{{translate('messages.store_name')}}</th>
+            <th>{{translate('messages.vendor_name')}}</th>
             <th>{{translate('messages.total_order_count')}}</th>
             <th>{{translate('messages.unit_price')}}</th>
             <th>{{translate('messages.total_amount_sold')}}</th>
@@ -54,7 +54,7 @@
             <tr>
                 <td>{{ $key+1}}</td>
                 <td></td>
-                <td>{{$item['name']}}</td>
+                <td>{{$item->bike ? $item->bike->name : ''}}</td>
                 <td>
                     {{ $item->module->module_name }}
                 </td>

@@ -125,7 +125,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card mb-3">
+                    {{-- <div class="card mb-3">
                         <div class="card-header card-header-shadow">
                             <h5 class="card-title d-flex align-items-center">
                                 <img src="{{asset('/public/assets/admin/img/referral.png')}}" alt="" class="card-header-icon align-self-center mr-1">
@@ -177,7 +177,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="col-lg-6">
                     <div class="card mb-3">
@@ -213,7 +213,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card mb-3">
+                    {{-- <div class="card mb-3">
                         <div class="card-header card-header-shadow">
                             <h5 class="card-title">
                                 <img src="{{asset('/public/assets/admin/img/loyalty.png')}}" alt="" class="card-header-icon align-self-center mr-1">
@@ -287,7 +287,7 @@
 
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="col-lg-12">
                     <div class="btn--container justify-content-end">
