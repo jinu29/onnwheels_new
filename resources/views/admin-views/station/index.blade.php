@@ -22,7 +22,7 @@
         @php($language=\App\Models\BusinessSetting::where('key','language')->first())
         @php($language = $language->value ?? null)
         @php($defaultLang = 'en')
-        <!-- End Page Header -->
+        <!-- End Page Header -->a
         <form action="{{route('admin.store.station-store')}}" method="post" enctype="multipart/form-data" class="js-validate" id="vendor_form">
             @csrf
 
@@ -136,7 +136,7 @@
                                     <div class="form-group">
                                         <label class="input-label" for="latitude">{{translate('messages.latitude')}}<span
                                                 class="form-label-secondary" data-toggle="tooltip" data-placement="right"
-        data-original-title="{{translate('messages.store_lat_lng_warning')}}"><img src="{{asset('/public/assets/admin/img/info-circle.svg')}}" alt="{{translate('messages.store_lat_lng_warning')}}"></span></label>
+                                                data-original-title="{{translate('messages.store_lat_lng_warning')}}"><img src="{{asset('/public/assets/admin/img/info-circle.svg')}}" alt="{{translate('messages.store_lat_lng_warning')}}"></span></label>
                                         <input type="text" id="latitude"
                                                 name="latitude" class="form-control"
                                                 placeholder="{{ translate('messages.Ex:') }} -94.22213" value="{{old('latitude')}}" required readonly>
@@ -160,6 +160,24 @@
                     </div>
                 </div>
                 <div class="col-lg-12">
+                    {{-- @if (!config('module.'.$station->module->module_type)['always_open']) --}}
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="modal-title" id="exampleModalLabel">{{translate('messages.Create Schedule')}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            @include('admin-views.station.partials._schedule_date')
+                        </div>
+                    </div>
+
+                    
+                    {{-- @endif --}}
+                </div>
+                
+                <div class="col-lg-12">
                     <div class="btn--container justify-content-end">
                         <button type="reset" id="reset_btn" class="btn btn--reset">{{translate('messages.reset')}}</button>
                         <button type="submit" class="btn btn--primary">{{translate('messages.submit')}}</button>
@@ -167,17 +185,103 @@
                 </div>
             </div>
         </form>
+        
     </div>
+
+    
+
+ <!-- Modal for Adding Schedule -->
+ <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Schedule</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="scheduleForm">
+            <div class="form-group">
+              <label for="dayName">Day</label>
+              <input type="text" class="form-control" id="dayName" readonly>
+            </div>
+            <div class="form-group">
+              <label for="startTime">Opening Time</label>
+              <input type="time" class="form-control" id="startTime" required>
+            </div>
+            <div class="form-group">
+              <label for="endTime">Closing Time</label>
+              <input type="time" class="form-control" id="endTime" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
 @endsection
 
 @push('script_2')
+
     <script src="{{asset('public/assets/admin/js/intlTelInputCdn.min.js')}}"></script>
     <script src="{{asset('public/assets/admin/js/intlTelInputCdn-jquery.min.js')}}"></script>
     <script src="{{asset('public/assets/admin/js/spartan-multi-image-picker.js')}}"></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key={{\App\Models\BusinessSetting::where('key', 'map_api_key')->first()->value}}&libraries=places&callback=initMap&v=3.45.8"></script>
 
+  
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            $('#exampleModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var dayId = button.data('dayid');
+                var dayName = button.data('day');
+                var modal = $(this);
+                modal.find('#dayName').val(dayName);
+                modal.find('#dayName').data('dayid', dayId);
+            });
+    
+            $('#scheduleForm').on('submit', function (event) {
+                event.preventDefault();
+                var dayName = $('#dayName').val();
+                var dayId = $('#dayName').data('dayid');
+                var startTime = $('#startTime').val();
+                var endTime = $('#endTime').val();
+    
+                // Add the new schedule to the UI
+                var scheduleContent = $('#schedule-content-' + dayId);
+                scheduleContent.find('.disabled').remove();
+                var newSchedule = `
+                    <span class="d-inline-flex align-items-center">
+                        <span class="start--time">
+                            <span class="clock--icon">
+                                <i class="tio-time"></i>
+                            </span>
+                            <span class="info">
+                                <span>Opening Time</span> ${startTime}
+                            </span>
+                        </span>
+                        <span class="end--time">
+                            <span class="clock--icon">
+                                <i class="tio-time"></i>
+                            </span>
+                            <span class="info">
+                                <span>Closing Time</span> ${endTime}
+                            </span>
+                        </span>
+                        <span class="dismiss--date delete-schedule" data-url="#">
+                            <i class="tio-clear-circle-outlined"></i>
+                        </span>
+                    </span>`;
+                scheduleContent.append(newSchedule);
+    
+                // Close the modal
+                $('#exampleModal').modal('hide');
+            });
+        });
+    </script>
 <script>
     "use strict";
 
@@ -192,6 +296,8 @@
             $('#choice_zones').trigger('change');
         @endif
     });
+
+   
 
     function readURL(input, viewer) {
         if (input.files && input.files[0]) {

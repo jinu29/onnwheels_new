@@ -20,4 +20,9 @@ class Station extends Model
     {
         return $this->belongsToMany(Item::class, 'item_station');
     }
+
+    public function schedules()
+    {
+        return $this->hasMany(StationSchedule::class);
+    }
 }
