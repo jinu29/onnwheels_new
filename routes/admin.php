@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\DeliveryMan\DeliveryManController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StationController;
+
 
 Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
 
@@ -249,7 +251,9 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::get('get-stores', 'VendorController@get_stores')->name('get-stores');
             Route::get('get-addons', 'VendorController@get_addons')->name('get_addons');
             Route::get('station', 'StationController@index')->name('station');
+
             Route::post('station', 'StationController@station_store')->name('station-store');
+            Route::post('station-store', 'StationController@station_store_date')->name('station-date-store');
             Route::get('station/list/{status?}', 'StationController@station_list')->name('station-list');
             Route::get('station/{id}/edit', 'StationController@edit')->name('station-edit');
             Route::post('station/{id}/update', 'StationController@update')->name('station-update');
@@ -257,6 +261,8 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
 
             Route::get('get-station', 'StationController@search')->name('stations.search');
             Route::get('get-bikes', 'StationController@search_bikes')->name('bikes.search');
+
+            Route::post('add-schedule', 'StationController@add_schedule')->name('stations.add-schedule');
 
             Route::group(['middleware' => ['module:store']], function () {
                 Route::get('update-application/{id}/{status}', 'VendorController@update_application')->name('application');
@@ -863,6 +869,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             //         // });
             //     });
             // });
+            
             // Subscribed customer Routes
             Route::group(['prefix' => 'customer', 'as' => 'customer.'], function () {
 
@@ -942,6 +949,8 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             //     Route::get('export', 'EmployeeController@export')->name('export');
             // });
         });
+
+
         Route::group(['prefix' => 'transactions', 'as' => 'transactions.'], function () {
             Route::get('/', 'DashboardController@transaction_dashboard')->name('dashboard');
             Route::get('order/details/{id}', 'OrderController@details')->name('order.details');

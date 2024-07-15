@@ -74,6 +74,29 @@ class DeliveryManController extends BaseController
         return view(DeliveryManViewPath::LIST[VIEW], compact('deliveryMen','zone'));
     }
 
+    // public function updateStatus(Request $request): RedirectResponse
+    // {
+    //     $this->deliveryManRepo->update(id: $request['id'] ,data: ['status'=>$request['status']]);
+    //     Toastr::success(translate('messages.Delivery Man_status_updated'));
+    //     return back();
+    // }
+
+    // public function statuschange(Request $request, $item_id, $status)
+    // {
+    //     try {
+    //         // Find the existing Item model by item_id
+    //         $deliveryman = DeliveryMan::findOrFail($item_id);
+
+    //         // Update the status field
+    //         $deliveryman->status = $status;
+    //         $deliveryman->save();
+
+    //         return response()->json(['success' => true, 'message' => translate('messages.status_updated')]);
+    //     } catch (\Exception $e) {
+    //         return response()->json(['success' => false, 'message' => translate('messages.update_failed')]);
+    //     }
+    // }
+
     public function getAddView(): View
     {
         $language = getWebConfig('language');

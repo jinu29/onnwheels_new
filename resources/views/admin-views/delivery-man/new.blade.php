@@ -18,10 +18,7 @@
                             data-url="{{ url()->full() }}">
                         <option value="all">{{ translate('messages.All_Zones') }}</option>
                         @foreach(\App\Models\Zone::orderBy('name')->get() as $z)
-                            <option
-                                value="{{$z['id']}}" {{isset($zone) && $zone->id == $z['id']?'selected':''}}>
-                                {{$z['name']}}
-                            </option>
+                            <option value="{{$z['id']}}" {{isset($zone) && $zone->id == $z['id']?'selected':''}}>{{$z['name']}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -45,6 +42,7 @@
             </div>
         </div>
         <!-- End Page Header -->
+
         <!-- Card -->
         <div class="card">
             <!-- Header -->

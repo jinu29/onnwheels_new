@@ -173,7 +173,6 @@
                                     @endif
                                 </td>
 
-
                                 <td>
                                     <span class="switch switch-sm">
 

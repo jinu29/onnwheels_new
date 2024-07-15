@@ -223,6 +223,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
                     Route::get(DeliveryMan::UPDATE_APPLICATION[URI].'/{id}/{status}', [DeliveryManController::class, 'updateApplication'])->name('application');
                     Route::get(DeliveryMan::UPDATE[URI].'/{id}', [DeliveryManController::class, 'getUpdateView'])->name('edit');
                     Route::post(DeliveryMan::UPDATE[URI].'/{id}', [DeliveryManController::class, 'update'])->name('update');
+                    // Route::get(DeliveryMan::UPDATE_STATUS[URI].'/{id}/{status}', [DeliveryManController::class,'updateStatus'])->name('status');
                     Route::delete(DeliveryMan::DELETE[URI].'/{id}', [DeliveryManController::class, 'delete'])->name('delete');
                     Route::post(DeliveryMan::SEARCH[URI], [DeliveryManController::class, 'getSearchList'])->name('search');
                     Route::post(DeliveryMan::ACTIVE_SEARCH[URI], [DeliveryManController::class, 'getActiveSearchList'])->name('active-search');
@@ -230,6 +231,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
                     Route::get(DeliveryMan::EARNING_EXPORT[URI], [DeliveryManController::class, 'getEarningListExport'])->name('earning-export');
                     Route::get(DeliveryMan::REVIEW_EXPORT[URI], [DeliveryManController::class, 'getReviewExportList'])->name('review-export');
                     Route::get('disbursement-export/{id}/{type}', [DeliveryManController::class, 'disbursement_export'])->name('disbursement-export');
+                    Route::get('is_verified', [DeliveryManController::class, 'statuschange'])->name('deliveryman_status_change');
 
                     Route::group(['prefix' => 'reviews', 'as' => 'reviews.'], function () {
                         Route::get(DeliveryMan::REVIEW_LIST[URI], [DeliveryManController::class, 'getReviewListView'])->name('list');

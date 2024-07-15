@@ -25,4 +25,9 @@ class Station extends Model
     {
         return $this->belongsTo(Zone::class);
     }
+    
+    public function schedules()
+    {
+        return $this->hasMany(StationSchedule::class);
+    }
 }

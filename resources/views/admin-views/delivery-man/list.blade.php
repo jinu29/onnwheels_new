@@ -98,8 +98,9 @@
                         <th class="border-0 text-capitalize">{{translate('messages.name')}}</th>
                         <th class="border-0 text-capitalize">{{translate('messages.contact_info')}}</th>
                         <th class="border-0 text-capitalize">{{translate('messages.zone')}}</th>
-                        <th class="border-0 text-capitalize">{{translate('messages.total_orders')}}</th>
+                        <th class="border-0 text-capitalize">{{translate('messages.total_bookings')}}</th>
                         <th class="border-0 text-capitalize">{{translate('messages.availability_status')}}</th>
+                        <th class="border-0 text-capitalize">{{translate('messages.status')}}</th>
                         <th class="border-0 text-center text-capitalize">{{translate('messages.action')}}</th>
                     </tr>
                     </thead>
@@ -154,6 +155,27 @@
                                         <strong class="text-capitalize text-info">{{translate('messages.pending')}}</strong>
                                     @endif
                                 </div>
+                            </td>
+                            <td>
+                                {{-- <span class="switch switch-sm">
+                                    <label class="toggle-switch toggle-switch-sm ml-xl-4" for="statusCheck{{ $deliveryman->id }}">
+                                        <input type="checkbox"
+                                            data-url="{{ route('admin.deliveryman.statuschange', [$deliveryman->id, $deliveryman->status ? 0 : 1]) }}"
+                                            data-message="{{ $deliveryman->status ? translate('messages.To_disable_the_status') : translate('messages.To_enable_the_status') }}"
+                                            class="toggle-switch-input status_change_alert"
+                                            id="statusCheck{{ $deliveryman->id }}"
+                                            {{ $deliveryman->status == 1 ? 'checked' : '' }}>
+                                        <span class="toggle-switch-label">
+                                            <span class="toggle-switch-indicator"></span>
+                                        </span>
+                                    </label>
+                                </span> --}}
+                                <label class="toggle-switch toggle-switch-sm" for="stocksCheckbox{{$dm->id}}">
+                                    <input type="checkbox" data-url="{{route('admin.users.delivery-man.status',[$dm['id'],$dm->status?0:1])}}" class="toggle-switch-input redirect-url" id="stocksCheckbox{{$dm->id}}" {{$dm->status?'checked':''}}>
+                                    <span class="toggle-switch-label">
+                                        <span class="toggle-switch-indicator"></span>
+                                    </span>
+                                </label>
                             </td>
                             <td>
                                 <div class="btn--container justify-content-center">
@@ -266,6 +288,36 @@
                 complete: function () {
                     $('#loading').hide();
                 },
+            });
+        });
+    </script>
+
+    <script>
+        document.querySelectorAll('.status_change_alert').forEach(function(checkbox) {
+            checkbox.addEventListener('click', function() {
+                const url = this.getAttribute('data-url');
+                const message = this.getAttribute('data-message');
+                
+                if (confirm(message)) {
+                    fetch(url, {
+                        method: 'GET',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        }
+                    }).then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            toastr.success(data.message);
+                        } else {
+                            toastr.error(data.message);
+                        }
+                    }).catch(error => {
+                        toastr.error('Something went wrong');
+                    });
+                } else {
+                    this.checked = !this.checked; // Revert the checkbox state if not confirmed
+                }
             });
         });
     </script>
