@@ -62,7 +62,7 @@
                 </div>
             </div>
         </div>
-        @if ($user_kyc->user_id != null)
+        @if ($user_kyc && $user_kyc->user_id != null)
             <div class="card mb-3">
                 <div class="card-body">
                 <h5 class="card-title">User Kyc</h5>

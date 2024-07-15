@@ -410,20 +410,46 @@ class HomeController extends Controller
 
     public function checkOverlappingOrders(Request $request)
     {
-        $startDate = Carbon::parse($request->start_date);
-        $endDate = Carbon::parse($request->end_date);
-
-        // Query to check overlapping orders for the item
-        $overlap = OrderDetail::where('item_id', $request->item_id)
+        $itemId = $request->item_id;
+        $startDate = $request->start_date;
+        $endDate = $request->end_date;
+    
+        // Query to fetch order details with the specified item_id
+        $orderDetails = OrderDetail::where('item_id', $itemId)->get();
+    
+        // If no order details found, return no overlap
+        if ($orderDetails->isEmpty()) {
+            return response()->json(['overlap' => false]);
+        }
+    
+        $orderIds = $orderDetails->pluck('order_id')->unique();
+    
+        // Query to fetch orders that are not completed and match the item_id
+        $ordersQuery = Order::whereIn('id', $orderIds)
+            ->where('order_status', '!=', 'completed');
+    
+        // Ensure at least one valid order exists
+        if (!$ordersQuery->exists()) {
+            // Handle case where no valid orders are found
+            return response()->json(['overlap' => false]);
+        }
+    
+        // Query to check overlapping order details for the matching order IDs
+        $overlapQuery = OrderDetail::whereIn('order_id', $orderIds)
             ->where(function ($query) use ($startDate, $endDate) {
                 $query->whereBetween('start_date', [$startDate, $endDate])
-                    ->orWhereBetween('end_date', [$startDate, $endDate]);
-            })
-            ->whereHas('order', function ($query) {
-                $query->where('order_status', '!=', 'completed'); // Ensure 'status' column exists and is correctly spelled
-            })
-            ->exists();
-
+                    ->orWhereBetween('end_date', [$startDate, $endDate])
+                    ->orWhere(function ($query) use ($startDate, $endDate) {
+                        $query->where('start_date', '<=', $startDate)
+                            ->where('end_date', '>=', $endDate);
+                    });
+            });
+    
+        $overlap = $overlapQuery->exists();
+    
+        // Debugging: log the executed query
+        // \Log::debug('Overlap Query:', [$overlapQuery->toSql(), $overlapQuery->getBindings()]);
+    
         return response()->json(['overlap' => $overlap]);
     }
 
