@@ -188,25 +188,25 @@
                         @foreach ($bikes as $key => $bike)
                             <tr>
                                 <td>{{ $key + $bikes->firstItem() }}</td>
-                           
+
                                 <td>
                                     <a class="media align-items-center" href="#">
                                         <img class="avatar avatar-lg mr-3 onerror-image"
-    
+
                                         src="{{ \App\CentralLogics\Helpers::onerror_image_helper(
                                             $bike->image ?? '',
                                             $bike ? asset('storage/app/public/product/'.$bike->image) : '',
                                             asset('public/assets/admin/img/160x160/img2.jpg'),
                                             'product/'
                                         ) }}"
-    
+
                                         data-onerror-image="{{asset('public/assets/admin/img/160x160/img2.jpg')}}" alt="{{$bike->name}} image">
                                         <div class="media-body">
                                             <h5 class="text-hover-primary mb-0">{{ Str::limit($bike ? $bike->name : '', 20, '...') }}</h5>
                                         </div>
                                     </a>
                                 </td>
-                        
+
                                 <td>
                                     <span class="d-block font-size-sm text-body">
                                         {{ Str::limit($bike->model, 20, '...') }}

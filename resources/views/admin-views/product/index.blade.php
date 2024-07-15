@@ -225,7 +225,7 @@
                                         </select>
                                     </div>
                                 </div>
-                              
+
                                 {{-- <div class="col-sm-6 col-lg-3" id="organic">
                                     <div class="form-check mb-0 p-6">
                                         <input class="form-check-input" name="organic" type="checkbox" value="1" id="flexCheckDefault" checked>
@@ -335,8 +335,8 @@
                                         </label>
                                         <select name="discount_type" id="discount_type"
                                             class="form-control js-select2-custom">
-                                            <option value="percent">{{ translate('messages.percent') }}</option>
-                                            <option value="amount">{{ translate('messages.amount') }}</option>
+                                            <option value="percent">{{ translate('messages.percentage') }}</option>
+                                            {{-- <option value="amount">{{ translate('messages.amount') }}</option> --}}
                                         </select>
                                     </div>
                                 </div>
@@ -436,7 +436,7 @@
                                         <label class="input-label"
                                             for="exampleFormControlInput1">{{ translate('messages.Day') }}</label>
                                         <input type="text" name="days" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 1hrs"  value="1" disabled> 
+                                            placeholder="{{ translate('messages.Ex:') }} 1hrs"  value="1" disabled>
                                     </div>
 
                                 </div>

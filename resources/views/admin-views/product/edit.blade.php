@@ -109,7 +109,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                
+
 
                                 <div class="col-sm-6 col-lg-3">
                                     <div class="form-group mb-0">
@@ -335,10 +335,10 @@
                                                 {{ $product['discount_type'] == 'percent' ? 'selected' : '' }}>
                                                 {{ translate('messages.percent') }}
                                             </option>
-                                            <option value="amount"
+                                            {{-- <option value="amount"
                                                 {{ $product['discount_type'] == 'amount' ? 'selected' : '' }}>
                                                 {{ translate('messages.amount') }}
-                                            </option>
+                                            </option> --}}
                                         </select>
                                     </div>
                                 </div>
@@ -362,10 +362,10 @@
                                 <?php
                                 // JSON string containing the key-value pair
                                 $jsonString = $product['hours_price'];
-                                
+
                                 // Decode the JSON string into an associative array
                                 $hoursPriceArray = json_decode($jsonString, true);
-                                
+
                                 ?>
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
@@ -387,6 +387,7 @@
                                             value="{{ $hoursPriceArray['price'] ?? 0 }}">
                                     </div>
                                 </div>
+
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
@@ -397,6 +398,7 @@
                                             value="{{ $hoursPriceArray['km_limit'] ?? 0 }}">
                                     </div>
                                 </div>
+
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
@@ -450,10 +452,10 @@
                                 <?php
                                 // JSON string containing the key-value pair
                                 $jsonString = $product['days_price'];
-                                
+
                                 // Decode the JSON string into an associative array
                                 $dayPriceArray = json_decode($jsonString, true);
-                                
+
                                 ?>
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
@@ -463,8 +465,8 @@
                                             placeholder="{{ translate('messages.Ex:') }} 1hrs"
                                             value="{{ $dayPriceArray['hour'] ?? 0 }}">
                                     </div>
-
                                 </div>
+
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
@@ -475,6 +477,7 @@
                                             value="{{ $dayPriceArray['price'] ?? 0 }}">
                                     </div>
                                 </div>
+
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
@@ -485,6 +488,7 @@
                                             value="{{ $dayPriceArray['km_limit'] ?? 0 }}">
                                     </div>
                                 </div>
+
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
@@ -495,6 +499,7 @@
                                             value="{{ $dayPriceArray['km_charges'] ?? 0 }}">
                                     </div>
                                 </div>
+
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
@@ -516,10 +521,10 @@
                                 <?php
                                 // JSON string containing the key-value pair
                                 $jsonString = $product['week_price'];
-                                
+
                                 // Decode the JSON string into an associative array
                                 $weekPriceArray = json_decode($jsonString, true);
-                                
+
                                 ?>
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
@@ -529,8 +534,8 @@
                                             placeholder="{{ translate('messages.Ex:') }} 1hrs"
                                             value="{{ $weekPriceArray['hour'] ?? 0 }}">
                                     </div>
-
                                 </div>
+
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
@@ -541,6 +546,7 @@
                                             value="{{ $weekPriceArray['price'] ?? 0 }}">
                                     </div>
                                 </div>
+
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
@@ -582,10 +588,10 @@
                                 <?php
                                 // JSON string containing the key-value pair
                                 $jsonString = $product['month_price'];
-                                
+
                                 // Decode the JSON string into an associative array
                                 $monthPriceArray = json_decode($jsonString, true);
-                                
+
                                 ?>
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">

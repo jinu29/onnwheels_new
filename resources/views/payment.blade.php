@@ -444,14 +444,14 @@
             <?php
             // JSON string containing the key-value pair
             $jsonString = $items['hours_price'];
-            
+
             // Decode the JSON string into an associative array
             $hoursPriceArray = json_decode($jsonString, true);
-            
+
             // Initialize variables to store key and value
             $defaultKey = '';
             $defaultValue = '';
-            
+
             // Check if decoding was successful and $hoursPriceArray is not empty
             if ($hoursPriceArray && is_array($hoursPriceArray)) {
                 // Extract key and value from the associative array

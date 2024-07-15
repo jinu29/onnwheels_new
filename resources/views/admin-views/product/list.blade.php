@@ -14,10 +14,11 @@
                 <div class="col-md-9 col-12">
                     <h1 class="page-header-title">
                         <span class="page-header-icon">
-                            <img src="{{ asset('public/assets/admin/img/items.png') }}" class="w--22" alt="">
+                            <img src="{{ asset('public/assets/admin/img/item.png') }}" class="w--23" alt="">
                         </span>
+
                         <span>
-                            {{ translate('messages.item_list') }} <span class="badge badge-soft-dark ml-2"
+                            {{ translate('messages.all_vehicle') }} <span class="badge badge-soft-dark ml-2"
                                 id="foodCount">{{ $items->total() }}</span>
                         </span>
                     </h1>
@@ -294,7 +295,7 @@
                                     @php($insuranceExpiryDate = $item->bike ? \Carbon\Carbon::parse($item->bike->insurance_expiry_date)->format('Y-m-d') : '')
                                     {{ $item->bike ? $insuranceExpiryDate : '' }}
                                 </td>
-                           
+
 
                                 <td>
                                     <label class="toggle-switch toggle-switch-sm"
