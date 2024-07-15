@@ -1161,14 +1161,25 @@
                                             <small>
                                                 (Min
                                                 {{ $hourPrice['hour_weekend_limit'] }} hrs booking)</small>
-                                            <div class="row">
-                                                <div class="col s9 l8">
-                                                    <span class="inner_text">Booking Time
-                                                        (&gt;{{ $hourPrice['hour_weekend_limit'] }}hrs)</span>
+                                            <div class="">
+                                                <div class="row">
+                                                    <div class="col s9 l8">
+                                                        <span class="inner_text">Booking Time
+                                                            (&gt;{{ $hourPrice['hour_weekend_limit'] }}hrs)</span>
+                                                    </div>
+                                                    <div class="col s3 l4" style="padding:0rem;">
+                                                        <span class="inner_text">₹
+                                                            <b>{{ $hourPrice['price'] }}</b>/hr</span>
+                                                    </div>
                                                 </div>
-                                                <div class="col s3 l4" style="padding:0rem;">
-                                                    <span class="inner_text">₹
-                                                        <b>{{ $hourPrice['price'] }}</b>/hr</span>
+                                                <div class="row">
+                                                    <div class="col s9 l8">
+                                                        <span class="inner_text">Weekend Extra Price</span>
+                                                    </div>
+                                                    <div class="col s3 l4" style="padding:0rem;">
+                                                        <span class="inner_text">₹
+                                                            {{-- <b>{{ $dayPrice['extra_hours'] }}</b>/hr</span> --}}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

@@ -202,15 +202,15 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-sm-6 col-lg-3" id="stock_input">
+                                {{-- <div class="col-sm-6 col-lg-3" id="stock_input">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
                                             for="total_stock">{{ translate('messages.total_stock') }}</label>
                                         <input type="number" class="form-control" name="current_stock" min="0"
                                             value="{{ $product->stock }}" id="quantity">
                                     </div>
-                                </div>
-                                <div class="col-sm-6 col-lg-3" id="maximum_cart_quantity">
+                                </div> --}}
+                                {{-- <div class="col-sm-6 col-lg-3" id="maximum_cart_quantity">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
                                             for="maximum_cart_quantity">{{ translate('messages.Maximum_Purchase_Quantity_Limit') }}
@@ -224,7 +224,7 @@
                                             class="form-control" name="maximum_cart_quantity" min="0"
                                             value="{{ $product->maximum_cart_quantity }}" id="cart_quantity">
                                     </div>
-                                </div>
+                                </div> --}}
                                 {{-- <div class="col-sm-6 col-lg-3" id="organic">
                                     <div class="form-check mb-0 p-6">
                                         <input class="form-check-input" name="organic" type="checkbox" value="1" id="flexCheckDefault" {{ $product->organic == 1?'checked':'' }}>
@@ -373,10 +373,10 @@
                                             for="exampleFormControlInput1">{{ translate('messages.Hours') }}</label>
                                         <input type="text" name="hours" class="form-control"
                                             placeholder="{{ translate('messages.Ex:') }} 1hrs"
-                                            value="{{ $hoursPriceArray['hour'] ?? 0 }}">
+                                            value="{{ $hoursPriceArray['hour'] ?? 0 }}" value="1" disabled>
                                     </div>
-
                                 </div>
+
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
                                         <label class="input-label"

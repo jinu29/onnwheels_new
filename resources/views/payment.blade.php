@@ -722,7 +722,7 @@
             var discountAmount = (totalPrice * discountPercentage) / 100;
     
             // Calculate total payable amount after discount
-            var totalPayableAmount = totalPrice + weekendPrice + gstAmount + sgstAmount - discountAmount;
+            var totalPayableAmount = totalPrice + gstAmount + sgstAmount - discountAmount;
     
             // Display values in the HTML
             $('#amtTotalPriceDisplay').text(totalPrice.toFixed(2));

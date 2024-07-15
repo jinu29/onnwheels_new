@@ -53,6 +53,7 @@ class HomeController extends Controller
     public function index()
     {
         $datas = DataSetting::with('translations')->where('type', 'admin_landing_page')->get();
+        
         $data = [];
         foreach ($datas as $key => $value) {
             if (count($value->translations) > 0) {

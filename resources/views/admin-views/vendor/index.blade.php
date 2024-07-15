@@ -264,13 +264,14 @@
                                     <div class="form-group mb-0">
                                         <label class="input-label" for="f_name">{{translate('messages.first_name')}}</label>
                                         <input type="text" name="f_name" class="form-control" placeholder="{{translate('messages.first_name')}}"
-                                                value="{{old('f_name')}}"  required>
-                                    </div>
+                                        value="{{old('f_name')}}" pattern="[A-Za-z]+" required
+                                        oninput="this.value = this.value.replace(/[^A-Za-z]/g, '')">
+                                    </div>                                    
                                 </div>
                                 <div class="col-md-4 col-sm-6">
                                     <div class="form-group mb-0">
                                         <label class="input-label" for="l_name">{{translate('messages.last_name')}}</label>
-                                        <input type="text" name="l_name" class="form-control" placeholder="{{translate('messages.last_name')}}"
+                                        <input type="text" name="l_name" class="form-control" placeholder="{{translate('messages.last_name')}}" pattern="[A-Za-z]+" oninput="this.value = this.value.replace(/[^A-Za-z]/g, '')"
                                         value="{{old('l_name')}}"  required>
                                     </div>
                                 </div>
@@ -279,9 +280,11 @@
                                         <label class="input-label" for="phone">{{translate('messages.phone')}}</label>
                                         <input type="text" id="phone" name="phone" class="form-control"
                                         placeholder="{{ translate('messages.Ex:') }} 017********"
-                                        required>
+                                        pattern="\d{10}" maxlength="10" required
+                                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)">
                                     </div>
                                 </div>
+                                
                             </div>
                         </div>
                     </div>
