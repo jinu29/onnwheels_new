@@ -938,6 +938,17 @@
                                             ₹ {{ number_format($sgstPrice, 2) }}
                                         </dd>
 
+                                        {{-- <dd class="col-6">
+                                            Discount   {{ $weekendPrice }}
+                                        </dd> --}}
+                                        <dt class="col-6">{{ translate('messages.Discount') }}
+                                            :
+                                        </dt>
+                                        <dd class="col-6">
+                                            ₹ 0.00
+                                        </dd>
+
+
                                         @if ($orderDetails[0]['km_exceed'] > 0)
                                             <dt class="col-6">{{ translate('messages.km_exceed') }}
                                             <dd class="col-6">

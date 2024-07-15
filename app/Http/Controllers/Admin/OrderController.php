@@ -241,6 +241,7 @@ class OrderController extends Controller
 
     public function details(Request $request, $id)
     {
+        
         $order = Order::with([
             'details',
             'offline_payments',
@@ -354,6 +355,8 @@ class OrderController extends Controller
                 $hour_price = $monthPrice['extra_hours'] ?? 0;
                 $type = "month";
             }
+
+            // $items = Item::all();
 
 
             return view('admin-views.order.order-view', compact('order', 'deliveryMen', 'categories', 'products', 'category', 'keyword', 'editing', 'weekendPrice', 'orderDetails', 'type', 'km_price', 'hour_price'));
