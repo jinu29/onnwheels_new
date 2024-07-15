@@ -249,6 +249,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::get('get-stores', 'VendorController@get_stores')->name('get-stores');
             Route::get('get-addons', 'VendorController@get_addons')->name('get_addons');
             Route::get('station', 'StationController@index')->name('station');
+            Route::get('status/{id}/{status}', 'StationController@status')->name('status');
             Route::post('station', 'StationController@station_store')->name('station-store');
             Route::get('station/list/{status?}', 'StationController@station_list')->name('station-list');
             Route::get('station/{id}/edit', 'StationController@edit')->name('station-edit');

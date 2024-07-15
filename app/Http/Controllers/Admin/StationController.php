@@ -8,6 +8,7 @@ use App\Models\Station;
 use App\Models\Zone;
 use Illuminate\Http\Request;
 use Brian2694\Toastr\Facades\Toastr;
+use App\Scopes\StoreScope;
 
 class StationController extends Controller
 {
@@ -57,6 +58,14 @@ class StationController extends Controller
 
         return redirect()->back()->with('success', 'Station has been added successfully');
     }
+    public function status(Request $request)
+    {
+        $station = Station::withoutGlobalScope(StoreScope::class)->findOrFail($request->id);
+        $station->status = $request->status;
+        $station->save();
+        Toastr::success(translate('messages.item_status_updated'));
+        return back();
+    }
 
     public function search(Request $request)
     {
@@ -97,10 +106,10 @@ class StationController extends Controller
                 // No additional filtering needed for 'all'
                 break;
             case 'active':
-                $query->where('status', 0); // Assuming 'status' 0 means active
+                $query->where('status', 1); // Assuming 'status' 0 means active
                 break;
             case 'inactive':
-                $query->where('status', 1); // Assuming 'status' 1 means inactive
+                $query->where('status', 0); // Assuming 'status' 1 means inactive
                 break;
             default:
                 // Default to 'all' if an invalid status is provided

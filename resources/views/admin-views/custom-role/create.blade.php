@@ -70,13 +70,96 @@
                             </div>
                         </div>
                         <div class="check--item-wrapper">
+                            {{-- Fleet --}}
                             <div class="check-item">
                                 <div class="form-group form-check form--check">
-                                    <input type="checkbox" name="modules[]" value="collect_cash" class="form-check-input"
-                                           id="collect_cash">
-                                    <label class="form-check-label qcont text-dark" for="collect_cash">{{translate('messages.collect_Cash')}}</label>
+                                    <input type="checkbox" name="modules[]" value="category" class="form-check-input"
+                                           id="category">
+                                    <label class="form-check-label qcont text-dark" for="category">{{translate('messages.fleet')}}</label>
                                 </div>
                             </div>
+
+                            {{-- Bookings --}}
+                            <div class="check-item">
+                                <div class="form-group form-check form--check">
+                                    <input type="checkbox" name="modules[]" value="order" class="form-check-input"
+                                           id="order">
+                                    <label class="form-check-label qcont text-dark" for="order">{{translate('messages.bookings')}}</label>
+                                </div>
+                            </div>
+
+                            {{-- Promotion --}}
+                            <div class="check-item">
+                                <div class="form-group form-check form--check">
+                                    <input type="checkbox" name="modules[]" value="promotion" class="form-check-input" id="promotion">
+                                    <label class="form-check-label qcont text-dark" for="promotion">{{translate('messages.promotion')}}</label>
+                                </div>
+                            </div>
+
+                            {{-- Partner --}}
+                            <div class="check-item">
+                                <div class="form-group form-check form--check">
+                                    <input type="checkbox" name="modules[]" value="store" class="form-check-input"
+                                           id="store">
+                                    <label class="form-check-label qcont text-dark" for="store">{{translate('messages.partner')}}</label>
+                                </div>
+                            </div>
+
+                            {{-- Station --}}
+                            <div class="check-item">
+                                <div class="form-group form-check form--check">
+                                    <input type="checkbox" name="modules[]" value="station" class="form-check-input"
+                                           id="station">
+                                    <label class="form-check-label qcont text-dark" for="station">{{translate('messages.station')}}</label>
+                                </div>
+                            </div>
+
+                            {{-- Customer --}}
+                            <div class="check-item">
+                                <div class="form-group form-check form--check">
+                                    <input type="checkbox" name="modules[]" value="customer_management" class="form-check-input"
+                                           id="customer_management">
+                                    <label class="form-check-label qcont text-dark" for="customer_management">{{translate('messages.customer_management')}}</label>
+                                </div>
+                            </div>
+
+                            {{-- Delivery man --}}
+                            <div class="check-item">
+                                <div class="form-group form-check form--check">
+                                    <input type="checkbox" name="modules[]" value="deliveryman" class="form-check-input"
+                                           id="deliveryman">
+                                    <label class="form-check-label qcont text-dark" for="deliveryman">{{translate('messages.deliveryman')}}</label>
+                                </div>
+                            </div>
+
+                            {{-- Report --}}
+                            <div class="check-item">
+                                <div class="form-group form-check form--check">
+                                    <input type="checkbox" name="modules[]" value="report" class="form-check-input"
+                                            id="report">
+                                    <label class="form-check-label qcont text-dark" for="report">{{translate('messages.report')}}</label>
+                                </div>
+                            </div>
+
+                            {{-- Branch --}}
+                            <div class="check-item">
+                                <div class="form-group form-check form--check">
+                                    <input type="checkbox" name="modules[]" value="branch" class="form-check-input"
+                                            id="branch">
+                                    <label class="form-check-label qcont text-dark" for="branch">{{translate('messages.branch')}}</label>
+                                </div>
+                            </div>
+
+                            {{-- System --}}
+                            <div class="check-item">
+                                <div class="form-group form-check form--check">
+                                    <input type="checkbox" name="modules[]" value="system" class="form-check-input"
+                                           id="system">
+                                    <label class="form-check-label qcont text-dark" for="system">{{translate('messages.system')}}</label>
+                                </div>
+                            </div>
+
+                            {{-- Addons --}}
                             <div class="check-item">
                                 <div class="form-group form-check form--check">
                                     <input type="checkbox" name="modules[]" value="addon" class="form-check-input"
@@ -84,18 +167,11 @@
                                     <label class="form-check-label qcont text-dark" for="addon">{{translate('messages.addon')}}</label>
                                 </div>
                             </div>
-                            <div class="check-item">
+                            {{-- <div class="check-item">
                                 <div class="form-group form-check form--check">
                                     <input type="checkbox" name="modules[]" value="attribute" class="form-check-input"
                                            id="attribute">
                                     <label class="form-check-label qcont text-dark" for="attribute">{{translate('messages.attribute')}}</label>
-                                </div>
-                            </div>
-                            <div class="check-item">
-                                <div class="form-group form-check form--check">
-                                    <input type="checkbox" name="modules[]" value="banner" class="form-check-input"
-                                           id="banner">
-                                    <label class="form-check-label qcont text-dark" for="banner">{{translate('messages.banner')}}</label>
                                 </div>
                             </div>
                             <div class="check-item">
@@ -107,30 +183,9 @@
                             </div>
                             <div class="check-item">
                                 <div class="form-group form-check form--check">
-                                    <input type="checkbox" name="modules[]" value="category" class="form-check-input"
-                                           id="category">
-                                    <label class="form-check-label qcont text-dark" for="category">{{translate('messages.category')}}</label>
-                                </div>
-                            </div>
-                            <div class="check-item">
-                                <div class="form-group form-check form--check">
                                     <input type="checkbox" name="modules[]" value="coupon" class="form-check-input"
                                            id="coupon">
                                     <label class="form-check-label qcont text-dark" for="coupon">{{translate('messages.coupon')}}</label>
-                                </div>
-                            </div>
-                            <div class="check-item">
-                                <div class="form-group form-check form--check">
-                                    <input type="checkbox" name="modules[]" value="customer_management" class="form-check-input"
-                                           id="customer_management">
-                                    <label class="form-check-label qcont text-dark" for="customer_management">{{translate('messages.customer_management')}}</label>
-                                </div>
-                            </div>
-                            <div class="check-item">
-                                <div class="form-group form-check form--check">
-                                    <input type="checkbox" name="modules[]" value="deliveryman" class="form-check-input"
-                                           id="deliveryman">
-                                    <label class="form-check-label qcont text-dark" for="deliveryman">{{translate('messages.deliveryman')}}</label>
                                 </div>
                             </div>
                             <div class="check-item">
@@ -151,7 +206,7 @@
                                 <div class="form-group form-check form--check">
                                     <input type="checkbox" name="modules[]" value="item" class="form-check-input"
                                            id="item">
-                                    <label class="form-check-label qcont text-dark" for="item">{{translate('messages.item')}}</label>
+                                    <label class="form-check-label qcont text-dark" for="item">{{translate('messages.products')}}</label>
                                 </div>
                             </div>
                             <div class="check-item">
@@ -163,33 +218,11 @@
                             </div>
                             <div class="check-item">
                                 <div class="form-group form-check form--check">
-                                    <input type="checkbox" name="modules[]" value="order" class="form-check-input"
-                                           id="order">
-                                    <label class="form-check-label qcont text-dark" for="order">{{translate('messages.order')}}</label>
-                                </div>
-                            </div>
-                            <div class="check-item">
-                                <div class="form-group form-check form--check">
-                                    <input type="checkbox" name="modules[]" value="store" class="form-check-input"
-                                           id="store">
-                                    <label class="form-check-label qcont text-dark" for="store">{{translate('messages.store')}}</label>
-                                </div>
-                            </div>
-                            <div class="check-item">
-                                <div class="form-group form-check form--check">
-                                    <input type="checkbox" name="modules[]" value="report" class="form-check-input"
-                                            id="report">
-                                    <label class="form-check-label qcont text-dark" for="report">{{translate('messages.report')}}</label>
-                                </div>
-                            </div>
-                            <div class="check-item">
-                                <div class="form-group form-check form--check">
                                     <input type="checkbox" name="modules[]" value="settings" class="form-check-input"
                                            id="settings">
                                     <label class="form-check-label qcont text-dark" for="settings">{{translate('messages.settings')}}</label>
                                 </div>
                             </div>
-
                             <div class="check-item">
                                 <div class="form-group form-check form--check">
                                     <input type="checkbox" name="modules[]" value="withdraw_list" class="form-check-input"
@@ -218,20 +251,20 @@
                                     <label class="form-check-label qcont text-dark" for="parcel">{{translate('messages.parcel')}}</label>
                                 </div>
                             </div>
-                            {{-- <div class="check-item">
+                            <div class="check-item">
                                 <div class="form-group form-check form--check">
                                     <input type="checkbox" name="modules[]" value="pos" class="form-check-input"
                                            id="pos">
                                     <label class="form-check-label qcont text-dark" for="pos">{{translate('messages.pos')}}</label>
                                 </div>
-                            </div> --}}
+                            </div>
                             <div class="check-item">
                                 <div class="form-group form-check form--check">
                                     <input type="checkbox" name="modules[]" value="unit" class="form-check-input"
                                            id="unit">
                                     <label class="form-check-label qcont text-dark" for="unit">{{translate('messages.unit')}}</label>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="btn--container justify-content-end mt-4">
                             <button type="reset" class="btn btn--reset">{{translate('messages.reset')}}</button>

@@ -34,15 +34,18 @@
                     <div class="col-md-8">
                         <div class="row g-3">
                             <div class="col-sm-6">
-                                <label class="input-label qcont" for="fname">{{translate('messages.first_name')}}</label>
+                                <label class="input-label qcont" for="fname">{{ translate('messages.first_name') }}</label>
                                 <input type="text" name="f_name" class="form-control" id="fname"
-                                    placeholder="{{translate('messages.first_name')}}" value="{{old('f_name')}}" required>
+                                    placeholder="{{ translate('messages.first_name') }}" value="{{ old('f_name') }}"
+                                    pattern="[A-Za-z]+" oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')" required>
                             </div>
+
                             <div class="col-sm-6">
                                 <label class="input-label qcont" for="lname">{{translate('messages.last_name')}}</label>
                                 <input type="text" name="l_name" class="form-control" id="lname" value="{{old('l_name')}}"
-                                    placeholder="{{translate('messages.last_name')}}" value="{{old('name')}}">
+                                    placeholder="{{translate('messages.last_name')}}" value="{{old('name')}}" pattern="[A-Za-z]+" oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')">
                             </div>
+
                             <div class="col-sm-6">
                                 <div >
                                     <label class="input-label" for="title">{{translate('messages.zone')}}</label>
@@ -56,6 +59,7 @@
                                     </select>
                                 </div>
                             </div>
+
                             <div class="col-sm-6">
                                 <div >
                                     <label class="input-label qcont" for="role_id">{{translate('messages.Role')}}</label>
@@ -67,12 +71,15 @@
                                     </select>
                                 </div>
                             </div>
+
                             <div class="col-md-6">
                                 <label class="input-label qcont" for="phone">{{translate('messages.phone')}}</label>
-                                <input type="number" name="phone" value="{{old('phone')}}" class="form-control" id="phone"
+                                <input type="tel" name="phone" value="{{old('phone')}}" class="form-control" id="phone"
                                         placeholder="{{ translate('messages.Ex:') }} +88017********" required>
+                                <span id="phoneError" style="color: red; display: none;">Please enter exactly 10 digits.</span>
                                 </div>
                             </div>
+
                         </div>
                     <div class="col-md-4">
                         <label class="h-100 d-flex flex-column">
@@ -156,7 +163,7 @@
             </div>
         </div>
         <div class="btn--container justify-content-end mt-4">
-            <button type="reset" id="reset_btn" class="btn btn--reset">{{translate('messages.reset')}}</button>
+            {{-- <button type="reset" id="reset_btn" class="btn btn--reset">{{translate('messages.reset')}}</button> --}}
             <button type="submit" class="btn btn--primary">{{translate('messages.submit')}}</button>
         </div>
     </form>
@@ -165,33 +172,59 @@
 
 @push('script_2')
     <script src="{{asset('public/assets/admin')}}/js/view-pages/employee.js"></script>
-<script>
-    "use strict";
-    $(document).on('ready', function () {
-        // INITIALIZATION OF SHOW PASSWORD
-        // =======================================================
-        $('.js-toggle-password').each(function () {
-            new HSTogglePassword(this).init()
-        });
+    <script>
+        "use strict";
+        $(document).on('ready', function () {
+            // INITIALIZATION OF SHOW PASSWORD
+            // =======================================================
+            $('.js-toggle-password').each(function () {
+                new HSTogglePassword(this).init()
+            });
 
 
-        // INITIALIZATION OF FORM VALIDATION
-        // =======================================================
-        $('.js-validate').each(function() {
-            $.HSCore.components.HSValidation.init($(this), {
-                rules: {
-                    confirmPassword: {
-                        equalTo: '#signupSrPassword'
+            // INITIALIZATION OF FORM VALIDATION
+            // =======================================================
+            $('.js-validate').each(function() {
+                $.HSCore.components.HSValidation.init($(this), {
+                    rules: {
+                        confirmPassword: {
+                            equalTo: '#signupSrPassword'
+                        }
                     }
-                }
+                });
             });
         });
-    });
-        $('#reset_btn').click(function(){
-            $('#viewer').attr('src', "{{ asset('public/assets/admin/img/400x400/img2.jpg') }}");
-            $('#customFileUpload').val(null);
-            $('#zone_id').val(null).trigger('change');
-            $('#role_id').val(null).trigger('change');
-        })
+            $('#reset_btn').click(function(){
+                $('#viewer').attr('src', "{{ asset('public/assets/admin/img/400x400/img2.jpg') }}");
+                $('#customFileUpload').val(null);
+                $('#zone_id').val(null).trigger('change');
+                $('#role_id').val(null).trigger('change');
+            })
+    </script>
+
+    <script>
+        document.getElementById('phone').addEventListener('input', function(event) {
+            var phoneInput = event.target;
+            var phoneValue = phoneInput.value.replace(/\D/g, ''); // Remove non-digit characters
+
+            if (phoneValue.length > 10) {
+                phoneValue = phoneValue.slice(0, 10); // Limit to 10 digits
+            }
+
+            phoneInput.value = phoneValue;
+        });
+
+        document.querySelector('form').addEventListener('submit', function(event) {
+            var phoneInput = document.getElementById('phone');
+            var phoneError = document.getElementById('phoneError');
+            var phoneValue = phoneInput.value;
+
+            if (phoneValue.length !== 10) {
+                event.preventDefault();
+                phoneError.style.display = 'block';
+            } else {
+                phoneError.style.display = 'none';
+            }
+        });
     </script>
 @endpush

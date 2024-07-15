@@ -4169,4 +4169,12 @@
   'total_hub_station' => 'Total hub station',
   'active_stations' => 'Active stations',
   'inactive_stations' => 'Inactive stations',
+  'bookings' => 'Bookings',
+  'Fleet' => 'Fleet',
+  'fleet' => 'Fleet',
+  'role_updated_successfully' => 'Role updated successfully',
+  'promotion' => 'Promotion',
+  'system' => 'System',
+  'The name has already been taken.' => 'The name has already been taken.',
+  'The phone must be at least 10 characters.' => 'The phone must be at least 10 characters.',
 );
