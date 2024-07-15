@@ -168,6 +168,8 @@
                                 ({{ $duration->d }} days, {{ $duration->h }} hours)
                             </h6>
 
+                            <h6>KM Limit :  {{ $orderDetails[0]['km_limit'] ?? 0 }}</h6>
+
                         </div>
                         <div class="order-invoice-right mt-3 mt-sm-0">
                             <div class="btn--container ml-auto align-items-center justify-content-end">

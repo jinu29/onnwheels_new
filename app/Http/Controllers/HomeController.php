@@ -401,12 +401,33 @@ class HomeController extends Controller
     {
 
         $items = Item::where('slug', $slug)->with('stations', 'bike')->first();
-        $product = Item::all();
+        $product = Item::with('bike')->get();
 
         if ($items != null) {
             return view('product.product_detail', compact('items', 'product'));
         }
     }
+
+    public function checkOverlappingOrders(Request $request)
+    {
+        $startDate = Carbon::parse($request->start_date);
+        $endDate = Carbon::parse($request->end_date);
+
+        // Query to check overlapping orders for the item
+        $overlap = OrderDetail::where('item_id', $request->item_id)
+            ->where(function ($query) use ($startDate, $endDate) {
+                $query->whereBetween('start_date', [$startDate, $endDate])
+                    ->orWhereBetween('end_date', [$startDate, $endDate]);
+            })
+            ->whereHas('order', function ($query) {
+                $query->where('order_status', '!=', 'completed'); // Ensure 'status' column exists and is correctly spelled
+            })
+            ->exists();
+
+        return response()->json(['overlap' => $overlap]);
+    }
+
+
 
     public function payment($slug, Request $request)
     {
@@ -540,6 +561,7 @@ class HomeController extends Controller
                 $orderDetail->end_date = $request->input('end_date');
                 $orderDetail->unit_price = $request->input('unit_price');
                 $orderDetail->weekend_price = $request->input('weekend_price');
+                $orderDetail->km_limit = $request->input('km_limit');
                 $orderDetail->vehicle_number = $request->input('vehicle_number');
                 $orderDetail->save();
 
@@ -617,7 +639,8 @@ class HomeController extends Controller
         return view('rides', compact('orders', 'user'));
     }
 
-    public function invoice($id){
+    public function invoice($id)
+    {
         $order = Order::withOutGlobalScope(ZoneScope::class)->with([
             'details',
             'store' => function ($query) {
@@ -720,7 +743,7 @@ class HomeController extends Controller
             $type = "month";
         }
         // return view('invoice', compact('order', 'weekendPrice', 'type', 'totalPrice', 'orderDetails'));
-        return view('admin-views.order.invoice-print',compact('order', 'weekendPrice', 'type', 'totalPrice', 'orderDetails'))->render();
+        return view('admin-views.order.invoice-print', compact('order', 'weekendPrice', 'type', 'totalPrice', 'orderDetails'))->render();
     }
 
     public function reviewStore(Request $request)

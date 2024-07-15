@@ -801,7 +801,7 @@
                         <a class="js-navbar-vertical-aside-menu-link nav-link" href="{{ route('admin.users.delivery-man.add') }}" title="{{ translate('messages.add_delivery_man') }}">
                             <i class="tio-running nav-icon"></i>
                             <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
-                                {{ translate('messages.add_delivery_man') }}
+                                {{ translate('messages.add_delivery_executive') }}
                             </span>
                         </a>
                     </li>
@@ -809,7 +809,7 @@
                         <a class="js-navbar-vertical-aside-menu-link nav-link" href="{{ route('admin.users.delivery-man.new') }}" title="{{ translate('messages.new_delivery_man') }}">
                             <i class="tio-man nav-icon"></i>
                             <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
-                                {{ translate('messages.new_delivery_man') }}
+                                {{ translate('messages.new_delivery_executive') }}
                             </span>
                         </a>
                     </li>
@@ -817,7 +817,7 @@
                         <a class="js-navbar-vertical-aside-menu-link nav-link" href="{{ route('admin.users.delivery-man.list') }}" title="{{ translate('messages.deliveryman_list') }}">
                             <i class="tio-filter-list nav-icon"></i>
                             <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
-                                {{ translate('messages.deliveryman_list') }}
+                                {{ translate('messages.delivery_executive_list') }}
                             </span>
                         </a>
                     </li>

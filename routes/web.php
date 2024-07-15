@@ -254,6 +254,7 @@ Route::post('/kyc', [KycController::class,'kyc_verify'])->name('kyc_verify');
 
 // Product detail storage
 Route::post('product_detail_store', [HomeController::class, 'create_order_store'])->name('create-order');
+Route::post('/check-overlapping-orders', [HomeController::class, 'checkOverlappingOrders'])->name('check.overlapping.orders');
 
 //payment
 Route::post('/create-order', [PaymentController::class, 'createOrder']);

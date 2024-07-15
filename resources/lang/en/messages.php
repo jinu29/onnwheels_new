@@ -4183,4 +4183,13 @@
   'add_delivery_executive' => 'Add delivery executive',
   'new_delivery_executive' => 'New delivery executive',
   'delivery_executive_list' => 'Delivery executive list',
+  'The day field is required.' => 'The day field is required.',
+  'The opening time field is required.' => 'The opening time field is required.',
+  'The closing time field is required.' => 'The closing time field is required.',
+  'The closing_time.0 must be a date after opening_time.0.' => 'The closing time.0 must be a date after opening time.0.',
+  'The closing_time.1 must be a date after opening_time.1.' => 'The closing time.1 must be a date after opening time.1.',
+  'Add Schedule' => 'Add Schedule',
+  'Opening Time' => 'Opening Time',
+  'Closing Time' => 'Closing Time',
+  'deliveryexecutive_list' => 'Deliveryexecutive list',
 );

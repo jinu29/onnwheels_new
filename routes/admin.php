@@ -251,6 +251,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             Route::get('get-stores', 'VendorController@get_stores')->name('get-stores');
             Route::get('get-addons', 'VendorController@get_addons')->name('get_addons');
             Route::get('station', 'StationController@index')->name('station');
+            Route::delete('/station/schedule/{id}', 'StationController@destroySchedule')->name('station.schedule.destroy');
             Route::get('status/{id}/{status}', 'StationController@status')->name('status');
             Route::post('station', 'StationController@station_store')->name('station-store');
             Route::post('station-store', 'StationController@station_store_date')->name('station-date-store');

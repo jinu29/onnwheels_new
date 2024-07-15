@@ -739,6 +739,7 @@
                 const storedStartDate = localStorage.getItem('startDate');
                 const storedEndDate = localStorage.getItem('endDate');
                 const weekendPrice = localStorage.getItem('weekendPrice');
+                const kmLimit = localStorage.getItem('kmLimit');
 
                 if (storedStartDate && storedEndDate) {
                     // Display stored start date and end date in 12-hour format with AM/PM
@@ -782,6 +783,7 @@
                             unit_price: rented_unit_price,
                             payment_status: "Paid",
                             weekend_price: weekendPrice,
+                            km_limit: kmLimit,
                             start_date: startDate,
                             end_date: endDate,
                             transaction_reference: response.razorpay_payment_id,

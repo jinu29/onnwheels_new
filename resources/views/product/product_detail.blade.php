@@ -1027,11 +1027,44 @@
             margin-top: 20px;
             font-size: 1.2em;
         }
+
+        .loader {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            /* Light border for loader */
+            border-radius: 50%;
+            /* Circular shape */
+            border-top: 4px solid #ffffff;
+            /* Darker color for top border */
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            /* Animation for spinning */
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 @endsection
 @section('content')
     <div class="container" style="margin-top: 4rem;">
         <div class="row no-gutters">
+
+            <div id="overlay"
+                style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 9999;">
+                <div id="loader"
+                    style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; text-align: center;">
+                    <div class="loader"></div> <!-- Circular loader -->
+                    {{-- <div>Loading...</div> --}}
+                </div>
+            </div>
+
 
             <?php
             // JSON string containing the key-value pair
@@ -1443,12 +1476,21 @@
                         <a href="{{ route('product.product_detail', $items->slug) }}">
                             <div class="d-flex flex-column align-items-center justify-content-center m-3 p-4 bg-white shadow"
                                 style="border-radius: 12px; height:150px;">
-                                <img class="avatar avatar-lg mr-3 onerror-image" style="width: 100px;"
-                                    src="{{ \App\CentralLogics\Helpers::onerror_image_helper($products['image'] ?? '', asset('storage/app/public/product') . '/' . $products['image'] ?? '', asset('public/assets/admin/img/160x160/img2.jpg'), 'product/') }}"
-                                    data-onerror-image="{{ asset('public/assets/admin/img/160x160/img2.jpg') }}"
-                                    alt="{{ $products->name }} image">
-                                <h5 style="text-align: center; color:black;" class="fw-700 fs-14">{{ $products->name }}
-                                </h5>
+
+                                @if ($products->bike)
+                                    <p></p>
+                                    {{-- Display bike image if available --}}
+                                    <img class="avatar avatar-lg mr-3 onerror-image" style="width: 100px;"
+                                        src="{{ \App\CentralLogics\Helpers::onerror_image_helper($products->bike->image ?? '', asset('storage/app/public/product') . '/' . $products->bike->image ?? '', asset('public/assets/admin/img/160x160/img2.jpg'), 'product/') }}"
+                                        data-onerror-image="{{ asset('public/assets/admin/img/160x160/img2.jpg') }}"
+                                        alt="{{ $products->bike->name }} image">
+
+                                    <h5 style="text-align: center; color:black;" class="fw-700 fs-14">
+                                        {{ $products->bike->name }} </h5>
+                                @else
+                                    <p>No bike associated</p>
+                                @endif
+
                             </div>
                         </a>
                     @endforeach
@@ -1629,6 +1671,12 @@
 
 
     {{-- Date Range --}}
+
+    <?php
+    // Assuming $items is an object from a database query in your PHP code
+    $item_id = $items->id;
+    ?>
+
     <script>
         $('#price').hide();
 
@@ -1638,6 +1686,7 @@
         localStorage.removeItem('distance');
         localStorage.removeItem('station_id');
         localStorage.removeItem('weekendPrice');
+        localStorage.removeItem('kmLimit');
 
         const hourPrice = <?php echo json_encode($hourPrice); ?>;
         const dayPrice = <?php echo json_encode($dayPrice); ?>;
@@ -1698,7 +1747,58 @@
         }
 
 
+        $('#demo').on('apply.daterangepicker', function(event, picker) {
+            $('#demo').attr('disabled', true); // Disable date range picker during AJAX request
+
+            $('#overlay').show();
+
+            const start = picker.startDate;
+            const end = picker.endDate;
+            var product_id = <?php echo json_encode($item_id); ?>;
+
+            $.ajax({
+                url: '{{ route('check.overlapping.orders') }}',
+                type: 'POST',
+                data: {
+                    start_date: start.format('MMMM DD, YYYY hh:mm A'),
+                    end_date: end.format('MMMM DD, YYYY hh:mm A'),
+                    item_id: product_id,
+                    _token: '{{ csrf_token() }}'
+                },
+
+                success: function(response) {
+                    if (response.overlap) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Booking Error',
+                            text: 'Selected dates overlap with an existing booking. Please choose different dates.',
+                            type: 'warning',
+                            showCancelButton: true,
+                            cancelButtonColor: 'default',
+                            confirmButtonColor: '#FC6A57',
+                            reverseButtons: true
+                        });
+                        $('#price').hide();
+                    } else {
+                        // Continue with price calculation and booking
+                        calculatePrice(start, end);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error checking overlapping orders:', error);
+                    // Handle error scenario
+                },
+                complete: function() {
+                    $('#demo').attr('disabled',
+                        false); // Re-enable date range picker after AJAX request completes
+                    $('#overlay').hide();
+                }
+            });
+        });
+
+
         function calculatePrice(start, end) {
+
             const duration = moment.duration(end.diff(start));
             const hours = duration.asHours();
             const days = duration.asDays();
@@ -1820,8 +1920,11 @@
                 localStorage.setItem('startDate', start.format('MMMM DD, YYYY @ h:mm A'));
                 localStorage.setItem('endDate', end.format('MMMM DD, YYYY @ h:mm A'));
                 localStorage.setItem('totalPrice', price.toFixed(2));
+                localStorage.setItem('kmLimit', totalKmLimit.toFixed(2));
                 localStorage.setItem('weekendPrice', weekend.toFixed(2));
             }
+
+
         }
 
 

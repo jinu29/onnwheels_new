@@ -69,7 +69,8 @@
                                         <div class="form-group">
                                             <label class="input-label"
                                                 for="{{ $lang }}_name">{{ translate('messages.name') }}
-                                                ({{ strtoupper($lang) }})</label>
+                                                ({{ strtoupper($lang) }})
+                                            </label>
                                             <input type="text" name="name[]" id="{{ $lang }}_name"
                                                 class="form-control"
                                                 placeholder="{{ translate('messages.station_name') }}">
@@ -170,6 +171,28 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="col-lg-12">
+                    {{-- @if (!config('module.' . $station->module->module_type)['always_open']) --}}
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="modal-title" id="exampleModalLabel">{{ translate('messages.Create Schedule') }}
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            @include('admin-views.station.partials._edit_schedule_date')
+                        </div>
+                    </div>
+                    {{-- @endif --}}
+                </div>
+
+                <input type="hidden" name="day[]" id="hiddenDay">
+                <input type="hidden" name="opening_time[]" id="hiddenOpeningTime">
+                <input type="hidden" name="closing_time[]" id="hiddenClosingTime">
+
                 <div class="col-lg-12">
                     <div class="btn--container justify-content-end">
                         <button type="reset" id="reset_btn"
@@ -182,6 +205,39 @@
 
     </div>
 
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{ translate('Add Schedule') }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="scheduleForm">
+                        <div class="form-group">
+                            <label for="dayName">{{ translate('Day') }}</label>
+                            <input type="text" class="form-control" id="dayName" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="startTime">{{ translate('Opening Time') }}</label>
+                            <input type="time" class="form-control" id="startTime" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="endTime">{{ translate('Closing Time') }}</label>
+                            <input type="time" class="form-control" id="endTime" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">{{ translate('Save') }}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
 @endsection
 
 @push('script_2')
@@ -191,6 +247,93 @@
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script
         src="https://maps.googleapis.com/maps/api/js?key={{ \App\Models\BusinessSetting::where('key', 'map_api_key')->first()->value }}&libraries=places&callback=initMap&v=3.45.8">
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            $('#exampleModal').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget);
+                var dayId = button.data('dayid');
+                var dayName = button.data('day');
+                var modal = $(this);
+                modal.find('#dayName').val(dayName);
+                modal.find('#dayName').data('dayid', dayId);
+            });
+
+            $('#scheduleForm').on('submit', function(event) {
+                event.preventDefault();
+                var dayName = $('#dayName').val();
+                var dayId = $('#dayName').data('dayid');
+                var startTime = $('#startTime').val();
+                var endTime = $('#endTime').val();
+
+                // Append the values to the hidden inputs
+                $('#hiddenDay').val(dayId).attr('name', 'day[' + dayId + ']');
+                $('#hiddenOpeningTime').val(startTime).attr('name', 'opening_time[' + dayId + ']');
+                $('#hiddenClosingTime').val(endTime).attr('name', 'closing_time[' + dayId + ']');
+
+                // Add the new schedule to the UI
+                var scheduleContent = $('#schedule-content-' + dayId);
+                scheduleContent.find('.disabled').remove();
+                var newSchedule = `
+                <span class="d-inline-flex align-items-center schedule-entry">
+                    <span class="start--time">
+                        <span class="clock--icon">
+                            <i class="tio-time"></i>
+                        </span>
+                        <span class="info">
+                            <span>Opening Time</span> ${startTime}
+                        </span>
+                    </span>
+                    <span class="end--time">
+                        <span class="clock--icon">
+                            <i class="tio-time"></i>
+                        </span>
+                        <span class="info">
+                            <span>Closing Time</span> ${endTime}
+                        </span>
+                    </span>
+                    <span class="dismiss--date delete-schedule" data-url="#">
+                        <i class="tio-clear-circle-outlined"></i>
+                    </span>
+                </span>`;
+                scheduleContent.append(newSchedule);
+
+                // Close the modal
+                $('#exampleModal').modal('hide');
+            });
+
+            // Delete schedule
+            $(document).on('click', '.delete-schedule', function() {
+                var scheduleId = $(this).closest('.schedule-entry').data('schedule-id');
+                var deleteUrl = $(this).data('url');
+
+                if (confirm('Are you sure you want to delete this schedule?')) {
+                    $.ajax({
+                        url: deleteUrl,
+                        type: 'DELETE',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            id: scheduleId
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                // Remove the schedule from the UI
+                                $('.schedule-entry[data-schedule-id="' + scheduleId + '"]')
+                                    .remove();
+                                window.location.reload();
+
+                            } else {
+                                alert('Error deleting schedule.');
+                            }
+                        },
+                        error: function() {
+                            alert('Error deleting schedule.');
+                        }
+                    });
+                }
+            });
+        });
     </script>
 
     <script>
@@ -263,10 +406,10 @@
                 },
                 onExtensionErr: function(index, file) {
                     toastr.error(
-                    '{{ translate('messages.please_only_input_png_or_jpg_type_file') }}', {
-                        CloseButton: true,
-                        ProgressBar: true
-                    });
+                        '{{ translate('messages.please_only_input_png_or_jpg_type_file') }}', {
+                            CloseButton: true,
+                            ProgressBar: true
+                        });
                 },
                 onSizeErr: function(index, file) {
                     toastr.error('{{ translate('messages.file_size_too_big') }}', {

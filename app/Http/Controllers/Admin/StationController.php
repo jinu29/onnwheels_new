@@ -36,17 +36,20 @@ class StationController extends Controller
      */
     public function station_store(Request $request)
     {
-
-        // dd($request->all());
         // Validate the request
         $request->validate([
             'name.0' => 'required',
             'name.*' => 'max:191',
-            'address' => 'required|max:100',
+            'address.0' => 'required|max:100',
             'zone_id' => 'required|integer|exists:zones,id',
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
-            'lang' => 'required|array'
+            'day' => 'required|array',
+            'day.*' => 'required|integer',
+            'opening_time' => 'required|array',
+            'opening_time.*' => 'required|date_format:H:i',
+            'closing_time' => 'required|array',
+            'closing_time.*' => 'required|date_format:H:i|after:opening_time.*',
         ]);
 
         // Store the station
@@ -58,12 +61,15 @@ class StationController extends Controller
             'lon' => $request->longitude,
         ]);
 
-        // StationSchedule::create([
-        //     'station_id' => $station->id,
-        //     'day' => $request->day,
-        //     'opening_time' => $request->opening_time,
-        //     'closing_time' => $request->closing_time,
-        // ]);
+        // Store the station schedule
+        foreach ($request->day as $key => $day) {
+            StationSchedule::create([
+                'station_id' => $station->id,
+                'day' => $day,
+                'opening_time' => $request->opening_time[$key],
+                'closing_time' => $request->closing_time[$key],
+            ]);
+        }
 
         Toastr::success(translate('messages.store') . translate('messages.added_successfully'));
 
@@ -144,12 +150,13 @@ class StationController extends Controller
      */
     public function edit(string $id)
     {
-        $station = Station::findOrFail($id);
+        $station = Station::with('schedules')->findOrFail($id);
         $zones = Zone::all();
         $language = json_encode(['en']); // Add your language logic here if applicable
 
         return view('admin-views.station.edit', compact('station', 'zones', 'language'));
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -163,10 +170,13 @@ class StationController extends Controller
             'zone_id' => 'required|integer|exists:zones,id',
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
-            'lang' => 'required|array'
+            'lang' => 'required|array',
+            'day' => 'required|array',
+            'opening_time' => 'required|array',
+            'closing_time' => 'required|array',
         ]);
 
-
+        // Update the station details
         $station = Station::findOrFail($id);
         $station->update([
             'name' => $request->name[0], // Assuming the first entry is the default language
@@ -176,8 +186,26 @@ class StationController extends Controller
             'lon' => $request->longitude,
         ]);
 
+        // Update the schedule
+        $days = $request->day;
+        $openingTimes = $request->opening_time;
+        $closingTimes = $request->closing_time;
+
+        // Remove existing schedules for the station
+
+        // Add the new schedules
+        foreach ($days as $key => $day) {
+            StationSchedule::create([
+                'station_id' => $station->id,
+                'day' => $day,
+                'opening_time' => $openingTimes[$key],
+                'closing_time' => $closingTimes[$key],
+            ]);
+        }
+
         return redirect()->route('admin.store.station-list', $station->id)->with('success', 'Station updated successfully.');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -189,4 +217,16 @@ class StationController extends Controller
 
         return redirect()->route('admin.store.station-list')->with('success', 'Station deleted successfully.');
     }
+
+    public function destroySchedule($id)
+    {
+        $schedule = StationSchedule::findOrFail($id);
+
+        if ($schedule->delete()) {
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['success' => false]);
+        }
+    }
+
 }
