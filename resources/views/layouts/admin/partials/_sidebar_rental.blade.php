@@ -382,7 +382,7 @@
                     </li>
                     <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/order') ? 'active' : '' }}">
                         <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:" title="{{ translate('messages.orders') }}">
-                            <i class="tio-shopping-cart nav-icon"></i>
+                            <i class="tio-calendar-note nav-icon"></i>
                             <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                 {{ translate('messages.booking') }}
                             </span>
@@ -433,7 +433,18 @@
                                     </span>
                                 </a>
                             </li>
-                            <li class="nav-item {{ Request::is('admin/order/list/completed') ? 'active' : '' }}">
+                            <li class="nav-item {{ Request::is('admin/order/list/return') ? 'active' : '' }}">
+                                <a class="nav-link " href="{{ route('admin.order.list', ['return']) }}" title="{{ translate('messages.accepted_orders') }}">
+                                    <span class="tio-circle nav-indicator-icon"></span>
+                                    <span class="text-truncate sidebar--badge-container">
+                                        {{ translate('messages.completed_bookings') }}
+                                        <span class="badge badge-soft-success badge-pill ml-1">
+                                            {{ \App\Models\Order::Completed()->StoreOrder()->module(Config::get('module.current_module_id'))->count() }}
+                                        </span>
+                                    </span>
+                                </a>
+                            </li>
+                            {{-- <li class="nav-item {{ Request::is('admin/order/list/completed') ? 'active' : '' }}">
                                 <a class="nav-link " href="{{ route('admin.order.list', ['completed']) }}" title="{{ translate('messages.processing_orders') }}">
                                     <span class="tio-circle nav-indicator-icon"></span>
                                     <span class="text-truncate sidebar--badge-container">
@@ -443,7 +454,7 @@
                                         </span>
                                     </span>
                                 </a>
-                            </li>
+                            </li> --}}
 
                             <li class="nav-item {{ Request::is('admin/order/list/abandoned') ? 'active' : '' }}">
                                 <a class="nav-link " href="{{ route('admin.order.list', ['abandoned']) }}" title="{{ translate('messages.processing_orders') }}">
@@ -872,8 +883,8 @@
                         <span class="tio-chart-bar-4 nav-icon"></span>
                         <span class="text-truncate text-capitalize">{{ translate('messages.hub_wise_report') }}</span>
                     </a>
-                </li> 
-                
+                </li>
+
                 @endif
 
                 <!-- Branch Management -->

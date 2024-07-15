@@ -4183,4 +4183,5 @@
   'add_delivery_executive' => 'Add delivery executive',
   'new_delivery_executive' => 'New delivery executive',
   'delivery_executive_list' => 'Delivery executive list',
+  'select_Bike' => 'Select Bike',
 );

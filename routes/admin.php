@@ -70,7 +70,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         //            Route::post('update/{id}', 'CustomRoleController@update')->name('update');
         //            Route::delete('delete/{id}', 'CustomRoleController@distroy')->name('delete');
         //            Route::post('search', 'CustomRoleController@search')->name('search');
-        //        });
+        //        });details
 
         // Route::group(['prefix' => 'employee', 'as' => 'employee.', 'middleware' => ['module:employee']], function () {
         //     Route::get('add-new', 'EmployeeController@add_new')->name('add-new');
@@ -869,7 +869,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
             //         // });
             //     });
             // });
-            
+
             // Subscribed customer Routes
             Route::group(['prefix' => 'customer', 'as' => 'customer.'], function () {
 
