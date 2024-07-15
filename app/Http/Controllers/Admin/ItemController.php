@@ -51,37 +51,37 @@ class ItemController extends Controller
         $validator = Validator::make($request->all(), [
             'bike_id' => 'required',
             'category_id' => 'required',
-            'hours' => 'required',
-            'h_price' => 'required',
-            'h_km_limit' => 'required',
-            'h_km_charges' => 'required',
-            'h_hour_limit' => 'required',
-            'h_w_limit' => 'required',
-            'h_extra_hours' => 'required',
+            'hours' => 'nullable',
+            'h_price' => 'nullable',
+            'h_km_limit' => 'nullable',
+            'h_km_charges' => 'nullable',
+            'h_hour_limit' => 'nullable',
+            'h_w_limit' => 'nullable',
+            'h_extra_hours' => 'nullable',
 
-            'days' => 'required',
-            'd_price' => 'required',
-            'd_km_limit' => 'required',
-            'd_km_charges' => 'required',
-            'd_extra_hours' => 'required',
+            'days' => 'nullable',
+            'd_price' => 'nullable',
+            'd_km_limit' => 'nullable',
+            'd_km_charges' => 'nullable',
+            'd_extra_hours' => 'nullable',
 
-            'week' => 'required',
-            'w_price' => 'required',
-            'w_km_limit' => 'required',
-            'w_extra_hours' => 'required',
+            'week' => 'nullable',
+            'w_price' => 'nullable',
+            'w_km_limit' => 'nullable',
+            'w_extra_hours' => 'nullable',
 
-            'month' => 'required',
-            'm_price' => 'required',
-            'm_km_limit' => 'required',
-            'm_extra_hours' => 'required',
+            'month' => 'nullable',
+            'm_price' => 'nullable',
+            'm_km_limit' => 'nullable',
+            'm_extra_hours' => 'nullable',
 
-            'km' => 'required',
-            'km_price' => 'required|numeric|between:.01,999999999999.99',
-            'km_limit' => 'required',
-            'km_charges' => 'required',
-            'price' => 'required|numeric|between:.01,999999999999.99',
+            'km' => 'nullable',
+            'km_price' => 'nullable|numeric|between:.01,999999999999.99',
+            'km_limit' => 'nullable',
+            'km_charges' => 'nullable',
+            'price' => 'nullable|numeric|between:.01,999999999999.99',
             'discount' => 'nullable|numeric|min:0',
-            'store_id' => 'required',
+            'store_id' => 'nullable',
         ]);
 
         if ($request['discount_type'] == 'percent') {
@@ -402,37 +402,37 @@ class ItemController extends Controller
         $validator = Validator::make($request->all(), [
             'bike_id' => 'required',
             'category_id' => 'required',
-            'hours' => 'required',
-            'h_price' => 'required',
-            'h_km_limit' => 'required',
-            'h_km_charges' => 'required',
-            'h_hour_limit' => 'required',
-            'h_w_limit' => 'required',
-            'h_extra_hours' => 'required',
+            'hours' => 'nullable',
+            'h_price' => 'nullable',
+            'h_km_limit' => 'nullable',
+            'h_km_charges' => 'nullable',
+            'h_hour_limit' => 'nullable',
+            'h_w_limit' => 'nullable',
+            'h_extra_hours' => 'nullable',
 
-            'days' => 'required',
-            'd_price' => 'required',
-            'd_km_limit' => 'required',
-            'd_km_charges' => 'required',
-            'd_extra_hours' => 'required',
+            'days' => 'nullable',
+            'd_price' => 'nullable',
+            'd_km_limit' => 'nullable',
+            'd_km_charges' => 'nullable',
+            'd_extra_hours' => 'nullable',
 
-            'week' => 'required',
-            'w_price' => 'required',
-            'w_km_limit' => 'required',
-            'w_extra_hours' => 'required',
+            'week' => 'nullable',
+            'w_price' => 'nullable',
+            'w_km_limit' => 'nullable',
+            'w_extra_hours' => 'nullable',
 
-            'month' => 'required',
-            'm_price' => 'required',
-            'm_km_limit' => 'required',
-            'm_extra_hours' => 'required',
+            'month' => 'nullable',
+            'm_price' => 'nullable',
+            'm_km_limit' => 'nullable',
+            'm_extra_hours' => 'nullable',
 
-            'km' => 'required',
-            'km_price' => 'required|numeric|between:.01,999999999999.99',
-            'km_limit' => 'required',
-            'km_charges' => 'required',
-            'price' => 'required|numeric|between:.01,999999999999.99',
+            'km' => 'nullable',
+            'km_price' => 'nullable|numeric|between:.01,999999999999.99',
+            'km_limit' => 'nullable',
+            'km_charges' => 'nullable',
+            'price' => 'nullable|numeric|between:.01,999999999999.99',
             'discount' => 'nullable|numeric|min:0',
-            'store_id' => 'required',
+            'store_id' => 'nullable',
         ]);
 
         if ($request['discount_type'] == 'percent') {
@@ -890,7 +890,7 @@ class ItemController extends Controller
         ]);
     }
 
-    public function list(Request $request, $status)
+    public function list(Request $request, $status = 'all')
     {
         $store_id = $request->query('store_id', 'all');
         $category_id = $request->query('category_id', 'all');
