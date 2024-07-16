@@ -5726,7 +5726,7 @@ div.scroll-down {
 
 .sidebar--badge-container .badge {
     font-size: 10px;
-    min-width: 25px;
+    min-width: 18px;
     padding: 3px;
     font-weight: 700;
 }

@@ -93,7 +93,7 @@
                                 </div> --}}
                                 <input type="hidden" name="store_id" value="6">
 
-                                <div class="col-sm-6 col-lg-3">
+                                <div class="col-sm-6 col-lg-4">
                                     <div class="form-group mb-0">
                                         <label class="input-label" for="bike_id">{{ translate('messages.bike') }}<span
                                                 class="input-label-secondary"></span></label>
@@ -109,24 +109,7 @@
                                         </select>
                                     </div>
                                 </div>
-
-
-                                <div class="col-sm-6 col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="station_id">{{ translate('messages.station') }}</label>
-                                        <select name="station_id[]" id="station_id"
-                                            data-placeholder="{{ translate('messages.select_station') }}"
-                                            class="js-data-example-ajax form-control" multiple="multiple">
-                                            @foreach ($stations as $station)
-                                                <option value="{{ $station->id }}
-                                                    {{ in_array($station->id, $product->stations->pluck('id')->toArray()) ? 'selected' : '' }}>
-                                                    {{ $station->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-lg-3">
+                                <div class="col-sm-6 col-lg-4">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
                                             for="category_id">{{ translate('messages.category') }}<span
@@ -139,7 +122,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-sm-6 col-lg-3">
+                                <div class="col-sm-6 col-lg-4">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
                                             for="exampleFormControlSelect1">{{ translate('messages.sub_category') }}<span
@@ -155,6 +138,8 @@
                                             @endif
                                         </select>
                                     </div>
+
+
                                 </div>
                                 <div class="col-sm-6 col-lg-3" id="condition_input">
                                     <div class="form-group mb-0">
@@ -202,7 +187,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-sm-6 col-lg-3" id="stock_input">
+                                <div class="col-sm-6 col-lg-6" id="stock_input">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
                                             for="total_stock">{{ translate('messages.total_stock') }}</label>
@@ -210,7 +195,7 @@
                                             value="{{ $product->stock }}" id="quantity">
                                     </div>
                                 </div>
-                                <div class="col-sm-6 col-lg-3" id="maximum_cart_quantity">
+                                <div class="col-sm-6 col-lg-6" id="maximum_cart_quantity">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
                                             for="maximum_cart_quantity">{{ translate('messages.Maximum_Purchase_Quantity_Limit') }}
@@ -225,6 +210,22 @@
                                             value="{{ $product->maximum_cart_quantity }}" id="cart_quantity">
                                     </div>
                                 </div>
+                                <div class="col-sm-6 col-lg-12">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="station_id">{{ translate('messages.station') }}</label>
+                                        <select name="station_id[]" id="station_id"
+                                            data-placeholder="{{ translate('messages.select_station') }}"
+                                            class="js-data-example-ajax form-control" multiple="multiple">
+                                            @foreach ($stations as $station)
+                                                <option value="{{ $station->id }}
+                                                    {{ in_array($station->id, $product->stations->pluck('id')->toArray()) ? 'selected' : '' }}>
+                                                    {{ $station->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
                                 {{-- <div class="col-sm-6 col-lg-3" id="organic">
                                     <div class="form-check mb-0 p-6">
                                         <input class="form-check-input" name="organic" type="checkbox" value="1" id="flexCheckDefault" {{ $product->organic == 1?'checked':'' }}>

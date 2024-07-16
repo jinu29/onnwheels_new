@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bike;
 use App\Models\Contact;
 use App\Mail\OrderConfirmationMail;
 use App\Models\Review;
@@ -483,10 +484,11 @@ class HomeController extends Controller
     public function product($category_id)
     {
         $products = Item::where('category_id', $category_id)->get();
+        $bike = Bike::all();
         // Assuming you have a Category model and want to retrieve the category name
         $category = Category::findOrFail($category_id);
 
-        return view('productlisting', compact('products', 'category'));
+        return view('productlisting', compact('products', 'category','bike'));
     }
 
     public function all_category()
@@ -617,7 +619,7 @@ class HomeController extends Controller
         return view('thankyou');
     }
 
-    // public function rides(Request $request) 
+    // public function rides(Request $request)
     // {
     //     $user_id = Auth::user()->id;
     //     $orders = Order::where('user_id', $user_id)->with('details')->get();

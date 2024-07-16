@@ -49,6 +49,7 @@ class ItemController extends Controller
     {
         // dd($request->all());
         $validator = Validator::make($request->all(), [
+            'name' => 'required',
             'bike_id' => 'required',
             'category_id' => 'required',
             'hours' => 'nullable',

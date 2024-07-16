@@ -13,7 +13,7 @@
         <div class="page-header d-flex flex-wrap __gap-15px justify-content-between align-items-center">
             <h1 class="page-header-title">
                 <span class="page-header-icon">
-                    <img src="{{ asset('public/assets/admin/img/items.png') }}" class="w--22" alt="">
+                    <img src="{{ asset('public/assets/admin/img/item.png') }}" class="w--23" alt="">
                 </span>
                 <span>
                     {{ translate('messages.add_new_item') }}
@@ -161,32 +161,18 @@
                                 </div> --}}
                                 <input type="hidden" name="store_id" value="6">
 
-                                <div class="col-sm-6 col-lg-3">
+                                <div class="col-sm-6 col-lg-4">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
                                             for="bike_id">{{ translate('messages.bike') }}<span
                                                 class="input-label-secondary"></span></label>
                                         <select name="bike_id" id="bike_id"
-                                            data-placeholder="{{ translate('messages.select_station') }}"
-                                            class="js-data-example-ajax form-control">
+                                            data-placeholder="{{ translate('messages.select_Bike') }}"
+                                            class="js-data-example-ajax form-control" name="name">
                                         </select>
                                     </div>
                                 </div>
-
-                                <div class="col-sm-6 col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="station_id">{{ translate('messages.station') }}<span
-                                                class="input-label-secondary"></span></label>
-                                        <select name="station_id[]" id="station_id"
-                                            data-placeholder="{{ translate('messages.select_station') }}"
-                                            class="js-data-example-ajax form-control" multiple="multiple">
-                                        </select>
-                                    </div>
-                                </div>
-
-
-                                <div class="col-sm-6 col-lg-3">
+                                <div class="col-sm-6 col-lg-4">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
                                             for="category_id">{{ translate('messages.category') }}<span
@@ -197,7 +183,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-sm-6 col-lg-3">
+                                <div class="col-sm-6 col-lg-4">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
                                             for="sub-categories">{{ translate('messages.sub_category') }}<span
@@ -212,6 +198,26 @@
                                         </select>
                                     </div>
                                 </div>
+
+                                <div class="col-sm-6 col-lg-12">
+                                    <div class="form-group mb-0">
+                                        {{-- <label class="input-label" for="station_id">
+                                            {{ translate('messages.station') }}
+                                            <span class="input-label-secondary"></span>
+                                        </label>
+                                        <select name="station_id[]" id="station_id" data-placeholder="{{ translate('messages.select_station') }}" class="js-data-example-ajax form-control" multiple="multiple" >
+                                        </select> --}}
+                                        <div class="form-group mb-0">
+                                            <label class="input-label" for="station_id">{{ translate('messages.station') }}<span class="input-label-secondary"></span></label>
+                                            <select name="station_id[]" id="station_id" data-placeholder="{{ translate('messages.select_station') }}" class="js-data-example-ajax form-control mt-4" multiple="multiple">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
                                 <div class="col-sm-6 col-lg-3" id="condition_input">
                                     <div class="form-group mb-0">
                                         <label class="input-label"

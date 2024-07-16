@@ -1125,7 +1125,13 @@
                             <span class="rating">5.0</span>
                         </div>
                         <div class="desp">
-                            <p>{{ $items->bike->description }}</p>
+                            @if ($items->bike)
+                                <p>{{ $items->bike->description }}</p>
+                                {{-- <input type="hidden" value="{{ $items->name }}" name=""> --}}
+                            @else
+                                <h4 class="product-title mb-0">No description</h4>
+                            @endif
+
                         </div>
 
                         {{-- @php
@@ -1172,19 +1178,17 @@
                                     <div class="inner_pricing_content">
                                         <div>
                                             <label for="switchHour" id="labelHour" style="margin-top: 10px;">Mon-Thu</label>
+                                            {{-- <small>(Min{{ $hourPrice['hour_limit'] }}hrs booking)</small> --}}
                                             <small>
-                                                (Min
-                                                {{ $hourPrice['hour_limit'] }}
-                                                hrs booking)</small>
+                                                (Min {{ $hourPrice['hour_limit'] ?? 'N/A' }} hrs booking)
+                                            </small>
                                             <div class="row">
                                                 <div class="col s9 l8">
-                                                    <span class="inner_text">Booking Time (0-
-                                                        24
-                                                        hrs)</span>
+                                                    <span class="inner_text">Booking Time (0-24hrs)</span>
                                                 </div>
                                                 <div class="col s3 l4" style="padding:0rem;">
-                                                    <span class="inner_text">₹
-                                                        <b>{{ $hourPrice['price'] }}</b>/hr</span>
+                                                    {{-- <span class="inner_text">₹<b>{{ $hourPrice['price'] }}</b>/hr</span> --}}
+                                                    <span class="inner_text">₹<b>{{ $hourPrice['price'] ?? 'N/A' }}</b>/hr</span>
                                                 </div>
                                             </div>
 
@@ -1193,15 +1197,15 @@
                                             <label for="switchHour" id="labelHour">Fri-Sun</label>
                                             <small>
                                                 (Min
-                                                {{ $hourPrice['hour_weekend_limit'] }} hrs booking)</small>
+                                                {{ $hourPrice['hour_weekend_limit'] ?? 'N/A'}} hrs booking)</small>
                                             <div class="row">
                                                 <div class="col s9 l8">
                                                     <span class="inner_text">Booking Time
-                                                        (&gt;{{ $hourPrice['hour_weekend_limit'] }}hrs)</span>
+                                                        (&gt;{{ $hourPrice['hour_weekend_limit']?? 'N/A' }}hrs)</span>
                                                 </div>
                                                 <div class="col s3 l4" style="padding:0rem;">
                                                     <span class="inner_text">₹
-                                                        <b>{{ $hourPrice['price'] }}</b>/hr</span>
+                                                        <b>{{ $hourPrice['price']?? 'N/A'}}</b>/hr</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -1213,7 +1217,7 @@
                                                 </div>
                                                 <div class="col s3 l4" style="padding:0rem;">
                                                     <span class="inner_text">
-                                                        <b>{{ $hourPrice['km_limit'] }}</b>/hr</span>
+                                                        <b>{{ $hourPrice['km_limit'] ?? 'N/A'}}</b>/hr</span>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -1222,7 +1226,7 @@
                                                 </div>
                                                 <div class="col s3 l4" style="padding:0rem;">
                                                     <span class="inner_text">₹
-                                                        <b>{{ $hourPrice['km_charges'] }}</b>/km</span>
+                                                        <b>{{ $hourPrice['km_charges'] ?? 'N/A'}}</b>/km</span>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -1231,7 +1235,7 @@
                                                 </div>
                                                 <div class="col s3 l4" style="padding:0rem;">
                                                     <span class="inner_text">₹
-                                                        <b>{{ $hourPrice['extra_hours'] }}</b></span>
+                                                        <b>{{ $hourPrice['extra_hours'] ?? 'N/A'}}</b></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -2111,7 +2115,7 @@
     // Assuming $items is an object from a database query in your PHP code
     $item_id = $items->id;
     $item = $items;
-    
+
     ?>
 
     <script>
