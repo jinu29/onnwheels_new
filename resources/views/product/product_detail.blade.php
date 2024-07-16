@@ -1760,8 +1760,8 @@
                 url: '{{ route('check.overlapping.orders') }}',
                 type: 'POST',
                 data: {
-                    start_date: start.format('MMMM DD, YYYY hh:mm A'),
-                    end_date: end.format('MMMM DD, YYYY hh:mm A'),
+                    start_date: start.format('MMMM DD, YYYY  h:mm A'), // Example: "July 15, 2024 6:00 PM"
+                    end_date: end.format('MMMM DD, YYYY  h:mm A'),
                     item_id: product_id,
                     _token: '{{ csrf_token() }}'
                 },
@@ -1770,7 +1770,7 @@
                     if (response.overlap) {
                         Swal.fire({
                             icon: 'error',
-                            title: 'Booking Error',
+                            title: 'Already Booked',
                             text: 'Selected dates overlap with an existing booking. Please choose different dates.',
                             type: 'warning',
                             showCancelButton: true,

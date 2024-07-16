@@ -448,7 +448,7 @@ class HomeController extends Controller
         $overlap = $overlapQuery->exists();
     
         // Debugging: log the executed query
-        // \Log::debug('Overlap Query:', [$overlapQuery->toSql(), $overlapQuery->getBindings()]);
+        \Log::debug('Overlap Query:', [$overlapQuery->toSql(), $overlapQuery->getBindings()]);
     
         return response()->json(['overlap' => $overlap]);
     }
