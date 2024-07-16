@@ -321,6 +321,8 @@ class OrderController extends Controller
             // Extract weekend price
             $weekendPrice = $details[0]['weekend_price'] ?? null;
 
+            
+
             $item = $order->details->first()->item;
 
             // Decode JSON fields from item properties

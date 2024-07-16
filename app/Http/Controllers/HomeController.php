@@ -542,6 +542,7 @@ class HomeController extends Controller
                 $orderDetail->unit_price = $request->input('unit_price');
                 $orderDetail->weekend_price = $request->input('weekend_price');
                 $orderDetail->vehicle_number = $request->input('vehicle_number');
+                $orderDetail->discount = $request->input('discount') ?? 0;
                 $orderDetail->save();
 
                 if (isset($order->transaction_reference)) {

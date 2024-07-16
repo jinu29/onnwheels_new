@@ -938,16 +938,20 @@
                                             ₹ {{ number_format($sgstPrice, 2) }}
                                         </dd>
 
-                                        {{-- <dd class="col-6">
-                                            Discount   {{ $weekendPrice }}
-                                        </dd> --}}
                                         <dt class="col-6">{{ translate('messages.Discount') }}
-                                            :
-                                        </dt>
+                                            {{ round($orderDetails[0]['discount']) }}%:</dt>
                                         <dd class="col-6">
-                                            ₹ 0.00
+                                            @php($discountPercentage = $orderDetails[0]['discount'] ?? 0)
+                                            @php($discountAmount = ($unit_price * $discountPercentage) / 100)
+                                            ₹ {{ number_format($discountAmount, 2) }} 
                                         </dd>
 
+                                        {{-- @if ($orderDetails[0]['discount'] > 0)
+                                            <dt class="col-6">Discount :</dt>
+                                            <dd class="col-6">
+                                                ₹ {{ number_format($orderDetails[0]['discount'], 2) }}
+                                            </dd>
+                                        @endif --}}
 
                                         @if ($orderDetails[0]['km_exceed'] > 0)
                                             <dt class="col-6">{{ translate('messages.km_exceed') }}
@@ -982,7 +986,6 @@
                                             </dd>
                                         @endif
 
-
                                         <dd class="col-12">
                                             <hr>
                                         </dd>
@@ -992,7 +995,7 @@
                                     <dt class="col-6">{{ translate('messages.total') }}:</dt>
                                     <dd class="col-6">
 
-                                        {{ \App\CentralLogics\Helpers::format_currency($product_price + $del_c + $total_tax_amount + $total_addon_price + $deliverman_tips + $additional_charge - $coupon_discount_amount - $store_discount_amount - $admin_flash_discount_amount - $store_flash_discount_amount) }}
+                                        {{ \App\CentralLogics\Helpers::format_currency($unit_price + $del_c + $total_tax_amount + $total_addon_price + $deliverman_tips + $additional_charge - $coupon_discount_amount - $store_discount_amount - $admin_flash_discount_amount - $store_flash_discount_amount - $discountAmount + $gstPrice + $sgstPrice) }}
                                     </dd>
                                     {{-- @if ($order?->payments)
                                         @foreach ($order?->payments as $payment)

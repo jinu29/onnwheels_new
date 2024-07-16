@@ -545,6 +545,8 @@
                     </div>
                     <div class="box">
                         <p>Discount ({{ $items->discount }}%)</p>
+                        <input type="hidden" id="discount" name="discount" value="{{ $items->discount }}">
+
                         <div class="amt">
                             <i class="fa-solid fa-indian-rupee-sign"></i>
                             -
@@ -772,6 +774,7 @@
                 const address = document.getElementById('station_name').value;
                 const latitude = document.getElementById('latitude').value;
                 const longitude = document.getElementById('longitude').value;
+                const discount = document.getElementById('discount').value;
 
                 if (!address) {
 
@@ -827,6 +830,7 @@
                             address: address,
                             lat: latitude,
                             lng: longitude,
+                            discount: discount,
                             store_id: storeId,
                             vehicle_number: vehicleNumber,
                             item_id: itemId,

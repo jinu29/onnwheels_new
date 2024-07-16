@@ -45,579 +45,303 @@ class ItemController extends Controller
         return view('admin-views.product.index', compact('categories', 'stations', 'bikes'));
     }
 
-    // public function store(Request $request)
-    // {
-    //     // dd($request->all());
-    //     $validator = Validator::make($request->all(), [
-    //         'bike_id' => 'required',
-    //         'category_id' => 'required',
-    //         'hours' => 'nullable',
-    //         'h_price' => 'nullable',
-    //         'h_km_limit' => 'nullable',
-    //         'h_km_charges' => 'nullable',
-    //         'h_hour_limit' => 'nullable',
-    //         'h_w_limit' => 'nullable',
-    //         'h_extra_hours' => 'nullable',
-
-    //         'days' => 'nullable',
-    //         'd_price' => 'nullable',
-    //         'd_km_limit' => 'nullable',
-    //         'd_km_charges' => 'nullable',
-    //         'd_extra_hours' => 'nullable',
-
-    //         'week' => 'nullable',
-    //         'w_price' => 'nullable',
-    //         'w_km_limit' => 'nullable',
-    //         'w_extra_hours' => 'nullable',
-
-    //         'month' => 'nullable',
-    //         'm_price' => 'nullable',
-    //         'm_km_limit' => 'nullable',
-    //         'm_extra_hours' => 'nullable',
-
-    //         'km' => 'nullable',
-    //         'km_price' => 'nullable|numeric|between:.01,999999999999.99',
-    //         'km_limit' => 'nullable',
-    //         'km_charges' => 'nullable',
-    //         'price' => 'nullable|numeric|between:.01,999999999999.99',
-    //         'discount' => 'nullable|numeric|min:0',
-    //         'store_id' => 'nullable',
-    //     ]);
-
-    //     if ($request['discount_type'] == 'percent') {
-    //         $dis = ($request['price'] / 100) * $request['discount'];
-    //     } else {
-    //         $dis = $request['discount'];
-    //     }
-
-    //     if ($request['price'] <= $dis) {
-    //         $validator->getMessageBag()->add('unit_price', translate('messages.discount_can_not_be_more_than_or_equal'));
-    //     }
-
-    //     if ($request['price'] <= $dis || $validator->fails()) {
-    //         return response()->json(['errors' => Helpers::error_processor($validator)]);
-    //     }
-    //     $images = [];
-
-    //     if ($request->item_id && $request?->product_gellary == 1) {
-    //         $item_data = Item::withoutGlobalScope(StoreScope::class)->select(['image', 'images'])->findOrfail($request->item_id);
-
-    //         if (!$request->has('image')) {
-    //             $oldPath = storage_path("app/public/product/{$item_data->image}");
-    //             $newFileName = \Carbon\Carbon::now()->toDateString() . "-" . uniqid() . ".png";
-    //             $newPath = storage_path("app/public/product/{$newFileName}");
-    //             if (File::exists($oldPath)) {
-    //                 File::copy($oldPath, $newPath);
-    //             }
-    //         }
-
-    //         $uniqueValues = array_diff($item_data->images, explode(",", $request->removedImageKeys));
-
-    //         foreach ($uniqueValues as $key => $value) {
-    //             $oldPath = storage_path("app/public/product/{$value}");
-    //             $newFileName = \Carbon\Carbon::now()->toDateString() . "-" . uniqid() . ".png";
-    //             $newPath = storage_path("app/public/product/{$newFileName}");
-    //             if (File::exists($oldPath)) {
-    //                 File::copy($oldPath, $newPath);
-    //             }
-    //             $images[] = $newFileName;
-    //         }
-    //     }
-    //     $tag_ids = [];
-    //     if ($request->tags != null) {
-    //         $tags = explode(",", $request->tags);
-    //     }
-    //     if (isset($tags)) {
-    //         foreach ($tags as $key => $value) {
-    //             $tag = Tag::firstOrNew(
-    //                 ['tag' => $value]
-    //             );
-    //             $tag->save();
-    //             array_push($tag_ids, $tag->id);
-    //         }
-    //     }
-
-    //     $item = new Item;
-    //     $item->bike_id = $request->input('bike_id');
-
-
-    //     $category = [];
-    //     if ($request->category_id != null) {
-    //         array_push($category, [
-    //             'id' => $request->category_id,
-    //             'position' => 1,
-    //         ]);
-    //     }
-    //     if ($request->sub_category_id != null) {
-    //         array_push($category, [
-    //             'id' => $request->sub_category_id,
-    //             'position' => 2,
-    //         ]);
-    //     }
-    //     if ($request->sub_sub_category_id != null) {
-    //         array_push($category, [
-    //             'id' => $request->sub_sub_category_id,
-    //             'position' => 3,
-    //         ]);
-    //     }
-    //     $item->category_ids = json_encode($category);
-    //     $item->category_id = $request->sub_category_id ? $request->sub_category_id : $request->category_id;
-
-    //     $payload = [
-    //         "hour" => $request->input('hours'),
-    //         "price" => $request->input('h_price'),
-    //         "km_limit" => $request->input('h_km_limit'),
-    //         'km_charges' => $request->input('h_km_charges'),
-    //         'hour_limit' => $request->input('h_hour_limit'),
-    //         'hour_weekend_limit' => $request->input('h_w_limit'),
-    //         'extra_hours' => $request->input('h_extra_hours')
-    //     ];
-
-    //     $days_price = [
-    //         "hour" => $request->input('days'),
-    //         "price" => $request->input('d_price'),
-    //         "km_limit" => $request->input('d_km_limit'),
-    //         'km_charges' => $request->input('d_km_charges'),
-    //         'extra_hours' => $request->input('d_extra_hours')
-    //     ];
-
-    //     $week_price = [
-    //         "hour" => $request->input('week'),
-    //         "price" => $request->input('w_price'), // Corrected this line
-    //         "km_limit" => $request->input('w_km_limit'),
-    //         'km_charges' => $request->input('w_km_charges'),
-    //         'extra_hours' => $request->input('w_extra_hours')
-    //     ];
-
-    //     $month_price = [
-    //         "hour" => $request->input('month'),
-    //         "price" => $request->input('m_price'), // Corrected this line
-    //         "km_limit" => $request->input('m_km_limit'),
-    //         'km_charges' => $request->input('m_km_charges'),
-    //         'extra_hours' => $request->input('m_extra_hours')
-    //     ];
-
-    //     $payload_1 = [
-    //         "hour" => $request->input('km'),
-    //         "price" => $request->input('km_price'), // Corrected this line
-    //         "km_limit" => $request->input('km_limit'),
-    //         'km_charges' => $request->input('km_charges')
-    //     ];
-
-    //     $item->hours_price = json_encode($payload);
-    //     $item->days_price = json_encode($days_price);
-    //     $item->week_price = json_encode($week_price);
-    //     $item->month_price = json_encode($month_price);
-
-    //     $item->distance_price = json_encode($payload_1);
-
-    //     $choice_options = [];
-    //     if ($request->has('choice')) {
-    //         foreach ($request->choice_no as $key => $no) {
-    //             $str = 'choice_options_' . $no;
-    //             if ($request[$str][0] == null) {
-    //                 $validator->getMessageBag()->add('name', translate('messages.attribute_choice_option_value_can_not_be_null'));
-    //                 return response()->json(['errors' => Helpers::error_processor($validator)]);
-    //             }
-    //             $temp['name'] = 'choice_' . $no;
-    //             $temp['title'] = $request->choice[$key];
-    //             $temp['options'] = explode(',', implode('|', preg_replace('/\s+/', ' ', $request[$str])));
-    //             array_push($choice_options, $temp);
-    //         }
-    //     }
-    //     $item->choice_options = json_encode($choice_options);
-    //     $variations = [];
-    //     $options = [];
-    //     if ($request->has('choice_no')) {
-    //         foreach ($request->choice_no as $key => $no) {
-    //             $name = 'choice_options_' . $no;
-    //             $my_str = implode('|', $request[$name]);
-    //             array_push($options, explode(',', $my_str));
-    //         }
-    //     }
-    //     //Generates the combinations of customer choice options
-    //     $combinations = Helpers::combinations($options);
-    //     if (count($combinations[0]) > 0) {
-    //         foreach ($combinations as $key => $combination) {
-    //             $str = '';
-    //             foreach ($combination as $k => $temp) {
-    //                 if ($k > 0) {
-    //                     $str .= '-' . str_replace(' ', '', $temp);
-    //                 } else {
-    //                     $str .= str_replace(' ', '', $temp);
-    //                 }
-    //             }
-    //             $temp = [];
-    //             $temp['type'] = $str;
-    //             $temp['price'] = abs($request['price_' . str_replace('.', '_', $str)]);
-    //             $temp['stock'] = abs($request['stock_' . str_replace('.', '_', $str)]);
-    //             array_push($variations, $temp);
-    //         }
-    //     }
-    //     //combinations end
-
-    //     if (!empty($request->file('item_images'))) {
-    //         foreach ($request->item_images as $img) {
-    //             $image_name = Helpers::upload('product/', 'png', $img);
-    //             $images[] = $image_name;
-    //         }
-    //     }
-    //     // food variation
-    //     $food_variations = [];
-    //     if (isset($request->options)) {
-    //         foreach (array_values($request->options) as $key => $option) {
-
-    //             $temp_variation['name'] = $option['name'];
-    //             $temp_variation['type'] = $option['type'];
-    //             $temp_variation['min'] = $option['min'] ?? 0;
-    //             $temp_variation['max'] = $option['max'] ?? 0;
-    //             $temp_variation['required'] = $option['required'] ?? 'off';
-    //             if ($option['min'] > 0 && $option['min'] > $option['max']) {
-    //                 $validator->getMessageBag()->add('name', translate('messages.minimum_value_can_not_be_greater_then_maximum_value'));
-    //                 return response()->json(['errors' => Helpers::error_processor($validator)]);
-    //             }
-    //             if (!isset($option['values'])) {
-    //                 $validator->getMessageBag()->add('name', translate('messages.please_add_options_for') . $option['name']);
-    //                 return response()->json(['errors' => Helpers::error_processor($validator)]);
-    //             }
-    //             if ($option['max'] > count($option['values'])) {
-    //                 $validator->getMessageBag()->add('name', translate('messages.please_add_more_options_or_change_the_max_value_for') . $option['name']);
-    //                 return response()->json(['errors' => Helpers::error_processor($validator)]);
-    //             }
-    //             $temp_value = [];
-
-    //             foreach (array_values($option['values']) as $value) {
-    //                 if (isset($value['label'])) {
-    //                     $temp_option['label'] = $value['label'];
-    //                 }
-    //                 $temp_option['optionPrice'] = $value['optionPrice'];
-    //                 array_push($temp_value, $temp_option);
-    //             }
-    //             $temp_variation['values'] = $temp_value;
-    //             array_push($food_variations, $temp_variation);
-    //         }
-    //     }
-
-    //     $item->food_variations = json_encode($food_variations);
-    //     $item->variations = json_encode($variations);
-    //     // $slug = Str::slug($bike_name);
-    //     // $item->slug = $item->slug ? $item->slug : "{$slug}{$item->id}";
-    //     $item->price = $request->price;
-    //     $item->image = $request->has('image') ? Helpers::upload('product/', 'png', $request->file('image')) : $newFileName ?? null;
-    //     $item->available_time_starts = $request->available_time_starts ?? '00:00:00';
-    //     $item->available_time_ends = $request->available_time_ends ?? '23:59:59';
-    //     $item->discount = $request->discount_type == 'amount' ? $request->discount : $request->discount;
-    //     $item->discount_type = $request->discount_type;
-    //     $item->unit_id = $request->unit;
-    //     $item->attributes = $request->has('attribute_id') ? json_encode($request->attribute_id) : json_encode([]);
-    //     $item->add_ons = $request->has('addon_ids') ? json_encode($request->addon_ids) : json_encode([]);
-    //     $item->store_id = $request->store_id;
-    //     $item->maximum_cart_quantity = $request->maximum_cart_quantity;
-    //     $item->veg = $request->veg;
-    //     $item->module_id = Config::get('module.current_module_id');
-    //     $module_type = Config::get('module.current_module_type');
-    //     if ($module_type == 'grocery') {
-    //         $item->organic = $request->organic ?? 0;
-    //     }
-    //     $item->stock = $request->current_stock ?? 0;
-    //     $item->images = $images;
-    //     $item->save();
-    //     $item->tags()->sync($tag_ids);
-    //     if ($module_type == 'pharmacy') {
-    //         $item_details = new PharmacyItemDetails();
-    //         $item_details->item_id = $item->id;
-    //         $item_details->common_condition_id = $request->condition_id;
-    //         $item_details->is_basic = $request->basic ?? 0;
-    //         $item_details->save();
-    //     }
-
-    //     if ($item) {
-    //         $item->stations()->sync($request->station_id);
-    //     }
-
-
-    //     Helpers::add_or_update_translations(request: $request, key_data: 'name', name_field: 'name', model_name: 'Item', data_id: $item->id, data_value: $item->name);
-    //     Helpers::add_or_update_translations(request: $request, key_data: 'description', name_field: 'description', model_name: 'Item', data_id: $item->id, data_value: $item->description);
-
-    //     return response()->json(['success' => translate('messages.product_added_successfully')], 200);
-    // }
-
     public function store(Request $request)
-{
-    // dd($request->all());
-    $validator = Validator::make($request->all(), [
-        'bike_id' => 'required',
-        'category_id' => 'required',
-        'hours' => 'nullable',
-        'h_price' => 'nullable',
-        'h_km_limit' => 'nullable',
-        'h_km_charges' => 'nullable',
-        'h_hour_limit' => 'nullable',
-        'h_w_limit' => 'nullable',
-        'h_extra_hours' => 'nullable',
-        'days' => 'nullable',
-        'd_price' => 'nullable',
-        'd_km_limit' => 'nullable',
-        'd_km_charges' => 'nullable',
-        'd_extra_hours' => 'nullable',
-        'week' => 'nullable',
-        'w_price' => 'nullable',
-        'w_km_limit' => 'nullable',
-        'w_km_charges' => 'nullable',
-        'w_extra_hours' => 'nullable',
-        'month' => 'nullable',
-        'm_price' => 'nullable',
-        'm_km_limit' => 'nullable',
-        'm_km_charges' => 'nullable',
-        'm_extra_hours' => 'nullable',
-        'km' => 'nullable',
-        'km_price' => 'nullable|numeric|between:.01,999999999999.99',
-        'km_limit' => 'nullable',
-        'km_charges' => 'nullable',
-        'price' => 'nullable|numeric|between:.01,999999999999.99',
-        'discount' => 'nullable|numeric|min:0',
-        'store_id' => 'nullable',
-    ]);
+    {
+        // dd($request->all());
+        $validator = Validator::make($request->all(), [
+            'bike_id' => 'required',
+            'category_id' => 'required',
+            'hours' => 'nullable',
+            'h_price' => 'nullable',
+            'h_km_limit' => 'nullable',
+            'h_km_charges' => 'nullable',
+            'h_hour_limit' => 'nullable',
+            'h_w_limit' => 'nullable',
+            'h_extra_hours' => 'nullable',
 
-    if ($request['discount_type'] == 'percent') {
-        $dis = ($request['price'] / 100) * $request['discount'];
-    } else {
-        $dis = $request['discount'];
-    }
+            'days' => 'nullable',
+            'd_price' => 'nullable',
+            'd_km_limit' => 'nullable',
+            'd_km_charges' => 'nullable',
+            'd_extra_hours' => 'nullable',
 
-    if ($request['price'] <= $dis) {
-        $validator->getMessageBag()->add('unit_price', translate('messages.discount_can_not_be_more_than_or_equal'));
-    }
+            'week' => 'nullable',
+            'w_price' => 'nullable',
+            'w_km_limit' => 'nullable',
+            'w_extra_hours' => 'nullable',
 
-    if ($request['price'] <= $dis || $validator->fails()) {
-        return response()->json(['errors' => Helpers::error_processor($validator)]);
-    }
+            'month' => 'nullable',
+            'm_price' => 'nullable',
+            'm_km_limit' => 'nullable',
+            'm_extra_hours' => 'nullable',
 
-    $images = [];
-
-    // Handling image and gallery logic here
-    // ...
-
-    $tag_ids = [];
-    if ($request->tags != null) {
-        $tags = explode(",", $request->tags);
-    }
-    if (isset($tags)) {
-        foreach ($tags as $key => $value) {
-            $tag = Tag::firstOrNew(['tag' => $value]);
-            $tag->save();
-            array_push($tag_ids, $tag->id);
-        }
-    }
-
-    $item = new Item;
-    $item->bike_id = $request->input('bike_id');
-
-    $category = [];
-    if ($request->category_id != null) {
-        array_push($category, [
-            'id' => $request->category_id,
-            'position' => 1,
+            'km' => 'nullable',
+            'km_price' => 'nullable|numeric|between:.01,999999999999.99',
+            'km_limit' => 'nullable',
+            'km_charges' => 'nullable',
+            'price' => 'nullable|numeric|between:.01,999999999999.99',
+            'discount' => 'nullable|numeric|min:0',
+            'store_id' => 'nullable',
         ]);
-    }
-    if ($request->sub_category_id != null) {
-        array_push($category, [
-            'id' => $request->sub_category_id,
-            'position' => 2,
-        ]);
-    }
-    if ($request->sub_sub_category_id != null) {
-        array_push($category, [
-            'id' => $request->sub_sub_category_id,
-            'position' => 3,
-        ]);
-    }
-    $item->category_ids = json_encode($category);
-    $item->category_id = $request->sub_category_id ? $request->sub_category_id : $request->category_id;
 
-    $payload = [
-        "hour" => $request->input('hours'),
-        "price" => $request->input('h_price'),
-        "km_limit" => $request->input('h_km_limit'),
-        'km_charges' => $request->input('h_km_charges'),
-        'hour_limit' => $request->input('h_hour_limit'),
-        'hour_weekend_limit' => $request->input('h_w_limit'),
-        'extra_hours' => $request->input('h_extra_hours')
-    ];
-
-    $days_price = [
-        "hour" => $request->input('days'),
-        "price" => $request->input('d_price'),
-        "km_limit" => $request->input('d_km_limit'),
-        'km_charges' => $request->input('d_km_charges'),
-        'extra_hours' => $request->input('d_extra_hours')
-    ];
-
-    $week_price = [
-        "hour" => $request->input('week'),
-        "price" => $request->input('w_price'),
-        "km_limit" => $request->input('w_km_limit'),
-        'km_charges' => $request->input('w_km_charges'),
-        'extra_hours' => $request->input('w_extra_hours')
-    ];
-
-    $month_price = [
-        "hour" => $request->input('month'),
-        "price" => $request->input('m_price'),
-        "km_limit" => $request->input('m_km_limit'),
-        'km_charges' => $request->input('m_km_charges'),
-        'extra_hours' => $request->input('m_extra_hours')
-    ];
-
-    $payload_1 = [
-        "hour" => $request->input('km'),
-        "price" => $request->input('km_price'),
-        "km_limit" => $request->input('km_limit'),
-        'km_charges' => $request->input('km_charges')
-    ];
-
-    $item->hours_price = json_encode($payload);
-    $item->days_price = json_encode($days_price);
-    $item->week_price = json_encode($week_price);
-    $item->month_price = json_encode($month_price);
-
-    $item->distance_price = json_encode($payload_1);
-
-    $choice_options = [];
-    if ($request->has('choice')) {
-        foreach ($request->choice_no as $key => $no) {
-            $str = 'choice_options_' . $no;
-            if ($request[$str][0] == null) {
-                $validator->getMessageBag()->add('name', translate('messages.attribute_choice_option_value_can_not_be_null'));
-                return response()->json(['errors' => Helpers::error_processor($validator)]);
-            }
-            $temp['name'] = 'choice_' . $no;
-            $temp['title'] = $request->choice[$key];
-            $temp['options'] = explode(',', implode('|', preg_replace('/\s+/', ' ', $request[$str])));
-            array_push($choice_options, $temp);
+        if ($request['discount_type'] == 'percent') {
+            $dis = ($request['price'] / 100) * $request['discount'];
+        } else {
+            $dis = $request['discount'];
         }
-    }
-    $item->choice_options = json_encode($choice_options);
-    $variations = [];
-    $options = [];
-    if ($request->has('choice_no')) {
-        foreach ($request->choice_no as $key => $no) {
-            $name = 'choice_options_' . $no;
-            $my_str = implode('|', $request[$name]);
-            array_push($options, explode(',', $my_str));
+
+        if ($request['price'] <= $dis) {
+            $validator->getMessageBag()->add('unit_price', translate('messages.discount_can_not_be_more_than_or_equal'));
         }
-    }
-    // Generates the combinations of customer choice options
-    $combinations = Helpers::combinations($options);
-    if (count($combinations[0]) > 0) {
-        foreach ($combinations as $key => $combination) {
-            $str = '';
-            foreach ($combination as $k => $temp) {
-                if ($k > 0) {
-                    $str .= '-' . str_replace(' ', '', $temp);
-                } else {
-                    $str .= str_replace(' ', '', $temp);
+
+        if ($request['price'] <= $dis || $validator->fails()) {
+            return response()->json(['errors' => Helpers::error_processor($validator)]);
+        }
+        $images = [];
+
+        if ($request->item_id && $request?->product_gellary == 1) {
+            $item_data = Item::withoutGlobalScope(StoreScope::class)->select(['image', 'images'])->findOrfail($request->item_id);
+
+            if (!$request->has('image')) {
+                $oldPath = storage_path("app/public/product/{$item_data->image}");
+                $newFileName = \Carbon\Carbon::now()->toDateString() . "-" . uniqid() . ".png";
+                $newPath = storage_path("app/public/product/{$newFileName}");
+                if (File::exists($oldPath)) {
+                    File::copy($oldPath, $newPath);
                 }
             }
-            $temp = [];
-            $temp['type'] = $str;
-            $temp['price'] = abs($request['price_' . str_replace('.', '_', $str)]);
-            $temp['stock'] = abs($request['stock_' . str_replace('.', '_', $str)]);
-            array_push($variations, $temp);
-        }
-    }
-    // Combinations end
 
-    if (!empty($request->file('item_images'))) {
-        foreach ($request->item_images as $img) {
-            $image_name = Helpers::upload('product/', 'png', $img);
-            $images[] = $image_name;
-        }
-    }
-    // Food variation
-    $food_variations = [];
-    if (isset($request->options)) {
-        foreach (array_values($request->options) as $key => $option) {
-            $temp_variation['name'] = $option['name'];
-            $temp_variation['type'] = $option['type'];
-            $temp_variation['min'] = $option['min'] ?? 0;
-            $temp_variation['max'] = $option['max'] ?? 0;
-            $temp_variation['required'] = $option['required'] ?? 'off';
-            if ($option['min'] > 0 && $option['min'] > $option['max']) {
-                $validator->getMessageBag()->add('name', translate('messages.minimum_value_can_not_be_greater_then_maximum_value'));
-                return response()->json(['errors' => Helpers::error_processor($validator)]);
-            }
-            if (!isset($option['values'])) {
-                $validator->getMessageBag()->add('name', translate('messages.please_add_options_for') . $option['name']);
-                return response()->json(['errors' => Helpers::error_processor($validator)]);
-            }
-            if ($option['max'] > count($option['values'])) {
-                $validator->getMessageBag()->add('name', translate('messages.please_add_more_options_or_change_the_max_value_for') . $option['name']);
-                return response()->json(['errors' => Helpers::error_processor($validator)]);
-            }
-            $temp_value = [];
+            $uniqueValues = array_diff($item_data->images, explode(",", $request->removedImageKeys));
 
-            foreach (array_values($option['values']) as $value) {
-                if (isset($value['label'])) {
-                    $temp_option['label'] = $value['label'];
+            foreach ($uniqueValues as $key => $value) {
+                $oldPath = storage_path("app/public/product/{$value}");
+                $newFileName = \Carbon\Carbon::now()->toDateString() . "-" . uniqid() . ".png";
+                $newPath = storage_path("app/public/product/{$newFileName}");
+                if (File::exists($oldPath)) {
+                    File::copy($oldPath, $newPath);
                 }
-                $temp_option['optionPrice'] = $value['optionPrice'];
-                array_push($temp_value, $temp_option);
+                $images[] = $newFileName;
             }
-            $temp_variation['values'] = $temp_value;
-            array_push($food_variations, $temp_variation);
         }
+        $tag_ids = [];
+        if ($request->tags != null) {
+            $tags = explode(",", $request->tags);
+        }
+        if (isset($tags)) {
+            foreach ($tags as $key => $value) {
+                $tag = Tag::firstOrNew(
+                    ['tag' => $value]
+                );
+                $tag->save();
+                array_push($tag_ids, $tag->id);
+            }
+        }
+
+        $item = new Item;
+        $item->bike_id = $request->input('bike_id');
+
+
+        $category = [];
+        if ($request->category_id != null) {
+            array_push($category, [
+                'id' => $request->category_id,
+                'position' => 1,
+            ]);
+        }
+        if ($request->sub_category_id != null) {
+            array_push($category, [
+                'id' => $request->sub_category_id,
+                'position' => 2,
+            ]);
+        }
+        if ($request->sub_sub_category_id != null) {
+            array_push($category, [
+                'id' => $request->sub_sub_category_id,
+                'position' => 3,
+            ]);
+        }
+        $item->category_ids = json_encode($category);
+        $item->category_id = $request->sub_category_id ? $request->sub_category_id : $request->category_id;
+
+        $payload = [
+            "hour" => $request->input('hours'),
+            "price" => $request->input('h_price'),
+            "km_limit" => $request->input('h_km_limit'),
+            'km_charges' => $request->input('h_km_charges'),
+            'hour_limit' => $request->input('h_hour_limit'),
+            'hour_weekend_limit' => $request->input('h_w_limit'),
+            'extra_hours' => $request->input('h_extra_hours')
+        ];
+
+        $days_price = [
+            "hour" => $request->input('days'),
+            "price" => $request->input('d_price'),
+            "km_limit" => $request->input('d_km_limit'),
+            'km_charges' => $request->input('d_km_charges'),
+            'extra_hours' => $request->input('d_extra_hours')
+        ];
+
+        $week_price = [
+            "hour" => $request->input('week'),
+            "price" => $request->input('w_price'), // Corrected this line
+            "km_limit" => $request->input('w_km_limit'),
+            'km_charges' => $request->input('w_km_charges'),
+            'extra_hours' => $request->input('w_extra_hours')
+        ];
+
+        $month_price = [
+            "hour" => $request->input('month'),
+            "price" => $request->input('m_price'), // Corrected this line
+            "km_limit" => $request->input('m_km_limit'),
+            'km_charges' => $request->input('m_km_charges'),
+            'extra_hours' => $request->input('m_extra_hours')
+        ];
+
+        $payload_1 = [
+            "hour" => $request->input('km'),
+            "price" => $request->input('km_price'), // Corrected this line
+            "km_limit" => $request->input('km_limit'),
+            'km_charges' => $request->input('km_charges')
+        ];
+
+        $item->hours_price = json_encode($payload);
+        $item->days_price = json_encode($days_price);
+        $item->week_price = json_encode($week_price);
+        $item->month_price = json_encode($month_price);
+
+        $item->distance_price = json_encode($payload_1);
+
+        $choice_options = [];
+        if ($request->has('choice')) {
+            foreach ($request->choice_no as $key => $no) {
+                $str = 'choice_options_' . $no;
+                if ($request[$str][0] == null) {
+                    $validator->getMessageBag()->add('name', translate('messages.attribute_choice_option_value_can_not_be_null'));
+                    return response()->json(['errors' => Helpers::error_processor($validator)]);
+                }
+                $temp['name'] = 'choice_' . $no;
+                $temp['title'] = $request->choice[$key];
+                $temp['options'] = explode(',', implode('|', preg_replace('/\s+/', ' ', $request[$str])));
+                array_push($choice_options, $temp);
+            }
+        }
+        $item->choice_options = json_encode($choice_options);
+        $variations = [];
+        $options = [];
+        if ($request->has('choice_no')) {
+            foreach ($request->choice_no as $key => $no) {
+                $name = 'choice_options_' . $no;
+                $my_str = implode('|', $request[$name]);
+                array_push($options, explode(',', $my_str));
+            }
+        }
+        //Generates the combinations of customer choice options
+        $combinations = Helpers::combinations($options);
+        if (count($combinations[0]) > 0) {
+            foreach ($combinations as $key => $combination) {
+                $str = '';
+                foreach ($combination as $k => $temp) {
+                    if ($k > 0) {
+                        $str .= '-' . str_replace(' ', '', $temp);
+                    } else {
+                        $str .= str_replace(' ', '', $temp);
+                    }
+                }
+                $temp = [];
+                $temp['type'] = $str;
+                $temp['price'] = abs($request['price_' . str_replace('.', '_', $str)]);
+                $temp['stock'] = abs($request['stock_' . str_replace('.', '_', $str)]);
+                array_push($variations, $temp);
+            }
+        }
+        //combinations end
+
+        if (!empty($request->file('item_images'))) {
+            foreach ($request->item_images as $img) {
+                $image_name = Helpers::upload('product/', 'png', $img);
+                $images[] = $image_name;
+            }
+        }
+        // food variation
+        $food_variations = [];
+        if (isset($request->options)) {
+            foreach (array_values($request->options) as $key => $option) {
+
+                $temp_variation['name'] = $option['name'];
+                $temp_variation['type'] = $option['type'];
+                $temp_variation['min'] = $option['min'] ?? 0;
+                $temp_variation['max'] = $option['max'] ?? 0;
+                $temp_variation['required'] = $option['required'] ?? 'off';
+                if ($option['min'] > 0 && $option['min'] > $option['max']) {
+                    $validator->getMessageBag()->add('name', translate('messages.minimum_value_can_not_be_greater_then_maximum_value'));
+                    return response()->json(['errors' => Helpers::error_processor($validator)]);
+                }
+                if (!isset($option['values'])) {
+                    $validator->getMessageBag()->add('name', translate('messages.please_add_options_for') . $option['name']);
+                    return response()->json(['errors' => Helpers::error_processor($validator)]);
+                }
+                if ($option['max'] > count($option['values'])) {
+                    $validator->getMessageBag()->add('name', translate('messages.please_add_more_options_or_change_the_max_value_for') . $option['name']);
+                    return response()->json(['errors' => Helpers::error_processor($validator)]);
+                }
+                $temp_value = [];
+
+                foreach (array_values($option['values']) as $value) {
+                    if (isset($value['label'])) {
+                        $temp_option['label'] = $value['label'];
+                    }
+                    $temp_option['optionPrice'] = $value['optionPrice'];
+                    array_push($temp_value, $temp_option);
+                }
+                $temp_variation['values'] = $temp_value;
+                array_push($food_variations, $temp_variation);
+            }
+        }
+
+        $item->food_variations = json_encode($food_variations);
+        $item->variations = json_encode($variations);
+        // $slug = Str::slug($bike_name);
+        // $item->slug = $item->slug ? $item->slug : "{$slug}{$item->id}";
+        $item->price = $request->price;
+        $item->image = $request->has('image') ? Helpers::upload('product/', 'png', $request->file('image')) : $newFileName ?? null;
+        $item->available_time_starts = $request->available_time_starts ?? '00:00:00';
+        $item->available_time_ends = $request->available_time_ends ?? '23:59:59';
+        $item->discount = $request->discount_type == 'amount' ? $request->discount : $request->discount;
+        $item->discount_type = $request->discount_type;
+        $item->unit_id = $request->unit;
+        $item->attributes = $request->has('attribute_id') ? json_encode($request->attribute_id) : json_encode([]);
+        $item->add_ons = $request->has('addon_ids') ? json_encode($request->addon_ids) : json_encode([]);
+        $item->store_id = $request->store_id;
+        $item->maximum_cart_quantity = $request->maximum_cart_quantity;
+        $item->veg = $request->veg;
+        $item->module_id = Config::get('module.current_module_id');
+        $module_type = Config::get('module.current_module_type');
+        if ($module_type == 'grocery') {
+            $item->organic = $request->organic ?? 0;
+        }
+        $item->stock = $request->current_stock ?? 0;
+        $item->images = $images;
+        $item->save();
+        $item->tags()->sync($tag_ids);
+        if ($module_type == 'pharmacy') {
+            $item_details = new PharmacyItemDetails();
+            $item_details->item_id = $item->id;
+            $item_details->common_condition_id = $request->condition_id;
+            $item_details->is_basic = $request->basic ?? 0;
+            $item_details->save();
+        }
+
+        if ($item) {
+            $item->stations()->sync($request->station_id);
+        }
+
+
+        Helpers::add_or_update_translations(request: $request, key_data: 'name', name_field: 'name', model_name: 'Item', data_id: $item->id, data_value: $item->name);
+        Helpers::add_or_update_translations(request: $request, key_data: 'description', name_field: 'description', model_name: 'Item', data_id: $item->id, data_value: $item->description);
+
+        return response()->json(['success' => translate('messages.product_added_successfully')], 200);
     }
 
-    $item->food_variations = json_encode($food_variations);
-    $item->variations = json_encode($variations);
-    // $slug = Str::slug($bike_name);
-    // $item->slug = $item->slug ? $item->slug : "{$slug}{$item->id}";
-    $item->price = $request->price;
-    $item->image = $request->has('image') ? Helpers::upload('product/', 'png', $request->file('image')) : $newFileName ?? null;
-    $item->available_time_starts = $request->available_time_starts ?? '00:00:00';
-    $item->available_time_ends = $request->available_time_ends ?? '23:59:59';
-    $item->discount = $request->discount_type == 'amount' ? $request->discount : $request->discount;
-    $item->discount_type = $request->discount_type;
-    $item->unit_id = $request->unit;
-    $item->attributes = $request->has('attribute_id') ? json_encode($request->attribute_id) : json_encode([]);
-    $item->add_ons = $request->has('addon_ids') ? json_encode($request->addon_ids) : json_encode([]);
-    $item->store_id = $request->store_id;
-    $item->maximum_cart_quantity = $request->maximum_cart_quantity;
-    $item->veg = $request->veg;
-    $item->module_id = Config::get('module.current_module_id');
-    $module_type = Config::get('module.current_module_type');
-    if ($module_type == 'grocery') {
-        $item->organic = $request->organic ?? 0;
-    }
-    $item->stock = $request->current_stock ?? 0;
-    $item->images = $images;
-    $item->save();
-    $item->tags()->sync($tag_ids);
-    if ($module_type == 'pharmacy') {
-        $item_details = new PharmacyItemDetails();
-        $item_details->item_id = $item->id;
-        $item_details->common_condition_id = $request->condition_id;
-        $item_details->is_basic = $request->basic ?? 0;
-        $item_details->save();
-    }
-
-    if ($item) {
-        $item->stations()->sync($request->station_id);
-    }
-
-    // Store discount in order_details table
-    $orderDetails = new OrderDetails();
-    $orderDetails->item_id = $item->id;
-    $orderDetails->discount = $dis;
-    $orderDetails->discount_type = $request->discount_type;
-    $orderDetails->save();
-
-    Helpers::add_or_update_translations(request: $request, key_data: 'name', name_field: 'name', model_name: 'Item', data_id: $item->id, data_value: $item->name);
-    Helpers::add_or_update_translations(request: $request, key_data: 'description', name_field: 'description', model_name: 'Item', data_id: $item->id, data_value: $item->description);
-
-    return response()->json(['success' => translate('messages.product_added_successfully')], 200);
-}
 
 
     public function view($id)
