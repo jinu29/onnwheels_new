@@ -54,6 +54,7 @@ class HomeController extends Controller
     public function index()
     {
         $datas = DataSetting::with('translations')->where('type', 'admin_landing_page')->get();
+        
         $data = [];
         foreach ($datas as $key => $value) {
             if (count($value->translations) > 0) {
@@ -591,6 +592,7 @@ class HomeController extends Controller
                 $orderDetail->weekend_price = $request->input('weekend_price');
                 $orderDetail->km_limit = $request->input('km_limit');
                 $orderDetail->vehicle_number = $request->input('vehicle_number');
+                $orderDetail->discount = $request->input('discount') ?? 0;
                 $orderDetail->save();
 
                 if (isset($order->transaction_reference)) {

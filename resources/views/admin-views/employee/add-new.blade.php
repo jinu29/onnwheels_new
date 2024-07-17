@@ -61,7 +61,7 @@
                             </div>
 
                             <div class="col-sm-6">
-                                <div >
+                                <div>
                                     <label class="input-label qcont" for="role_id">{{translate('messages.Role')}}</label>
                                     <select class="form-control js-select2-custom w-100" name="role_id" id="role_id" required>
                                         <option value="" selected disabled>{{translate('messages.select_Role')}}</option>

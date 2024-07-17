@@ -187,7 +187,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-sm-6 col-lg-6" id="stock_input">
+                                {{-- <div class="col-sm-6 col-lg-3" id="stock_input">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
                                             for="total_stock">{{ translate('messages.total_stock') }}</label>
@@ -213,7 +213,6 @@
                                 <div class="col-sm-6 col-lg-12">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
-                                            for="station_id">{{ translate('messages.station') }}</label>
                                         <select name="station_id[]" id="station_id"
                                             data-placeholder="{{ translate('messages.select_station') }}"
                                             class="js-data-example-ajax form-control" multiple="multiple">
@@ -228,9 +227,6 @@
 
                                 {{-- <div class="col-sm-6 col-lg-3" id="organic">
                                     <div class="form-check mb-0 p-6">
-                                        <input class="form-check-input" name="organic" type="checkbox" value="1" id="flexCheckDefault" {{ $product->organic == 1?'checked':'' }}>
-                                        <label class="form-check-label" for="flexCheckDefault">
-                                          {{ translate('messages.is_organic') }}
                                         </label>
                                       </div>
                                 </div> --}}
@@ -374,10 +370,10 @@
                                             for="exampleFormControlInput1">{{ translate('messages.Hours') }}</label>
                                         <input type="text" name="hours" class="form-control"
                                             placeholder="{{ translate('messages.Ex:') }} 1hrs"
-                                            value="{{ $hoursPriceArray['hour'] ?? 0 }}">
+                                            value="{{ $hoursPriceArray['hour'] ?? 0 }}" value="1" disabled>
                                     </div>
-
                                 </div>
+
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
                                         <label class="input-label"

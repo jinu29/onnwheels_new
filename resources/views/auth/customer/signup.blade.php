@@ -66,8 +66,7 @@ $log_email_succ = session()->get('log_email_succ');
                         <!-- Form Group -->
                         <div class="js-form-message form-group">
                             <label class="input-label text-capitalize" for="signupName">Name</label>
-                            <input type="text" class="form-control form-control-lg" name="f_name" id="signupName"
-                                tabindex="1" placeholder="Enter Your name">
+                            <input type="text" class="form-control form-control-lg" name="f_name" id="signupName" pattern="[A-Za-z]+" required oninput="this.value = this.value.replace(/[^A-Za-z]/g, '')" tabindex="1" placeholder="Enter Your name">
                         </div>
                         <!-- End Form Group -->
 
@@ -85,7 +84,7 @@ $log_email_succ = session()->get('log_email_succ');
                             <label class="input-label text-capitalize" for="signupName">Phone Number</label>
 
                             <input type="tel" class="form-control form-control-lg" name="phone" id="signupName"
-                                tabindex="1" placeholder="Enter your Number">
+                                tabindex="1" placeholder="Enter your Number" pattern="\d{10}" maxlength="10" required oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)">
                         </div>
                         <!-- End Form Group -->
 

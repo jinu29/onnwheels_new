@@ -544,6 +544,16 @@
                         </div>
                     </div>
                     <div class="box">
+                        <p>Discount ({{ $items->discount }}%)</p>
+                        <input type="hidden" id="discount" name="discount" value="{{ $items->discount }}">
+
+                        <div class="amt">
+                            <i class="fa-solid fa-indian-rupee-sign"></i>
+                            -
+                            <p id="discountAmountDisplay"></p>
+                        </div>
+                    </div>
+                    <div class="box">
                         <h5>Total Payable Amount</h5>
                         <div class="amt">
                             <i class="fa-solid fa-indian-rupee-sign"></i>
@@ -659,7 +669,7 @@
     </script>
     {{-- Date --}}
 
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             // Retrieve total price, weekend price, gst, and sgst from localStorage or backend
             var totalPrice = parseFloat(localStorage.getItem('totalPrice') || 0);
@@ -696,6 +706,49 @@
             $('#enddate').text(formattedEndDate);
             $('#inputEndDate').val(formattedEndDate);
         });
+    </script> --}}
+    <script>
+        $(document).ready(function() {
+            // Retrieve total price, weekend price, gst, sgst, and discount from localStorage or backend
+            var totalPrice = parseFloat(localStorage.getItem('totalPrice') || 0);
+            var weekendPrice = parseFloat(localStorage.getItem('weekendPrice') || 0);
+            var gstPercentage = parseFloat('{{ $gst ? $gst->value : 0 }}');
+            var sgstPercentage = parseFloat('{{ $sgst ? $sgst->value : 0 }}');
+            var discountPercentage = parseFloat('{{ $items->discount }}');
+    
+            // Calculate GST and SGST amounts
+            var gstAmount = (totalPrice * gstPercentage) / 100;
+            var sgstAmount = (totalPrice * sgstPercentage) / 100;
+    
+            // Calculate discount amount
+            var discountAmount = (totalPrice * discountPercentage) / 100;
+    
+            // Calculate total payable amount after discount
+            var totalPayableAmount = totalPrice + gstAmount + sgstAmount - discountAmount;
+    
+            // Display values in the HTML
+            $('#amtTotalPriceDisplay').text(totalPrice.toFixed(2));
+            $('#weekendPriceDisplay').text(weekendPrice.toFixed(2));
+            $('#gstAmount').text(gstAmount.toFixed(2));
+            $('#sgstAmount').text(sgstAmount.toFixed(2));
+            $('#discountAmountDisplay').text(discountAmount.toFixed(2));
+            $('#totalunitprice').text(totalPayableAmount.toFixed(2));
+            $('#totalPriceInput').val(totalPayableAmount);
+            $('#rentingPrice').val(totalPrice);
+    
+            // Format and display start and end dates
+            var startDate = localStorage.getItem('startDate');
+            var parsedStartDate = moment(startDate, "MMMM DD, YYYY @ h:mm A");
+            var formattedStartDate = parsedStartDate.format("MMMM DD, YYYY  h:mm A");
+            $('#startdate').text(formattedStartDate);
+            $('#inputStartDate').val(formattedStartDate);
+    
+            var endDate = localStorage.getItem('endDate');
+            var parsedEndDate = moment(endDate, "MMMM DD, YYYY @ h:mm A");
+            var formattedEndDate = parsedEndDate.format("MMMM DD, YYYY  h:mm A");
+            $('#enddate').text(formattedEndDate);
+            $('#inputEndDate').val(formattedEndDate);
+        });
     </script>
     <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script>
@@ -721,6 +774,7 @@
                 const address = document.getElementById('station_name').value;
                 const latitude = document.getElementById('latitude').value;
                 const longitude = document.getElementById('longitude').value;
+                const discount = document.getElementById('discount').value;
 
                 if (!address) {
 
@@ -777,6 +831,7 @@
                             address: address,
                             lat: latitude,
                             lng: longitude,
+                            discount: discount,
                             store_id: storeId,
                             vehicle_number: vehicleNumber,
                             item_id: itemId,

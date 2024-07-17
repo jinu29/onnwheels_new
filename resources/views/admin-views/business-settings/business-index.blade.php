@@ -78,7 +78,8 @@
                                         <label class="form-label"
                                             for="phone">{{ translate('messages.phone') }}</label>
                                         <input type="tel"  value="{{ $phone->value ?? '' }}"  id="phone"  name="phone"
-                                            class="form-control" placeholder="{{ translate('messages.Ex: +3264124565') }}" required>
+                                            class="form-control" placeholder="{{ translate('messages.Ex: +3264124565') }}" pattern="\d{10}" maxlength="10" required
+                                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)" required>
                                     </div>
                                 </div>
                                 <div class="col-sm-6 col-md-4 col-xl-3">

@@ -223,7 +223,7 @@
         .new {
             --f: .5em;
             position: absolute;
-            top: 0;
+            top: 8%;
             left: 0;
             line-height: 1.8;
             padding-inline: 1lh;

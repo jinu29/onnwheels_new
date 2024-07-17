@@ -343,6 +343,8 @@ class ItemController extends Controller
         return response()->json(['success' => translate('messages.product_added_successfully')], 200);
     }
 
+
+
     public function view($id)
     {
         $product = Item::withoutGlobalScope(StoreScope::class)->where(['id' => $id])->first();

@@ -10,7 +10,7 @@
     <div class="content container-fluid">
         <!-- Page Header -->
         <div class="page-header">
-            <h1 class="page-header-title"><i class="tio-filter-list"></i> {{translate('messages.stores')}} <span class="badge badge-soft-dark ml-2" id="itemCount">{{$stores->total()}}</span></h1>
+            <h1 class="page-header-title"><i class="tio-filter-list"></i> {{translate('messages.partners')}} <span class="badge badge-soft-dark ml-2" id="itemCount">{{$stores->total()}}</span></h1>
             <div class="page-header-select-wrapper">
 
                 @if(!isset(auth('admin')->user()->zone_id))
@@ -40,7 +40,7 @@
                     })->where('module_id', Config::get('module.current_module_id'))->count())
                     @php($total_store = isset($total_store) ? $total_store : 0)
                     <h4 class="title">{{$total_store}}</h4>
-                    <span class="subtitle">{{translate('messages.total_stores')}}</span>
+                    <span class="subtitle">{{translate('messages.total_partner')}}</span>
                     <img class="resturant-icon" src="{{asset('/public/assets/admin/img/total-store.png')}}" alt="store">
                 </div>
             </div>
@@ -49,7 +49,7 @@
                     @php($active_stores = \App\Models\Store::where(['status'=>1])->where('module_id', Config::get('module.current_module_id'))->count())
                     @php($active_stores = isset($active_stores) ? $active_stores : 0)
                     <h4 class="title">{{$active_stores}}</h4>
-                    <span class="subtitle">{{translate('messages.active_stores')}}</span>
+                    <span class="subtitle">{{translate('messages.active_partner')}}</span>
                     <img class="resturant-icon" src="{{asset('/public/assets/admin/img/active-store.png')}}" alt="store">
                 </div>
             </div>
@@ -60,7 +60,7 @@
                     })->where(['status'=>0])->where('module_id', Config::get('module.current_module_id'))->count())
                     @php($inactive_stores = isset($inactive_stores) ? $inactive_stores : 0)
                     <h4 class="title">{{$inactive_stores}}</h4>
-                    <span class="subtitle">{{translate('messages.inactive_stores')}}</span>
+                    <span class="subtitle">{{translate('messages.inactive_partner')}}</span>
                     <img class="resturant-icon" src="{{asset('/public/assets/admin/img/close-store.png')}}" alt="store">
                 </div>
             </div>
@@ -68,7 +68,7 @@
                 <div class="resturant-card card--bg-4">
                     @php($data = \App\Models\Store::where('created_at', '>=', now()->subDays(30)->toDateTimeString())->where('module_id', Config::get('module.current_module_id'))->count())
                     <h4 class="title">{{$data}}</h4>
-                    <span class="subtitle">{{translate('messages.newly_joined_stores')}}</span>
+                    <span class="subtitle">{{translate('messages.newly_joined_partner')}}</span>
                     <img class="resturant-icon" src="{{asset('/public/assets/admin/img/add-store.png')}}" alt="store">
                 </div>
             </div>

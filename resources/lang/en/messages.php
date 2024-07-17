@@ -4183,5 +4183,9 @@
   'add_delivery_executive' => 'Add delivery executive',
   'new_delivery_executive' => 'New delivery executive',
   'delivery_executive_list' => 'Delivery executive list',
-  'select_Bike' => 'Select Bike',
+  'total_partner' => 'Total partner',
+  'active_partner' => 'Active partner',
+  'inactive_partner' => 'Inactive partner',
+  'newly_joined_partner' => 'Newly joined partner',
+  'The odo meter must be an integer.' => 'The odo meter must be an integer.',
 );
