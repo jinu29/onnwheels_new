@@ -172,7 +172,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-sm-6 col-lg-4">
+                                {{-- <div class="col-sm-6 col-lg-4">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
                                             for="bike_id">{{ translate('messages.model_name') }}<span
@@ -182,7 +182,7 @@
                                             class="js-data-example-ajax form-control" name="name">
                                         </select>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 <div class="col-sm-6 col-lg-4">
                                     <div class="form-group mb-0">

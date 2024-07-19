@@ -463,7 +463,7 @@
             <div class="col-lg-8">
                 <div class="row border mx-lg-2 rounded d-flex align-items-center">
                     <div class="col-lg-5 p-4">
-                        <img src="{{ asset('storage/app/public/product') . '/' . $items->bike->image ?? '', asset('public/assets/admin/img/160x160/img2.jpg'), 'product/' }}"
+                        <img src="{{ asset('storage/app/public/product') . '/' . $items->image ?? '', asset('public/assets/admin/img/160x160/img2.jpg'), 'product/' }}"
                             class="mt-5" width="100%">
                     </div>
                     <div class="col-lg-7">
@@ -471,7 +471,7 @@
                         <input type="hidden" value="{{ $items->bike ? $items->bike->name : '' }}" name="item_details">
                         <input type="hidden" value="{{ $items->id }}" id="itemIdInput" name="item_id">
                         <input type="hidden" value="{{ $items->store_id }}" id="itemStoreIdInput" name="store_id">
-                        <input type="hidden" value="{{ $items->bike ? $items->bike->vehicle_number : '' }}"
+                        <input type="hidden" value="{{ $items->bike ? $items->vehicle_number : '' }}"
                             id="itemVehicleNumberInput" name="vehicle_number">
                         <div class="date d-flex align-items-center justify-content-between">
                             <p id="startdate" class="mb-0"></p>
@@ -544,8 +544,8 @@
                         </div>
                     </div>
                     <div class="box">
-                        <p>Discount ({{ $items->discount }}%)</p>
-                        <input type="hidden" id="discount" name="discount" value="{{ $items->discount }}">
+                        <p>Discount ({{ $items->bike ? $items->bike->discount : 0 }}%)</p>
+                        <input type="hidden" id="discount" name="discount" value="{{  $items->bike ? $items->bike->discount : 0 }}">
 
                         <div class="amt">
                             <i class="fa-solid fa-indian-rupee-sign"></i>
@@ -714,7 +714,7 @@
             var weekendPrice = parseFloat(localStorage.getItem('weekendPrice') || 0);
             var gstPercentage = parseFloat('{{ $gst ? $gst->value : 0 }}');
             var sgstPercentage = parseFloat('{{ $sgst ? $sgst->value : 0 }}');
-            var discountPercentage = parseFloat('{{ $items->discount }}');
+            var discountPercentage = parseFloat('{{ $items->bike ? $items->bike->discount : 0 }}');
     
             // Calculate GST and SGST amounts
             var gstAmount = (totalPrice * gstPercentage) / 100;

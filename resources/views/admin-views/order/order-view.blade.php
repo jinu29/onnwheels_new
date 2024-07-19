@@ -168,6 +168,10 @@
                                 ({{ $duration->d }} days, {{ $duration->h }} hours)
                             </h6>
 
+                            <h6>KM Limit:
+                                {{ $orderDetails[0]['km_limit'] ?? 0 }}
+                            </h6>
+
                         </div>
                         <div class="order-invoice-right mt-3 mt-sm-0">
                             <div class="btn--container ml-auto align-items-center justify-content-end">
@@ -590,7 +594,7 @@
                                                             <a class="avatar avatar-xl mr-3"
                                                                 href="{{ route('admin.item.view', [isset($detail->item) ? $detail->item['id'] : '', 'module_id' => $order->module_id]) }}">
                                                                 <img class="img-fluid rounded aspect-ratio-1 onerror-image"
-                                                                    src="{{ \App\CentralLogics\Helpers::onerror_image_helper($detail->item->bike->image ?? '', asset('storage/app/public/product/') . '/' . $detail->item->bike->image, asset('public/assets/admin/img/160x160/img2.jpg'), 'product/') }}"
+                                                                    src="{{ \App\CentralLogics\Helpers::onerror_image_helper($detail->item->image ?? '', asset('storage/app/public/product/') . '/' . $detail->item->image, asset('public/assets/admin/img/160x160/img2.jpg'), 'product/') }}"
                                                                     data-onerror-image="{{ asset('public/assets/admin/img/160x160/img2.jpg') }}"
                                                                     alt="Image Description">
                                                             </a>

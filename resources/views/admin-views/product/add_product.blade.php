@@ -410,8 +410,7 @@
                             <th class="border-0">{{ translate('sl') }}</th>
                             <th class="border-0">{{ translate('messages.name') }}</th>
                             <th class="border-0">{{ translate('messages.model') }}</th>
-                            <th class="border-0">{{ translate('messages.vehicle_number') }}</th>
-                            <th class="border-0">{{ translate('messages.rc_number') }}</th>
+                            {{-- <th class="border-0">{{ translate('messages.vehicle_number') }}</th> --}}
                             <th class="border-0">{{ translate('messages.description') }}</th>
                             <th class="border-0">{{ translate('messages.action') }}</th>
                         </tr>
@@ -423,16 +422,8 @@
 
                                 <td>
                                     <a class="media align-items-center" href="#">
-                                        <img class="avatar avatar-lg mr-3 onerror-image"
-
-                                        src="{{ \App\CentralLogics\Helpers::onerror_image_helper(
-                                            $bike->image ?? '',
-                                            $bike ? asset('storage/app/public/product/'.$bike->image) : '',
-                                            asset('public/assets/admin/img/160x160/img2.jpg'),
-                                            'product/'
-                                        ) }}"
-
-                                        data-onerror-image="{{asset('public/assets/admin/img/160x160/img2.jpg')}}" alt="{{$bike->name}} image">
+                                        
+                                       
                                         <div class="media-body">
                                             <h5 class="text-hover-primary mb-0">{{ Str::limit($bike ? $bike->name : '', 20, '...') }}</h5>
                                         </div>
@@ -444,23 +435,19 @@
                                         {{ Str::limit($bike->model, 20, '...') }}
                                     </span>
                                 </td>
-                                <td>
+                                {{-- <td>
                                     <span class="d-block font-size-sm text-body">
                                         {{ Str::limit($bike->vehicle_number, 20, '...') }}
                                     </span>
-                                </td>
-                                <td>
-                                    <span class="d-block font-size-sm text-body">
-                                        {{ Str::limit($bike->rc_number, 20, '...') }}
-                                    </span>
-                                </td>
+                                </td> --}}
+                        
                                 <td>
                                     <span class="d-block font-size-sm text-body">
                                         {{ Str::limit($bike->description, 20, '...') }}
                                     </span>
                                 </td>
                                 <td>
-                                    <div class="btn--container justify-content-center">
+                                    <div class="btn--container ">
                                         <a class="btn action-btn btn--primary btn-outline-primary"
                                             href="{{ route('admin.item.bikes.edit', [$bike->id]) }}"
                                             title="{{ translate('messages.edit_bike') }}"><i class="tio-edit"></i>
