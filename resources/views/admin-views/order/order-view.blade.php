@@ -168,8 +168,6 @@
                                 ({{ $duration->d }} days, {{ $duration->h }} hours)
                             </h6>
 
-                            <h6>KM Limit :  {{ $orderDetails[0]['km_limit'] ?? 0 }}</h6>
-
                         </div>
                         <div class="order-invoice-right mt-3 mt-sm-0">
                             <div class="btn--container ml-auto align-items-center justify-content-end">
@@ -542,7 +540,7 @@
                                 }
                             }
                             $details = $order->details;
-
+                            
                             if ($editing) {
                                 $details = session('order_cart');
                             } else {
@@ -575,7 +573,7 @@
                                                 $detail->item = \App\Models\Item::where('id', $detail->item_id)
                                                     ->with('bike')
                                                     ->first();
-
+                                                
                                                 ?>
 
                                                 <tr>
@@ -840,46 +838,46 @@
                             </div>
                             <?php
                             $coupon_discount_amount = $order['coupon_discount_amount'];
-
+                            
                             $total_price = $product_price + $total_addon_price - $store_discount_amount - $coupon_discount_amount - $admin_flash_discount_amount - $store_flash_discount_amount;
-
+                            
                             $total_tax_amount = $order['total_tax_amount'];
                             if ($order->tax_status == 'included') {
                                 $total_tax_amount = 0;
                             }
                             $deliverman_tips = $order['dm_tips'];
-
+                            
                             if ($editing) {
                                 $store_discount = \App\CentralLogics\Helpers::get_store_discount($order->store);
                                 if (isset($store_discount)) {
                                     if ($product_price + $total_addon_price < $store_discount['min_purchase']) {
                                         $store_discount_amount = 0;
                                     }
-
+                            
                                     if ($store_discount_amount > $store_discount['max_discount'] && $store_discount_amount > $store_discount['max_discount']) {
                                         $store_discount_amount = $store_discount['max_discount'];
                                     }
                                 }
                                 $coupon_discount_amount = $coupon ? \App\CentralLogics\CouponLogic::get_discount($coupon, $product_price + $total_addon_price - $store_discount_amount) : $order['coupon_discount_amount'];
                                 $tax = $order->store->tax;
-
+                            
                                 $total_price = $product_price + $total_addon_price - $store_discount_amount - $coupon_discount_amount;
-
+                            
                                 $total_tax_amount = $tax > 0 ? ($total_price * $tax) / 100 : 0;
-
+                            
                                 $total_tax_amount = round($total_tax_amount, 2);
-
+                            
                                 $tax_included = \App\Models\BusinessSetting::where(['key' => 'tax_included'])->first() ? \App\Models\BusinessSetting::where(['key' => 'tax_included'])->first()->value : 0;
                                 if ($tax_included == 1) {
                                     $total_tax_amount = 0;
                                 }
-
+                            
                                 $store_discount_amount = round($store_discount_amount, 2);
-
+                            
                                 if ($order->store->free_delivery) {
                                     $del_c = 0;
                                 }
-
+                            
                                 $free_delivery_over = \App\Models\BusinessSetting::where('key', 'free_delivery_over')->first()->value;
                                 if (isset($free_delivery_over)) {
                                     if ($free_delivery_over <= $product_price + $total_addon_price - $coupon_discount_amount - $store_discount_amount) {
@@ -892,7 +890,7 @@
                             } else {
                                 $store_discount_amount = $order['store_discount_amount'];
                             }
-
+                            
                             ?>
                         @endif
                         <div class="mx-3">
@@ -940,21 +938,6 @@
                                             ₹ {{ number_format($sgstPrice, 2) }}
                                         </dd>
 
-                                        <dt class="col-6">{{ translate('messages.Discount') }}
-                                            {{ round($orderDetails[0]['discount']) }}%:</dt>
-                                        <dd class="col-6">
-                                            @php($discountPercentage = $orderDetails[0]['discount'] ?? 0)
-                                            @php($discountAmount = ($unit_price * $discountPercentage) / 100)
-                                            ₹ {{ number_format($discountAmount, 2) }} 
-                                        </dd>
-
-                                        {{-- @if ($orderDetails[0]['discount'] > 0)
-                                            <dt class="col-6">Discount :</dt>
-                                            <dd class="col-6">
-                                                ₹ {{ number_format($orderDetails[0]['discount'], 2) }}
-                                            </dd>
-                                        @endif --}}
-
                                         @if ($orderDetails[0]['km_exceed'] > 0)
                                             <dt class="col-6">{{ translate('messages.km_exceed') }}
                                             <dd class="col-6">
@@ -988,6 +971,17 @@
                                             </dd>
                                         @endif
 
+                                        @if ($orderDetails[0]['discount'] > 0)
+                                        <dt class="col-6">{{ translate('messages.Discount') }}
+                                            {{ round($orderDetails[0]['discount']) }}%:</dt>
+                                        <dd class="col-6">
+                                            @php($discountPercentage = $orderDetails[0]['discount'] ?? 0)
+                                            @php($discountAmount = ($unit_price * $discountPercentage) / 100)
+                                            ₹ {{ number_format($discountAmount, 2) }}
+                                        </dd>
+                                        @endif
+
+
                                         <dd class="col-12">
                                             <hr>
                                         </dd>
@@ -996,9 +990,11 @@
 
                                     <dt class="col-6">{{ translate('messages.total') }}:</dt>
                                     <dd class="col-6">
-
-                                        {{ \App\CentralLogics\Helpers::format_currency($unit_price + $del_c + $total_tax_amount + $total_addon_price + $deliverman_tips + $additional_charge - $coupon_discount_amount - $store_discount_amount - $admin_flash_discount_amount - $store_flash_discount_amount - $discountAmount + $gstPrice + $sgstPrice) }}
+                                        @php($totalAmount = $product_price + $del_c + $total_tax_amount + $total_addon_price + $deliverman_tips + $additional_charge - $coupon_discount_amount - $store_discount_amount - $admin_flash_discount_amount - $store_flash_discount_amount)
+                                        {{-- @php($totalAmount -= $orderDetails[0]['discount'] > 0 ? $discountAmount : 0) --}}
+                                        {{ \App\CentralLogics\Helpers::format_currency($totalAmount) }}
                                     </dd>
+                                    
                                     {{-- @if ($order?->payments)
                                         @foreach ($order?->payments as $payment)
                                             @if ($payment->payment_status == 'paid')
@@ -1363,8 +1359,8 @@
                                             style="display:inline;">
                                             @csrf
                                             <input type="hidden" name="id" value="{{ $order['id'] }}">
-                                            {{-- <button type="submit"
-                                                class="btn btn-primary">{{ translate('Start Timer') }}</button> --}}
+                                            <button type="submit"
+                                                class="btn btn-primary">{{ translate('Start Timer') }}</button>
                                         </form>
                                         <form action="{{ route('admin.order.stop-timer') }}" method="POST"
                                             style="display:inline;">

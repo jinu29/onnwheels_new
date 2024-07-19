@@ -89,6 +89,7 @@
                             <th scope="col">Name</th>
                             <th scope="col">Aadhar</th>
                             <th scope="col">Pan</th>
+                            <th scope="col">License No</th>
                             <th>License Front</th>
                             <th>License Back</th>
                             <th scope="col">Active</th>
@@ -104,6 +105,9 @@
                                 <td>{{ $kyc->userkyc->aadhar ?? 'N/A' }}</td>
                                 <td>
                                     {{ $kyc->userkyc->pan ?? 'N/A' }}
+                                </td>
+                                <td>
+                                    {{ $kyc->userkyc->license_no ?? 'N/A' }}
                                 </td>
                                 <td class="images">
                                     @if ($kyc->userkyc)

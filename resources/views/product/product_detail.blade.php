@@ -1068,12 +1068,12 @@
 
             <?php
             // JSON string containing the key-value pair
-            $hourPrice = $items['hours_price'];
-            $dayPrice = $items['days_price'];
-            $weekPrice = $items['week_price'];
-            $monthPrice = $items['month_price'];
-            $distancePrice = $items['distance_price'];
-            $weekendPrice = $items['price'];
+            $hourPrice = $items->bike['hours_price'];
+            $dayPrice = $items->bike['days_price'];
+            $weekPrice = $items->bike['week_price'];
+            $monthPrice = $items->bike['month_price'];
+            $distancePrice = $items->bike['distance_price'];
+            $weekendPrice = $items->bike['price'];
             // dd($weekendPrice);
             ?>
 
@@ -1085,8 +1085,8 @@
                     <div class="card">
                         <div class="demo">
                             <ul id="lightSlider">
-                                @if ($items->bike && count($items->bike->images) > 0)
-                                    @foreach ($items->bike->images as $item)
+                                @if ($items && count($items->images) > 0)
+                                    @foreach ($items->images as $item)
                                         <li data-thumb="{{ asset('storage/app/public/product/' . $item) }}">
                                             <img src="{{ asset('storage/app/public/product/' . $item) }}"
                                                 alt="Product Image">
@@ -1496,7 +1496,7 @@
                                     <p></p>
                                     {{-- Display bike image if available --}}
                                     <img class="avatar avatar-lg mr-3 onerror-image" style="width: 100px;"
-                                        src="{{ \App\CentralLogics\Helpers::onerror_image_helper($products->bike->image ?? '', asset('storage/app/public/product') . '/' . $products->bike->image ?? '', asset('public/assets/admin/img/160x160/img2.jpg'), 'product/') }}"
+                                        src="{{ \App\CentralLogics\Helpers::onerror_image_helper($products->image ?? '', asset('storage/app/public/product') . '/' . $products->image ?? '', asset('public/assets/admin/img/160x160/img2.jpg'), 'product/') }}"
                                         data-onerror-image="{{ asset('public/assets/admin/img/160x160/img2.jpg') }}"
                                         alt="{{ $products->bike->name }} image">
 

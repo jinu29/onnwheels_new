@@ -4188,4 +4188,6 @@
   'inactive_partner' => 'Inactive partner',
   'newly_joined_partner' => 'Newly joined partner',
   'The odo meter must be an integer.' => 'The odo meter must be an integer.',
+  'select_Bike' => 'Select Bike',
+  'Registration_number' => 'Registration number',
 );

@@ -49,7 +49,7 @@ class ItemController extends Controller
     {
         // dd($request->all());
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
+            'name' => 'nullable',
             'bike_id' => 'required',
             'category_id' => 'required',
             'hours' => 'nullable',
@@ -83,6 +83,14 @@ class ItemController extends Controller
             'price' => 'nullable|numeric|between:.01,999999999999.99',
             'discount' => 'nullable|numeric|min:0',
             'store_id' => 'nullable',
+
+            'vehicle_number' => 'required|string|max:10',
+            'engine_number' => 'required|string',
+            'chasis_number' => 'required|string',
+            'imei' => 'required|string',
+            'odo_meter' => 'required|integer',
+            'gps' => 'required|string',
+            'insurance_expiry_date' => 'required|date',
         ]);
 
         if ($request['discount_type'] == 'percent') {
@@ -209,6 +217,14 @@ class ItemController extends Controller
         $item->days_price = json_encode($days_price);
         $item->week_price = json_encode($week_price);
         $item->month_price = json_encode($month_price);
+
+        $item->vehicle_number = $request->vehicle_number;
+        $item->engine_number = $request->engine_number;
+        $item->chasis_number = $request->chasis_number;
+        $item->imei = $request->imei;
+        $item->odo_meter = $request->odo_meter;
+        $item->gps = $request->gps;
+        $item->insurance_expiry_date = $request->insurance_expiry_date;
 
         $item->distance_price = json_encode($payload_1);
 
@@ -1859,41 +1875,87 @@ class ItemController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'model' => 'required|string|max:255',
-            'vehicle_number' => 'required|string|max:10',
-            'engine_number' => 'required|string',
-            'chasis_number' => 'required|string',
-            'imei' => 'required|string',
-            'odo_meter' => 'required|integer',
-            'gps' => 'required|string',
-            'km_reading' => 'required|string',
-            'insurance_expiry_date' => 'required|date',
-            'rc_number' => 'required|string|max:255',
             'description' => 'nullable|string',
+
+            'hours' => 'nullable',
+            'h_price' => 'nullable',
+            'h_km_limit' => 'nullable',
+            'h_km_charges' => 'nullable',
+            'h_hour_limit' => 'nullable',
+            'h_w_limit' => 'nullable',
+            'h_extra_hours' => 'nullable',
+
+            'days' => 'nullable',
+            'd_price' => 'nullable',
+            'd_km_limit' => 'nullable',
+            'd_km_charges' => 'nullable',
+            'd_extra_hours' => 'nullable',
+
+            'week' => 'nullable',
+            'w_price' => 'nullable',
+            'w_km_limit' => 'nullable',
+            'w_extra_hours' => 'nullable',
+
+            'month' => 'nullable',
+            'm_price' => 'nullable',
+            'm_km_limit' => 'nullable',
+            'm_extra_hours' => 'nullable',
+
+            'km' => 'nullable',
+            'km_price' => 'nullable|numeric|between:.01,999999999999.99',
+            'km_limit' => 'nullable',
+            'km_charges' => 'nullable',
+            'price' => 'nullable|numeric|between:.01,999999999999.99',
+            'discount' => 'nullable|numeric|min:0',
         ]);
 
         $item = new Bike();
-        // Handle the main image upload
-        if (!empty($request->file('item_images'))) {
-            foreach ($request->item_images as $img) {
-                $image_name = Helpers::upload('product/', 'png', $img);
-                $images[] = $image_name;
-            }
-        }
+      
+        $payload = [
+            "hour" => $request->input('hours'),
+            "price" => $request->input('h_price'),
+            "km_limit" => $request->input('h_km_limit'),
+            'km_charges' => $request->input('h_km_charges'),
+            'hour_limit' => $request->input('h_hour_limit'),
+            'hour_weekend_limit' => $request->input('h_w_limit'),
+            'extra_hours' => $request->input('h_extra_hours')
+        ];
+
+        $days_price = [
+            "hour" => $request->input('days'),
+            "price" => $request->input('d_price'),
+            "km_limit" => $request->input('d_km_limit'),
+            'km_charges' => $request->input('d_km_charges'),
+            'extra_hours' => $request->input('d_extra_hours')
+        ];
+
+        $week_price = [
+            "hour" => $request->input('week'),
+            "price" => $request->input('w_price'), // Corrected this line
+            "km_limit" => $request->input('w_km_limit'),
+            'km_charges' => $request->input('w_km_charges'),
+            'extra_hours' => $request->input('w_extra_hours')
+        ];
+
+        $month_price = [
+            "hour" => $request->input('month'),
+            "price" => $request->input('m_price'), // Corrected this line
+            "km_limit" => $request->input('m_km_limit'),
+            'km_charges' => $request->input('m_km_charges'),
+            'extra_hours' => $request->input('m_extra_hours')
+        ];
 
 
         $item->name = $request->name;
         $item->model = $request->model;
-        $item->vehicle_number = $request->vehicle_number;
-        $item->engine_number = $request->engine_number;
-        $item->chasis_number = $request->chasis_number;
-        $item->odo_meter = $request->odo_meter;
-        $item->imei = $request->imei;
-        $item->gps = $request->gps;
-        $item->km_reading = $request->km_reading;
-        $item->insurance_expiry_date = $request->insurance_expiry_date;
-        $item->image = $request->has('image') ? Helpers::update('product/', $item->image, 'png', $request->file('image')) : $item->image;
-        $item->rc_number = $request->rc_number;
-        $item->images = $images;
+        $item->price = $request->price;
+        $item->discount = $request->discount;
+
+        $item->hours_price = json_encode($payload);
+        $item->days_price = json_encode($days_price);
+        $item->week_price = json_encode($week_price);
+        $item->month_price = json_encode($month_price);
+
         $item->description = $request->description;
 
         $item->save();

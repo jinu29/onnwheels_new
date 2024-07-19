@@ -163,8 +163,7 @@
 
                                 <div class="col-sm-6 col-lg-4">
                                     <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="bike_id">{{ translate('messages.bike') }}<span
+                                        <label class="input-label" for="bike_id">{{ translate('messages.bike') }}<span
                                                 class="input-label-secondary"></span></label>
                                         <select name="bike_id" id="bike_id"
                                             data-placeholder="{{ translate('messages.select_Bike') }}"
@@ -172,6 +171,19 @@
                                         </select>
                                     </div>
                                 </div>
+
+                                <div class="col-sm-6 col-lg-4">
+                                    <div class="form-group mb-0">
+                                        <label class="input-label"
+                                            for="bike_id">{{ translate('messages.model_name') }}<span
+                                                class="input-label-secondary"></span></label>
+                                        <select name="bike_id" id="bike_id"
+                                            data-placeholder="{{ translate('messages.select_Bike') }}"
+                                            class="js-data-example-ajax form-control" name="name">
+                                        </select>
+                                    </div>
+                                </div>
+
                                 <div class="col-sm-6 col-lg-4">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
@@ -180,21 +192,6 @@
                                         <select name="category_id" id="category_id"
                                             data-placeholder="{{ translate('messages.select_category') }}"
                                             class="js-data-example-ajax form-control">
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-lg-4">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="sub-categories">{{ translate('messages.sub_category') }}<span
-                                                class="input-label-secondary"
-                                                title="{{ translate('messages.category_required_warning') }}"><img
-                                                    src="{{ asset('/public/assets/admin/img/info-circle.svg') }}"
-                                                    alt="{{ translate('messages.category_required_warning') }}"></span></label>
-                                        <select name="sub_category_id" class="js-data-example-ajax form-control"
-                                            data-placeholder="{{ translate('messages.select_sub_category') }}"
-                                            id="sub-categories">
-
                                         </select>
                                     </div>
                                 </div>
@@ -208,8 +205,12 @@
                                         <select name="station_id[]" id="station_id" data-placeholder="{{ translate('messages.select_station') }}" class="js-data-example-ajax form-control" multiple="multiple" >
                                         </select> --}}
                                         <div class="form-group mb-0">
-                                            <label class="input-label" for="station_id">{{ translate('messages.station') }}<span class="input-label-secondary"></span></label>
-                                            <select name="station_id[]" id="station_id" data-placeholder="{{ translate('messages.select_station') }}" class="js-data-example-ajax form-control mt-4" multiple="multiple">
+                                            <label class="input-label"
+                                                for="station_id">{{ translate('messages.station') }}<span
+                                                    class="input-label-secondary"></span></label>
+                                            <select name="station_id[]" id="station_id"
+                                                data-placeholder="{{ translate('messages.select_station') }}"
+                                                class="js-data-example-ajax form-control mt-4" multiple="multiple">
                                             </select>
                                         </div>
                                     </div>
@@ -217,18 +218,28 @@
 
 
 
-
-                                <div class="col-sm-6 col-lg-3" id="condition_input">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="condition_id">{{ translate('messages.Suitable_For') }}<span
-                                                class="input-label-secondary"></span></label>
-                                        <select name="condition_id" id="condition_id"
-                                            data-placeholder="{{ translate('messages.Select_Condition') }}"
-                                            class="js-data-example-ajax form-control"
-                                            oninvalid="this.setCustomValidity('{{ translate('messages.Select_Condition') }}')">
-
-                                        </select>
+                                <div class="card-body d-flex flex-wrap align-items-center">
+                                    <div class="w-100 d-flex flex-wrap __gap-15px">
+                                        <div class="flex-grow-1 mx-auto">
+                                            <label class="text-dark d-block">
+                                                {{ translate('messages.item_image') }}
+                                                <small class="text-danger">* ( {{ translate('messages.ratio') }} 1:1 )</small>
+                                            </label>
+                                            <div class="d-flex flex-wrap __gap-12px __new-coba" id="coba"></div>
+                                        </div>
+                                        <div class="flex-grow-1 mx-auto">
+                                            <label class="text-dark d-block">
+                                                {{ translate('messages.item_thumbnail') }}
+                                                <small class="text-danger">* ( {{ translate('messages.ratio') }} 1:1 )</small>
+                                            </label>
+                                            <label class="d-inline-block m-0">
+                                                <img class="img--100" id="viewer"
+                                                    src="{{ asset('public/assets/admin/img/upload.png') }}" alt="thumbnail" />
+                                                <input type="file" name="image" id="customFileEg1"
+                                                    class="custom-file-input d-none"
+                                                    accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -240,459 +251,104 @@
                                         </label>
                                       </div>
                                 </div> --}}
-                                <div class="col-sm-6 col-lg-3" id="basic">
-                                    <div class="form-check mb-0 p-6">
-                                        <input class="form-check-input" name="basic" type="checkbox" value="1"
-                                            id="flexCheckDefault" checked>
-                                        <label class="form-check-label" for="flexCheckDefault">
-                                            {{ translate('messages.Is_Basic_Medicine') }}
-                                        </label>
-                                    </div>
-                                </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
 
-
-                <div class="col-md-6" id="addon_input">
-                    <div class="card shadow--card-2 border-0">
-                        <div class="card-header">
-                            <h5 class="card-title">
-                                <span class="card-header-icon"><i class="tio-dashboard-outlined"></i></span>
-                                <span>{{ translate('messages.addon') }}</span>
-                            </h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="form-group mb-0">
-                                <label class="input-label"
-                                    for="exampleFormControlSelect1">{{ translate('messages.addon') }}<span
-                                        class="input-label-secondary" title="{{ translate('messages.addon') }}"><img
-                                            src="{{ asset('/public/assets/admin/img/info-circle.svg') }}"
-                                            alt="{{ translate('messages.store_required_warning') }}"></span></label>
-                                <select name="addon_ids[]" class="form-control js-select2-custom" multiple="multiple"
-                                    id="add_on">
-
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6" id="time_input">
-                    <div class="card shadow--card-2 border-0">
-                        <div class="card-header">
-                            <h5 class="card-title">
-                                <span class="card-header-icon"><i class="tio-date-range"></i></span>
-                                <span>{{ translate('time_schedule') }}</span>
-                            </h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="row g-2">
-                                <div class="col-sm-6">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.available_time_starts') }}</label>
-                                        <input type="time" name="available_time_starts" class="form-control"
-                                            id="available_time_starts"
-                                            placeholder="{{ translate('messages.Ex:') }} 10:30 am">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.available_time_ends') }}</label>
-                                        <input type="time" name="available_time_ends" class="form-control"
-                                            id="available_time_ends" placeholder="5:45 pm">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-12">
-                    <div class="card shadow--card-2 border-0">
-                        <div class="card-header">
-                            <h5 class="card-title">
-                                {{-- <span class="card-header-icon"><i class="tio-dollar-outlined"></i></span> --}}
-                                <span>{{ translate('amount') }}</span>
-                            </h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="row g-2">
-                                <div class="col-sm-4 col-6">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.weekend price') }}</label>
-                                        <input type="number" min="0" max="999999999999.99" step="0.01"
-                                            value="1" name="price" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100" required>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4 col-6">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.discount_type') }}<span
-                                                class="input-label-secondary text--title" data-toggle="tooltip"
-                                                data-placement="right"
-                                                data-original-title="{{ translate('Admin_shares_the_same_percentage/amount_on_discount_as_he_takes_commissions_from_stores') }}">
-                                                <i class="tio-info-outined"></i>
-                                            </span>
-                                        </label>
-                                        <select name="discount_type" id="discount_type"
-                                            class="form-control js-select2-custom">
-                                            <option value="percent">{{ translate('messages.percentage') }}</option>
-                                            {{-- <option value="amount">{{ translate('messages.amount') }}</option> --}}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4 col-6">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.discount') }}</label>
-                                        <input type="number" min="0" max="9999999999999999999999" value="0"
-                                            name="discount" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <h5 class="card-title" style="margin-top:20px;">
-                                {{-- <span class="card-header-icon"><i class="tio-dollar-outlined"></i></span> --}}
-                                <span>{{ translate('Hourly Package') }}</span>
-                            </h5>
-
-                            <div class="row mt-2" style="margin-bottom: 50px;">
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Hours') }}</label>
-                                            <input type="text" name="hours" class="form-control" placeholder="{{ translate('messages.Ex:') }} 1hrs" value="1" disabled>
-
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Hours price') }}</label>
-                                        <input type="number" name="h_price" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100">
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Hour KM limit') }}</label>
-                                        <input type="number" name="h_km_limit" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100">
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Hour KM Charges') }}</label>
-                                        <input type="number" name="h_km_charges" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100">
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Hour Limit(MIN)') }}</label>
-                                        <input type="number" name="h_hour_limit" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100">
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Weekend Hour Limit(MIN)') }}</label>
-                                        <input type="number" name="h_w_limit" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100">
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Extra Hours') }}</label>
-                                        <input type="number" name="h_extra_hours" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <h5 class="card-title" style="margin-top:20px;">
-                                {{-- <span class="card-header-icon"><i class="tio-dollar-outlined"></i></span> --}}
-                                <span>{{ translate('Day Package') }}</span>
-                            </h5>
+            </div>
 
 
-                            <div class="row mt-2" style="margin-bottom: 50px;">
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Day') }}</label>
-                                        <input type="text" name="days" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 1hrs"  value="1" disabled>
-                                    </div>
-
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Day price') }}</label>
-                                        <input type="number" name="d_price" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100">
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Day KM limit') }}</label>
-                                        <input type="number" name="d_km_limit" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100">
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Day KM Charges') }}</label>
-                                        <input type="number" name="d_km_charges" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100">
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Extra Hours') }}</label>
-                                        <input type="number" name="d_extra_hours" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <h5 class="card-title" style="margin-top:20px;">
-                                {{-- <span class="card-header-icon"><i class="tio-dollar-outlined"></i></span> --}}
-                                <span>{{ translate('Weekly Package') }}</span>
-                            </h5>
-
-                            <div class="row mt-2" style="margin-bottom: 50px;">
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Week') }}</label>
-                                        <input type="text" name="week" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 1hrs"  value="1" disabled>
-                                    </div>
-
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Week price') }}</label>
-                                        <input type="number" name="w_price" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100">
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Week KM limit') }}</label>
-                                        <input type="number" name="w_km_limit" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100">
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Week KM Charges') }}</label>
-                                        <input type="number" name="w_km_charges" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100">
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                        for="exampleFormControlInput1">{{ translate('messages.Extra Hours') }}</label>
-                                        <input type="number" name="w_extra_hours" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <h5 class="card-title" style="margin-top:20px;">
-                                {{-- <span class="card-header-icon"><i class="tio-dollar-outlined"></i></span> --}}
-                                <span>{{ translate('Monthly Package') }}</span>
-                            </h5>
-
-                            <div class="row mt-2">
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.month') }}</label>
-                                        <input type="text" name="month" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 1hrs"  value="1" disabled>
-                                    </div>
-
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Month price') }}</label>
-                                        <input type="number" name="m_price" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100">
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Month KM limit') }}</label>
-                                        <input type="number" name="m_km_limit" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100">
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Month KM Charges') }}</label>
-                                        <input type="number" name="m_km_charges" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100">
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                        for="exampleFormControlInput1">{{ translate('messages.Extra Hours') }}</label>
-                                        <input type="number" name="m_extra_hours" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-12" id="food_variation_section">
-                    <div class="card shadow--card-2 border-0">
-                        <div class="card-header flex-wrap">
-                            <h5 class="card-title">
-                                <span class="card-header-icon mr-2">
-                                    <i class="tio-canvas-text"></i>
-                                </span>
-                                <span>{{ translate('messages.food_variations') }}</span>
-                            </h5>
-                            <a class="btn text--primary-2" id="add_new_option_button">
-                                {{ translate('add_new_variation') }}
-                                <i class="tio-add"></i>
-                            </a>
-                        </div>
-                        <div class="card-body">
-                            <!-- Empty Variation -->
-                            <div id="empty-variation">
-                                <div class="text-center">
-                                    <img src="{{ asset('/public/assets/admin/img/variation.png') }}" alt="">
-                                    <div>{{ translate('No variation added') }}</div>
-                                </div>
-                            </div>
-                            <div id="add_new_option">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12" id="attribute_section">
-                    <div class="card shadow--card-2 border-0">
-                        <div class="card-header">
-                            <h5 class="card-title">
-                                <span class="card-header-icon"><i class="tio-canvas-text"></i></span>
-                                <span>{{ translate('attribute') }}</span>
-                            </h5>
-                        </div>
-                        <div class="card-body pb-0">
-                            <div class="row g-2">
-                                <div class="col-12">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlSelect1">{{ translate('messages.attribute') }}<span
-                                                class="input-label-secondary"></span></label>
-                                        <select name="attribute_id[]" id="choice_attributes"
-                                            class="form-control js-select2-custom" multiple="multiple">
-                                            @foreach (\App\Models\Attribute::orderBy('name')->get() as $attribute)
-                                                <option value="{{ $attribute['id'] }}">{{ $attribute['name'] }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-12">
-                                    <div class="table-responsive">
-                                        <div class="customer_choice_options d-flex __gap-24px"
-                                            id="customer_choice_options">
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="variant_combination" id="variant_combination">
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="card shadow--card-2 border-0">
-                        <div class="card-header">
-                            <h5 class="card-title">
-                                <span class="card-header-icon"><i class="tio-label"></i></span>
-                                <span>{{ translate('tags') }}</span>
-                            </h5>
-                        </div>
-                        <div class="card-body pb-0">
-                            <div class="row g-2">
-                                <div class="col-12">
+            <div class="card h-100 mt-8">
+                <div class="card-body">
+                    @if ($language)
+                        <div class="lang_form" id="default-form">
+                            <div class="row">
+                                <div class="col-lg-4">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="tags"
-                                            placeholder="{{ translate('messages.search_tags') }}" data-role="tagsinput">
+                                        <label class="input-label"
+                                            for="default_name">{{ translate('messages.Registration_number') }}
+                                        </label>
+                                        <input type="text" name="vehicle_number" id="vehicle_number"
+                                            class="form-control" placeholder="{{ translate('messages.vehicle_number') }}"
+                                            required>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label class="input-label"
+                                            for="default_name">{{ translate('messages.Engine_Number') }}
+                                        </label>
+                                        <input type="text" name="engine_number" id="engine_number"
+                                            class="form-control" placeholder="{{ translate('messages.engine_number') }}"
+                                            required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label class="input-label"
+                                            for="default_name">{{ translate('messages.Chasis_Number') }}
+                                        </label>
+                                        <input type="text" name="chasis_number" id="chasis_number"
+                                            class="form-control" placeholder="{{ translate('messages.chasis_number') }}"
+                                            required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label class="input-label" for="default_name">{{ translate('messages.IMEI') }}
+                                        </label>
+                                        <input type="text" name="imei" id="imei" class="form-control"
+                                            placeholder="{{ translate('messages.IMEI') }}" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label class="input-label" for="default_name">{{ translate('messages.GPS') }}
+                                        </label>
+                                        <input type="text" name="gps" id="gps" class="form-control"
+                                            placeholder="{{ translate('messages.GPS') }}" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label class="input-label"
+                                            for="default_name">{{ translate('messages.Odo_Meter') }}
+                                        </label>
+                                        <input type="text" name="odo_meter" id="odo_meter" class="form-control"
+                                            placeholder="{{ translate('messages.odo_meter') }}" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label class="input-label"
+                                            for="default_name">{{ translate('messages.Insurance_expiry_date') }}
+                                        </label>
+                                        <input type="date" name="insurance_expiry_date" id="insurance_expiry_date"
+                                            class="form-control"
+                                            placeholder="{{ translate('messages.Insurance_expiry_date') }}" required>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="btn--container justify-content-end">
-                        <button type="reset" id="reset_btn"
-                            class="btn btn--reset">{{ translate('messages.reset') }}</button>
-                        <button type="submit" class="btn btn--primary">{{ translate('messages.submit') }}</button>
-                    </div>
+                    @endif
                 </div>
             </div>
-        </form>
+    </div>
+
+    
+
+
+    <div class="col-md-12 mt-4">
+        <div class="btn--container justify-content-end">
+            <button type="reset" id="reset_btn" class="btn btn--reset">{{ translate('messages.reset') }}</button>
+            <button type="submit" class="btn btn--primary">{{ translate('messages.submit') }}</button>
+        </div>
+    </div>
+    </div>
+    </form>
     </div>
 
     <div class="modal" id="food-modal">

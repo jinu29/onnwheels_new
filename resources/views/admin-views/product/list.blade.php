@@ -222,7 +222,6 @@
                             <th class="border-0">{{ translate('messages.GPS') }}</th>
                             <th class="border-0">{{ translate('messages.Added On') }}</th>
                             <th class="border-0">{{ translate('messages.Updated Odo Meter') }}</th>
-                            <th class="border-0">{{ translate('messages.KM Reading') }}</th>
                             <th class="border-0">{{ translate('messages.Insurance Expirt Date') }}</th>
                             <th class="border-0 text-center">{{ translate('messages.status') }}</th>
                             <th class="border-0 text-center">{{ translate('messages.Block') }}</th>
@@ -234,14 +233,14 @@
                         @foreach ($items as $key => $item)
                             <tr>
                                 <td>{{ $key + $items->firstItem() }}</td>
-                                <td>{{ $item->bike ? $item->bike->vehicle_number : '' }}</td>
+                                <td>{{ $item->bike ? $item->vehicle_number : '' }}</td>
                                 <td>
                                     <a class="media align-items-center"
                                         href="{{ route('admin.item.view', [$item['id']]) }}">
                                             <img class="avatar avatar-lg mr-3 onerror-image"
                                                 src="{{ \App\CentralLogics\Helpers::onerror_image_helper(
-                                                    $item->bike->image ?? '',
-                                                    $item->bike ? asset('storage/app/public/product/' . $item->bike->image) : '',
+                                                    $item->image ?? '',
+                                                    $item->bike ? asset('storage/app/public/product/' . $item->image) : '',
                                                     asset('public/assets/admin/img/160x160/img2.jpg'),
                                                     'product/',
                                                 ) }}"
@@ -255,11 +254,11 @@
                                 </td>
 
                                 <td>
-                                    {{ $item->bike ? $item->bike->engine_number : '' }}
+                                    {{ $item->bike ? $item->engine_number : '' }}
                                 </td>
 
                                 <td>
-                                    {{ $item->bike ? $item->bike->chasis_number : '' }}
+                                    {{ $item->bike ? $item->chasis_number : '' }}
                                 </td>
 
                                 <td>
@@ -271,11 +270,11 @@
                                 </td>
 
                                 <td>
-                                    {{ $item->bike ? $item->bike->imei : '' }}
+                                    {{ $item->bike ? $item->imei : '' }}
                                 </td>
 
                                 <td>
-                                    {{ $item->bike ? $item->bike->gps : '' }}
+                                    {{ $item->bike ? $item->gps : '' }}
                                 </td>
 
                                 <td>
@@ -284,15 +283,11 @@
                                 </td>
 
                                 <td>
-                                    {{ $item->bike ? $item->bike->odo_meter : '' }}
+                                    {{ $item->bike ? $item->odo_meter : '' }}
                                 </td>
 
                                 <td>
-                                    {{ $item->bike ? $item->bike->km_reading : '' }}
-                                </td>
-
-                                <td>
-                                    @php($insuranceExpiryDate = $item->bike ? \Carbon\Carbon::parse($item->bike->insurance_expiry_date)->format('Y-m-d') : '')
+                                    @php($insuranceExpiryDate = $item->bike ? \Carbon\Carbon::parse($item->insurance_expiry_date)->format('Y-m-d') : '')
                                     {{ $item->bike ? $insuranceExpiryDate : '' }}
                                 </td>
 

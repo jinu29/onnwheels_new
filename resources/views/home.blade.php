@@ -761,8 +761,8 @@
                                 <a href="{{ route('product.product_detail', $items->slug) }}">
                                     <img class="avatar avatar-lg mr-3 onerror-image"
                                         src="{{ \App\CentralLogics\Helpers::onerror_image_helper(
-                                            $items->bike->image ?? '',
-                                            asset('storage/app/public/product') . '/' . ($items->bike->image ?? ''),
+                                            $items->image ?? '',
+                                            asset('storage/app/public/product') . '/' . ($items->image ?? ''),
                                             asset('public/assets/admin/img/160x160/img2.jpg'),
                                             'product/',
                                         ) }}"
@@ -773,8 +773,8 @@
 
                             <div class="card-details d-flex flex-column p-1 mt-1 text-center" style="gap: 12px;">
                                 {{-- <i class="fa-regular fa-heart"></i> --}}
-                                @if ($items->discount != 0)
-                                    <p class="new">{{ $items->discount }} %</p>
+                                @if ($items->bike && $items->bike->discount != 0)
+                                    <p class="new">{{ $items->bike->discount }} %</p>
                                 @endif
                                 <div class="card-title text-center mb-0">
                                     @if ($items && $items->bike)
