@@ -137,14 +137,14 @@
 
                 <div class="col-md-12">
                     <div class="card shadow--card-2 border-0">
-                        <div class="card-header">
+                        {{-- <div class="card-header">
                             <h5 class="card-title">
                                 <span class="card-header-icon mr-2">
                                     <i class="tio-dashboard-outlined"></i>
                                 </span>
                                 <span> {{ translate('item_details') }} </span>
                             </h5>
-                        </div>
+                        </div> --}}
                         <div class="card-body">
                             <div class="row g-2">
                                 {{-- <div class="col-sm-6 col-lg-3">
@@ -163,7 +163,7 @@
 
                                 <div class="col-sm-6 col-lg-4">
                                     <div class="form-group mb-0">
-                                        <label class="input-label" for="bike_id">{{ translate('messages.bike') }}<span
+                                        <label class="input-label" for="bike_id">{{ translate('messages.select_brand') }}<span
                                                 class="input-label-secondary"></span></label>
                                         <select name="bike_id" id="bike_id"
                                             data-placeholder="{{ translate('messages.select_Bike') }}"
