@@ -35,7 +35,7 @@
                                     <div class="row">
                                         <div class="col-lg-4">
                                             <div class="form-group">
-                                                <label class="input-label" for="default_name">{{ translate('messages.name') }}
+                                                <label class="input-label" for="default_name">{{ translate('messages.brand_name') }}
                                                 </label>
                                                 <input type="text" name="name" id="default_name" class="form-control"
                                                     placeholder="{{ translate('messages.new_item') }}" required>

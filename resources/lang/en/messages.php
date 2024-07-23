@@ -4190,4 +4190,9 @@
   'The odo meter must be an integer.' => 'The odo meter must be an integer.',
   'select_Bike' => 'Select Bike',
   'Registration_number' => 'Registration number',
+  'Vehicle Details' => 'Vehicle Details',
+  'List Vehicle' => 'List Vehicle',
+  'brand_name' => 'Brand name',
+  'select_brand' => 'Select brand',
+  'vehicle_list' => 'Vehicle list',
 );

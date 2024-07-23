@@ -18,7 +18,7 @@
                         </span>
 
                         <span>
-                            {{ translate('messages.all_vehicle') }} <span class="badge badge-soft-dark ml-2"
+                            {{ translate('messages.vehicle_list') }} <span class="badge badge-soft-dark ml-2"
                                 id="foodCount">{{ $items->total() }}</span>
                         </span>
                     </h1>
