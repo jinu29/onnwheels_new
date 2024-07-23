@@ -19,7 +19,7 @@
                     <img src="{{ asset('public/assets/admin/img/edit.png') }}" class="w--22" alt="">
                 </span>
                 <span>
-                    {{ request()->product_gellary == 1 ? translate('Add_item') : translate('item_update') }}
+                    {{ request()->product_gellary == 1 ? translate('Add_item') : translate('vehicle_update') }}
                 </span>
             </h1>
             <div class="d-flex align-items-end">
@@ -62,14 +62,7 @@
 
                 <div class="col-md-12">
                     <div class="card shadow--card-2 border-0">
-                        <div class="card-header">
-                            <h5 class="card-title">
-                                <span class="card-header-icon mr-2">
-                                    <i class="tio-dashboard-outlined"></i>
-                                </span>
-                                <span> {{ translate('item_details') }} </span>
-                            </h5>
-                        </div>
+
                         <div class="card-body">
                             <div class="row g-2">
                                 {{-- <div class="col-sm-6 col-lg-3">
@@ -95,20 +88,24 @@
 
                                 <div class="col-sm-6 col-lg-4">
                                     <div class="form-group mb-0">
-                                        <label class="input-label" for="bike_id">{{ translate('messages.bike') }}<span
+                                        <label class="input-label"
+                                            for="bike_id">{{ translate('messages.select_brand') }}<span
                                                 class="input-label-secondary"></span></label>
                                         <select name="bike_id" id="bike_id"
                                             data-placeholder="{{ translate('messages.select_station') }}"
                                             class="js-data-example-ajax form-control">
-                                            <option value="" disabled selected>{{ translate('messages.select_bike') }}</option>
+                                            <option value="" disabled selected>
+                                                {{ translate('messages.select_bike') }}</option>
                                             @foreach ($bikes as $bike)
-                                                <option value="{{ $bike->id }}" {{ $product->bike_id == $bike->id ? 'selected' : '' }}>
+                                                <option value="{{ $bike->id }}"
+                                                    {{ $product->bike_id == $bike->id ? 'selected' : '' }}>
                                                     {{ $bike->name }}
                                                 </option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
+
                                 <div class="col-sm-6 col-lg-4">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
@@ -122,46 +119,69 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-sm-6 col-lg-4">
+
+                                <div class="col-sm-6 col-lg-12">
                                     <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlSelect1">{{ translate('messages.sub_category') }}<span
-                                                class="form-label-secondary" data-toggle="tooltip" data-placement="right"
-                                                data-original-title="{{ translate('messages.category_required_warning') }}"><img
-                                                    src="{{ asset('/public/assets/admin/img/info-circle.svg') }}"
-                                                    alt="{{ translate('messages.category_required_warning') }}"></span></label>
-                                        <select name="sub_category_id" class="js-data-example-ajax form-control"
-                                            id="sub-categories">
-                                            @if (isset($sub_category))
-                                                <option value="{{ $sub_category['id'] }}">{{ $sub_category['name'] }}
-                                                </option>
-                                            @endif
-                                        </select>
-                                    </div>
-
-
-                                </div>
-                                <div class="col-sm-6 col-lg-3" id="condition_input">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="condition_id">{{ translate('messages.Suitable_For') }}<span
-                                                class="input-label-secondary"></span></label>
-                                        <select name="condition_id" id="condition_id"
-                                            data-placeholder="{{ translate('messages.Select_Condition') }}"
-                                            id="condition_id" class="js-data-example-ajax form-control"
-                                            oninvalid="this.setCustomValidity('{{ translate('messages.Select_Condition') }}')">
-                                            @if (isset($product->pharmacy_item_details?->common_condition_id))
-                                                <option value="{{ $product->pharmacy_item_details->common_condition_id }}"
-                                                    selected="selected">
-                                                    {{ $product->pharmacy_item_details?->common_condition->name }}</option>
-                                            @elseif(isset($temp_product) && $temp_product == 1 && $product->common_condition_id)
-                                                <option value="{{ $product->common_condition_id }}" selected="selected">
-                                                    {{ $product->common_condition->name }}</option>
-                                            @endif
-
-                                        </select>
+                                        {{-- <label class="input-label" for="station_id">
+                                            {{ translate('messages.station') }}
+                                            <span class="input-label-secondary"></span>
+                                        </label>
+                                        <select name="station_id[]" id="station_id" data-placeholder="{{ translate('messages.select_station') }}" class="js-data-example-ajax form-control" multiple="multiple" >
+                                        </select> --}}
+                                        <div class="form-group mb-0">
+                                            <label class="input-label"
+                                                for="station_id">{{ translate('messages.station') }}<span
+                                                    class="input-label-secondary"></span></label>
+                                            <select name="station_id[]" id="station_id"
+                                                data-placeholder="{{ translate('messages.select_station') }}"
+                                                class="js-data-example-ajax form-control mt-4" multiple="multiple">
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
+
+
+
+                                <div class="card-body d-flex flex-wrap align-items-center">
+                                    <div class="w-100 d-flex flex-wrap __gap-15px">
+                                        <div class="flex-grow-1 mx-auto">
+                                            <label class="text-dark d-block">
+                                                {{ translate('messages.item_image') }}
+                                                <small class="text-danger">* ( {{ translate('messages.ratio') }}
+                                                    1:1 )</small>
+                                            </label>
+                                            <div class="d-flex flex-wrap __gap-12px __new-coba" id="coba">
+                                                @foreach ($product->images as $key => $photo)
+                                                    <div class="spartan_item_wrapper min-w-100px max-w-100px">
+                                                        <img class="img--square"
+                                                            src="{{ asset("storage/app/public/product/$photo") }}"
+                                                            alt="Product image">
+                                                        <a href="{{ route('admin.item.remove-image', ['id' => $product['id'], 'name' => $photo]) }}"
+                                                            class="spartan_remove_row"><i class="tio-add-to-trash"></i></a>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 mx-auto">
+                                            <label class="text-dark d-block">
+                                                {{ translate('messages.item_thumbnail') }}
+                                                <small class="text-danger">* ( {{ translate('messages.ratio') }}
+                                                    1:1 )</small>
+                                            </label>
+                                            <label class="d-inline-block m-0">
+                                                <img class="img--100" id="viewer"
+                                                    src="{{ asset('storage/app/public/product') }}/{{ $product['image'] }}"
+                                                    onerror="this.src='{{ asset('public/assets/admin/img/upload.png') }}'"
+                                                    alt="thumbnail" />
+                                                <input type="file" name="image" id="customFileEg1"
+                                                    class="custom-file-input d-none"
+                                                    accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                </div>
+
                                 {{-- <div class="col-sm-6 col-lg-3" id="unit_input">
                                     <div class="form-group mb-0">
                                         <label class="input-label text-capitalize"
@@ -299,581 +319,193 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12">
-                    <div class="card shadow--card-2 border-0">
-                        <div class="card-header">
-                            <h5 class="card-title">
-                                {{-- <span class="card-header-icon"><i class="tio-dollar-outlined"></i></span> --}}
-                                <span>{{ translate('amount') }}</span>
-                            </h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="row g-2">
-                                <div class="col-sm-4 col-6">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.weekend price') }}</label>
-                                        <input type="number" value="{{ $product->price }}" min="0"
-                                            max="999999999999.99" name="price" class="form-control" step="0.01"
-                                            placeholder="{{ translate('messages.Ex:') }} 100" required>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4 col-6">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.discount_type') }}<span
-                                                class="input-label-secondary text--title" data-toggle="tooltip"
-                                                data-placement="right"
-                                                data-original-title="{{ translate('Admin_shares_the_same_percentage/amount_on_discount_as_he_takes_commissions_from_stores.') }}">
-                                                <i class="tio-info-outined"></i>
-                                            </span></label>
-                                        <select name="discount_type" class="form-control js-select2-custom">
-                                            <option value="percent"
-                                                {{ $product['discount_type'] == 'percent' ? 'selected' : '' }}>
-                                                {{ translate('messages.percent') }}
-                                            </option>
-                                            {{-- <option value="amount"
-                                                {{ $product['discount_type'] == 'amount' ? 'selected' : '' }}>
-                                                {{ translate('messages.amount') }}
-                                            </option> --}}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4 col-6">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.discount') }}</label>
-                                        <input type="number" min="0" value="{{ $product['discount'] }}"
-                                            max="100000" name="discount" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100">
-                                    </div>
-                                </div>
-                            </div>
 
-                            <h5 class="card-title" style="margin-top:20px;">
-                                {{-- <span class="card-header-icon"><i class="tio-dollar-outlined"></i></span> --}}
-                                <span>{{ translate('Hourly Package') }}</span>
-                            </h5>
-
-                            <div class="row mt-2" style="margin-bottom: 50px;">
-                                <?php
-                                // JSON string containing the key-value pair
-                                $jsonString = $product['hours_price'];
-
-                                // Decode the JSON string into an associative array
-                                $hoursPriceArray = json_decode($jsonString, true);
-
-                                ?>
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Hours') }}</label>
-                                        <input type="text" name="hours" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 1hrs"
-                                            value="{{ $hoursPriceArray['hour'] ?? 0 }}" value="1" disabled>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Hours price') }}</label>
-                                        <input type="number" name="h_price" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100"
-                                            value="{{ $hoursPriceArray['price'] ?? 0 }}">
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Hour KM limit') }}</label>
-                                        <input type="number" name="h_km_limit" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100"
-                                            value="{{ $hoursPriceArray['km_limit'] ?? 0 }}">
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Hour KM Charges') }}</label>
-                                        <input type="number" name="h_km_charges" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100"
-                                            value="{{ $hoursPriceArray['km_charges'] ?? 0 }}">
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Hour Limit(MIN)') }}</label>
-                                        <input type="number" name="h_hour_limit" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100"
-                                            value="{{ $hoursPriceArray['hour_limit'] ?? 0 }}">
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Weekend Hour Limit(MIN)') }}</label>
-                                        <input type="number" name="h_w_limit" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100"
-                                            value="{{ $hoursPriceArray['hour_weekend_limit'] ?? 0 }}">
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Extra Hours') }}</label>
-                                        <input type="number" name="h_extra_hours" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100"
-                                            value="{{ $hoursPriceArray['extra_hours'] ?? 0 }}">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <h5 class="card-title" style="margin-top:20px;">
-                                {{-- <span class="card-header-icon"><i class="tio-dollar-outlined"></i></span> --}}
-                                <span>{{ translate('Day Package') }}</span>
-                            </h5>
-
-                            <div class="row mt-2" style="margin-bottom: 50px;">
-                                <?php
-                                // JSON string containing the key-value pair
-                                $jsonString = $product['days_price'];
-
-                                // Decode the JSON string into an associative array
-                                $dayPriceArray = json_decode($jsonString, true);
-
-                                ?>
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Day') }}</label>
-                                        <input type="text" name="days" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 1hrs"
-                                            value="{{ $dayPriceArray['hour'] ?? 0 }}">
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Day price') }}</label>
-                                        <input type="number" name="d_price" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100"
-                                            value="{{ $dayPriceArray['price'] ?? 0 }}">
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Day KM limit') }}</label>
-                                        <input type="number" name="d_km_limit" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100"
-                                            value="{{ $dayPriceArray['km_limit'] ?? 0 }}">
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Day KM Charges') }}</label>
-                                        <input type="number" name="d_km_charges" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100"
-                                            value="{{ $dayPriceArray['km_charges'] ?? 0 }}">
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Extra Hours') }}</label>
-                                        <input type="number" name="d_extra_hours" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100"
-                                            value="{{ $dayPriceArray['extra_hours'] ?? 0 }}">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <h5 class="card-title" style="margin-top:20px;">
-                                {{-- <span class="card-header-icon"><i class="tio-dollar-outlined"></i></span> --}}
-                                <span>{{ translate('Weekly Package') }}</span>
-                            </h5>
-
-                            <div class="row mt-2" style="margin-bottom: 50px;">
-                                <?php
-                                // JSON string containing the key-value pair
-                                $jsonString = $product['week_price'];
-
-                                // Decode the JSON string into an associative array
-                                $weekPriceArray = json_decode($jsonString, true);
-
-                                ?>
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Week') }}</label>
-                                        <input type="text" name="week" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 1hrs"
-                                            value="{{ $weekPriceArray['hour'] ?? 0 }}">
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Week price') }}</label>
-                                        <input type="number" name="w_price" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100"
-                                            value="{{ $weekPriceArray['price'] ?? 0 }}">
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Week KM limit') }}</label>
-                                        <input type="number" name="w_km_limit" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100"
-                                            value="{{ $weekPriceArray['km_limit'] ?? 0 }}">
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Week KM Charges') }}</label>
-                                        <input type="number" name="w_km_charges" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100"
-                                            value="{{ $weekPriceArray['km_charges'] ?? 0 }}">
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Extra Hours') }}</label>
-                                        <input type="number" name="w_extra_hours" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100"
-                                            value="{{ $weekPriceArray['extra_hours'] ?? 0 }}">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <h5 class="card-title" style="margin-top:20px;">
-                                {{-- <span class="card-header-icon"><i class="tio-dollar-outlined"></i></span> --}}
-                                <span>{{ translate('Monthly Package') }}</span>
-                            </h5>
-
-                            <div class="row mt-2">
-                                <?php
-                                // JSON string containing the key-value pair
-                                $jsonString = $product['month_price'];
-
-                                // Decode the JSON string into an associative array
-                                $monthPriceArray = json_decode($jsonString, true);
-
-                                ?>
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.month') }}</label>
-                                        <input type="text" name="month" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 1hrs"
-                                            value="{{ $monthPriceArray['hour'] ?? 0 }}">
+                <div class="card h-100 mt-8">
+                    <div class="card-body">
+                        @if ($language)
+                            <div class="lang_form" id="default-form">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="input-label"
+                                                for="default_name">{{ translate('messages.Registration_number') }}
+                                            </label>
+                                            <input type="text" name="vehicle_number" id="vehicle_number"
+                                                class="form-control"
+                                                placeholder="{{ translate('messages.vehicle_number') }}" value="{{$product->vehicle_number}}" required>
+                                        </div>
                                     </div>
 
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Month price') }}</label>
-                                        <input type="number" name="m_price" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100"
-                                            value="{{ $monthPriceArray['price'] ?? 0 }}">
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="input-label"
+                                                for="default_name">{{ translate('messages.Engine_Number') }}
+                                            </label>
+                                            <input type="text" name="engine_number" id="engine_number"
+                                                class="form-control"
+                                                placeholder="{{ translate('messages.engine_number') }}" value="{{$product->engine_number}}" required>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Month KM limit') }}</label>
-                                        <input type="number" name="m_km_limit" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100"
-                                            value="{{ $monthPriceArray['km_limit'] ?? 0 }}">
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="input-label"
+                                                for="default_name">{{ translate('messages.Chasis_Number') }}
+                                            </label>
+                                            <input type="text" name="chasis_number" id="chasis_number"
+                                                class="form-control"
+                                                placeholder="{{ translate('messages.chasis_number') }}" value="{{$product->chasis_number}}" required>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Month KM Charges') }}</label>
-                                        <input type="number" name="m_km_charges" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100"
-                                            value="{{ $monthPriceArray['km_charges'] ?? 0 }}">
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="input-label"
+                                                for="default_name">{{ translate('messages.IMEI') }}
+                                            </label>
+                                            <input type="text" name="imei" id="imei" class="form-control"
+                                                placeholder="{{ translate('messages.IMEI') }}" value="{{$product->imei}}"   required>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.Extra Hours') }}</label>
-                                        <input type="number" name="m_extra_hours" min="0" max="999999999999.99"
-                                            step="0.01" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 100"
-                                            value="{{ $monthPriceArray['extra_hours'] ?? 0 }}">
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="input-label" for="default_name">{{ translate('messages.GPS') }}
+                                            </label>
+                                            <input type="text" name="gps" id="gps" class="form-control"
+                                                placeholder="{{ translate('messages.GPS') }}" value="{{$product->gps}}"  required>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-12" id="food_variation_section">
-                    <div class="card shadow--card-2 border-0">
-                        <div class="card-header flex-wrap">
-                            <h5 class="card-title">
-                                <span class="card-header-icon mr-2">
-                                    <i class="tio-canvas-text"></i>
-                                </span>
-                                <span>{{ translate('messages.food_variations') }}</span>
-                            </h5>
-                            <a class="btn text--primary-2" id="add_new_option_button">
-                                {{ translate('add_new_variation') }}
-                                <i class="tio-add"></i>
-                            </a>
-                        </div>
-                        <div class="card-body">
-                            <div id="add_new_option">
-                                @if (isset($product->food_variations) && count(json_decode($product->food_variations, true)) > 0)
-                                    @foreach (json_decode($product->food_variations, true) as $key_choice_options => $item)
-                                        @if (isset($item['price']))
-                                        @break
-
-                                    @else
-                                        @include('admin-views.product.partials._new_variations', [
-                                            'item' => $item,
-                                            'key' => $key_choice_options + 1,
-                                        ])
-                                    @endif
-                                @endforeach
-                            @endif
-                        </div>
-
-                        <!-- Empty Variation -->
-                        @if (!isset($product->food_variations) || count(json_decode($product->food_variations, true)) < 1)
-                            <div id="empty-variation">
-                                <div class="text-center">
-                                    <img src="{{ asset('/public/assets/admin/img/variation.png') }}" alt="">
-                                    <div>{{ translate('No variation added') }}</div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="input-label"
+                                                for="default_name">{{ translate('messages.Odo_Meter') }}
+                                            </label>
+                                            <input type="text" name="odo_meter" id="odo_meter" class="form-control"
+                                                placeholder="{{ translate('messages.odo_meter') }}" value="{{$product->odo_meter}}" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label class="input-label"
+                                                for="default_name">{{ translate('messages.Insurance_expiry_date') }}
+                                            </label>
+                                            <input type="date" name="insurance_expiry_date" id="insurance_expiry_date"
+                                                class="form-control"
+                                                placeholder="{{ translate('messages.Insurance_expiry_date') }}" value="{{$product->Insurance_expiry_date}}" required>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         @endif
                     </div>
                 </div>
-            </div>
-            <div class="col-md-12" id="attribute_section">
-                <div class="card shadow--card-2 border-0">
-                    <div class="card-header">
-                        <h5 class="card-title">
-                            <span class="card-header-icon"><i class="tio-canvas-text"></i></span>
-                            <span>{{ translate('attribute') }}</span>
-                        </h5>
-                    </div>
-                    <div class="card-body pb-0">
-                        <div class="row g-2">
-                            <div class="col-12">
-                                <div class="form-group mb-0">
-                                    <label class="input-label"
-                                        for="exampleFormControlSelect1">{{ translate('messages.attribute') }}<span
-                                            class="input-label-secondary"></span></label>
-                                    <select name="attribute_id[]" id="choice_attributes"
-                                        class="form-control js-select2-custom" multiple="multiple">
-                                        @foreach (\App\Models\Attribute::orderBy('name')->get() as $attribute)
-                                            <option value="{{ $attribute['id'] }}"
-                                                {{ in_array($attribute->id, json_decode($product['attributes'], true)) ? 'selected' : '' }}>
-                                                {{ $attribute['name'] }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
 
-                            <div class="col-md-12">
-                                <div class="table-responsive">
-                                    <div class="customer_choice_options d-flex __gap-24px"
-                                        id="customer_choice_options">
-                                        @include('admin-views.product.partials._choices', [
-                                            'choice_no' => json_decode($product['attributes']),
-                                            'choice_options' => json_decode($product['choice_options'], true),
-                                        ])
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="variant_combination" id="variant_combination">
-                                    @include('admin-views.product.partials._edit-combinations', [
-                                        'combinations' => json_decode($product['variations'], true),
-                                        'stock' => config('module.' . $product->module->module_type)['stock'],
-                                    ])
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="card shadow--card-2 border-0">
-                    <div class="card-header">
-                        <h5 class="card-title">
-                            <span class="card-header-icon"><i class="tio-label"></i></span>
-                            <span>{{ translate('tags') }}</span>
-                        </h5>
-                    </div>
-                    <div class="card-body pb-0">
-                        <div class="row g-2">
-                            <div class="col-12">
-                                @if (isset($temp_product) && $temp_product == 1)
-                                    <div class="form-group">
-                                        @php($tags = \App\Models\Tag::whereIn('id', json_decode($product?->tag_ids))->get('tag'))
-                                        <input type="text" class="form-control" name="tags"
-                                            placeholder="Enter tags"
-                                            value="@foreach ($tags as $c) {{ $c->tag . ',' }} @endforeach"
-                                            data-role="tagsinput">
-                                    </div>
-                                @else
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" name="tags"
-                                            placeholder="Enter tags"
-                                            value="@foreach ($product->tags as $c) {{ $c->tag . ',' }} @endforeach"
-                                            data-role="tagsinput">
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="btn--container justify-content-end">
-                    <button type="reset" id="reset_btn"
-                        class="btn btn--reset">{{ translate('messages.reset') }}</button>
-                    <button type="submit"
-                        class="btn btn--primary">{{ isset($temp_product) && $temp_product == 1 ? translate('Edit_&_Approve') : translate('messages.submit') }}</button>
-                </div>
-            </div>
-        </div>
-    </form>
-</div>
 
-<div class="modal" id="food-modal">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-body">
-                <button type="button" class="close foodModalClose" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <div class="embed-responsive embed-responsive-16by9">
-                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/xG8fO7TXPbk"
-                        title="YouTube video player" frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowfullscreen></iframe>
+
+                <div class="col-md-12">
+                    <div class="btn--container justify-content-end">
+                        <button type="reset" id="reset_btn"
+                            class="btn btn--reset">{{ translate('messages.reset') }}</button>
+                        <button type="submit"
+                            class="btn btn--primary">{{ isset($temp_product) && $temp_product == 1 ? translate('Edit_&_Approve') : translate('messages.submit') }}</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal" id="food-modal">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close foodModalClose" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/xG8fO7TXPbk"
+                            title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen></iframe>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="modal" id="attribute-modal">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-body">
-                <button type="button" class="close attributeModalClose" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <div class="embed-responsive embed-responsive-16by9">
-                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/xG8fO7TXPbk"
-                        title="YouTube video player" frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowfullscreen></iframe>
+    <div class="modal" id="attribute-modal">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close attributeModalClose" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/xG8fO7TXPbk"
+                            title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen></iframe>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 @endsection
 
 
 @push('script_2')
-<script src="{{ asset('public/assets/admin') }}/js/tags-input.min.js"></script>
-<script src="{{ asset('public/assets/admin/js/spartan-multi-image-picker.js') }}"></script>
-<script>
-    "use strict";
-    let removedImageKeys = [];
-    let element = "";
-    $('.function_remove_img').on('change', function() {
-        let key = $(this).data('key');
-        let photo = $(this).data('photo');
-        function_remove_img(key, photo);
-    })
+    <script src="{{ asset('public/assets/admin') }}/js/tags-input.min.js"></script>
+    <script src="{{ asset('public/assets/admin/js/spartan-multi-image-picker.js') }}"></script>
+    <script>
+        "use strict";
+        let removedImageKeys = [];
+        let element = "";
+        $('.function_remove_img').on('change', function() {
+            let key = $(this).data('key');
+            let photo = $(this).data('photo');
+            function_remove_img(key, photo);
+        })
 
-    function function_remove_img(key, photo) {
-        $('#product_images_' + key).addClass('d-none');
-        removedImageKeys.push(photo);
-        $('#removedImageKeysInput').val(removedImageKeys.join(','));
-        console.log('Removed Image Keys:', removedImageKeys);
-    }
+        function function_remove_img(key, photo) {
+            $('#product_images_' + key).addClass('d-none');
+            removedImageKeys.push(photo);
+            $('#removedImageKeysInput').val(removedImageKeys.join(','));
+            console.log('Removed Image Keys:', removedImageKeys);
+        }
 
-    function show_min_max(data) {
-        console.log(data);
-        $('#min_max1_' + data).removeAttr("readonly");
-        $('#min_max2_' + data).removeAttr("readonly");
-        $('#min_max1_' + data).attr("required", "true");
-        $('#min_max2_' + data).attr("required", "true");
-    }
+        function show_min_max(data) {
+            console.log(data);
+            $('#min_max1_' + data).removeAttr("readonly");
+            $('#min_max2_' + data).removeAttr("readonly");
+            $('#min_max1_' + data).attr("required", "true");
+            $('#min_max2_' + data).attr("required", "true");
+        }
 
-    function hide_min_max(data) {
-        console.log(data);
-        $('#min_max1_' + data).val(null).trigger('change');
-        $('#min_max2_' + data).val(null).trigger('change');
-        $('#min_max1_' + data).attr("readonly", "true");
-        $('#min_max2_' + data).attr("readonly", "true");
-        $('#min_max1_' + data).attr("required", "false");
-        $('#min_max2_' + data).attr("required", "false");
-    }
+        function hide_min_max(data) {
+            console.log(data);
+            $('#min_max1_' + data).val(null).trigger('change');
+            $('#min_max2_' + data).val(null).trigger('change');
+            $('#min_max1_' + data).attr("readonly", "true");
+            $('#min_max2_' + data).attr("readonly", "true");
+            $('#min_max1_' + data).attr("required", "false");
+            $('#min_max2_' + data).attr("required", "false");
+        }
 
-    $(document).on('change', '.show_min_max', function() {
-        let data = $(this).data('count');
-        show_min_max(data);
-    });
+        $(document).on('change', '.show_min_max', function() {
+            let data = $(this).data('count');
+            show_min_max(data);
+        });
 
-    $(document).on('change', '.hide_min_max', function() {
-        let data = $(this).data('count');
-        hide_min_max(data);
-    });
+        $(document).on('change', '.hide_min_max', function() {
+            let data = $(this).data('count');
+            hide_min_max(data);
+        });
 
-    let count = {{ isset($product->food_variations) ? count(json_decode($product->food_variations, true)) : 0 }};
+        let count = {{ isset($product->food_variations) ? count(json_decode($product->food_variations, true)) : 0 }};
 
-    $(document).ready(function() {
-        $("#add_new_option_button").click(function(e) {
-            $('#empty-variation').hide();
-            count++;
-            let add_option_view = `
+        $(document).ready(function() {
+            $("#add_new_option_button").click(function(e) {
+                $('#empty-variation').hide();
+                count++;
+                let add_option_view = `
                     <div class="__bg-F8F9FC-card view_new_option mb-2">
                         <div>
                             <div class="d-flex align-items-center justify-content-between mb-3">
@@ -892,8 +524,8 @@
                                 <div class="col-xl-4 col-lg-6">
                                     <label for="">{{ translate('name') }}</label>
                                     <input required name=options[` + count +
-                `][name] class="form-control new_option_name" type="text" data-count="` +
-                count + `">
+                    `][name] class="form-control new_option_name" type="text" data-count="` +
+                    count + `">
                                 </div>
 
                                 <div class="col-xl-4 col-lg-6">
@@ -904,7 +536,7 @@
                                             <label class="form-check form--check mr-2 mr-md-4">
                                                 <input class="form-check-input show_min_max" data-count="` + count + `" type="radio" value="multi"
                                                 name="options[` + count + `][type]" id="type` + count +
-                `" checked
+                    `" checked
                                                 >
                                                 <span class="form-check-label">
                                                     {{ translate('Multiple Selection') }}
@@ -914,7 +546,7 @@
                                             <label class="form-check form--check mr-2 mr-md-4">
                                                 <input class="form-check-input hide_min_max" data-count="` + count + `" type="radio" value="single"
                                                 name="options[` + count + `][type]" id="type` + count +
-                `"
+                    `"
                                                 >
                                                 <span class="form-check-label">
                                                     {{ translate('Single Selection') }}
@@ -944,72 +576,72 @@
                                             <div class="col-md-4 col-sm-6">
                                                 <label for="">{{ translate('Option_name') }}</label>
                                                 <input class="form-control" required type="text" name="options[` +
-                count +
-                `][values][0][label]" id="">
+                    count +
+                    `][values][0][label]" id="">
                                             </div>
                                             <div class="col-md-4 col-sm-6">
                                                 <label for="">{{ translate('Additional_price') }}</label>
                                                 <input class="form-control" required type="number" min="0" step="0.01" name="options[` +
-                count + `][values][0][optionPrice]" id="">
+                    count + `][values][0][optionPrice]" id="">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row mt-3 p-3 mr-1 d-flex "  id="add_new_button_` + count +
-                `">
+                    `">
                                         <button type="button" class="btn btn--primary btn-outline-primary add_new_row_button" data-count="` +
-                count + `" >{{ translate('Add_New_Option') }}</button>
+                    count + `" >{{ translate('Add_New_Option') }}</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>`;
 
-            $("#add_new_option").append(add_option_view);
+                $("#add_new_option").append(add_option_view);
+            });
         });
-    });
 
-    function new_option_name(value, data) {
-        $("#new_option_name_" + data).empty();
-        $("#new_option_name_" + data).text(value)
-        console.log(value);
-    }
+        function new_option_name(value, data) {
+            $("#new_option_name_" + data).empty();
+            $("#new_option_name_" + data).text(value)
+            console.log(value);
+        }
 
-    function removeOption(e) {
-        element = $(e);
-        element.parents('.view_new_option').remove();
-    }
+        function removeOption(e) {
+            element = $(e);
+            element.parents('.view_new_option').remove();
+        }
 
-    $(document).on('click', '.delete_input_button', function() {
-        let e = $(this);
-        removeOption(e);
-    });
+        $(document).on('click', '.delete_input_button', function() {
+            let e = $(this);
+            removeOption(e);
+        });
 
-    function deleteRow(e) {
-        element = $(e);
-        element.parents('.add_new_view_row_class').remove();
-    }
+        function deleteRow(e) {
+            element = $(e);
+            element.parents('.add_new_view_row_class').remove();
+        }
 
-    $(document).on('click', '.deleteRow', function() {
-        let e = $(this);
-        deleteRow(e);
-    });
-    let countRow = 0;
+        $(document).on('click', '.deleteRow', function() {
+            let e = $(this);
+            deleteRow(e);
+        });
+        let countRow = 0;
 
-    function add_new_row_button(data) {
-        count = data;
-        countRow = 1 + $('#option_price_view_' + data).children('.add_new_view_row_class').length;
-        let add_new_row_view = `
+        function add_new_row_button(data) {
+            count = data;
+            countRow = 1 + $('#option_price_view_' + data).children('.add_new_view_row_class').length;
+            let add_new_row_view = `
             <div class="row add_new_view_row_class mb-3 position-relative pt-3 pt-sm-0">
                 <div class="col-md-4 col-sm-5">
                         <label for="">{{ translate('Option_name') }}</label>
                         <input class="form-control" required type="text" name="options[` + count + `][values][` +
-            countRow + `][label]" id="">
+                countRow + `][label]" id="">
                     </div>
                     <div class="col-md-4 col-sm-5">
                         <label for="">{{ translate('Additional_price') }}</label>
                         <input class="form-control"  required type="number" min="0" step="0.01" name="options[` +
-            count +
-            `][values][` + countRow + `][optionPrice]" id="">
+                count +
+                `][values][` + countRow + `][optionPrice]" id="">
                     </div>
                     <div class="col-sm-2 max-sm-absolute">
                         <label class="d-none d-sm-block">&nbsp;</label>
@@ -1021,561 +653,561 @@
                         </div>
                 </div>
             </div>`;
-        $('#option_price_view_' + data).append(add_new_row_view);
+            $('#option_price_view_' + data).append(add_new_row_view);
 
-    }
-
-    $(document).on('click', '.add_new_row_button', function() {
-        let data = $(this).data('count');
-        add_new_row_button(data);
-    });
-
-    $(document).on('keyup', '.new_option_name', function() {
-        let data = $(this).data('count');
-        let value = $(this).val();
-        new_option_name(value, data);
-    });
-
-    $('#store_id').on('change', function() {
-        let route = '{{ url('/') }}/admin/store/get-addons?data[]=0&store_id=';
-        let store_id = $(this).val();
-        let id = 'add_on';
-        getStoreData(route, store_id, id);
-    });
-
-    function getStoreData(route, store_id, id) {
-        $.get({
-            url: route + store_id,
-            dataType: 'json',
-            success: function(data) {
-                $('#' + id).empty().append(data.options);
-            },
-        });
-    }
-
-    function getRequest(route, id) {
-        $.get({
-            url: route,
-            dataType: 'json',
-            success: function(data) {
-                $('#' + id).empty().append(data.options);
-            },
-        });
-    }
-
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            let reader = new FileReader();
-
-            reader.onload = function(e) {
-                $('#viewer').attr('src', e.target.result);
-            }
-
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-    $("#customFileEg1").change(function() {
-        readURL(this);
-        $('#image-viewer-section').show(1000)
-    });
-
-    $('#station_id').select2({
-        ajax: {
-            url: '{{ url('/') }}/admin/store/get-station', // Adjust the route as per your setup
-            data: function(params) {
-                return {
-                    q: params.term, // search term
-                    page: params.page
-                };
-            },
-            processResults: function(data) {
-                return {
-                    results: data
-                };
-            },
-            __port: function(params, success, failure) {
-                let $request = $.ajax(params);
-
-                $request.then(success);
-                $request.fail(failure);
-
-                return $request;
-            }
-        }
-    });
-
-    $('#bike_id').select2({
-        ajax: {
-            url: '{{ url('/') }}/admin/store/get-bikes', // Adjust the route as per your setup
-            data: function(params) {
-                return {
-                    q: params.term, // search term
-                    page: params.page
-                };
-            },
-            processResults: function(data) {
-                return {
-                    results: data
-                };
-            },
-            __port: function(params, success, failure) {
-                let $request = $.ajax(params);
-
-                $request.then(success);
-                $request.fail(failure);
-
-                return $request;
-            }
-        }
-    });
-
-
-    $(document).ready(function() {
-        @if (count(json_decode($product['add_ons'], true)) > 0)
-            getStoreData(
-                '{{ url('/') }}/admin/store/get-addons?@foreach (json_decode($product['add_ons'], true) as $addon)data[]={{ $addon }}& @endforeach store_id=',
-                '{{ $product['store_id'] }}', 'add_on');
-        @else
-            getStoreData('{{ url('/') }}/admin/store/get-addons?data[]=0&store_id=',
-                '{{ $product['store_id'] }}', 'add_on');
-        @endif
-    });
-
-    let module_id = {{ $product->module_id }};
-    let module_type = "{{ $product->module->module_type }}";
-    let parent_category_id = {{ $category ? $category->id : 0 }};
-    <?php
-    $module_data = config('module.' . $product->module->module_type);
-    unset($module_data['description']);
-    ?>
-    let module_data = {{ str_replace('"', '', json_encode($module_data)) }};
-    let stock = {{ $product->module->module_type == 'food' ? 'false' : 'true' }};
-    input_field_visibility_update();
-
-    function modulChange(id) {
-        $.get({
-            url: "{{ url('/') }}/admin/module/" + id,
-            dataType: 'json',
-            success: function(data) {
-                module_data = data.data;
-                stock = module_data.stock;
-                input_field_visibility_update();
-                combination_update();
-            },
-        });
-        module_id = id;
-    }
-
-    function input_field_visibility_update() {
-        if (module_data.stock) {
-            $('#stock_input').show();
-        } else {
-            $('#stock_input').hide();
-        }
-        if (module_data.add_on) {
-            $('#addon_input').show();
-        } else {
-            $('#addon_input').hide();
         }
 
-        if (module_data.item_available_time) {
-            $('#time_input').show();
-        } else {
-            $('#time_input').hide();
-        }
-
-        if (module_data.veg_non_veg) {
-            $('#veg_input').show();
-        } else {
-            $('#veg_input').hide();
-        }
-
-        if (module_data.unit) {
-            $('#unit_input').show();
-        } else {
-            $('#unit_input').hide();
-        }
-        if (module_data.common_condition) {
-            $('#condition_input').show();
-        } else {
-            $('#condition_input').hide();
-        }
-        if (module_type == 'food') {
-            $('#food_variation_section').show();
-            $('#attribute_section').hide();
-        } else {
-            $('#food_variation_section').hide();
-            $('#attribute_section').show();
-        }
-        if (module_data.organic) {
-            $('#organic').show();
-        } else {
-            $('#organic').hide();
-        }
-        if (module_data.basic) {
-            $('#basic').show();
-        } else {
-            $('#basic').hide();
-        }
-    }
-
-    $('#category_id').on('change', function() {
-        parent_category_id = $(this).val();
-        let subCategoriesSelect = $('#sub-categories');
-        subCategoriesSelect.empty();
-        subCategoriesSelect.append(
-            '<option value="" selected>{{ translate('messages.select_sub_category') }}</option>');
-    });
-
-    $('.foodModalClose').on('click', function() {
-        $('#food-modal').hide();
-    })
-
-    $('.foodModalShow').on('click', function() {
-        $('#food-modal').show();
-    })
-
-    $('.attributeModalClose').on('click', function() {
-        $('#attribute-modal').hide();
-    })
-
-    $('.attributeModalShow').on('click', function() {
-        $('#attribute-modal').show();
-    })
-
-    $(document).on('ready', function() {
-        $('.js-select2-custom').each(function() {
-            let select2 = $.HSCore.components.HSSelect2.init($(this));
-        });
-    });
-
-    $('#condition_id').select2({
-        ajax: {
-            url: '{{ url('/') }}/admin/common-condition/get-all',
-            data: function(params) {
-                return {
-                    q: params.term, // search term
-                    page: params.page,
-                };
-            },
-            processResults: function(data) {
-                return {
-                    results: data
-                };
-            },
-            __port: function(params, success, failure) {
-                let $request = $.ajax(params);
-
-                $request.then(success);
-                $request.fail(failure);
-
-                return $request;
-            }
-        }
-    });
-
-    $('#store_id').select2({
-        ajax: {
-            url: '{{ url('/') }}/admin/store/get-stores',
-            data: function(params) {
-                return {
-                    q: params.term, // search term
-                    page: params.page,
-                    module_id: module_id
-                };
-            },
-            processResults: function(data) {
-                return {
-                    results: data
-                };
-            },
-            __port: function(params, success, failure) {
-                let $request = $.ajax(params);
-
-                $request.then(success);
-                $request.fail(failure);
-
-                return $request;
-            }
-        }
-    });
-
-    $('#category_id').select2({
-        ajax: {
-            url: '{{ url('/') }}/admin/item/get-categories?parent_id=0',
-            data: function(params) {
-                return {
-                    q: params.term, // search term
-                    page: params.page,
-                    module_id: module_id
-                };
-            },
-            processResults: function(data) {
-                return {
-                    results: data
-                };
-            },
-            __port: function(params, success, failure) {
-                let $request = $.ajax(params);
-
-                $request.then(success);
-                $request.fail(failure);
-
-                return $request;
-            }
-        }
-    });
-
-    $('#sub-categories').select2({
-        ajax: {
-            url: '{{ url('/') }}/admin/item/get-categories',
-            data: function(params) {
-                return {
-                    q: params.term, // search term
-                    page: params.page,
-                    module_id: module_id,
-                    parent_id: parent_category_id,
-                    sub_category: true
-                };
-            },
-            processResults: function(data) {
-                return {
-                    results: data
-                };
-            },
-            __port: function(params, success, failure) {
-                let $request = $.ajax(params);
-
-                $request.then(success);
-                $request.fail(failure);
-
-                return $request;
-            }
-        }
-    });
-
-    $('#choice_attributes').on('change', function() {
-        $('#customer_choice_options').html(null);
-        combination_update();
-        $.each($("#choice_attributes option:selected"), function() {
-            add_more_customer_choice_option($(this).val(), $(this).text());
-        });
-    });
-
-    function add_more_customer_choice_option(i, name) {
-        let n = name;
-
-        $('#customer_choice_options').append(
-            `<div class="__choos-item"><div><input type="hidden" name="choice_no[]" value="${i}"><input type="text" class="form-control d-none" name="choice[]" value="${n}" placeholder="{{ translate('messages.choice_title') }}" readonly> <label class="form-label">${n}</label> </div><div><input type="text" class="form-control combination_update" name="choice_options_${i}[]" placeholder="{{ translate('messages.enter_choice_values') }}" data-role="tagsinput"></div></div>`
-        );
-        $("input[data-role=tagsinput], select[multiple][data-role=tagsinput]").tagsinput();
-    }
-
-    setTimeout(function() {
-        $('.call-update-sku').on('change', function() {
-            combination_update();
-        });
-    }, 2000)
-
-    $('#colors-selector').on('change', function() {
-        combination_update();
-    });
-
-    $('input[name="unit_price"]').on('keyup', function() {
-        combination_update();
-    });
-
-    function combination_update() {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
+        $(document).on('click', '.add_new_row_button', function() {
+            let data = $(this).data('count');
+            add_new_row_button(data);
         });
 
-        $.ajax({
-            type: "POST",
-            url: "{{ route('admin.item.variant-combination') }}",
-            data: $('#product_form').serialize() + '&stock=' + stock,
-            beforeSend: function() {
-                $('#loading').show();
-            },
-            success: function(data) {
-                $('#loading').hide();
-                $('#variant_combination').html(data.view);
-                if (data.length < 1) {
-                    $('input[name="current_stock"]').attr("readonly", false);
+        $(document).on('keyup', '.new_option_name', function() {
+            let data = $(this).data('count');
+            let value = $(this).val();
+            new_option_name(value, data);
+        });
+
+        $('#store_id').on('change', function() {
+            let route = '{{ url('/') }}/admin/store/get-addons?data[]=0&store_id=';
+            let store_id = $(this).val();
+            let id = 'add_on';
+            getStoreData(route, store_id, id);
+        });
+
+        function getStoreData(route, store_id, id) {
+            $.get({
+                url: route + store_id,
+                dataType: 'json',
+                success: function(data) {
+                    $('#' + id).empty().append(data.options);
+                },
+            });
+        }
+
+        function getRequest(route, id) {
+            $.get({
+                url: route,
+                dataType: 'json',
+                success: function(data) {
+                    $('#' + id).empty().append(data.options);
+                },
+            });
+        }
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                let reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $('#viewer').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#customFileEg1").change(function() {
+            readURL(this);
+            $('#image-viewer-section').show(1000)
+        });
+
+        $('#station_id').select2({
+            ajax: {
+                url: '{{ url('/') }}/admin/store/get-station', // Adjust the route as per your setup
+                data: function(params) {
+                    return {
+                        q: params.term, // search term
+                        page: params.page
+                    };
+                },
+                processResults: function(data) {
+                    return {
+                        results: data
+                    };
+                },
+                __port: function(params, success, failure) {
+                    let $request = $.ajax(params);
+
+                    $request.then(success);
+                    $request.fail(failure);
+
+                    return $request;
                 }
             }
         });
-    }
 
-    $(document).on('change', '.combination_update', function() {
-        combination_update();
-    });
+        $('#bike_id').select2({
+            ajax: {
+                url: '{{ url('/') }}/admin/store/get-bikes', // Adjust the route as per your setup
+                data: function(params) {
+                    return {
+                        q: params.term, // search term
+                        page: params.page
+                    };
+                },
+                processResults: function(data) {
+                    return {
+                        results: data
+                    };
+                },
+                __port: function(params, success, failure) {
+                    let $request = $.ajax(params);
 
-    $('#product_form').on('submit', function() {
-        console.log('working');
-        let formData = new FormData(this);
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    $request.then(success);
+                    $request.fail(failure);
+
+                    return $request;
+                }
             }
         });
-        $.post({
-            url: $('.route_url').val(),
-            data: $('#product_form').serialize(),
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false,
-            beforeSend: function() {
-                $('#loading').show();
-            },
-            success: function(data) {
-                console.log(data);
-                $('#loading').hide();
-                if (data.errors) {
-                    for (let i = 0; i < data.errors.length; i++) {
-                        toastr.error(data.errors[i].message, {
+
+
+        $(document).ready(function() {
+            @if (count(json_decode($product['add_ons'], true)) > 0)
+                getStoreData(
+                    '{{ url('/') }}/admin/store/get-addons?@foreach (json_decode($product['add_ons'], true) as $addon)data[]={{ $addon }}& @endforeach store_id=',
+                    '{{ $product['store_id'] }}', 'add_on');
+            @else
+                getStoreData('{{ url('/') }}/admin/store/get-addons?data[]=0&store_id=',
+                    '{{ $product['store_id'] }}', 'add_on');
+            @endif
+        });
+
+        let module_id = {{ $product->module_id }};
+        let module_type = "{{ $product->module->module_type }}";
+        let parent_category_id = {{ $category ? $category->id : 0 }};
+        <?php
+        $module_data = config('module.' . $product->module->module_type);
+        unset($module_data['description']);
+        ?>
+        let module_data = {{ str_replace('"', '', json_encode($module_data)) }};
+        let stock = {{ $product->module->module_type == 'food' ? 'false' : 'true' }};
+        input_field_visibility_update();
+
+        function modulChange(id) {
+            $.get({
+                url: "{{ url('/') }}/admin/module/" + id,
+                dataType: 'json',
+                success: function(data) {
+                    module_data = data.data;
+                    stock = module_data.stock;
+                    input_field_visibility_update();
+                    combination_update();
+                },
+            });
+            module_id = id;
+        }
+
+        function input_field_visibility_update() {
+            if (module_data.stock) {
+                $('#stock_input').show();
+            } else {
+                $('#stock_input').hide();
+            }
+            if (module_data.add_on) {
+                $('#addon_input').show();
+            } else {
+                $('#addon_input').hide();
+            }
+
+            if (module_data.item_available_time) {
+                $('#time_input').show();
+            } else {
+                $('#time_input').hide();
+            }
+
+            if (module_data.veg_non_veg) {
+                $('#veg_input').show();
+            } else {
+                $('#veg_input').hide();
+            }
+
+            if (module_data.unit) {
+                $('#unit_input').show();
+            } else {
+                $('#unit_input').hide();
+            }
+            if (module_data.common_condition) {
+                $('#condition_input').show();
+            } else {
+                $('#condition_input').hide();
+            }
+            if (module_type == 'food') {
+                $('#food_variation_section').show();
+                $('#attribute_section').hide();
+            } else {
+                $('#food_variation_section').hide();
+                $('#attribute_section').show();
+            }
+            if (module_data.organic) {
+                $('#organic').show();
+            } else {
+                $('#organic').hide();
+            }
+            if (module_data.basic) {
+                $('#basic').show();
+            } else {
+                $('#basic').hide();
+            }
+        }
+
+        $('#category_id').on('change', function() {
+            parent_category_id = $(this).val();
+            let subCategoriesSelect = $('#sub-categories');
+            subCategoriesSelect.empty();
+            subCategoriesSelect.append(
+                '<option value="" selected>{{ translate('messages.select_sub_category') }}</option>');
+        });
+
+        $('.foodModalClose').on('click', function() {
+            $('#food-modal').hide();
+        })
+
+        $('.foodModalShow').on('click', function() {
+            $('#food-modal').show();
+        })
+
+        $('.attributeModalClose').on('click', function() {
+            $('#attribute-modal').hide();
+        })
+
+        $('.attributeModalShow').on('click', function() {
+            $('#attribute-modal').show();
+        })
+
+        $(document).on('ready', function() {
+            $('.js-select2-custom').each(function() {
+                let select2 = $.HSCore.components.HSSelect2.init($(this));
+            });
+        });
+
+        $('#condition_id').select2({
+            ajax: {
+                url: '{{ url('/') }}/admin/common-condition/get-all',
+                data: function(params) {
+                    return {
+                        q: params.term, // search term
+                        page: params.page,
+                    };
+                },
+                processResults: function(data) {
+                    return {
+                        results: data
+                    };
+                },
+                __port: function(params, success, failure) {
+                    let $request = $.ajax(params);
+
+                    $request.then(success);
+                    $request.fail(failure);
+
+                    return $request;
+                }
+            }
+        });
+
+        $('#store_id').select2({
+            ajax: {
+                url: '{{ url('/') }}/admin/store/get-stores',
+                data: function(params) {
+                    return {
+                        q: params.term, // search term
+                        page: params.page,
+                        module_id: module_id
+                    };
+                },
+                processResults: function(data) {
+                    return {
+                        results: data
+                    };
+                },
+                __port: function(params, success, failure) {
+                    let $request = $.ajax(params);
+
+                    $request.then(success);
+                    $request.fail(failure);
+
+                    return $request;
+                }
+            }
+        });
+
+        $('#category_id').select2({
+            ajax: {
+                url: '{{ url('/') }}/admin/item/get-categories?parent_id=0',
+                data: function(params) {
+                    return {
+                        q: params.term, // search term
+                        page: params.page,
+                        module_id: module_id
+                    };
+                },
+                processResults: function(data) {
+                    return {
+                        results: data
+                    };
+                },
+                __port: function(params, success, failure) {
+                    let $request = $.ajax(params);
+
+                    $request.then(success);
+                    $request.fail(failure);
+
+                    return $request;
+                }
+            }
+        });
+
+        $('#sub-categories').select2({
+            ajax: {
+                url: '{{ url('/') }}/admin/item/get-categories',
+                data: function(params) {
+                    return {
+                        q: params.term, // search term
+                        page: params.page,
+                        module_id: module_id,
+                        parent_id: parent_category_id,
+                        sub_category: true
+                    };
+                },
+                processResults: function(data) {
+                    return {
+                        results: data
+                    };
+                },
+                __port: function(params, success, failure) {
+                    let $request = $.ajax(params);
+
+                    $request.then(success);
+                    $request.fail(failure);
+
+                    return $request;
+                }
+            }
+        });
+
+        $('#choice_attributes').on('change', function() {
+            $('#customer_choice_options').html(null);
+            combination_update();
+            $.each($("#choice_attributes option:selected"), function() {
+                add_more_customer_choice_option($(this).val(), $(this).text());
+            });
+        });
+
+        function add_more_customer_choice_option(i, name) {
+            let n = name;
+
+            $('#customer_choice_options').append(
+                `<div class="__choos-item"><div><input type="hidden" name="choice_no[]" value="${i}"><input type="text" class="form-control d-none" name="choice[]" value="${n}" placeholder="{{ translate('messages.choice_title') }}" readonly> <label class="form-label">${n}</label> </div><div><input type="text" class="form-control combination_update" name="choice_options_${i}[]" placeholder="{{ translate('messages.enter_choice_values') }}" data-role="tagsinput"></div></div>`
+            );
+            $("input[data-role=tagsinput], select[multiple][data-role=tagsinput]").tagsinput();
+        }
+
+        setTimeout(function() {
+            $('.call-update-sku').on('change', function() {
+                combination_update();
+            });
+        }, 2000)
+
+        $('#colors-selector').on('change', function() {
+            combination_update();
+        });
+
+        $('input[name="unit_price"]').on('keyup', function() {
+            combination_update();
+        });
+
+        function combination_update() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                type: "POST",
+                url: "{{ route('admin.item.variant-combination') }}",
+                data: $('#product_form').serialize() + '&stock=' + stock,
+                beforeSend: function() {
+                    $('#loading').show();
+                },
+                success: function(data) {
+                    $('#loading').hide();
+                    $('#variant_combination').html(data.view);
+                    if (data.length < 1) {
+                        $('input[name="current_stock"]').attr("readonly", false);
+                    }
+                }
+            });
+        }
+
+        $(document).on('change', '.combination_update', function() {
+            combination_update();
+        });
+
+        $('#product_form').on('submit', function() {
+            console.log('working');
+            let formData = new FormData(this);
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.post({
+                url: $('.route_url').val(),
+                data: $('#product_form').serialize(),
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function() {
+                    $('#loading').show();
+                },
+                success: function(data) {
+                    console.log(data);
+                    $('#loading').hide();
+                    if (data.errors) {
+                        for (let i = 0; i < data.errors.length; i++) {
+                            toastr.error(data.errors[i].message, {
+                                CloseButton: true,
+                                ProgressBar: true
+                            });
+                        }
+                    }
+                    if (data.product_approval) {
+                        toastr.success(data.product_approval, {
                             CloseButton: true,
                             ProgressBar: true
                         });
                     }
+                    if (data.success) {
+                        toastr.success(data.success, {
+                            CloseButton: true,
+                            ProgressBar: true
+                        });
+                        setTimeout(function() {
+                            location.href =
+                                '{{ route('admin.item.list') }}';
+                        }, 2000);
+                    }
                 }
-                if (data.product_approval) {
-                    toastr.success(data.product_approval, {
-                        CloseButton: true,
-                        ProgressBar: true
-                    });
-                }
-                if (data.success) {
-                    toastr.success(data.success, {
-                        CloseButton: true,
-                        ProgressBar: true
-                    });
-                    setTimeout(function() {
-                        location.href =
-                            '{{ route('admin.item.list') }}';
-                    }, 2000);
-                }
-            }
+            });
         });
-    });
 
-    $('#reset_btn').click(function() {
-        location.reload(true);
-    })
+        $('#reset_btn').click(function() {
+            location.reload(true);
+        })
 
-    update_qty();
+        update_qty();
 
-    function update_qty() {
-        let total_qty = 0;
-        let qty_elements = $('input[name^="stock_"]');
-        for (let i = 0; i < qty_elements.length; i++) {
-            total_qty += parseInt(qty_elements.eq(i).val());
+        function update_qty() {
+            let total_qty = 0;
+            let qty_elements = $('input[name^="stock_"]');
+            for (let i = 0; i < qty_elements.length; i++) {
+                total_qty += parseInt(qty_elements.eq(i).val());
+            }
+            if (qty_elements.length > 0) {
+
+                $('input[name="current_stock"]').attr("readonly", true);
+                $('input[name="current_stock"]').val(total_qty);
+            } else {
+                $('input[name="current_stock"]').attr("readonly", false);
+            }
         }
-        if (qty_elements.length > 0) {
-
-            $('input[name="current_stock"]').attr("readonly", true);
+        $('input[name^="stock_"]').on('keyup', function() {
+            let total_qty = 0;
+            let qty_elements = $('input[name^="stock_"]');
+            for (let i = 0; i < qty_elements.length; i++) {
+                total_qty += parseInt(qty_elements.eq(i).val());
+            }
             $('input[name="current_stock"]').val(total_qty);
-        } else {
-            $('input[name="current_stock"]').attr("readonly", false);
-        }
-    }
-    $('input[name^="stock_"]').on('keyup', function() {
-        let total_qty = 0;
-        let qty_elements = $('input[name^="stock_"]');
-        for (let i = 0; i < qty_elements.length; i++) {
-            total_qty += parseInt(qty_elements.eq(i).val());
-        }
-        $('input[name="current_stock"]').val(total_qty);
-    });
+        });
 
-    $(function() {
-        $("#coba").spartanMultiImagePicker({
-            fieldName: 'item_images[]',
-            maxCount: 6,
-            // rowHeight: '100px !important',
-            groupClassName: 'spartan_item_wrapper min-w-100px max-w-100px',
-            maxFileSize: '',
-            placeholderImage: {
-                image: "{{ asset('public/assets/admin/img/upload.png') }}",
-                width: '100px'
-            },
-            dropFileLabel: "Drop Here",
-            onAddRow: function(index, file) {
+        $(function() {
+            $("#coba").spartanMultiImagePicker({
+                fieldName: 'item_images[]',
+                maxCount: 6,
+                // rowHeight: '100px !important',
+                groupClassName: 'spartan_item_wrapper min-w-100px max-w-100px',
+                maxFileSize: '',
+                placeholderImage: {
+                    image: "{{ asset('public/assets/admin/img/upload.png') }}",
+                    width: '100px'
+                },
+                dropFileLabel: "Drop Here",
+                onAddRow: function(index, file) {
 
-            },
-            onRenderedPreview: function(index) {
+                },
+                onRenderedPreview: function(index) {
 
-            },
-            onRemoveRow: function(index) {
+                },
+                onRemoveRow: function(index) {
 
-            },
-            onExtensionErr: function(index, file) {
-                toastr.error(
-                    "{{ translate('messages.please_only_input_png_or_jpg_type_file') }}", {
+                },
+                onExtensionErr: function(index, file) {
+                    toastr.error(
+                        "{{ translate('messages.please_only_input_png_or_jpg_type_file') }}", {
+                            CloseButton: true,
+                            ProgressBar: true
+                        });
+                },
+                onSizeErr: function(index, file) {
+                    toastr.error("{{ translate('messages.file_size_too_big') }}", {
                         CloseButton: true,
                         ProgressBar: true
                     });
-            },
-            onSizeErr: function(index, file) {
-                toastr.error("{{ translate('messages.file_size_too_big') }}", {
-                    CloseButton: true,
-                    ProgressBar: true
-                });
-            }
+                }
+            });
         });
-    });
 
-    $('#reset_btn').click(function() {
-        $('#module_id').val(null).trigger('change');
-        $('#store_id').val(null).trigger('change');
-        $('#category_id').val(null).trigger('change');
-        $('#sub-categories').val(null).trigger('change');
-        $('#unit').val(null).trigger('change');
-        $('#veg').val(0).trigger('change');
-        $('#add_on').val(null).trigger('change');
-        $('#discount_type').val(null).trigger('change');
-        $('#choice_attributes').val(null).trigger('change');
-        $('#customer_choice_options').empty().trigger('change');
-        $('#variant_combination').empty().trigger('change');
-        $('#viewer').attr('src', "{{ asset('public/assets/admin/img/upload.png') }}");
-        $("#coba").empty().spartanMultiImagePicker({
-            fieldName: 'item_images[]',
-            maxCount: 6,
-            rowHeight: '100px !important',
-            groupClassName: 'spartan_item_wrapper min-w-100px max-w-100px',
-            maxFileSize: '',
-            placeholderImage: {
-                image: "{{ asset('public/assets/admin/img/upload.png') }}",
-                width: '100%'
-            },
-            dropFileLabel: "Drop Here",
-            onAddRow: function(index, file) {
+        $('#reset_btn').click(function() {
+            $('#module_id').val(null).trigger('change');
+            $('#store_id').val(null).trigger('change');
+            $('#category_id').val(null).trigger('change');
+            $('#sub-categories').val(null).trigger('change');
+            $('#unit').val(null).trigger('change');
+            $('#veg').val(0).trigger('change');
+            $('#add_on').val(null).trigger('change');
+            $('#discount_type').val(null).trigger('change');
+            $('#choice_attributes').val(null).trigger('change');
+            $('#customer_choice_options').empty().trigger('change');
+            $('#variant_combination').empty().trigger('change');
+            $('#viewer').attr('src', "{{ asset('public/assets/admin/img/upload.png') }}");
+            $("#coba").empty().spartanMultiImagePicker({
+                fieldName: 'item_images[]',
+                maxCount: 6,
+                rowHeight: '100px !important',
+                groupClassName: 'spartan_item_wrapper min-w-100px max-w-100px',
+                maxFileSize: '',
+                placeholderImage: {
+                    image: "{{ asset('public/assets/admin/img/upload.png') }}",
+                    width: '100%'
+                },
+                dropFileLabel: "Drop Here",
+                onAddRow: function(index, file) {
 
-            },
-            onRenderedPreview: function(index) {
+                },
+                onRenderedPreview: function(index) {
 
-            },
-            onRemoveRow: function(index) {
+                },
+                onRemoveRow: function(index) {
 
-            },
-            onExtensionErr: function(index, file) {
-                toastr.error(
-                    "{{ translate('messages.please_only_input_png_or_jpg_type_file') }}", {
+                },
+                onExtensionErr: function(index, file) {
+                    toastr.error(
+                        "{{ translate('messages.please_only_input_png_or_jpg_type_file') }}", {
+                            CloseButton: true,
+                            ProgressBar: true
+                        });
+                },
+                onSizeErr: function(index, file) {
+                    toastr.error("{{ translate('messages.file_size_too_big') }}", {
                         CloseButton: true,
                         ProgressBar: true
                     });
-            },
-            onSizeErr: function(index, file) {
-                toastr.error("{{ translate('messages.file_size_too_big') }}", {
-                    CloseButton: true,
-                    ProgressBar: true
-                });
-            }
-        });
-    })
-</script>
+                }
+            });
+        })
+    </script>
 @endpush

@@ -35,7 +35,8 @@
                                     <div class="row">
                                         <div class="col-lg-4">
                                             <div class="form-group">
-                                                <label class="input-label" for="default_name">{{ translate('messages.brand_name') }}
+                                                <label class="input-label"
+                                                    for="default_name">{{ translate('messages.brand_name') }}
                                                 </label>
                                                 <input type="text" name="name" id="default_name" class="form-control"
                                                     placeholder="{{ translate('messages.new_item') }}" required>
@@ -43,20 +44,21 @@
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group">
-                                                <label class="input-label" for="default_name">{{ translate('messages.modal_name') }}
+                                                <label class="input-label"
+                                                    for="default_name">{{ translate('messages.modal_name') }}
                                                 </label>
                                                 <input type="text" name="model" id="modal_name" class="form-control"
                                                     placeholder="{{ translate('messages.modal_name') }}" required>
                                             </div>
                                         </div>
-                                        
+
                                         <div class="col-lg-12">
                                             <input type="hidden" name="lang[]" value="default">
-                                    <div class="form-group mb-0">
-                                        <label class="input-label"
-                                            for="exampleFormControlInput1">{{ translate('messages.short_description') }}
-                                        <textarea type="text" name="description" class="form-control min-h-90px ckeditor"></textarea>
-                                    </div>
+                                            <div class="form-group mb-0">
+                                                <label class="input-label"
+                                                    for="exampleFormControlInput1">{{ translate('messages.short_description') }}
+                                                    <textarea type="text" name="description" class="form-control min-h-90px ckeditor"></textarea>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -122,7 +124,8 @@
                                     <div class="form-group mb-0">
                                         <label class="input-label"
                                             for="exampleFormControlInput1">{{ translate('messages.Hours') }}</label>
-                                            <input type="text" name="hours" class="form-control" placeholder="{{ translate('messages.Ex:') }} 1hrs" value="1" disabled>
+                                        <input type="text" name="hours" class="form-control"
+                                            placeholder="{{ translate('messages.Ex:') }} 1hrs" value="1" disabled>
 
                                     </div>
                                 </div>
@@ -197,7 +200,7 @@
                                         <label class="input-label"
                                             for="exampleFormControlInput1">{{ translate('messages.Day') }}</label>
                                         <input type="text" name="days" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 1hrs"  value="1" disabled>
+                                            placeholder="{{ translate('messages.Ex:') }} 1hrs" value="1" disabled>
                                     </div>
 
                                 </div>
@@ -251,7 +254,7 @@
                                         <label class="input-label"
                                             for="exampleFormControlInput1">{{ translate('messages.Week') }}</label>
                                         <input type="text" name="week" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 1hrs"  value="1" disabled>
+                                            placeholder="{{ translate('messages.Ex:') }} 1hrs" value="1" disabled>
                                     </div>
 
                                 </div>
@@ -286,7 +289,7 @@
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
-                                        for="exampleFormControlInput1">{{ translate('messages.Extra Hours') }}</label>
+                                            for="exampleFormControlInput1">{{ translate('messages.Extra Hours') }}</label>
                                         <input type="number" name="w_extra_hours" min="0" max="999999999999.99"
                                             step="0.01" class="form-control"
                                             placeholder="{{ translate('messages.Ex:') }} 100">
@@ -305,7 +308,7 @@
                                         <label class="input-label"
                                             for="exampleFormControlInput1">{{ translate('messages.month') }}</label>
                                         <input type="text" name="month" class="form-control"
-                                            placeholder="{{ translate('messages.Ex:') }} 1hrs"  value="1" disabled>
+                                            placeholder="{{ translate('messages.Ex:') }} 1hrs" value="1" disabled>
                                     </div>
 
                                 </div>
@@ -340,7 +343,7 @@
                                 <div class="col-lg-3">
                                     <div class="form-group mb-0">
                                         <label class="input-label"
-                                        for="exampleFormControlInput1">{{ translate('messages.Extra Hours') }}</label>
+                                            for="exampleFormControlInput1">{{ translate('messages.Extra Hours') }}</label>
                                         <input type="number" name="m_extra_hours" min="0" max="999999999999.99"
                                             step="0.01" class="form-control"
                                             placeholder="{{ translate('messages.Ex:') }} 100">
@@ -422,10 +425,11 @@
 
                                 <td>
                                     <a class="media align-items-center" href="#">
-                                        
-                                       
+
+
                                         <div class="media-body">
-                                            <h5 class="text-hover-primary mb-0">{{ Str::limit($bike ? $bike->name : '', 20, '...') }}</h5>
+                                            <h5 class="text-hover-primary mb-0">
+                                                {{ Str::limit($bike ? $bike->name : '', 20, '...') }}</h5>
                                         </div>
                                     </a>
                                 </td>
@@ -440,7 +444,7 @@
                                         {{ Str::limit($bike->vehicle_number, 20, '...') }}
                                     </span>
                                 </td> --}}
-                        
+
                                 <td>
                                     <span class="d-block font-size-sm text-body">
                                         {{ Str::limit($bike->description, 20, '...') }}
@@ -458,8 +462,8 @@
                                             title="{{ translate('messages.delete_bike') }}"><i
                                                 class="tio-delete-outlined"></i>
                                         </a>
-                                        <form action="{{ route('admin.item.bikes.destroy', [$bike->id]) }}" method="post"
-                                            id="bike-{{ $bike->id }}">
+                                        <form action="{{ route('admin.item.bikes.destroy', [$bike->id]) }}"
+                                            method="post" id="bike-{{ $bike->id }}">
                                             @csrf @method('delete')
                                         </form>
                                     </div>

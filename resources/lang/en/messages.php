@@ -4195,4 +4195,6 @@
   'brand_name' => 'Brand name',
   'select_brand' => 'Select brand',
   'vehicle_list' => 'Vehicle list',
+  'add_new_vehicle' => 'Add new vehicle',
+  'vehicle_update' => 'Vehicle update',
 );

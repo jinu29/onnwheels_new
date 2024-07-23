@@ -16,7 +16,7 @@
                     <img src="{{ asset('public/assets/admin/img/item.png') }}" class="w--23" alt="">
                 </span>
                 <span>
-                    {{ translate('messages.add_new_item') }}
+                    {{ translate('messages.add_new_vehicle') }}
                 </span>
             </h1>
         </div>
