@@ -202,7 +202,7 @@
                                             {{ translate('messages.station') }}
                                             <span class="input-label-secondary"></span>
                                         </label>
-                                        <select name="station_id[]" id="station_id" data-placeholder="{{ translate('messages.select_station') }}" class="js-data-example-ajax form-control" multiple="multiple" >
+                                        <select name="station_id[]" id="station_id" data-placeholder="{{ translate('messages.select_station') }}" class="js-data-example-ajax form-control">
                                         </select> --}}
                                         <div class="form-group mb-0">
                                             <label class="input-label"
@@ -210,7 +210,7 @@
                                                     class="input-label-secondary"></span></label>
                                             <select name="station_id[]" id="station_id"
                                                 data-placeholder="{{ translate('messages.select_station') }}"
-                                                class="js-data-example-ajax form-control mt-4" multiple="multiple">
+                                                class="js-data-example-ajax form-control mt-4" >
                                             </select>
                                         </div>
                                     </div>

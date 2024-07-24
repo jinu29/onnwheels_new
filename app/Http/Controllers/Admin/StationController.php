@@ -107,7 +107,7 @@ class StationController extends Controller
 
         $formattedStations = [];
         foreach ($stations as $station) {
-            $formattedStations[] = ['id' => $station->id, 'text' => $station->name];
+            $formattedStations[] = ['id' => $station->id, 'text' => $station->model];
         }
 
         return response()->json($formattedStations);
